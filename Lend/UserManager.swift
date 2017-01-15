@@ -1,0 +1,64 @@
+//
+//  UserManager.swift
+//  Nearby
+//
+//  Created by Kei Sakaguchi on 1/14/17.
+//  Copyright © 2017 Kei Sakaguchi. All rights reserved.
+//
+
+import Foundation
+
+//this may eventually move to AccountManager?
+
+class UserManager {
+    
+    static let sharedInstance = UserManager()
+    
+    var user: NBUser?
+    
+    init() {
+        //fetch user here?
+    }
+
+    func fetchUser(completionHandler: @escaping (NBUser) -> Void) {
+        NBUser.fetchSelf { result in
+            guard result.error == nil else {
+                print(result.error)
+                return
+            }
+            
+            guard let fetchedUser = result.value else {
+                print("no value was returned")
+                return
+            }
+            
+            self.user = fetchedUser
+            
+            completionHandler(fetchedUser)
+        }
+    }
+    
+    func getUser(completionHandler: @escaping (NBUser) -> Void) {
+        if self.user != nil {
+            completionHandler(self.user!)
+        }
+        else {
+            fetchUser(completionHandler: { fetchedUser in
+                completionHandler(fetchedUser)
+            })
+        }
+    }
+    
+    func userAvailable() -> Bool {
+        return user != nil
+    }
+    
+//    func doOAuthLogin(_ fromVC: UIViewController, completionHandler: @escaping (NSError?) -> Void) {
+//        let loginManager = FBSDKLoginManager()
+//        
+//        loginManager.logIn(withReadPermissions: ["public_profile"], from: fromVC) { (results, error) in
+//            completionHandler(error as NSError?)
+//        }
+//    }
+    
+}

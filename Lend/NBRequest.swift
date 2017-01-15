@@ -117,6 +117,17 @@ extension NBRequest {
         }
     }
     
+    static func fetchRequests2(_ latitude: Double, longitude: Double, radius: Double, expired: Bool, includeMine: Bool, searchTerm: String, sort: String, completionHandler: @escaping (Result<[NBRequest]>) -> Void) {
+        print(expired)
+        print(includeMine)
+        print(searchTerm)
+        print(sort)
+        Alamofire.request(RequestsRouter.getRequests2(latitude, longitude, radius, expired, includeMine, searchTerm, sort))
+            .responseArray { response in
+                completionHandler(response.result)
+        }
+    }
+    
     static func fetchRequest(_ id: String, completionHandler: @escaping (Result<NBRequest>) -> Void) {
         Alamofire.request(RequestsRouter.getRequest(id))
             .responseObject { response in

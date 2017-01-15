@@ -12,9 +12,12 @@ import Alamofire
 // not sure what to do with this yet,
 // this will need to change for sure
 enum BraintreeRouter: URLRequestConvertible {
-    static let baseURLString = "http://ec2-54-152-71-22.compute-1.amazonaws.com/api/"
+//    static let baseURLString = "http://ec2-54-152-71-22.compute-1.amazonaws.com/api/"
+    static let baseURLString = "http://ec2-54-242-185-46.compute-1.amazonaws.com/api/"
     
     case getToken()
+    case createCustomer([String: AnyObject])
+    case createMerchant([String: AnyObject])
     case createWebhooks([String: AnyObject])
     case getAtPath(String)
     
@@ -28,7 +31,7 @@ enum BraintreeRouter: URLRequestConvertible {
             switch self {
             case .getToken, .getAtPath:
                 return .get
-            case .createWebhooks:
+            case .createWebhooks, .createCustomer, .createMerchant:
                 return .post
             }
         }
@@ -43,6 +46,10 @@ enum BraintreeRouter: URLRequestConvertible {
                 return Foundation.URL(string: path)!
             case .createWebhooks:
                 relativePath = "braintree/webhooks"
+            case .createCustomer:
+                relativePath = "braintree/customer"
+            case .createMerchant:
+                relativePath = "braintree/merchant"
             }
             
             // use NSURLComponents
@@ -59,6 +66,10 @@ enum BraintreeRouter: URLRequestConvertible {
             case .getToken, .getAtPath:
                 return nil
             case .createWebhooks(let newItem):
+                return (newItem)
+            case .createCustomer(let newItem):
+                return (newItem)
+            case .createMerchant(let newItem):
                 return (newItem)
             }
         }()

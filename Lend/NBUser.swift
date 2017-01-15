@@ -27,6 +27,28 @@ class NBUser: ResponseJSONObjectSerializable {
     var state: String?
     var zip: String?
     
+    var homeLongitude: Float?
+    var homeLatitude: Float?
+    var newRequestNotificationsEnabled: Bool?
+    var notificationRadius: Float?
+//        "notificationKeywords": [
+//        "string"
+//        ],
+    var currentLocationNotifications: Bool?
+    var homeLocationNotifications: Bool?
+    var merchantId: String?
+    var merchantStatus: String?
+    var merchantStatusMessage: String?
+    var customerId: String?
+    var isPaymentSetup: Bool?
+    var customerStatus: String?
+    var dateOfBirth: String?
+    var bankAccountNumber: String?
+    var bankRoutingNumber: String?
+    var fundDestination: String?
+    var tosAccepted: Bool
+    var paymentMethodNonce: String?
+    
     required init?(json: SwiftyJSON.JSON) {
         self.firstName = json["firstName"].string
         self.lastName = json["lastName"].string
@@ -40,6 +62,26 @@ class NBUser: ResponseJSONObjectSerializable {
         self.city = json["city"].string
         self.state = json["state"].string
         self.zip = json["zip"].string
+
+        self.homeLongitude = json["homeLongitude"].float
+        self.homeLatitude = json["homeLatitude"].float
+        self.newRequestNotificationsEnabled = json["newRequestNotificationsEnabled"].bool
+        self.notificationRadius = json["notificationRadius"].float
+
+        self.currentLocationNotifications = json["currentLocationNotifications"].bool
+        self.homeLocationNotifications = json["homeLocationNotifications"].bool
+        self.merchantId = json["merchantId"].string
+        self.merchantStatus = json["merchantStatus"].string
+        self.merchantStatusMessage = json["merchantStatusMessage"].string
+        self.customerId = json["customerId"].string
+        self.isPaymentSetup = json["isPaymentSetup"].bool
+        self.customerStatus = json["customerStatus"].string
+        self.dateOfBirth = json["dateOfBirth"].string
+        self.bankAccountNumber = json["bankAccountNumber"].string
+        self.bankRoutingNumber = json["bankRoutingNumber"].string
+        self.fundDestination = json["fundDestination"].string
+        self.tosAccepted = json["tosAccepted"].bool ?? false
+        self.paymentMethodNonce = json["paymentMethodNonce"].string
     }
     
     init(test: Bool) {
@@ -56,12 +98,33 @@ class NBUser: ResponseJSONObjectSerializable {
             self.city = "Burlingame"
             self.state = "CA"
             self.zip = "94010"
+            
+//            self.homeLongitude = 0.0
+//            self.homeLatitude = 0.0
+//            self.newRequestNotificationsEnabled = true
+//            self.notificationRadius = 1.0
+//            
+//            self.currentLocationNotifications = true
+//            self.homeLocationNotifications = true
+//            self.merchantId = ""
+//            self.merchantStatus = json["merchantStatus"].string
+//            self.merchantStatusMessage = json["merchantStatusMessage"].string
+//            self.customerId = json["customerId"].string
+//            self.isPaymentSetup = json["isPaymentSetup"].bool
+//            self.customerStatus = json["customerStatus"].string
+//            self.dateOfBirth = json["dateOfBirth"].string
+//            self.bankAccountNumber = json["bankAccountNumber"].string
+//            self.bankRoutingNumber = json["bankRoutingNumber"].string
+//            self.fundDestination = json["fundDestination"].string
+//            self.paymentMethodNonce = json["paymentMethodNonce"].string
         }
+        self.tosAccepted = false
     }
 
     func toString() -> String {
         return "firstName: \(self.firstName)" +
                " lastName: \(self.lastName)" +
+               " paymentMethodNonce: \(self.paymentMethodNonce)" +
                " userId: \(self.userId)" +
                " fullName: \(self.fullName)" +
                " id: \(self.id)" +
@@ -112,6 +175,63 @@ class NBUser: ResponseJSONObjectSerializable {
         if let zip = zip {
             json["zip"] = zip as AnyObject?
         }
+        
+        if let homeLongitude = homeLongitude {
+            json["homeLongitude"] = homeLongitude as AnyObject?
+        }
+        if let homeLatitude = homeLatitude {
+            json["homeLatitude"] = homeLatitude as AnyObject?
+        }
+        if let newRequestNotificationsEnabled = newRequestNotificationsEnabled {
+            json["newRequestNotificationsEnabled"] = newRequestNotificationsEnabled as AnyObject?
+        }
+        if let notificationRadius = notificationRadius {
+            json["notificationRadius"] = notificationRadius as AnyObject?
+        }
+        
+        if let currentLocationNotifications = currentLocationNotifications {
+            json["currentLocationNotifications"] = currentLocationNotifications as AnyObject?
+        }
+        if let homeLocationNotifications = homeLocationNotifications {
+            json["homeLocationNotifications"] = homeLocationNotifications as AnyObject?
+        }
+        if let merchantId = merchantId {
+            json["merchantId"] = merchantId as AnyObject?
+        }
+        if let merchantStatus = merchantStatus {
+            json["merchantStatus"] = merchantStatus as AnyObject?
+        }
+        if let merchantStatusMessage = merchantStatusMessage {
+            json["merchantStatusMessage"] = merchantStatusMessage as AnyObject?
+        }
+        if let customerId = customerId {
+            json["customerId"] = customerId as AnyObject?
+        }
+        if let isPaymentSetup = isPaymentSetup {
+            json["isPaymentSetup"] = isPaymentSetup as AnyObject?
+        }
+        if let customerStatus = customerStatus {
+            json["customerStatus"] = customerStatus as AnyObject?
+        }
+        if let dateOfBirth = dateOfBirth {
+            json["dateOfBirth"] = dateOfBirth as AnyObject?
+        }
+        if let bankAccountNumber = bankAccountNumber {
+            json["bankAccountNumber"] = bankAccountNumber as AnyObject?
+        }
+        if let bankRoutingNumber = bankRoutingNumber {
+            json["bankRoutingNumber"] = bankRoutingNumber as AnyObject?
+        }
+        if let fundDestination = fundDestination {
+            json["fundDestination"] = fundDestination as AnyObject?
+        }
+//        if let tosAccepted = tosAccepted {
+            json["tosAccepted"] = tosAccepted as AnyObject?
+//        }
+        if let paymentMethodNonce = paymentMethodNonce {
+            json["paymentMethodNonce"] = paymentMethodNonce as AnyObject?
+        }
+        
         return json
     }
 
@@ -135,6 +255,10 @@ extension NBUser {
     
     static func editSelf(_ user: NBUser, completionHandler: @escaping (NSError?) -> Void) {
         Alamofire.request(UsersRouter.editSelf(user.toJSON())).response { response in
+//            print("======== BEGIN ========")
+//            print(JSON(user.toJSON()))
+//            print(response)
+//            print("======== END ========")
             completionHandler(response.error as NSError?)
         }
     }

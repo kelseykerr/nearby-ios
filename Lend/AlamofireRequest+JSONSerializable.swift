@@ -83,6 +83,10 @@ extension Alamofire.DataRequest {
                 return .failure(error)
             case .success(let value):
                 let json = SwiftyJSON.JSON(value)
+                
+                print(json)
+                
+                
                 if let errorMessage = json["message"].string {
 //                    let error = Alamofire.Error.errorWithCode(.dataSerializationFailed, failureReason: errorMessage)
                     let error = BackendError.dataSerialization(error: error!)

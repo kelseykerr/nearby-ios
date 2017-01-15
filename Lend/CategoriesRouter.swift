@@ -10,7 +10,8 @@ import Foundation
 import Alamofire
 
 enum CategoriesRouter: URLRequestConvertible {
-    static let baseURLString = "http://ec2-54-152-71-22.compute-1.amazonaws.com/api/"
+//    static let baseURLString = "http://ec2-54-152-71-22.compute-1.amazonaws.com/api/"
+    static let baseURLString = "http://ec2-54-242-185-46.compute-1.amazonaws.com/api/"
     
     case getCategories()
     case getCategory(String)

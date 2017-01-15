@@ -20,8 +20,8 @@ class NBResponse: ResponseJSONObjectSerializable {
     var priceType: String? //REQ: Should be enum
     var exchangeLocation: String?
     var returnLocation: String?
-    var exchangeTime: String?
-    var returnTime: String?
+    var exchangeTime: String? // should this be INT?
+    var returnTime: String?// should this be INT?
     var buyerStatus: String?
     var sellerStatus: String?
     var responseStatus: String?
@@ -53,18 +53,18 @@ class NBResponse: ResponseJSONObjectSerializable {
     init(test: Bool) {
         if test {
             self.id = "id"
-            self.requestId = "requestId"
-            self.sellerId = "sellerId"
-            self.responseTime = "responseTime"
-            self.offerPrice = 0
-            self.priceType = "flat"
-            self.exchangeLocation = "exchangeLocation"
-            self.returnLocation = "returnLocation"
-            self.exchangeTime = "exchangeTime"
-            self.responseTime = "responseTime"
-            self.buyerStatus = "buyerStatus"
-            self.sellerStatus = "sellerStatus"
-            self.responseStatus = "responseStatus"
+//            self.requestId = "requestId"
+//            self.sellerId = "sellerId"
+//            self.responseTime = "responseTime"
+//            self.offerPrice = 0
+//            self.priceType = "flat"
+//            self.exchangeLocation = "exchangeLocation"
+//            self.returnLocation = "returnLocation"
+//            self.exchangeTime = "exchangeTime"
+//            self.responseTime = "responseTime"
+//            self.buyerStatus = "buyerStatus"
+//            self.sellerStatus = "sellerStatus"
+//            self.responseStatus = "responseStatus"
         }
     }
     
@@ -153,8 +153,10 @@ extension NBResponse {
     }
     
     static func addResponse(_ response: NBResponse, completionHandler: @escaping (NSError?) -> Void) {
+        print(JSON(response.toJSON()))
         Alamofire.request(RequestsRouter.createResponse(response.requestId!, response.toJSON()))
             .response { response in
+                print(response.response)
                 completionHandler(response.error as NSError?)
         }
     }

@@ -20,9 +20,12 @@ class HistoryTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+        self.tableView.contentInset = UIEdgeInsetsMake(-36, 0, 0, 0)
+        
         loadHistories()
         
-        self.tableView.tableFooterView = UIView()
+//        self.tableView.tableFooterView = UIView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -53,13 +56,16 @@ class HistoryTableViewController: UITableViewController {
 //        return headerView
 //    }
     
+//    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+//        return 10
+//    }
 //    override func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
 //        return 10
 //    }
 //    
-//    override func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+//    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
 //        let footerView = UIView()
-//        footerView.backgroundColor = UIColor.groupTableViewBackgroundColor()
+//        footerView.backgroundColor = UIColor.clear
 //        return footerView
 //    }
     
@@ -69,8 +75,22 @@ class HistoryTableViewController: UITableViewController {
             let cell = tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath)
         
             if let request = getRequest((indexPath as NSIndexPath).section) {
-                cell.textLabel?.text = request.itemName
-                cell.detailTextLabel?.text = request.desc
+//                cell.textLabel?.text = request.itemName
+//                cell.detailTextLabel?.text = request.desc
+                
+                
+                let text = " want to borrow "
+                let attrText = NSMutableAttributedString(string: "")
+                let boldFont = UIFont.boldSystemFont(ofSize: 17)
+                let boldFullname = NSMutableAttributedString(string: "You", attributes: [NSFontAttributeName: boldFont])
+                attrText.append(boldFullname)
+                attrText.append(NSMutableAttributedString(string: text))
+                
+                let boldItemName = NSMutableAttributedString(string: request.itemName!, attributes: [NSFontAttributeName: boldFont])
+                attrText.append(boldItemName)
+                attrText.append(NSMutableAttributedString(string: "."))
+                
+                cell.textLabel?.attributedText = attrText
             }
         
 //            if !isLoading {
@@ -87,15 +107,31 @@ class HistoryTableViewController: UITableViewController {
             return cell
         }
         else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "ResponseCell", for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: "ResponseCell", for: indexPath) as! HistoryResponseTableViewCell
             
             if let response = getResponse(indexPath) {
                 let fullname = response.seller?.fullName
-                cell.textLabel?.text = fullname
+///                cell.textLabel?.text = fullname
                 
                 let price = response.offerPrice!
                 let priceType = response.priceType!
-                cell.detailTextLabel?.text = "Type: \(priceType) $\(price)"
+///                cell.detailTextLabel?.text = "Type: \(priceType) $\(price)"
+                
+//                cell.textLabel?.text = "\(fullname!) is offering to lend you coffee for $\(price)."
+                
+                let text = " is offering to lend it to you for "
+                let attrText = NSMutableAttributedString(string: "")
+//                let fullnameRange = text.range(of: fullname!)
+                let boldFont = UIFont.boldSystemFont(ofSize: 17)
+                let boldFullname = NSMutableAttributedString(string: fullname!, attributes: [NSFontAttributeName: boldFont])
+                attrText.append(boldFullname)
+                attrText.append(NSMutableAttributedString(string: text))
+
+                let boldPrice = NSMutableAttributedString(string: "$\(price)", attributes: [NSFontAttributeName: boldFont])
+                attrText.append(boldPrice)
+                attrText.append(NSMutableAttributedString(string: "."))
+                
+                cell.textLabel?.attributedText = attrText
                 
 //                let responseTime = response.responseTime!
 //                let responseTimeNum =  Double(responseTime)
@@ -109,56 +145,99 @@ class HistoryTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if (indexPath as NSIndexPath).row == 0 {
-            for index in 0..<getResponses((indexPath as NSIndexPath).section).count {
-                let newIndexPath = IndexPath(row: index + 1, section: (indexPath as NSIndexPath).section)
-                let cell = self.tableView.cellForRow(at: newIndexPath)
-                if let hidden = cell?.isHidden {
-                    cell?.isHidden = !hidden
-                    histories[(indexPath as NSIndexPath).section].hidden = !hidden
+//            for index in 0..<getResponses((indexPath as NSIndexPath).section).count {
+//                let newIndexPath = IndexPath(row: index + 1, section: (indexPath as NSIndexPath).section)
+//                let cell = self.tableView.cellForRow(at: newIndexPath)
+//                if let hidden = cell?.isHidden {
+//                    cell?.isHidden = !hidden
+//                    histories[(indexPath as NSIndexPath).section].hidden = !hidden
+//                }
+//            }
+//            tableView.beginUpdates()
+//            tableView.endUpdates()
+            
+            let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+            
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { action in
+                // ...
+            }
+            alertController.addAction(cancelAction)
+            
+            let OKAction = UIAlertAction(title: "Delete", style: .destructive) { action in
+                if let request = self.getRequest((indexPath as NSIndexPath).section) {
+                    NBRequest.removeRequest(request, completionHandler: { error in
+                        print("Request Deleted")
+                    })
                 }
             }
-            tableView.beginUpdates()
-            tableView.endUpdates()
-        }
-    }
-    
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if (indexPath as NSIndexPath).row != 0 && histories[(indexPath as NSIndexPath).section].hidden {
-            return 0
+            alertController.addAction(OKAction)
+            
+            self.present(alertController, animated: true) {
+                // ...
+            }
         }
         else {
-            return 44
+            let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+            
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { action in
+                // ...
+            }
+            alertController.addAction(cancelAction)
+            
+            let acceptAction = UIAlertAction(title: "Accept", style: .default) { action in
+                // ...
+            }
+            alertController.addAction(acceptAction)
+            
+            let declineAction = UIAlertAction(title: "Decline", style: .default) { action in
+                // ...
+            }
+            alertController.addAction(declineAction)
+            
+            self.present(alertController, animated: true) {
+                // ...
+            }
         }
+        
     }
     
-    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        if (indexPath as NSIndexPath).row == 0 {
-            let edit = UITableViewRowAction(style: .normal, title: "Edit") { action, index in
-                print("edit button tapped")
-            }
-            edit.backgroundColor = UIColor.lightGray
-        
-            let delete = UITableViewRowAction(style: .normal, title: "Delete") { action, index in
-                print("delete button tapped")
-            }
-            delete.backgroundColor = UIColor.red
-        
-            return [delete, edit]
-        }
-        else {
-            let accept = UITableViewRowAction(style: .normal, title: "Accept") { action, index in
-                print("accept button tapped")
-            }
-            accept.backgroundColor = UIColor.blue
-        
-            let decline = UITableViewRowAction(style: .normal, title: "Decline") { action, index in
-                print("decline button tapped")
-            }
-            decline.backgroundColor = UIColor.red
-        
-            return [decline, accept]
-        }
-    }
+//    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        if (indexPath as NSIndexPath).row != 0 && histories[(indexPath as NSIndexPath).section].hidden {
+//            return 0
+//        }
+//        else {
+//            return 44
+//        }
+//    }
+    
+//    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+//        if (indexPath as NSIndexPath).row == 0 {
+//            let edit = UITableViewRowAction(style: .normal, title: "Edit") { action, index in
+//                print("edit button tapped")
+//            }
+//            edit.backgroundColor = UIColor.lightGray
+//        
+//            let delete = UITableViewRowAction(style: .normal, title: "Delete") { action, index in
+//                print("delete button tapped")
+//            }
+//            delete.backgroundColor = UIColor.red
+//        
+//            return [delete, edit]
+//        }
+//        else {
+//            let accept = UITableViewRowAction(style: .normal, title: "Accept") { action, index in
+//                print("accept button tapped")
+//            }
+//            accept.backgroundColor = UIColor.blue
+//        
+//            let decline = UITableViewRowAction(style: .normal, title: "Decline") { action, index in
+//                print("decline button tapped")
+//            }
+//            decline.backgroundColor = UIColor.red
+//        
+//            return [decline, accept]
+//        }
+//    }
     
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
@@ -227,6 +306,8 @@ class HistoryTableViewController: UITableViewController {
     }
     
     @IBAction func saveUnwind(_ segue: UIStoryboardSegue) {
+        
+        /*
         let newRequestVC = segue.source as! NewRequestTableViewController
         let itemName = newRequestVC.itemName
         let desc = newRequestVC.desc
@@ -254,10 +335,39 @@ class HistoryTableViewController: UITableViewController {
             //probably should not be doing this, but I need an easy way to update it for now
             self.loadHistories()
         }
+ */
     }
     
     @IBAction func cancelUnwind(_ segue: UIStoryboardSegue) {
         print("cancelled new request")
+    }
+    
+}
+
+extension HistoryTableViewController: NewRequestTableViewDelegate {
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "PushNewRequestTableViewController" {
+            let newRequestVC = segue.destination.childViewControllers[0] as! NewRequestTableViewController
+            newRequestVC.delegate = self
+        }
+    }
+    
+    func saved(_ request: NBRequest) {
+        print(request.toJSON())
+
+        Alamofire.request(RequestsRouter.createRequest(request.toJSON())).response { response in
+            print(response.request)
+            print(response.response)
+            
+            //probably should not be doing this, but I need an easy way to update it for now
+            self.loadHistories()
+        }
+    }
+    
+    func cancelled() {
+        print("yo")
+//        self.navigationController?.popViewController(animated: true)
     }
     
 }

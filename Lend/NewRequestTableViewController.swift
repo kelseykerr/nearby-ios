@@ -8,13 +8,21 @@
 
 import UIKit
 
+protocol NewRequestTableViewDelegate: class {
+    
+    func saved(_ request: NBRequest)
+    
+    func cancelled()
+}
+
 class NewRequestTableViewController: UITableViewController {
 
     @IBOutlet var itemNameTextField: UITextField!
     @IBOutlet var descriptionTextView: UITextView!
-    @IBOutlet var categoryLabel: UILabel!
-    @IBOutlet var buyRentSegmentedControl: UISegmentedControl!
 
+    weak var delegate: NewRequestTableViewDelegate?
+    var request: NBRequest?
+    
     var itemName: String? {
         get {
             return itemNameTextField.text
@@ -27,38 +35,32 @@ class NewRequestTableViewController: UITableViewController {
         }
     }
     
-    var rent: Bool {
-        get {
-            return buyRentSegmentedControl.selectedSegmentIndex == 1
-        }
-    }
-
-    var selectedCategory: NBCategory?
-    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "PushCategorySelectionViewController" {
-            let categoryVC = segue.destination as! CategorySelectionTableViewController
-            categoryVC.delegate = self
+    @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
+        print("request saved")
+        
+        if request == nil {
+            let req = NBRequest(test: true)
+            req.itemName = itemName
+            req.desc = desc
+            let currentLocation = LocationManager.sharedInstance.location
+            req.latitude = currentLocation?.coordinate.latitude
+            req.longitude = currentLocation?.coordinate.longitude
+            request = req
         }
+        
+        //this is wrong.... need to actually set each of the fields here instead of in if statement
+        
+        delegate?.saved(request!)
+        self.dismiss(animated: true, completion: nil)
     }
     
-}
-
-extension NewRequestTableViewController: CategorySelectionTableViewDelegate {
-    
-    func categorySelected(_ category: NBCategory) {
-        print("category: \(category.name!)")
-        self.selectedCategory = category
-        self.categoryLabel.text = category.name!
-        self.navigationController?.popViewController(animated: true)
-    }
-    
-    func selectionCancelled() {
-        print("cancelled")
-        self.navigationController?.popViewController(animated: true)
+    @IBAction func cancelButtonPressed(_ sender: UIBarButtonItem) {
+        print("request cancelled")
+        self.dismiss(animated: true, completion: nil)
+        delegate?.cancelled()
     }
 }

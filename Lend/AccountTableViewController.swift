@@ -21,8 +21,15 @@ class AccountTableViewController: UITableViewController, LoginViewDelegate {
     @IBOutlet var cityStateZipLabel: UILabel!
     @IBOutlet var userIdLabel: UILabel!
     
+    @IBOutlet var userImageView: UIImageView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        userImageView.layer.cornerRadius = userImageView.frame.size.width / 2
+//        userImageView.layer.cornerRadius = userImageView.frame.size.width / 8
+//        userImageView.layer.cornerRadius = 10
+        userImageView.clipsToBounds = true
         
         loadInitialData()
     }
@@ -49,7 +56,6 @@ class AccountTableViewController: UITableViewController, LoginViewDelegate {
     
     func didTapLoginButton() {
         self.dismiss(animated: false) {
-            
             self.loadUser()
         }
     }
@@ -66,17 +72,29 @@ class AccountTableViewController: UITableViewController, LoginViewDelegate {
     // MARK - Table View
     func loadCells() {
         self.nameLabel.text = user?.fullName ?? "<name>"
-        self.emailLabel.text = user?.email ?? "<email>"
-        self.phoneLabel.text = user?.phone ?? "<phone>"
+//        self.emailLabel.text = user?.email ?? "<email>"
+//        self.phoneLabel.text = user?.phone ?? "<phone>"
         self.addressLabel.text = user?.address ?? "<addess>"
 //        self.cityStateZipLabel.text = user?.city ?? "<city>, <state> <zip>"
         let city = user?.city ?? "<city>"
         let state = user?.state ?? "<state>"
         let zip = user?.zip ?? "<zip>"
         self.cityStateZipLabel.text = "\(city), \(state) \(zip)"
-        self.userIdLabel.text = user?.userId ?? "<user id>"
+//        self.userIdLabel.text = user?.userId ?? "<user id>"
     }
-    
+
+    func loadUser() {
+        UserManager.sharedInstance.getUser { fetchedUser in
+
+            if self.refreshControl != nil && self.refreshControl!.isRefreshing {
+                self.refreshControl?.endRefreshing()
+            }
+
+            self.user = fetchedUser
+            self.loadCells()
+        }
+    }
+    /*
     func loadUser() {
         NBUser.fetchSelf { result in
             if self.refreshControl != nil && self.refreshControl!.isRefreshing {
@@ -95,8 +113,17 @@ class AccountTableViewController: UITableViewController, LoginViewDelegate {
             
             self.user = fetchedUser
             
-            print(self.user?.toString())
+//            print(self.user?.toString())
+            
             self.loadCells()
+        }
+    }
+     */
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "PushProfileViewController" {
+            let profileVC = segue.destination as! ProfileTableViewController
+            profileVC.user = self.user
         }
     }
     

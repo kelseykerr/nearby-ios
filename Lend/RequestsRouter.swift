@@ -10,9 +10,11 @@ import Foundation
 import Alamofire
 
 enum RequestsRouter: URLRequestConvertible {
-    static let baseURLString = "http://ec2-54-152-71-22.compute-1.amazonaws.com/api/"
+//    static let baseURLString = "http://ec2-54-152-71-22.compute-1.amazonaws.com/api/"
+    static let baseURLString = "http://ec2-54-242-185-46.compute-1.amazonaws.com/api/"
     
     case getRequests(Double, Double, Double)
+    case getRequests2(Double, Double, Double, Bool, Bool, String, String) // latitude, longitude, radius, expired, includeMine, searchTerm, sort
     case getRequest(String)
     case createRequest([String: AnyObject])
     case deleteRequest(String)
@@ -31,7 +33,7 @@ enum RequestsRouter: URLRequestConvertible {
     public func asURLRequest() throws -> URLRequest {
         var method: Alamofire.HTTPMethod {
             switch self {
-            case .getRequests, .getRequest, .getAtPath, .getResponses, .getResponse:
+            case .getRequests, .getRequests2, .getRequest, .getAtPath, .getResponses, .getResponse:
                 return .get
             case .createRequest, .createResponse:
                 return .post
@@ -47,6 +49,9 @@ enum RequestsRouter: URLRequestConvertible {
             switch self {
             case .getRequests(let latitude, let longitude, let radius):
                 relativePath = "requests?longitude=\(longitude)&latitude=\(latitude)&radius=\(radius)"
+            case .getRequests2(let latitude, let longitude, let radius, let expired, let includeMine, let searchTerm, let sort):
+                //searchTerm not included yet
+                relativePath = "requests?longitude=\(longitude)&latitude=\(latitude)&radius=\(radius)&expired=\(expired)&includeMine=\(includeMine)&sort=\(sort)"
             case .getRequest(let id):
                 relativePath = "requests/\(id)"
             case .getAtPath(let path):
@@ -79,7 +84,7 @@ enum RequestsRouter: URLRequestConvertible {
         
         let params: ([String: AnyObject]?) = {
             switch self {
-            case .getRequests, .getRequest, .getAtPath, .deleteRequest, .getResponses, .getResponse:
+            case .getRequests, .getRequests2, .getRequest, .getAtPath, .deleteRequest, .getResponses, .getResponse:
                 return nil
             case .createRequest(let newItem):
                 return (newItem)

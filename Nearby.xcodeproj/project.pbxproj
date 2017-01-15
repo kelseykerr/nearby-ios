@@ -12,14 +12,14 @@
 		AA0F72A31D7791C20023DAA6 /* CategorySelectionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0F72A21D7791C20023DAA6 /* CategorySelectionTableViewController.swift */; };
 		AA0F72A51D77E7FD0023DAA6 /* CategoriesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0F72A41D77E7FD0023DAA6 /* CategoriesManager.swift */; };
 		AA0F72A81D77F9360023DAA6 /* AccountManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0F72A71D77F9360023DAA6 /* AccountManager.swift */; };
-		AA18DAAA1DCA724F00E2B973 /* TransactionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA18DAA91DCA724F00E2B973 /* TransactionTableViewController.swift */; };
+		AA18DAAA1DCA724F00E2B973 /* FilterTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA18DAA91DCA724F00E2B973 /* FilterTableViewController.swift */; };
 		AA2C47461D679BA50013F350 /* NewRequestTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2C47451D679BA50013F350 /* NewRequestTableViewController.swift */; };
 		AA2C47481D6824F00013F350 /* AllRequestsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2C47471D6824F00013F350 /* AllRequestsTableViewController.swift */; };
 		AA2C474A1D6AA8720013F350 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2C47491D6AA8720013F350 /* HomeViewController.swift */; };
 		AA2C474C1D6B4C150013F350 /* LocationManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2C474B1D6B4C150013F350 /* LocationManger.swift */; };
 		AA2C47511D6B759D0013F350 /* Converter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2C47501D6B759D0013F350 /* Converter.swift */; };
 		AA2C47531D6D0B0B0013F350 /* CategoriesRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2C47521D6D0B0B0013F350 /* CategoriesRouter.swift */; };
-		AA2C47551D6D3FB60013F350 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2C47541D6D3FB60013F350 /* DetailViewController.swift */; };
+		AA2C47551D6D3FB60013F350 /* RequestDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2C47541D6D3FB60013F350 /* RequestDetailViewController.swift */; };
 		AA38307F1D5A75F600C125F6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA38307E1D5A75F600C125F6 /* AppDelegate.swift */; };
 		AA3830841D5A75F600C125F6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA3830821D5A75F600C125F6 /* Main.storyboard */; };
 		AA3830861D5A75F600C125F6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA3830851D5A75F600C125F6 /* Assets.xcassets */; };
@@ -38,6 +38,8 @@
 		AA8B21E91D9A363C0026ED7D /* NBTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8B21E81D9A363C0026ED7D /* NBTransaction.swift */; };
 		AA8B21EB1D9A4A220026ED7D /* NBExchangeOverride.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8B21EA1D9A4A220026ED7D /* NBExchangeOverride.swift */; };
 		AA8B21ED1D9A50D50026ED7D /* TransactionsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8B21EC1D9A50D50026ED7D /* TransactionsRouter.swift */; };
+		AA90271D1DD6FC9800B5CA2B /* QRGeneratorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA90271C1DD6FC9800B5CA2B /* QRGeneratorViewController.swift */; };
+		AA9027231DD7D53400B5CA2B /* ProfileTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9027221DD7D53400B5CA2B /* ProfileTableViewController.swift */; };
 		AA9721171D64D7410036E007 /* NBUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9721161D64D7410036E007 /* NBUser.swift */; };
 		AA97211B1D64DA710036E007 /* NBCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA97211A1D64DA710036E007 /* NBCategory.swift */; };
 		AA97211E1D64DB580036E007 /* NBGeoJsonPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA97211D1D64DB580036E007 /* NBGeoJsonPoint.swift */; };
@@ -46,9 +48,16 @@
 		AA9721261D65637E0036E007 /* UsersRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9721251D65637E0036E007 /* UsersRouter.swift */; };
 		AA9721281D66B54E0036E007 /* AccountTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9721271D66B54E0036E007 /* AccountTableViewController.swift */; };
 		AA98F7391D9C69910083BB4B /* RequestTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA98F7381D9C69910083BB4B /* RequestTableViewCell.swift */; };
+		AAB7690A1E285C1C0021F657 /* HistoryResponseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB769091E285C1C0021F657 /* HistoryResponseTableViewCell.swift */; };
+		AAB7690C1E2B35EF0021F657 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB7690B1E2B35EF0021F657 /* UserManager.swift */; };
+		AAB7690E1E2B3CF80021F657 /* NBPayment.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB7690D1E2B3CF80021F657 /* NBPayment.swift */; };
+		AAB769101E2B41A80021F657 /* PaymentTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB7690F1E2B41A80021F657 /* PaymentTableViewController.swift */; };
+		AAB769121E2B43380021F657 /* DirectDepositTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB769111E2B43380021F657 /* DirectDepositTableViewController.swift */; };
+		AABAD2C71DFCB2C600F87CA2 /* HomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABAD2C61DFCB2C600F87CA2 /* HomeTableViewCell.swift */; };
 		AAC3C8AC1D5A789800B8F2A9 /* HistoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC3C8A71D5A789800B8F2A9 /* HistoryTableViewController.swift */; };
 		AAC3C8AD1D5A789800B8F2A9 /* AlamofireRequest+JSONSerializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC3C8A81D5A789800B8F2A9 /* AlamofireRequest+JSONSerializable.swift */; };
 		AAC3C8B01D5A789800B8F2A9 /* NearbyAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC3C8AB1D5A789800B8F2A9 /* NearbyAPIManager.swift */; };
+		AAD278E71E150501003DCEE0 /* SearchFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAD278E61E150501003DCEE0 /* SearchFilter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -59,14 +68,14 @@
 		AA0F72A21D7791C20023DAA6 /* CategorySelectionTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategorySelectionTableViewController.swift; sourceTree = "<group>"; };
 		AA0F72A41D77E7FD0023DAA6 /* CategoriesManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoriesManager.swift; sourceTree = "<group>"; };
 		AA0F72A71D77F9360023DAA6 /* AccountManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountManager.swift; sourceTree = "<group>"; };
-		AA18DAA91DCA724F00E2B973 /* TransactionTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionTableViewController.swift; sourceTree = "<group>"; };
+		AA18DAA91DCA724F00E2B973 /* FilterTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterTableViewController.swift; sourceTree = "<group>"; };
 		AA2C47451D679BA50013F350 /* NewRequestTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewRequestTableViewController.swift; sourceTree = "<group>"; };
 		AA2C47471D6824F00013F350 /* AllRequestsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AllRequestsTableViewController.swift; sourceTree = "<group>"; };
 		AA2C47491D6AA8720013F350 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		AA2C474B1D6B4C150013F350 /* LocationManger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManger.swift; sourceTree = "<group>"; };
 		AA2C47501D6B759D0013F350 /* Converter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Converter.swift; sourceTree = "<group>"; };
 		AA2C47521D6D0B0B0013F350 /* CategoriesRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoriesRouter.swift; sourceTree = "<group>"; };
-		AA2C47541D6D3FB60013F350 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		AA2C47541D6D3FB60013F350 /* RequestDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestDetailViewController.swift; sourceTree = "<group>"; };
 		AA38307B1D5A75F600C125F6 /* Nearby.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Nearby.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA38307E1D5A75F600C125F6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AA3830831D5A75F600C125F6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -88,6 +97,8 @@
 		AA8B21E81D9A363C0026ED7D /* NBTransaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NBTransaction.swift; sourceTree = "<group>"; };
 		AA8B21EA1D9A4A220026ED7D /* NBExchangeOverride.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NBExchangeOverride.swift; sourceTree = "<group>"; };
 		AA8B21EC1D9A50D50026ED7D /* TransactionsRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionsRouter.swift; sourceTree = "<group>"; };
+		AA90271C1DD6FC9800B5CA2B /* QRGeneratorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRGeneratorViewController.swift; sourceTree = "<group>"; };
+		AA9027221DD7D53400B5CA2B /* ProfileTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileTableViewController.swift; sourceTree = "<group>"; };
 		AA9721161D64D7410036E007 /* NBUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NBUser.swift; sourceTree = "<group>"; };
 		AA97211A1D64DA710036E007 /* NBCategory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NBCategory.swift; sourceTree = "<group>"; };
 		AA97211D1D64DB580036E007 /* NBGeoJsonPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NBGeoJsonPoint.swift; sourceTree = "<group>"; };
@@ -96,9 +107,16 @@
 		AA9721251D65637E0036E007 /* UsersRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsersRouter.swift; sourceTree = "<group>"; };
 		AA9721271D66B54E0036E007 /* AccountTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountTableViewController.swift; sourceTree = "<group>"; };
 		AA98F7381D9C69910083BB4B /* RequestTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestTableViewCell.swift; sourceTree = "<group>"; };
+		AAB769091E285C1C0021F657 /* HistoryResponseTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryResponseTableViewCell.swift; sourceTree = "<group>"; };
+		AAB7690B1E2B35EF0021F657 /* UserManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
+		AAB7690D1E2B3CF80021F657 /* NBPayment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NBPayment.swift; sourceTree = "<group>"; };
+		AAB7690F1E2B41A80021F657 /* PaymentTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentTableViewController.swift; sourceTree = "<group>"; };
+		AAB769111E2B43380021F657 /* DirectDepositTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectDepositTableViewController.swift; sourceTree = "<group>"; };
+		AABAD2C61DFCB2C600F87CA2 /* HomeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeTableViewCell.swift; sourceTree = "<group>"; };
 		AAC3C8A71D5A789800B8F2A9 /* HistoryTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryTableViewController.swift; sourceTree = "<group>"; };
 		AAC3C8A81D5A789800B8F2A9 /* AlamofireRequest+JSONSerializable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AlamofireRequest+JSONSerializable.swift"; sourceTree = "<group>"; };
 		AAC3C8AB1D5A789800B8F2A9 /* NearbyAPIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NearbyAPIManager.swift; sourceTree = "<group>"; };
+		AAD278E61E150501003DCEE0 /* SearchFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchFilter.swift; sourceTree = "<group>"; };
 		AAE171031DA24D8B008DD5D8 /* Nearby.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Nearby.entitlements; sourceTree = "<group>"; };
 		C4BE07AAD7E7749E48DF11BF /* Pods_Nearby.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Nearby.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F38B22B5A119CABAC0271EF4 /* Pods-Nearby.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Nearby.release.xcconfig"; path = "Pods/Target Support Files/Pods-Nearby/Pods-Nearby.release.xcconfig"; sourceTree = "<group>"; };
@@ -160,6 +178,7 @@
 				AA2C474B1D6B4C150013F350 /* LocationManger.swift */,
 				AA0F72A41D77E7FD0023DAA6 /* CategoriesManager.swift */,
 				AA0F72A71D77F9360023DAA6 /* AccountManager.swift */,
+				AAB7690B1E2B35EF0021F657 /* UserManager.swift */,
 			);
 			name = Managers;
 			sourceTree = "<group>";
@@ -208,6 +227,63 @@
 			path = Lend;
 			sourceTree = "<group>";
 		};
+		AA90271E1DD7D48E00B5CA2B /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				AA2C47491D6AA8720013F350 /* HomeViewController.swift */,
+				AABAD2C61DFCB2C600F87CA2 /* HomeTableViewCell.swift */,
+				AA18DAA91DCA724F00E2B973 /* FilterTableViewController.swift */,
+				AAD278E61E150501003DCEE0 /* SearchFilter.swift */,
+			);
+			name = Home;
+			sourceTree = "<group>";
+		};
+		AA90271F1DD7D49400B5CA2B /* History */ = {
+			isa = PBXGroup;
+			children = (
+				AAC3C8A71D5A789800B8F2A9 /* HistoryTableViewController.swift */,
+				AAB769091E285C1C0021F657 /* HistoryResponseTableViewCell.swift */,
+			);
+			name = History;
+			sourceTree = "<group>";
+		};
+		AA9027201DD7D4AE00B5CA2B /* Account */ = {
+			isa = PBXGroup;
+			children = (
+				AA9721271D66B54E0036E007 /* AccountTableViewController.swift */,
+				AA9027221DD7D53400B5CA2B /* ProfileTableViewController.swift */,
+				AAB7690F1E2B41A80021F657 /* PaymentTableViewController.swift */,
+				AAB769111E2B43380021F657 /* DirectDepositTableViewController.swift */,
+			);
+			name = Account;
+			sourceTree = "<group>";
+		};
+		AA9027211DD7D4ED00B5CA2B /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				AA4310B71D616DAB00E00F45 /* LoginViewController.swift */,
+			);
+			name = Other;
+			sourceTree = "<group>";
+		};
+		AABAD2C91E02658B00F87CA2 /* Response */ = {
+			isa = PBXGroup;
+			children = (
+				AA3F641F1D80B55C0021964B /* NewResponseTableViewController.swift */,
+			);
+			name = Response;
+			sourceTree = "<group>";
+		};
+		AABAD2CA1E02658F00F87CA2 /* Request */ = {
+			isa = PBXGroup;
+			children = (
+				AA2C47451D679BA50013F350 /* NewRequestTableViewController.swift */,
+				AA0F72A21D7791C20023DAA6 /* CategorySelectionTableViewController.swift */,
+				AA2C47541D6D3FB60013F350 /* RequestDetailViewController.swift */,
+			);
+			name = Request;
+			sourceTree = "<group>";
+		};
 		AAC3C8B21D5A78B600B8F2A9 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -221,16 +297,14 @@
 		AAC3C8B31D5A78B900B8F2A9 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				AA2C47491D6AA8720013F350 /* HomeViewController.swift */,
-				AAC3C8A71D5A789800B8F2A9 /* HistoryTableViewController.swift */,
+				AABAD2CA1E02658F00F87CA2 /* Request */,
+				AABAD2C91E02658B00F87CA2 /* Response */,
+				AA9027211DD7D4ED00B5CA2B /* Other */,
+				AA9027201DD7D4AE00B5CA2B /* Account */,
+				AA90271F1DD7D49400B5CA2B /* History */,
+				AA90271E1DD7D48E00B5CA2B /* Home */,
 				AA98F7381D9C69910083BB4B /* RequestTableViewCell.swift */,
-				AA9721271D66B54E0036E007 /* AccountTableViewController.swift */,
-				AA4310B71D616DAB00E00F45 /* LoginViewController.swift */,
-				AA2C47451D679BA50013F350 /* NewRequestTableViewController.swift */,
-				AA0F72A21D7791C20023DAA6 /* CategorySelectionTableViewController.swift */,
-				AA2C47541D6D3FB60013F350 /* DetailViewController.swift */,
-				AA3F641F1D80B55C0021964B /* NewResponseTableViewController.swift */,
-				AA18DAA91DCA724F00E2B973 /* TransactionTableViewController.swift */,
+				AA90271C1DD6FC9800B5CA2B /* QRGeneratorViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -247,6 +321,7 @@
 				AA8B21E61D98EECD0026ED7D /* NBHistory.swift */,
 				AA8B21E81D9A363C0026ED7D /* NBTransaction.swift */,
 				AA8B21EA1D9A4A220026ED7D /* NBExchangeOverride.swift */,
+				AAB7690D1E2B3CF80021F657 /* NBPayment.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -397,9 +472,13 @@
 				AA9721171D64D7410036E007 /* NBUser.swift in Sources */,
 				AA0F72A81D77F9360023DAA6 /* AccountManager.swift in Sources */,
 				AA2C47481D6824F00013F350 /* AllRequestsTableViewController.swift in Sources */,
+				AAB7690C1E2B35EF0021F657 /* UserManager.swift in Sources */,
 				AA2C47531D6D0B0B0013F350 /* CategoriesRouter.swift in Sources */,
 				AA8B21E91D9A363C0026ED7D /* NBTransaction.swift in Sources */,
 				AA2C474C1D6B4C150013F350 /* LocationManger.swift in Sources */,
+				AABAD2C71DFCB2C600F87CA2 /* HomeTableViewCell.swift in Sources */,
+				AAB7690E1E2B3CF80021F657 /* NBPayment.swift in Sources */,
+				AAB769121E2B43380021F657 /* DirectDepositTableViewController.swift in Sources */,
 				AA2C47461D679BA50013F350 /* NewRequestTableViewController.swift in Sources */,
 				AA9721261D65637E0036E007 /* UsersRouter.swift in Sources */,
 				AA3F641E1D7B8DB80021964B /* NBMessage.swift in Sources */,
@@ -410,20 +489,25 @@
 				AA546A861DCA5F89007E1E8F /* BraintreeRouter.swift in Sources */,
 				AA546A841DCA5CD3007E1E8F /* NBBraintree.swift in Sources */,
 				AA9721201D64E0A50036E007 /* NBRequest.swift in Sources */,
-				AA2C47551D6D3FB60013F350 /* DetailViewController.swift in Sources */,
+				AA2C47551D6D3FB60013F350 /* RequestDetailViewController.swift in Sources */,
 				AA4310B81D616DAB00E00F45 /* LoginViewController.swift in Sources */,
 				AAC3C8AC1D5A789800B8F2A9 /* HistoryTableViewController.swift in Sources */,
-				AA18DAAA1DCA724F00E2B973 /* TransactionTableViewController.swift in Sources */,
+				AA18DAAA1DCA724F00E2B973 /* FilterTableViewController.swift in Sources */,
 				AA3F64201D80B55C0021964B /* NewResponseTableViewController.swift in Sources */,
+				AAD278E71E150501003DCEE0 /* SearchFilter.swift in Sources */,
+				AA9027231DD7D53400B5CA2B /* ProfileTableViewController.swift in Sources */,
+				AAB769101E2B41A80021F657 /* PaymentTableViewController.swift in Sources */,
 				AA97211E1D64DB580036E007 /* NBGeoJsonPoint.swift in Sources */,
 				AA9721221D651C460036E007 /* RequestsRouter.swift in Sources */,
 				AA8B21E71D98EECD0026ED7D /* NBHistory.swift in Sources */,
 				AA38307F1D5A75F600C125F6 /* AppDelegate.swift in Sources */,
+				AA90271D1DD6FC9800B5CA2B /* QRGeneratorViewController.swift in Sources */,
 				AA3F641C1D7B80740021964B /* NBResponse.swift in Sources */,
 				AA8B21EB1D9A4A220026ED7D /* NBExchangeOverride.swift in Sources */,
 				AA0F72A31D7791C20023DAA6 /* CategorySelectionTableViewController.swift in Sources */,
 				AA0F72A51D77E7FD0023DAA6 /* CategoriesManager.swift in Sources */,
 				AAC3C8AD1D5A789800B8F2A9 /* AlamofireRequest+JSONSerializable.swift in Sources */,
+				AAB7690A1E285C1C0021F657 /* HistoryResponseTableViewCell.swift in Sources */,
 				AA8B21ED1D9A50D50026ED7D /* TransactionsRouter.swift in Sources */,
 				AAC3C8B01D5A789800B8F2A9 /* NearbyAPIManager.swift in Sources */,
 				AA97211B1D64DA710036E007 /* NBCategory.swift in Sources */,

@@ -11,13 +11,15 @@ import Alamofire
 
 // add fcmToken once I figure out what it is :-P
 enum UsersRouter: URLRequestConvertible {
-    static let baseURLString = "http://ec2-54-152-71-22.compute-1.amazonaws.com/api/"
+//    static let baseURLString = "http://ec2-54-152-71-22.compute-1.amazonaws.com/api/"
+    static let baseURLString = "http://ec2-54-242-185-46.compute-1.amazonaws.com/api/"
     
     case getSelf() // myself
     case getSelfRequests()
     case editSelf([String: AnyObject])
     case getSelfHistory()
     case getUser(String)
+//    case getPayment()
     //Would be nice to have users in an array
     case getAtPath(String)
     
@@ -74,20 +76,11 @@ enum UsersRouter: URLRequestConvertible {
         let tokenString = AccountManager.sharedInstance.getOAuthTokenString()
         urlRequest.setValue(tokenString, forHTTPHeaderField: "x-auth-token")
         
+        print(tokenString)
         urlRequest = try Alamofire.JSONEncoding.default.encode(urlRequest, with: params)
         urlRequest.httpMethod = method.rawValue
         
         return urlRequest
-        //        let URLRequest = NSMutableURLRequest(url: url)
-        //        let tokenString = AccountManager.sharedInstance.getOAuthTokenString()
-        //        URLRequest.setValue(tokenString, forHTTPHeaderField: "x-auth-token")
-        //
-        //        let encoding = Alamofire.JSONEncoding.default
-        //        let (encodingRequest, _) = encoding.encode(URLRequest, with: params)
-        //
-        //        encodingRequest.httpMethod = method.rawValue
-        //        
-        //        return encodingRequest
     }
     
 }

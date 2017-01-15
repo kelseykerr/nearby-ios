@@ -46,6 +46,22 @@ extension NBBraintree {
 //        completionHandler()
 //    }
     
+    static func addCustomer(_ user: NBUser, completionHandler: @escaping (NSError?) -> Void) {
+        Alamofire.request(BraintreeRouter.createCustomer(user.toJSON())).response { response in
+            print(JSON(user.toJSON()))
+            print(response.response)
+            completionHandler(response.error as NSError?)
+        }
+    }
+    
+    static func addMerchant(_ user: NBUser, completionHandler: @escaping (NSError?) -> Void) {
+        Alamofire.request(BraintreeRouter.createMerchant(user.toJSON())).response { response in
+            print(JSON(user.toJSON()))
+            print(response.response)
+            completionHandler(response.error as NSError?)
+        }
+    }
+    
 //    static func createWebhooks() {
 //        // not sure what do do here yet, ask Ken/Kelsey
 //    }

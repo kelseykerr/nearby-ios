@@ -14,7 +14,7 @@ import SwiftyJSON
 class NearbyAPIManager {
     
     static let sharedInstance = NearbyAPIManager()
-    
+
     // is there a way to clear part of cache instead?
     func clearCache() -> Void {
         let cache = URLCache.shared
