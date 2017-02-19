@@ -19,6 +19,8 @@ class PaymentTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.hideKeyboardWhenTappedAround()
+
         loadCells()
     }
     

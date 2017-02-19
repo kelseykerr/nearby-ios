@@ -49,16 +49,16 @@ class UserManager {
         }
     }
     
+    func editUser(user: NBUser, completionHandler: @escaping (NSError?) -> Void) {
+        self.user = user
+        
+        NBUser.editSelf(user, completionHandler: { error in
+            completionHandler(error)
+        })
+    }
+    
     func userAvailable() -> Bool {
         return user != nil
     }
-    
-//    func doOAuthLogin(_ fromVC: UIViewController, completionHandler: @escaping (NSError?) -> Void) {
-//        let loginManager = FBSDKLoginManager()
-//        
-//        loginManager.logIn(withReadPermissions: ["public_profile"], from: fromVC) { (results, error) in
-//            completionHandler(error as NSError?)
-//        }
-//    }
     
 }

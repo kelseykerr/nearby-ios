@@ -10,16 +10,29 @@ import Foundation
 import Alamofire
 import SwiftyJSON
 
+enum HistoryStatus {
+    case buyerConfirm
+    case sellerConfirm
+    case exchange
+    case returns
+    case finish
+}
+
 class NBHistory: ResponseJSONObjectSerializable {
     
     var request: NBRequest?
-//    var transaction: NBTransaction?
+    var transaction: NBTransaction?
     var responses = [NBResponse]()
-    var hidden = false
+    var hidden: Bool? = false
     
     required init?(json: SwiftyJSON.JSON) {
         self.request = NBRequest(json: json["request"])
-//        self.transaction = NBTransaction(json["transaction"])
+
+//        let tran = json["transaction"]
+//        if tran != nil {
+            self.transaction = NBTransaction(json: json["transaction"])
+//        }
+
         for (index, responseJson) in json["responses"] {
             print("\(index) resp: \(responseJson)")
             //instantiate, check if nil, then append
@@ -46,65 +59,85 @@ class NBHistory: ResponseJSONObjectSerializable {
     }
     
     func toString() -> String {
-        return "history"
-        //        return "firstName: \(self.firstName)" +
-        //            " lastName: \(self.lastName)" +
-        //            " userId: \(self.userId)" +
-        //            " fullName: \(self.fullName)" +
-        //            " id: \(self.id)" +
-        //            " email: \(self.email)" +
-        //            " phone: \(self.phone)" +
-        //            " address: \(self.address)" +
-        //            " addressLine2: \(self.addressLine2)" +
-        //            " city: \(self.city)" +
-        //            " state: \(self.state)" +
-        //            " zip: \(self.zip)\n"
+        return "history" +
+        " transaction: \(self.transaction?.toString())"
+//        return "firstName: \(self.firstName)" +
+//        " lastName: \(self.lastName)" +
+//            " userId: \(self.userId)" +
+//            " fullName: \(self.fullName)" +
+//            " id: \(self.id)" +
+//            " email: \(self.email)" +
+//            " phone: \(self.phone)" +
+//            " address: \(self.address)" +
+//            " addressLine2: \(self.addressLine2)" +
+//            " city: \(self.city)" +
+//            " state: \(self.state)" +
+//            " zip: \(self.zip)\n"
     }
     
     func toJSON() -> [String: AnyObject] {
-        let json = [String: AnyObject]()
-//        if let id = id {
-//            json["id"] = id
-//        }
-//        if let requestId = requestId {
-//            json["requestId"] = requestId
-//        }
-//        if let sellerId = sellerId {
-//            json["sellerId"] = sellerId
-//        }
-//        if let responseTime = responseTime {
-//            json["responseTime"] = responseTime
-//        }
-//        if let offerPrice = offerPrice {
-//            json["offerPrice"] = offerPrice
-//        }
-//        if let priceType = priceType {
-//            json["priceType"] = priceType
-//        }
-//        if let exchangeLocation = exchangeLocation {
-//            json["exchangeLocation"] = exchangeLocation
-//        }
-//        if let returnLocation = returnLocation {
-//            json["returnLocation"] = returnLocation
-//        }
-//        if let exchangeTime = exchangeTime {
-//            json["exchangeTime"] = exchangeTime
-//        }
-//        if let responseTime = responseTime {
-//            json["responseTime"] = responseTime
-//        }
-//        if let buyerStatus = buyerStatus {
-//            json["buyerStatus"] = buyerStatus
-//        }
-//        if let sellerStatus = sellerStatus {
-//            json["sellerStatus"] = sellerStatus
-//        }
-//        if let responseStatus = responseStatus {
-//            json["responseStatus"] = responseStatus
-//        }
+        var json = [String: AnyObject]()
+        
+        if let request = request {
+            if request.id != nil {
+                json["request"] = request.toJSON() as AnyObject?
+            }
+        }
+        if let transaction = transaction {
+            if transaction.id != nil {
+                json["transaction"] = transaction.toJSON() as AnyObject?
+            }
+        }
+
+        // responses
+        
+        if let hidden = hidden {
+            json["hidden"] = hidden as AnyObject?
+        }
+        
         return json
     }
     
+}
+
+extension NBHistory {
+    
+    func isMyRequest() -> Bool {
+        return UserManager.sharedInstance.user!.id == self.request!.user!.id
+    }
+    
+    var status: HistoryStatus {
+        get {
+            if self.transaction?.getStatus() == .start {
+                if responseAccepted() {
+                    return HistoryStatus.sellerConfirm
+                }
+                else {
+                    return HistoryStatus.buyerConfirm
+                }
+            }
+            else if self.transaction?.getStatus() == .exchange {
+                return HistoryStatus.exchange
+            }
+            else if self.transaction?.getStatus() == .returns {
+                return HistoryStatus.returns
+            }
+            else {
+                return HistoryStatus.finish
+            }
+        }
+    }
+
+    func responseAccepted() -> Bool {
+        if self.responses.count > 0 {
+            for response in responses {
+                if response.buyerStatus == .accepted {
+                    return true
+                }
+            }
+        }
+        return false
+    }
 }
 
 extension NBHistory {

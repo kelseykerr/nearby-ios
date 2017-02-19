@@ -20,12 +20,9 @@ class HistoryTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        self.tableView.contentInset = UIEdgeInsetsMake(-36, 0, 0, 0)
+        self.tableView.contentInset = UIEdgeInsetsMake(-26, 0, 0, 0)
         
         loadHistories()
-        
-//        self.tableView.tableFooterView = UIView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -43,55 +40,135 @@ class HistoryTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return histories[section].responses.count + 1
+        if histories[section].status == .buyerConfirm {
+            return histories[section].responses.count + 1
+        }
+        else {
+            return 1
+        }
     }
-    
-//    override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-//        return 10
-//    }
-//    
-//    override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        let headerView = UIView()
-//        headerView.backgroundColor = UIColor.groupTableViewBackgroundColor()
-//        return headerView
-//    }
-    
-//    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-//        return 10
-//    }
-//    override func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-//        return 10
-//    }
-//    
-//    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-//        let footerView = UIView()
-//        footerView.backgroundColor = UIColor.clear
-//        return footerView
-//    }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
+        let cell = tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath)
+        
+        //switch statement
+        let history = histories[indexPath.section]
+        switch history.status {
+            case .buyerConfirm:
+                if (indexPath as NSIndexPath).row == 0 {
+//                    cell.textLabel?.text = "request cell"
+                    if history.isMyRequest() {
+                        let item = (history.request?.itemName)!
+                        cell.textLabel?.text = "You want to borrow \(item)."
+                    }
+                    else {
+                        let name: String = (history.request?.user?.firstName!)!
+                        let item = (history.request?.itemName)!
+                        cell.textLabel?.text = "\(name) wants to borrow \(item)."
+                    }
+                }
+                else {
+//                    cell.textLabel?.text = "response cell"
+                    if history.isMyRequest() {
+                        let response = getResponse(indexPath)
+                        let name: String = (response?.seller?.firstName)!
+                        let price = (response?.offerPrice)!
+                        cell.textLabel?.text = "\(name) is offering to sell it to you for $\(price)."
+                    }
+                    else {
+                        let response = getResponse(indexPath)
+                        let name: String = (history.request?.user?.firstName!)!
+                        let price = (response?.offerPrice)!
+                        cell.textLabel?.text = "You are offering to sell it to \(name) for $\(price)."
+                    }
+                }
+            case .sellerConfirm:
+                // BUYER: Awaiting NAME to confirm offer for ITEM.
+                // SELLER: NAME has accepted your offer for ITEM.
+                cell.textLabel?.text = "seller comfirm cell"
+                if history.isMyRequest() {
+//                    let name = (response?.seller?.firstName)!
+                    let name = "<NAME>"
+                    let item = (history.request?.itemName)!
+                    cell.textLabel?.text = "Awaiting \(name) to confirm offer for \(item)."
+                }
+                else {
+                    let name = history.request?.user?.firstName!
+                    let item = (history.request?.itemName)!
+                    cell.textLabel?.text = "\(name) has accepted your offer for \(item). Please confirm to proceed."
+                }
+            case .exchange:
+                // You are meeting NAME to exchange ITEM.
+//                cell.textLabel?.text = "exchange cell"
+                if history.isMyRequest() {
+//                    let name = (response?.seller?.firstName)!
+                    let name = "<NAME>"
+                    let item = (history.request?.itemName)!
+                    cell.textLabel?.text = "You are meeting \(name) to exchange \(item)."
+                }
+                else {
+                    let name: String = (history.request?.user?.firstName!)!
+                    let item = (history.request?.itemName)!
+                    cell.textLabel?.text = "You are meeting \(name) to exchange \(item)."
+                }
+            case .returns:
+                // You are meeting NAME to return ITEM.
+                if history.isMyRequest() {
+                    let name = "<NAME>"
+                    let item = (history.request?.itemName)!
+                    cell.textLabel?.text = "You are meeting \(name) to return \(item)."
+                }
+                else {
+                    let name: String = (history.request?.user?.firstName!)!
+                    let item = (history.request?.itemName)!
+                    cell.textLabel?.text = "You are meeting \(name) to claim \(item)."
+                }
+            case .finish:
+                // You have successful completed transaction for ITEM.
+                let item = (history.request?.itemName)!
+                cell.textLabel?.text = "You have successfully completed transaction for \(item)."
+        }
+        
+        return cell
+        
+/*
         if (indexPath as NSIndexPath).row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath)
-        
-            if let request = getRequest((indexPath as NSIndexPath).section) {
-//                cell.textLabel?.text = request.itemName
-//                cell.detailTextLabel?.text = request.desc
-                
-                
-                let text = " want to borrow "
+            
+            if let transaction = histories[indexPath.section].transaction {
+                print("Yay, transaction is available")
+                let text = "You are meeting with * to exchange "
                 let attrText = NSMutableAttributedString(string: "")
-                let boldFont = UIFont.boldSystemFont(ofSize: 17)
-                let boldFullname = NSMutableAttributedString(string: "You", attributes: [NSFontAttributeName: boldFont])
-                attrText.append(boldFullname)
+//                let boldFont = UIFont.boldSystemFont(ofSize: 17)
+//                let boldFullname = NSMutableAttributedString(string: "You", attributes: [NSFontAttributeName: boldFont])
+//                attrText.append(boldFullname)
                 attrText.append(NSMutableAttributedString(string: text))
-                
-                let boldItemName = NSMutableAttributedString(string: request.itemName!, attributes: [NSFontAttributeName: boldFont])
-                attrText.append(boldItemName)
-                attrText.append(NSMutableAttributedString(string: "."))
+//                    
+//                let boldItemName = NSMutableAttributedString(string: request.itemName!, attributes: [NSFontAttributeName: boldFont])
+//                attrText.append(boldItemName)
+//                attrText.append(NSMutableAttributedString(string: "."))
                 
                 cell.textLabel?.attributedText = attrText
             }
+            else {
+                print("Boo, transaction is not available")
+                if let request = getRequest((indexPath as NSIndexPath).section) {
+                    let text = " want to borrow "
+                    let attrText = NSMutableAttributedString(string: "")
+                    let boldFont = UIFont.boldSystemFont(ofSize: 17)
+                    let boldFullname = NSMutableAttributedString(string: "You", attributes: [NSFontAttributeName: boldFont])
+                    attrText.append(boldFullname)
+                    attrText.append(NSMutableAttributedString(string: text))
+                    
+                    let boldItemName = NSMutableAttributedString(string: request.itemName!, attributes: [NSFontAttributeName: boldFont])
+                    attrText.append(boldItemName)
+                    attrText.append(NSMutableAttributedString(string: "."))
+                    
+                    cell.textLabel?.attributedText = attrText
+                }
+            }
+
         
 //            if !isLoading {
 //                let rowsLoaded = requests.count
@@ -121,10 +198,9 @@ class HistoryTableViewController: UITableViewController {
                 
                 let text = " is offering to lend it to you for "
                 let attrText = NSMutableAttributedString(string: "")
-//                let fullnameRange = text.range(of: fullname!)
                 let boldFont = UIFont.boldSystemFont(ofSize: 17)
-                let boldFullname = NSMutableAttributedString(string: fullname!, attributes: [NSFontAttributeName: boldFont])
-                attrText.append(boldFullname)
+//                let boldFullname = NSMutableAttributedString(string: fullname!, attributes: [NSFontAttributeName: boldFont])
+//                attrText.append(boldFullname)
                 attrText.append(NSMutableAttributedString(string: text))
 
                 let boldPrice = NSMutableAttributedString(string: "$\(price)", attributes: [NSFontAttributeName: boldFont])
@@ -141,74 +217,18 @@ class HistoryTableViewController: UITableViewController {
             
             return cell
         }
+ */
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if (indexPath as NSIndexPath).row == 0 {
-//            for index in 0..<getResponses((indexPath as NSIndexPath).section).count {
-//                let newIndexPath = IndexPath(row: index + 1, section: (indexPath as NSIndexPath).section)
-//                let cell = self.tableView.cellForRow(at: newIndexPath)
-//                if let hidden = cell?.isHidden {
-//                    cell?.isHidden = !hidden
-//                    histories[(indexPath as NSIndexPath).section].hidden = !hidden
-//                }
-//            }
-//            tableView.beginUpdates()
-//            tableView.endUpdates()
-            
-            let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-            
-            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { action in
-                // ...
-            }
-            alertController.addAction(cancelAction)
-            
-            let OKAction = UIAlertAction(title: "Delete", style: .destructive) { action in
-                if let request = self.getRequest((indexPath as NSIndexPath).section) {
-                    NBRequest.removeRequest(request, completionHandler: { error in
-                        print("Request Deleted")
-                    })
-                }
-            }
-            alertController.addAction(OKAction)
-            
-            self.present(alertController, animated: true) {
-                // ...
-            }
-        }
-        else {
-            let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-            
-            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { action in
-                // ...
-            }
-            alertController.addAction(cancelAction)
-            
-            let acceptAction = UIAlertAction(title: "Accept", style: .default) { action in
-                // ...
-            }
-            alertController.addAction(acceptAction)
-            
-            let declineAction = UIAlertAction(title: "Decline", style: .default) { action in
-                // ...
-            }
-            alertController.addAction(declineAction)
-            
-            self.present(alertController, animated: true) {
-                // ...
-            }
-        }
+        let history = histories[indexPath.section]
+
+        let alertController = getAlertController(status: history.status, myRequest: history.isMyRequest(), indexPath: indexPath)
         
+        self.present(alertController, animated: true) {
+            // ...
+        }
     }
-    
-//    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        if (indexPath as NSIndexPath).row != 0 && histories[(indexPath as NSIndexPath).section].hidden {
-//            return 0
-//        }
-//        else {
-//            return 44
-//        }
-//    }
     
 //    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
 //        if (indexPath as NSIndexPath).row == 0 {
@@ -289,8 +309,12 @@ class HistoryTableViewController: UITableViewController {
         loadHistories()
     }
 
-    func isMyPost(_ section: Int) -> Bool {
-        return section < 3
+//    func isMyPost(_ section: Int) -> Bool {
+//        return section < 3
+//    }
+    
+    func getHistory(_ section: Int) -> NBHistory? {
+        return histories[section]
     }
     
     func getRequest(_ section: Int) -> NBRequest? {
@@ -305,9 +329,16 @@ class HistoryTableViewController: UITableViewController {
         return histories[(indexPath as NSIndexPath).section].responses[(indexPath as NSIndexPath).row - 1]
     }
     
+    func getResponse2(_ indexPath: IndexPath) -> NBResponse? {
+        return histories[(indexPath as NSIndexPath).section].responses[(indexPath as NSIndexPath).row]
+    }
+    
+    func getTransaction(_ section: Int) -> NBTransaction? {
+        return histories[section].transaction
+    }
+    
     @IBAction func saveUnwind(_ segue: UIStoryboardSegue) {
-        
-        /*
+/*
         let newRequestVC = segue.source as! NewRequestTableViewController
         let itemName = newRequestVC.itemName
         let desc = newRequestVC.desc
@@ -368,6 +399,292 @@ extension HistoryTableViewController: NewRequestTableViewDelegate {
     func cancelled() {
         print("yo")
 //        self.navigationController?.popViewController(animated: true)
+    }
+
+}
+
+extension HistoryTableViewController: QRGeneratorViewDelegate {
+    
+    func next() {
+        print("QRGen, saved")
+        
+        self.loadHistories()
+    }
+    
+    func generateCancelled() {
+        
+    }
+
+}
+
+extension HistoryTableViewController: QRScannerViewDelegate {
+    
+    func scanned(transId: String, code: String) {
+        print("trans: \(transId) yay: \(code)")
+        
+        NBTransaction.editTransactionCode(id: transId, code: code) { error in
+            print("done")
+            
+            self.loadHistories()
+        }
+
+    }
+    
+    func scanCancelled() {
+    }
+    
+}
+
+extension HistoryTableViewController {
+    
+    func getBuyerConfirmRequestAlertControllerForBuyer(indexPath: IndexPath) -> UIAlertController {
+        let alertController = UIAlertController(title: "BuyerConfirmRequest Buyer", message: nil, preferredStyle: .actionSheet)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { action in
+            // ...
+        }
+        alertController.addAction(cancelAction)
+        
+        let OKAction = UIAlertAction(title: "Delete", style: .destructive) { action in
+            if let request = self.getRequest((indexPath as NSIndexPath).section) {
+                NBRequest.removeRequest(request, completionHandler: { error in
+                    print("Request Deleted")
+                })
+            }
+        }
+        alertController.addAction(OKAction)
+        
+        return alertController
+    }
+    
+    func getBuyerConfirmOfferAlertControllerForBuyer(indexPath: IndexPath) -> UIAlertController {
+        let alertController = UIAlertController(title: "BuyerConfirmOffer Buyer", message: nil, preferredStyle: .actionSheet)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { action in
+            // ...
+        }
+        alertController.addAction(cancelAction)
+        
+        let acceptAction = UIAlertAction(title: "Accept", style: .default) { action in
+            print("accepted:")
+            if let response = self.getResponse(indexPath) {
+                print("got an response")
+                
+                response.buyerStatus = BuyerStatus(rawValue: "ACCEPTED")
+//                response.sellerStatus = SellerStatus(rawValue: "ACCEPTED")
+                
+//                    response.responseStatus = "ACCEPTED"
+                
+                NBResponse.editResponse(response, completionHandler: { error in
+                    print("done")
+                })
+            }
+        }
+        alertController.addAction(acceptAction)
+        
+        let declineAction = UIAlertAction(title: "Decline", style: .default) { action in
+            // ...
+        }
+        alertController.addAction(declineAction)
+        
+        return alertController
+    }
+    
+    func getBuyerConfirmAlertControllerForSeller() -> UIAlertController {
+        let alertController = UIAlertController(title: "BuyerConfirm Seller", message: nil, preferredStyle: .actionSheet)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { action in
+            // ...
+        }
+        alertController.addAction(cancelAction)
+        
+        return alertController
+    }
+    
+    func getSellerConfirmAlertControllerForBuyer() -> UIAlertController {
+        let alertController = UIAlertController(title: "SellerConfirm Buyer", message: nil, preferredStyle: .actionSheet)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { action in
+            // ...
+        }
+        alertController.addAction(cancelAction)
+        
+        return alertController
+    }
+    
+    func getSellerConfirmAlertControllerForSeller(indexPath: IndexPath) -> UIAlertController {
+        let alertController = UIAlertController(title: "SellerConfirm Seller", message: nil, preferredStyle: .actionSheet)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { action in
+            // ...
+        }
+        alertController.addAction(cancelAction)
+        
+        let acceptAction = UIAlertAction(title: "Accept", style: .default) { action in
+            print("accepted:")
+            if let response = self.getResponse2(indexPath) {
+                print("got an response")
+                
+//                response.buyerStatus = BuyerStatus(rawValue: "ACCEPTED")
+                response.sellerStatus = SellerStatus(rawValue: "ACCEPTED")
+                
+                NBResponse.editResponse(response, completionHandler: { error in
+                    print("done")
+                })
+            }
+        }
+        alertController.addAction(acceptAction)
+        
+        let declineAction = UIAlertAction(title: "Decline", style: .default) { action in
+            // ...
+        }
+        alertController.addAction(declineAction)
+        
+        return alertController
+    }
+    
+    func getExchangeAlertControllerForBuyer(indexPath: IndexPath) -> UIAlertController {
+        let alertController = UIAlertController(title: "Exchange Buyer", message: nil, preferredStyle: .actionSheet)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { action in
+            // ...
+        }
+        alertController.addAction(cancelAction)
+        
+        let exchangeAction = UIAlertAction(title: "Exchange", style: .default) { action in
+            let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+            guard let navVC = storyboard.instantiateViewController(
+                withIdentifier: "QRScannerNavigationController") as? UINavigationController else {
+                    assert(false, "Misnamed view controller")
+                    return
+            }
+            let scannerVC = (navVC.childViewControllers[0] as! QRScannerViewController)
+            scannerVC.delegate = self
+            scannerVC.transaction = self.getTransaction(indexPath.section)
+            self.present(navVC, animated: true, completion: nil)
+        }
+        alertController.addAction(exchangeAction)
+        
+        return alertController
+    }
+    
+    func getExchangeAlertControllerForSeller(indexPath: IndexPath) -> UIAlertController {
+        let alertController = UIAlertController(title: "Exchange Seller", message: nil, preferredStyle: .actionSheet)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { action in
+            // ...
+        }
+        alertController.addAction(cancelAction)
+        
+        let exchangeAction = UIAlertAction(title: "Exchange", style: .default) { action in
+            let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+            guard let navVC = storyboard.instantiateViewController(
+                withIdentifier: "QRGeneratorNavigationController") as? UINavigationController else {
+                    assert(false, "Misnamed view controller")
+                    return
+            }
+            let generatorVC = (navVC.childViewControllers[0] as! QRGeneratorViewController)
+            generatorVC.delegate = self
+            generatorVC.transaction = self.getTransaction(indexPath.section)
+            self.present(navVC, animated: true, completion: nil)
+        }
+        alertController.addAction(exchangeAction)
+        
+        return alertController
+    }
+    
+    func getReturnsAlertControllerForBuyer() -> UIAlertController {
+        let alertController = UIAlertController(title: "Returns Buyer", message: nil, preferredStyle: .actionSheet)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { action in
+            // ...
+        }
+        alertController.addAction(cancelAction)
+        
+        return alertController
+    }
+    
+    func getReturnsAlertControllerForSeller() -> UIAlertController {
+        let alertController = UIAlertController(title: "Returns Seller", message: nil, preferredStyle: .actionSheet)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { action in
+            // ...
+        }
+        alertController.addAction(cancelAction)
+        
+        return alertController
+    }
+
+    func getFinishAlertControllerForBuyer() -> UIAlertController {
+        let alertController = UIAlertController(title: "Finish Buyer", message: nil, preferredStyle: .actionSheet)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { action in
+            // ...
+        }
+        alertController.addAction(cancelAction)
+        
+        return alertController
+    }
+    
+    func getFinishAlertControllerForSeller() -> UIAlertController {
+        let alertController = UIAlertController(title: "Finish Seller", message: nil, preferredStyle: .actionSheet)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { action in
+            // ...
+        }
+        alertController.addAction(cancelAction)
+        
+        return alertController
+    }
+    
+    func getAlertController(status: HistoryStatus, myRequest: Bool, indexPath: IndexPath) -> UIAlertController {
+        var alertController = UIAlertController()
+        switch status {
+        case .buyerConfirm:
+            if myRequest {
+                if (indexPath as NSIndexPath).row == 0 {
+                    alertController = getBuyerConfirmRequestAlertControllerForBuyer(indexPath: indexPath)
+                }
+                else {
+                    alertController = getBuyerConfirmOfferAlertControllerForBuyer(indexPath: indexPath)
+                }
+            }
+            else {
+                alertController = getBuyerConfirmAlertControllerForSeller()
+            }
+        case .sellerConfirm:
+            if myRequest {
+                alertController = getSellerConfirmAlertControllerForBuyer()
+            }
+            else {
+                alertController = getSellerConfirmAlertControllerForSeller(indexPath: indexPath)
+            }
+        case .exchange:
+            if myRequest {
+                alertController = getExchangeAlertControllerForBuyer(indexPath: indexPath)
+            }
+            else {
+                alertController = getExchangeAlertControllerForSeller(indexPath: indexPath)
+            }
+        case .returns:
+            if myRequest {
+//                alertController = getReturnsAlertControllerForBuyer()
+                alertController = getExchangeAlertControllerForSeller(indexPath: indexPath)
+            }
+            else {
+//                alertController = getReturnsAlertControllerForSeller()
+                alertController = getExchangeAlertControllerForBuyer(indexPath: indexPath)
+            }
+        case .finish:
+            if myRequest {
+                alertController = getFinishAlertControllerForBuyer()
+            }
+            else {
+                alertController = getFinishAlertControllerForSeller()
+            }
+        }
+        
+        return alertController
     }
     
 }

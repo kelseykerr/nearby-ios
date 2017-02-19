@@ -18,8 +18,8 @@ class NBRequest: NSObject, ResponseJSONObjectSerializable {
     var itemName: String?
     var latitude: Double?
     var longitude: Double?
-    var postDate: String?
-    var expireDate: String?
+    var postDate: Int64?
+    var expireDate: Int64?
     var category: NBCategory?
     var rental: Bool?
     var desc: String?
@@ -32,8 +32,8 @@ class NBRequest: NSObject, ResponseJSONObjectSerializable {
         self.itemName = json["itemName"].string
         self.latitude = json["latitude"].double
         self.longitude = json["longitude"].double
-        self.postDate = json["postDate"].string
-        self.expireDate = json["expireDate"].string
+        self.postDate = json["postDate"].int64
+        self.expireDate = json["expireDate"].int64
         self.category = NBCategory(json: json["category"])
         self.rental = json["rental"].bool
         self.desc = json["description"].string
@@ -42,21 +42,9 @@ class NBRequest: NSObject, ResponseJSONObjectSerializable {
         self.status = json["status"].string
     }
     
-    init(test: Bool) {
-        if test {
-//            self.user = NBUser(test: true)
-            self.itemName = "Microwave"
-            self.latitude = 84.5
-            self.longitude = 75.6
-            self.postDate = "2016-08-18T06:04:25.342Z"
-            self.expireDate = "2017-08-18T06:04:25.342Z"
+    override init() {
+        super.init()
 //            self.category = NBCategory(test: true)
-            self.rental = true
-            self.desc = "This is 900 watts"
-            self.id = "1234"
-            self.type = "item"
-            self.status = "UNKNOWN"
-        }
     }
     
     func toString() -> String {
@@ -158,6 +146,61 @@ extension NBRequest {
     
 }
 
+extension NBRequest {
+    
+    var location: CLLocation? {
+        get {
+            if let latitude = latitude, let longitude = longitude {
+                return CLLocation(latitude: latitude, longitude: longitude)
+            }
+            return nil
+        }
+    }
+    
+    func getDistance(fromLocation: CLLocation) -> Double {
+        var distance: Double = -1
+        if let location = location {
+            distance = location.distance(from: fromLocation) / 1609.344
+        }
+        return distance
+    }
+    
+    func getDistanceAsString(fromLocation: CLLocation) -> String {
+        let distance = getDistance(fromLocation: fromLocation)
+        let retStr = String(format: "%.3f Miles", distance)
+        return retStr
+    }
+    
+    func getElapsedTime() -> TimeInterval? {
+        if let postEpochString = self.postDate {
+            let postEpoch = Double(postEpochString) / 1000
+            let postDate = Date(timeIntervalSince1970: postEpoch)
+            let elapsedSeconds = Date().timeIntervalSince(postDate)
+            return elapsedSeconds
+        }
+        return nil
+    }
+    
+    func getElapsedTimeAsString() -> String {
+        let seconds = Int(getElapsedTime()!)
+        
+        if seconds < 60 { // less than a min
+            return "\(seconds) Secs Ago"
+        }
+        else if seconds < 3600 { // less than an hour
+            return "\(seconds / 60) Mins Ago"
+        }
+        else if seconds < 60 * 60 * 24 { // less than a day
+            return "\(seconds / (60 * 60)) Hours Ago"
+        }
+        else {
+            return "\(seconds / (60 * 60 * 24)) Days Ago"
+        }
+
+        return "Should not happen"
+    }
+}
+
 extension NBRequest: MKAnnotation {
     
     var coordinate: CLLocationCoordinate2D {
@@ -178,7 +221,7 @@ extension NBRequest: MKAnnotation {
     // never returns nil
     var subtitle: String? {
         get {
-            return self.desc ?? "No description"
+            return self.user?.fullName ?? "No description"
         }
     }
     

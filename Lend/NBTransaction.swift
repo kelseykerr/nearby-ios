@@ -10,6 +10,13 @@ import Foundation
 import Alamofire
 import SwiftyJSON
 
+enum TransactionStatus {
+    case start
+    case exchange
+    case returns
+    case finish
+}
+
 class NBTransaction: ResponseJSONObjectSerializable {
     
     var id: String?
@@ -57,7 +64,7 @@ class NBTransaction: ResponseJSONObjectSerializable {
     }
     
     func toString() -> String {
-        return " id: \(id)\n"
+        return "transaction id: \(id)\n"
     }
     
     func toJSON() -> [String: AnyObject] {
@@ -119,6 +126,25 @@ class NBTransaction: ResponseJSONObjectSerializable {
     
 }
 
+extension NBTransaction {
+    
+    func getStatus() -> TransactionStatus {
+        if self.id == nil {
+            return TransactionStatus.start
+        }
+        else if self.exchanged == false {
+            return TransactionStatus.exchange
+        }
+        else if self.returned == false {
+            return TransactionStatus.returns
+        }
+        else {
+            return TransactionStatus.finish
+        }
+    }
+    
+}
+
 // commented out so it will build
 // need to create a new response method or use generic one provided by Alamofire
 extension NBTransaction {
@@ -137,19 +163,20 @@ extension NBTransaction {
 //        }
 //    }
     
-//    static func generateTransactionCode(id: String, completionHandler: /*???*/) {
-//        Alamofire.request(TransactionsRouter.getTransactionCode(id))
-//            .responseArray { response in
-//                completionHandler(response.result)
-//        }
-//    }
+    static func fetchTransactionCode(id: String, completionHandler: @escaping (Result<String>) -> Void) {
+        Alamofire.request(TransactionsRouter.getTransactionCode(id))
+            .responseString { response in
+                print("response:")
+                print(response.result)
+                completionHandler(response.result)
+        }
+    }
     
-//    static func verifyTransactionCode(id: String, code: String, completionHandler: /*???*/) {
-//        Alamofire.request(TransactionsRouter.putTransactionCode(id))
-//            .responseArray { response in
-//                completionHandler(response.result)
-//        }
-//    }
+    static func editTransactionCode(id: String, code: String, completionHandler: @escaping (NSError?)-> Void) {
+        Alamofire.request(TransactionsRouter.editTransactionCode(id, code)).response { response in
+            completionHandler(response.error as NSError?)
+        }
+    }
     
 //    static func createTransactionOverride() {
 //        Alamofire.request(TransactionsRouter.postTransactionExchange(id))

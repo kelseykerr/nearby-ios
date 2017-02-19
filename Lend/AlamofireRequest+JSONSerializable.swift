@@ -53,8 +53,9 @@ extension Alamofire.DataRequest {
                 guard let object = T(json: json) else {
 //                    let failureReason = "Object could not be created from JSON."
 //                    let error = Alamofire.Error.errorWithCode(.jsonSerializationFailed, failureReason: failureReason)
-                    let error = BackendError.jsonSerialization(error: error!)
-                    return .failure(error)
+//                    let error = BackendError.jsonSerialization(error: error!)
+                    let error2 = BackendError.jsonSerialization(error: error!)
+                    return .failure(error2)
                 }
                 return .success(object)
             }
@@ -89,8 +90,8 @@ extension Alamofire.DataRequest {
                 
                 if let errorMessage = json["message"].string {
 //                    let error = Alamofire.Error.errorWithCode(.dataSerializationFailed, failureReason: errorMessage)
-                    let error = BackendError.dataSerialization(error: error!)
-                    return .failure(error)
+                    let error2 = BackendError.dataSerialization(error: error!)
+                    return .failure(error2)
                 }
                 var objects: [T] = []
                 for (_, item) in json {

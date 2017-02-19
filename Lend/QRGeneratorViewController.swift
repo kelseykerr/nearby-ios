@@ -8,17 +8,44 @@
 
 import UIKit
 
+protocol QRGeneratorViewDelegate: class {
+    
+    func next()
+    
+    func generateCancelled()
+    
+}
+
 class QRGeneratorViewController: UIViewController {
 
     @IBOutlet var qrImageView: UIImageView!
+    @IBOutlet var qrCodeLabel: UILabel!
+    
+    weak var delegate: QRGeneratorViewDelegate?
+    var transaction: NBTransaction?
     
     var qrImage: CIImage?
     var qrCode: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        generateQRCode()
+    }
 
-        qrCode = "1234ge8ngcigioswgcoineringcenrois"
+    func generateQRCode() {
+        let transactionId = (transaction?.id)!
+        NBTransaction.fetchTransactionCode(id: transactionId) { result in
+            print("Result:")
+            print(result.value)
+            self.loadQRCode(code: result.value!)
+        }
+    }
+    
+    func loadQRCode(code: String) {
+        self.qrCode = code
+        
+        self.qrCodeLabel.text = code
         
         if qrImage == nil {
             let data = qrCode?.data(using: String.Encoding.isoLatin1, allowLossyConversion: false)
@@ -30,13 +57,24 @@ class QRGeneratorViewController: UIViewController {
             
             qrImage = filter?.outputImage
             
-            qrImageView.image = UIImage(ciImage: qrImage!)
+//            qrImageView.image = UIImage(ciImage: qrImage!)
+            
+            let scaleX = qrImageView.frame.size.width / (qrImage?.extent.size.width)!
+            let scaleY = qrImageView.frame.size.height / (qrImage?.extent.size.height)!
+            
+            let transformedImage = qrImage?.applying(CGAffineTransform(scaleX: scaleX, y: scaleY))
+            
+            qrImageView.image = UIImage(ciImage: transformedImage!)
         }
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    @IBAction func nextButtonPressed(_ sender: UIBarButtonItem) {
+        delegate?.next()
+        self.dismiss(animated: true, completion: nil)
     }
     
+    @IBAction func cancelButtonPressed(_ sender: UIBarButtonItem) {
+        delegate?.generateCancelled()
+        self.dismiss(animated: true, completion: nil)
+    }
 }

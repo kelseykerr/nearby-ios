@@ -10,20 +10,45 @@ import Foundation
 import Alamofire
 import SwiftyJSON
 
+enum PriceType: String {
+    case flat = "FLAT"
+    case per_hour = "PER_HOUR"
+    case per_day = "PER_DAY"
+}
+
+enum BuyerStatus: String {
+    case open = "OPEN"
+    case closed = "CLOSED"
+    case accepted = "ACCEPTED"
+    case declined = "DECLINED"
+}
+
+enum SellerStatus: String {
+    case offered = "OFFERED"
+    case accepted = "ACCEPTED"
+    case withdrawn = "WITHDRAWN"
+}
+
+enum Status: String {
+    case pending = "PENDING"
+    case accepted = "ACCEPTED"
+    case closed = "CLOSED"
+}
+
 class NBResponse: ResponseJSONObjectSerializable {
     
     var id: String?
     var requestId: String? //REQ
     var sellerId: String? //REQ
-    var responseTime: String?
+    var responseTime: Int64?
     var offerPrice: Float? //REQ
-    var priceType: String? //REQ: Should be enum
+    var priceType: PriceType? //REQ: Should be enum
     var exchangeLocation: String?
     var returnLocation: String?
-    var exchangeTime: String? // should this be INT?
-    var returnTime: String?// should this be INT?
-    var buyerStatus: String?
-    var sellerStatus: String?
+    var exchangeTime: Int64?
+    var returnTime: Int64?
+    var buyerStatus: BuyerStatus?
+    var sellerStatus: SellerStatus?
     var responseStatus: String?
     var messages = [NBMessage]()
     var seller: NBUser?
@@ -32,18 +57,24 @@ class NBResponse: ResponseJSONObjectSerializable {
         self.id = json["id"].string
         self.requestId = json["requestId"].string
         self.sellerId = json["sellerId"].string
-        self.responseTime = json["responseTime"].string
+        self.responseTime = json["responseTime"].int64
         self.offerPrice = json["offerPrice"].float
-        self.priceType = json["priceType"].string
+        if let priceTypeString = json["priceType"].string {
+            self.priceType = PriceType(rawValue: priceTypeString)
+        }
         self.exchangeLocation = json["exchangeLocation"].string
         self.returnLocation = json["returnLocation"].string
-        self.exchangeTime = json["exchangeTime"].string
-        self.responseTime = json["responseTime"].string
-        self.buyerStatus = json["buyerStatus"].string
-        self.sellerStatus = json["sellerStatus"].string
+        self.exchangeTime = json["exchangeTime"].int64
+        self.returnTime = json["returnTime"].int64
+        if let buyerStatusString = json["buyerStatus"].string {
+            self.buyerStatus = BuyerStatus(rawValue: buyerStatusString)
+        }
+        if let sellerStatusString = json["sellerStatus"].string {
+            self.sellerStatus = SellerStatus(rawValue: sellerStatusString)
+        }
         self.responseStatus = json["responseStatus"].string
         for (index, messageJson) in json["messages"] {
-            print("\(index) mess: \(messageJson)")
+//            print("\(index) mess: \(messageJson)")
             //instantiate, check if nil, then append
             messages.append(NBMessage(json: messageJson)!)
         }
@@ -61,7 +92,7 @@ class NBResponse: ResponseJSONObjectSerializable {
 //            self.exchangeLocation = "exchangeLocation"
 //            self.returnLocation = "returnLocation"
 //            self.exchangeTime = "exchangeTime"
-//            self.responseTime = "responseTime"
+//            self.returnTime = "returnTime"
 //            self.buyerStatus = "buyerStatus"
 //            self.sellerStatus = "sellerStatus"
 //            self.responseStatus = "responseStatus"
@@ -102,7 +133,7 @@ class NBResponse: ResponseJSONObjectSerializable {
             json["offerPrice"] = offerPrice as AnyObject?
         }
         if let priceType = priceType {
-            json["priceType"] = priceType as AnyObject?
+            json["priceType"] = priceType.rawValue as AnyObject?
         }
         if let exchangeLocation = exchangeLocation {
             json["exchangeLocation"] = exchangeLocation as AnyObject?
@@ -113,14 +144,14 @@ class NBResponse: ResponseJSONObjectSerializable {
         if let exchangeTime = exchangeTime {
             json["exchangeTime"] = exchangeTime as AnyObject?
         }
-        if let responseTime = responseTime {
-            json["responseTime"] = responseTime as AnyObject?
+        if let returnTime = returnTime {
+            json["returnTime"] = returnTime as AnyObject?
         }
         if let buyerStatus = buyerStatus {
-            json["buyerStatus"] = buyerStatus as AnyObject?
+            json["buyerStatus"] = buyerStatus.rawValue as AnyObject?
         }
         if let sellerStatus = sellerStatus {
-            json["sellerStatus"] = sellerStatus as AnyObject?
+            json["sellerStatus"] = sellerStatus.rawValue as AnyObject?
         }
         if let responseStatus = responseStatus {
             json["responseStatus"] = responseStatus as AnyObject?

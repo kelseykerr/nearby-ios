@@ -19,7 +19,12 @@ class DirectDepositTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        loadCells()
+        self.hideKeyboardWhenTappedAround()
+        
+        UserManager.sharedInstance.getUser { user in
+            self.user = user
+            self.loadCells()
+        }
     }
     
     func loadCells() {

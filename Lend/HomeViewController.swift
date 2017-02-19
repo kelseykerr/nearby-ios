@@ -87,7 +87,11 @@ class HomeViewController: UIViewController, LoginViewDelegate {
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(myLocation.coordinate, regionRadius * 2.0, regionRadius * 2.0)
 //        mapView.setRegion(coordinateRegion, animated: true)
         
-        NBRequest.fetchRequests2(latitude, longitude: longitude, radius: Converter.metersToMiles(radius), expired: false, includeMine: true, searchTerm: "blah", sort: "newest") { result in
+        let includeMine = searchFilter.includeMyRequest
+        let expired = searchFilter.includeExpiredRequest
+        let sort = searchFilter.sortRequestByDate ? "distance": "newest"
+        
+        NBRequest.fetchRequests2(latitude, longitude: longitude, radius: Converter.metersToMiles(radius), expired: expired, includeMine: includeMine, searchTerm: "blah", sort: sort) { result in
 //        NBRequest.fetchRequests(latitude, longitude: longitude, radius: Converter.metersToMiles(radius)) { result in
 //            if self.refreshControl != nil && self.refreshControl!.refreshing {
 //                self.refreshControl?.endRefreshing()
@@ -123,7 +127,12 @@ class HomeViewController: UIViewController, LoginViewDelegate {
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(myLocation.coordinate, regionRadius * 2.0, regionRadius * 2.0)
         mapView.setRegion(coordinateRegion, animated: true)
             
-        NBRequest.fetchRequests(latitude, longitude: longitude, radius: Converter.metersToMiles(radius)) { result in
+        let includeMine = searchFilter.includeMyRequest
+        let expired = searchFilter.includeExpiredRequest
+        let sort = searchFilter.sortRequestByDate ? "distance": "newest"
+        
+        NBRequest.fetchRequests2(latitude, longitude: longitude, radius: Converter.metersToMiles(radius), expired: expired, includeMine: includeMine, searchTerm: "blah", sort: sort) { result in
+//        NBRequest.fetchRequests(latitude, longitude: longitude, radius: Converter.metersToMiles(radius)) { result in
 //            if self.refreshControl != nil && self.refreshControl!.refreshing {
 //                self.refreshControl?.endRefreshing()
 //            }
@@ -163,7 +172,7 @@ class HomeViewController: UIViewController, LoginViewDelegate {
         else {
             sender.title = "List"
             self.view.bringSubview(toFront: mapView)
-//            self.view.bringSubview(toFront: reloadView)
+            self.view.bringSubview(toFront: reloadView)
         }
     }
     
@@ -242,11 +251,62 @@ extension HomeViewController: MKMapViewDelegate {
                 view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
                 view.canShowCallout = true
                 view.calloutOffset = CGPoint(x: -5, y: 5)
-//                view.rightCalloutAccessoryView = UIButton.buttonWithType(.DetailDisclosure) as! UIView
+                
+                let button = UIButton(type: .detailDisclosure)
+                button.setImage(UIImage(named: "Forward-32"), for: UIControlState.normal)
+                view.rightCalloutAccessoryView = button
+                view.tintColor = UIColor.lightGray
             }
+            
+            if let pictureURL = annotation.user?.pictureUrl {
+                NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
+                    guard error == nil else {
+                        print(error!)
+                        return
+                    }
+                    let imageView = UIImageView(image: image)
+                    imageView.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+                    imageView.contentMode = UIViewContentMode.scaleAspectFill
+                    imageView.layer.cornerRadius = imageView.frame.size.width / 2
+                    imageView.clipsToBounds = true
+                    view.leftCalloutAccessoryView = imageView
+                })
+            }
+            else if annotation.user?.firstName == "Demo" {
+                let image = UIImage(named: "IMG_1426")
+                let imageView = UIImageView(image: image)
+                imageView.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+                imageView.contentMode = UIViewContentMode.scaleAspectFill
+                imageView.layer.cornerRadius = imageView.frame.size.width / 2
+                imageView.clipsToBounds = true
+                view.leftCalloutAccessoryView = imageView
+            }
+            else {
+                let image = UIImage(named: "User-64")
+                let imageView = UIImageView(image: image)
+                imageView.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+                imageView.contentMode = UIViewContentMode.scaleAspectFill
+                imageView.layer.cornerRadius = imageView.frame.size.width / 2
+                imageView.clipsToBounds = true
+                view.leftCalloutAccessoryView = imageView
+            }
+            
             return view
         }
         return nil
+    }
+    
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        print("yo:")
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        guard let requestDetailVC = storyboard.instantiateViewController(
+            withIdentifier: "DetailViewController") as? RequestDetailTableViewController else {
+                assert(false, "Misnamed view controller")
+                return
+        }
+        requestDetailVC.request = view.annotation as! NBRequest?
+        self.navigationController?.pushViewController(requestDetailVC, animated: true)
     }
     
     func getRadius() -> CLLocationDistance {
@@ -286,24 +346,12 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         
         let request = requests[(indexPath as NSIndexPath).section]
         
-//        cell.subject = request.itemName!
-//        cell.desc = request.desc!
         let firstName = (request.user?.firstName)!
         let lastName = (request.user?.lastName)!
-//        cell.desc = "\(firstName) \(lastName) ∙ 1 Miles ∙ 10 Days Ago"
-        
-//        cell.textLabel?.text = request.itemName
-//        cell.detailTextLabel?.text = request.desc
-///        cell.item = request.itemName!
-///        cell.name = "\(firstName) \(lastName)"
-///        cell.time = "3 Days"
-///        cell.distance = "10 Miles"
-        
-//        cell.textLabel?.text = "\(firstName) \(lastName) wants to borrow \(request.itemName!)."
 
         let text = " wants to borrow "
         let attrText = NSMutableAttributedString(string: "")
-        let boldFont = UIFont.boldSystemFont(ofSize: 17)
+        let boldFont = UIFont.boldSystemFont(ofSize: 16)
         let boldFullname = NSMutableAttributedString(string: "\(firstName) \(lastName)", attributes: [NSFontAttributeName: boldFont])
         attrText.append(boldFullname)
         attrText.append(NSMutableAttributedString(string: text))
@@ -311,16 +359,39 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         let boldItemName = NSMutableAttributedString(string: request.itemName!, attributes: [NSFontAttributeName: boldFont])
         attrText.append(boldItemName)
         attrText.append(NSMutableAttributedString(string: "."))
+
         
-        cell.textLabel?.attributedText = attrText
+        //setting cell's views
+        cell.messageLabel.attributedText = attrText
+//        cell.messageLabel.sizeToFit()
         
-//        let userImage = UIImage(named: "IMG_1426")
-//        cell.imageView?.image = userImage
-//        print("YO")
-//        print(userImage?.size.width)
-//        print("YO")
-//        cell.imageView?.layer.cornerRadius = (userImage?.size.width)! / 2
-//        cell.imageView?.clipsToBounds = true
+        cell.time = request.getElapsedTimeAsString()
+        
+        let myLocation = LocationManager.sharedInstance.location
+        let distanceString = request.getDistanceAsString(fromLocation: myLocation!)
+        cell.distance = distanceString
+        
+        if let pictureURL = request.user?.pictureUrl {
+            NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
+                guard error == nil else {
+                    print(error!)
+                    return
+                }
+                if let cellToUpdate = self.tableView?.cellForRow(at: indexPath) as! HomeTableViewCell? {
+                    cellToUpdate.userImageView?.image = image // will work fine even if image is nil // need to reload the view, which won't happen otherwise
+                    // since this is in an async call
+                    cellToUpdate.setNeedsLayout()
+                }
+            })
+        }
+        else if request.user?.firstName == "Demo" {
+            cell.userImageView.image = UIImage(named: "IMG_1426")
+            cell.setNeedsLayout()
+        }
+        else {
+            cell.userImageView.image = UIImage(named: "User-64")
+            cell.setNeedsLayout()
+        }
         
 //        if !isLoading {
 //            let rowsLoaded = requests.count

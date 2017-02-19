@@ -18,6 +18,7 @@ class NBUser: ResponseJSONObjectSerializable {
     var userId: String?
     var fullName: String?
     var id: String?
+    var pictureUrl: String?
     
     var email: String?
     var phone: String?
@@ -42,7 +43,7 @@ class NBUser: ResponseJSONObjectSerializable {
     var customerId: String?
     var isPaymentSetup: Bool?
     var customerStatus: String?
-    var dateOfBirth: String?
+    var dateOfBirth: String? //yyyy-mm-dd
     var bankAccountNumber: String?
     var bankRoutingNumber: String?
     var fundDestination: String?
@@ -55,6 +56,7 @@ class NBUser: ResponseJSONObjectSerializable {
         self.userId = json["userId"].string
         self.fullName = json["fullName"].string
         self.id = json["id"].string
+        self.pictureUrl = json["pictureUrl"].string
         self.email = json["email"].string
         self.phone = json["phone"].string
         self.address = json["address"].string
@@ -153,6 +155,9 @@ class NBUser: ResponseJSONObjectSerializable {
         }
         if let id = id {
             json["id"] = id as AnyObject?
+        }
+        if let pictureUrl = pictureUrl {
+            json["pictureUrl"] = pictureUrl as AnyObject?
         }
         if let email = email {
             json["email"] = email as AnyObject?

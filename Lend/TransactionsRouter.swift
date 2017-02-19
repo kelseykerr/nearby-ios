@@ -17,8 +17,8 @@ enum TransactionsRouter: URLRequestConvertible {
     
     case getTransaction(String)
 //    case deleteTransaction(String)
-//    case getTransactionCode(String)
-//    case putTransactionCode(String)
+    case getTransactionCode(String)
+    case editTransactionCode(String, String)
 //    case postTransactionExchange(String)
 //    case putTransactionExchange(String)
 //    case putTransactionPrice(String)
@@ -31,11 +31,11 @@ enum TransactionsRouter: URLRequestConvertible {
     public func asURLRequest() throws -> URLRequest {
         var method: Alamofire.HTTPMethod {
             switch self {
-//            case .getTransaction, .getTransactionCode:
-            case .getTransaction:
+            case .getTransaction, .getTransactionCode:
                 return .get
 //            case .putTransactionCode, .putTransactionExchange, .putTransactionPrice:
-//                return .put
+            case .editTransactionCode:
+                return .put
 //            case .postTransactionExchange:
 //                return .post
 //            case .deleteTransaction:
@@ -50,10 +50,10 @@ enum TransactionsRouter: URLRequestConvertible {
                 relativePath = "transactions/\(id)"
 //            case .deleteTransaction(let id):
 //                relativePath = "transactions/\(id)"
-//            case .getTransactionCode(let id):
-//                relativePath = "transactions/\(id)/code"
-//            case .putTransactionCode(let id, let code):
-//                relativePath = "transactions/\(id)/code/\(code)"
+            case .getTransactionCode(let id):
+                relativePath = "transactions/\(id)/code"
+            case .editTransactionCode(let id, let code):
+                relativePath = "transactions/\(id)/code/\(code)"
 //            case .postTransactionExchange(let id):
 //                relativePath = "transactions/\(id)/exchange"
 //            case .putTransactionExchange(let id):
@@ -73,12 +73,11 @@ enum TransactionsRouter: URLRequestConvertible {
         
         let params: ([String: AnyObject]?) = {
             switch self {
-            case .getTransaction:
+            case .getTransaction, .getTransactionCode:
                 return nil
-//            case .getTransaction, .getTransactionCode:
-//                return nil
 //            case .putTransactionCode, .putTransactionExchange, .putTransactionPrice:
-//                return ??? // return the param?
+            case .editTransactionCode:
+                return nil
 //            case .postTransactionExchange:
 //                return ??? // return the param?
 //            case .deleteTransaction: // move this up with get?

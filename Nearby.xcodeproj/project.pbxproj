@@ -20,6 +20,7 @@
 		AA2C47511D6B759D0013F350 /* Converter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2C47501D6B759D0013F350 /* Converter.swift */; };
 		AA2C47531D6D0B0B0013F350 /* CategoriesRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2C47521D6D0B0B0013F350 /* CategoriesRouter.swift */; };
 		AA2C47551D6D3FB60013F350 /* RequestDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2C47541D6D3FB60013F350 /* RequestDetailViewController.swift */; };
+		AA2F16C01E4662210029AB47 /* QRScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2F16BF1E4662200029AB47 /* QRScannerViewController.swift */; };
 		AA38307F1D5A75F600C125F6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA38307E1D5A75F600C125F6 /* AppDelegate.swift */; };
 		AA3830841D5A75F600C125F6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA3830821D5A75F600C125F6 /* Main.storyboard */; };
 		AA3830861D5A75F600C125F6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA3830851D5A75F600C125F6 /* Assets.xcassets */; };
@@ -47,6 +48,9 @@
 		AA9721221D651C460036E007 /* RequestsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9721211D651C460036E007 /* RequestsRouter.swift */; };
 		AA9721261D65637E0036E007 /* UsersRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9721251D65637E0036E007 /* UsersRouter.swift */; };
 		AA9721281D66B54E0036E007 /* AccountTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9721271D66B54E0036E007 /* AccountTableViewController.swift */; };
+		AA97466A1E4E38B900C1FA17 /* ProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9746691E4E38B900C1FA17 /* ProgressHUD.swift */; };
+		AA97466C1E54540C00C1FA17 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA97466B1E54540C00C1FA17 /* Utils.swift */; };
+		AA97466E1E56C10C00C1FA17 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA97466D1E56C10C00C1FA17 /* UIViewControllerExtension.swift */; };
 		AA98F7391D9C69910083BB4B /* RequestTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA98F7381D9C69910083BB4B /* RequestTableViewCell.swift */; };
 		AAB7690A1E285C1C0021F657 /* HistoryResponseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB769091E285C1C0021F657 /* HistoryResponseTableViewCell.swift */; };
 		AAB7690C1E2B35EF0021F657 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB7690B1E2B35EF0021F657 /* UserManager.swift */; };
@@ -76,6 +80,7 @@
 		AA2C47501D6B759D0013F350 /* Converter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Converter.swift; sourceTree = "<group>"; };
 		AA2C47521D6D0B0B0013F350 /* CategoriesRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoriesRouter.swift; sourceTree = "<group>"; };
 		AA2C47541D6D3FB60013F350 /* RequestDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestDetailViewController.swift; sourceTree = "<group>"; };
+		AA2F16BF1E4662200029AB47 /* QRScannerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRScannerViewController.swift; sourceTree = "<group>"; };
 		AA38307B1D5A75F600C125F6 /* Nearby.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Nearby.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA38307E1D5A75F600C125F6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AA3830831D5A75F600C125F6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -106,6 +111,9 @@
 		AA9721211D651C460036E007 /* RequestsRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestsRouter.swift; sourceTree = "<group>"; };
 		AA9721251D65637E0036E007 /* UsersRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsersRouter.swift; sourceTree = "<group>"; };
 		AA9721271D66B54E0036E007 /* AccountTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountTableViewController.swift; sourceTree = "<group>"; };
+		AA9746691E4E38B900C1FA17 /* ProgressHUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressHUD.swift; sourceTree = "<group>"; };
+		AA97466B1E54540C00C1FA17 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		AA97466D1E56C10C00C1FA17 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
 		AA98F7381D9C69910083BB4B /* RequestTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestTableViewCell.swift; sourceTree = "<group>"; };
 		AAB769091E285C1C0021F657 /* HistoryResponseTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryResponseTableViewCell.swift; sourceTree = "<group>"; };
 		AAB7690B1E2B35EF0021F657 /* UserManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
@@ -187,6 +195,7 @@
 			isa = PBXGroup;
 			children = (
 				AA2C47501D6B759D0013F350 /* Converter.swift */,
+				AA97466B1E54540C00C1FA17 /* Utils.swift */,
 			);
 			name = Other;
 			sourceTree = "<group>";
@@ -261,7 +270,10 @@
 		AA9027211DD7D4ED00B5CA2B /* Other */ = {
 			isa = PBXGroup;
 			children = (
+				AA90271C1DD6FC9800B5CA2B /* QRGeneratorViewController.swift */,
+				AA2F16BF1E4662200029AB47 /* QRScannerViewController.swift */,
 				AA4310B71D616DAB00E00F45 /* LoginViewController.swift */,
+				AA9746691E4E38B900C1FA17 /* ProgressHUD.swift */,
 			);
 			name = Other;
 			sourceTree = "<group>";
@@ -304,7 +316,7 @@
 				AA90271F1DD7D49400B5CA2B /* History */,
 				AA90271E1DD7D48E00B5CA2B /* Home */,
 				AA98F7381D9C69910083BB4B /* RequestTableViewCell.swift */,
-				AA90271C1DD6FC9800B5CA2B /* QRGeneratorViewController.swift */,
+				AA97466D1E56C10C00C1FA17 /* UIViewControllerExtension.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -476,6 +488,7 @@
 				AA2C47531D6D0B0B0013F350 /* CategoriesRouter.swift in Sources */,
 				AA8B21E91D9A363C0026ED7D /* NBTransaction.swift in Sources */,
 				AA2C474C1D6B4C150013F350 /* LocationManger.swift in Sources */,
+				AA2F16C01E4662210029AB47 /* QRScannerViewController.swift in Sources */,
 				AABAD2C71DFCB2C600F87CA2 /* HomeTableViewCell.swift in Sources */,
 				AAB7690E1E2B3CF80021F657 /* NBPayment.swift in Sources */,
 				AAB769121E2B43380021F657 /* DirectDepositTableViewController.swift in Sources */,
@@ -488,6 +501,7 @@
 				AA2C474A1D6AA8720013F350 /* HomeViewController.swift in Sources */,
 				AA546A861DCA5F89007E1E8F /* BraintreeRouter.swift in Sources */,
 				AA546A841DCA5CD3007E1E8F /* NBBraintree.swift in Sources */,
+				AA97466C1E54540C00C1FA17 /* Utils.swift in Sources */,
 				AA9721201D64E0A50036E007 /* NBRequest.swift in Sources */,
 				AA2C47551D6D3FB60013F350 /* RequestDetailViewController.swift in Sources */,
 				AA4310B81D616DAB00E00F45 /* LoginViewController.swift in Sources */,
@@ -497,6 +511,7 @@
 				AAD278E71E150501003DCEE0 /* SearchFilter.swift in Sources */,
 				AA9027231DD7D53400B5CA2B /* ProfileTableViewController.swift in Sources */,
 				AAB769101E2B41A80021F657 /* PaymentTableViewController.swift in Sources */,
+				AA97466E1E56C10C00C1FA17 /* UIViewControllerExtension.swift in Sources */,
 				AA97211E1D64DB580036E007 /* NBGeoJsonPoint.swift in Sources */,
 				AA9721221D651C460036E007 /* RequestsRouter.swift in Sources */,
 				AA8B21E71D98EECD0026ED7D /* NBHistory.swift in Sources */,
@@ -506,6 +521,7 @@
 				AA8B21EB1D9A4A220026ED7D /* NBExchangeOverride.swift in Sources */,
 				AA0F72A31D7791C20023DAA6 /* CategorySelectionTableViewController.swift in Sources */,
 				AA0F72A51D77E7FD0023DAA6 /* CategoriesManager.swift in Sources */,
+				AA97466A1E4E38B900C1FA17 /* ProgressHUD.swift in Sources */,
 				AAC3C8AD1D5A789800B8F2A9 /* AlamofireRequest+JSONSerializable.swift in Sources */,
 				AAB7690A1E285C1C0021F657 /* HistoryResponseTableViewCell.swift in Sources */,
 				AA8B21ED1D9A50D50026ED7D /* TransactionsRouter.swift in Sources */,

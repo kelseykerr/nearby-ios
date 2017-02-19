@@ -21,11 +21,19 @@ class NewResponseTableViewController: UITableViewController {
     @IBOutlet var priceTextField: UITextField!
     @IBOutlet var pickupLocationTextField: UITextField!
     @IBOutlet var pickupTimeDatePicker: UIDatePicker!
+    @IBOutlet var pickupTimeDateTextField: UITextField!
     @IBOutlet var returnLocationTextField: UITextField!
     @IBOutlet var returnTimeDatePicker: UIDatePicker!
+    @IBOutlet var returnTimeDateTextField: UITextField!
 
     weak var delegate: NewResponseTableViewDelegate?
+    var request: NBRequest?
     var response: NBResponse?
+    
+    let pickupDatePicker = UIDatePicker()
+    let returnDatePicker = UIDatePicker()
+    
+    let dateFormatter = DateFormatter()
     
     var price: Float? {
         get {
@@ -70,9 +78,49 @@ class NewResponseTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.hideKeyboardWhenTappedAround()
+        
+        createDatePickers()
+
+        dateFormatter.dateStyle = .medium
+        dateFormatter.timeStyle = .short
+        
         if response != nil {
             loadFields(response: response!)
         }
+    }
+    
+    func createDatePickers() {
+        let pickupToolbar = UIToolbar()
+        pickupToolbar.sizeToFit()
+        
+        let pickupDoneButton = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: #selector(pickupDoneButtonPressed))
+        pickupToolbar.setItems([pickupDoneButton], animated: false)
+        
+        pickupTimeDateTextField.inputAccessoryView = pickupToolbar
+        pickupTimeDateTextField.inputView = pickupDatePicker
+        
+        print(pickupDatePicker.date)
+        
+        let returnToolbar = UIToolbar()
+        returnToolbar.sizeToFit()
+        
+        let returnDoneButton = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: #selector(returnDoneButtonPressed))
+        returnToolbar.setItems([returnDoneButton], animated: false)
+        
+        returnTimeDateTextField.inputAccessoryView = returnToolbar
+        returnTimeDateTextField.inputView = returnDatePicker
+    }
+    
+    func pickupDoneButtonPressed() {
+        pickupTimeDateTextField.text = dateFormatter.string(from: pickupDatePicker.date)
+        self.view.endEditing(true)
+    }
+    
+    func returnDoneButtonPressed() {
+        returnTimeDateTextField.text = dateFormatter.string(from: returnDatePicker.date)
+        self.view.endEditing(true)
+        
     }
     
     func loadFields(response: NBResponse) {
@@ -89,8 +137,8 @@ class NewResponseTableViewController: UITableViewController {
     
     @IBAction func cancelButtonPressed(_ sender: UIBarButtonItem) {
         print("response cancelled")
-        self.dismiss(animated: true, completion: nil)
         delegate?.cancelled()
+        self.dismiss(animated: true, completion: nil)
     }
     
     @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
@@ -103,15 +151,14 @@ class NewResponseTableViewController: UITableViewController {
         
         saveFields(response: response!)
         
-        response?.offerPrice = 1.23
-        response?.requestId = "5879914946e0fb0001ac31e1"
-//        response?.sellerId = "190639591352732"
-        response?.sellerId = "57cb219dc9e77c00012edac3"
-        response?.exchangeLocation = "My house."
-//        response?.exchangeTime = 1482545760000
-        response?.returnLocation = "Your house."
-//        response?.returnTime = 1582545770000
-        response?.priceType = "FLAT"
+        response?.offerPrice = price
+        response?.requestId = request?.id
+        response?.sellerId = UserManager.sharedInstance.user?.userId
+        response?.exchangeLocation = pickupLocation
+        response?.exchangeTime = Int64(pickupDatePicker.date.timeIntervalSince1970) * 1000
+        response?.returnLocation = returnLocation
+        response?.returnTime = Int64(returnDatePicker.date.timeIntervalSince1970) * 1000
+        response?.priceType = PriceType(rawValue: "FLAT")
         
         NBResponse.addResponse(response!) { error in
             if let error = error {

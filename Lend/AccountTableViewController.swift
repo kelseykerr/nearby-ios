@@ -27,8 +27,6 @@ class AccountTableViewController: UITableViewController, LoginViewDelegate {
         super.viewDidLoad()
         
         userImageView.layer.cornerRadius = userImageView.frame.size.width / 2
-//        userImageView.layer.cornerRadius = userImageView.frame.size.width / 8
-//        userImageView.layer.cornerRadius = 10
         userImageView.clipsToBounds = true
         
         loadInitialData()
@@ -72,15 +70,29 @@ class AccountTableViewController: UITableViewController, LoginViewDelegate {
     // MARK - Table View
     func loadCells() {
         self.nameLabel.text = user?.fullName ?? "<name>"
-//        self.emailLabel.text = user?.email ?? "<email>"
-//        self.phoneLabel.text = user?.phone ?? "<phone>"
         self.addressLabel.text = user?.address ?? "<addess>"
-//        self.cityStateZipLabel.text = user?.city ?? "<city>, <state> <zip>"
         let city = user?.city ?? "<city>"
         let state = user?.state ?? "<state>"
         let zip = user?.zip ?? "<zip>"
         self.cityStateZipLabel.text = "\(city), \(state) \(zip)"
-//        self.userIdLabel.text = user?.userId ?? "<user id>"
+        
+        if let pictureUrl = user?.pictureUrl {
+            NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureUrl, completionHandler: { (image, error) in
+                guard error == nil else {
+                    print(error!)
+                    return
+                }
+                self.userImageView.image = image
+            })
+        }
+        else if user?.firstName == "Demo" {
+            self.userImageView.image = UIImage(named: "IMG_1426")
+        }
+        else {
+            self.userImageView.image = UIImage(named: "User-64")
+        }
+        
+        
     }
 
     func loadUser() {
@@ -94,6 +106,7 @@ class AccountTableViewController: UITableViewController, LoginViewDelegate {
             self.loadCells()
         }
     }
+    
     /*
     func loadUser() {
         NBUser.fetchSelf { result in

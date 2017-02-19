@@ -21,6 +21,17 @@ class NearbyAPIManager {
         cache.removeAllCachedResponses()
     }
     
+    func imageFrom(urlString: String, completionHandler: @escaping (UIImage?, Error?) -> Void) { let _ = Alamofire.request(urlString).response { dataResponse in
+            // use the generic response serializer that returns Data
+            guard let data = dataResponse.data else {
+                completionHandler(nil, dataResponse.error)
+                return
+            }
+        
+            let image = UIImage(data: data)
+            completionHandler(image, nil)
+        }
+    }
 
 //    func fetchRequests(latitude: Double, longitude: Double, radius: Double, completionHandler: (Result<[NBRequest], NSError>) -> Void) {
 //        Alamofire.request(RequestsRouter.GetRequests(latitude, longitude, radius))

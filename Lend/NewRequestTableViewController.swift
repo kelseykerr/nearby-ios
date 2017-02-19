@@ -19,6 +19,7 @@ class NewRequestTableViewController: UITableViewController {
 
     @IBOutlet var itemNameTextField: UITextField!
     @IBOutlet var descriptionTextView: UITextView!
+    @IBOutlet var buyRentSegmentedControl: UISegmentedControl!
 
     weak var delegate: NewRequestTableViewDelegate?
     var request: NBRequest?
@@ -35,20 +36,42 @@ class NewRequestTableViewController: UITableViewController {
         }
     }
     
+    var rent: Bool? {
+        get {
+            return buyRentSegmentedControl.selectedSegmentIndex == 1
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.hideKeyboardWhenTappedAround()
     }
     
     @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
         print("request saved")
         
         if request == nil {
-            let req = NBRequest(test: true)
+            let req = NBRequest()
             req.itemName = itemName
             req.desc = desc
             let currentLocation = LocationManager.sharedInstance.location
             req.latitude = currentLocation?.coordinate.latitude
             req.longitude = currentLocation?.coordinate.longitude
+            
+            print("date in milli")
+            print(Date().timeIntervalSince1970)
+            
+            let postDate64: Int64 = Int64(Date().timeIntervalSince1970) * 1000
+            req.postDate = postDate64
+            let oneWeek = 60 * 60 * 24 * 7.0
+            let expireDate64: Int64 = Int64(Date().addingTimeInterval(oneWeek).timeIntervalSince1970) * 1000
+            req.expireDate = expireDate64
+            
+            req.rental = rent
+            
+            req.type = "item"
+
             request = req
         }
         

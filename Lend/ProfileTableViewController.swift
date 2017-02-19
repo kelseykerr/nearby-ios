@@ -14,6 +14,7 @@ class ProfileTableViewController: UITableViewController {
     @IBOutlet var lastNameTextField: UITextField!
     @IBOutlet var emailAddressTextField: UITextField!
     @IBOutlet var phoneNumberTextField: UITextField!
+    @IBOutlet var dateOfBirthTextField: UITextField!
     
     @IBOutlet var streetAddressTextField: UITextField!
     @IBOutlet var cityTextField: UITextField!
@@ -22,24 +23,46 @@ class ProfileTableViewController: UITableViewController {
     
     var user: NBUser?
     
+    let progressHUD = ProgressHUD(text: "Saving")
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.hideKeyboardWhenTappedAround()
+        
+        self.view.addSubview(progressHUD)
+        progressHUD.hide()
         
         loadCells()
     }
     
     func loadCells() {
-        if user != nil {
-            self.firstNameTextField.text = user?.firstName ?? ""
-            self.lastNameTextField.text = user?.lastName ?? ""
-            self.emailAddressTextField.text = user?.email ?? ""
-            self.phoneNumberTextField.text = user?.phone ?? ""
+        UserManager.sharedInstance.getUser { fetchedUser in
+            self.user = fetchedUser
             
-            self.streetAddressTextField.text = user?.address ?? ""
-            self.cityTextField.text = user?.city ?? ""
-            self.stateTextField.text = user?.state ?? ""
-            self.zipCodeTextField.text = user?.zip ?? ""
+            self.firstNameTextField.text = fetchedUser.firstName ?? ""
+            self.lastNameTextField.text = fetchedUser.lastName ?? ""
+            self.emailAddressTextField.text = fetchedUser.email ?? ""
+            self.phoneNumberTextField.text = fetchedUser.phone ?? ""
+            self.dateOfBirthTextField.text = fetchedUser.dateOfBirth ?? ""
+            
+            self.streetAddressTextField.text = fetchedUser.address ?? ""
+            self.cityTextField.text = fetchedUser.city ?? ""
+            self.stateTextField.text = fetchedUser.state ?? ""
+            self.zipCodeTextField.text = fetchedUser.zip ?? ""
         }
+//        if user != nil {
+//            self.firstNameTextField.text = user?.firstName ?? ""
+//            self.lastNameTextField.text = user?.lastName ?? ""
+//            self.emailAddressTextField.text = user?.email ?? ""
+//            self.phoneNumberTextField.text = user?.phone ?? ""
+//            self.dateOfBirthTextField.text = user?.dateOfBirth ?? ""
+//            
+//            self.streetAddressTextField.text = user?.address ?? ""
+//            self.cityTextField.text = user?.city ?? ""
+//            self.stateTextField.text = user?.state ?? ""
+//            self.zipCodeTextField.text = user?.zip ?? ""
+//        }
     }
     
     @IBAction func saveButtonPressed(_ sender: UIButton) {
@@ -52,6 +75,7 @@ class ProfileTableViewController: UITableViewController {
             user?.lastName = self.lastNameTextField.text
             user?.email = self.emailAddressTextField.text
             user?.phone = self.phoneNumberTextField.text
+            user?.dateOfBirth = self.dateOfBirthTextField.text
             
             user?.address = self.streetAddressTextField.text
             user?.city = self.cityTextField.text
@@ -59,14 +83,15 @@ class ProfileTableViewController: UITableViewController {
             user?.zip = self.zipCodeTextField.text
             
             //tmp
-            user?.paymentMethodNonce = "fake-valid-nonce"
-            user?.bankAccountNumber = "1123581321"
-            user?.bankRoutingNumber = "071101307"
-            user?.fundDestination = "bank"
+            user?.tosAccepted = true
             
-            print(user?.toString())
+//            print(user?.toString())
             
-            NBUser.editSelf(user!, completionHandler: { error in
+            progressHUD.show()
+            
+            UserManager.sharedInstance.editUser(user: user!, completionHandler: { error in
+                self.progressHUD.hide()
+                
                 if (error != nil) {
                     print("there was an error")
                 }
@@ -75,7 +100,7 @@ class ProfileTableViewController: UITableViewController {
                 }
             })
             
-//            NBBraintree.addCustomer(user!, completionHandler: { error in
+//            NBUser.editSelf(user!, completionHandler: { error in
 //                if (error != nil) {
 //                    print("there was an error")
 //                }
@@ -83,16 +108,6 @@ class ProfileTableViewController: UITableViewController {
 //                    print("no error")
 //                }
 //            })
-            
-            NBBraintree.addMerchant(user!, completionHandler: { error in
-                if (error != nil) {
-                    print("there was an error")
-                }
-                else {
-                    print("no error")
-                }
-            })
-//            NBUser.editSelf(user!, completionHandler: nil)
         }
     }
 

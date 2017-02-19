@@ -22,14 +22,28 @@ class RequestDetailTableViewController: UITableViewController {
         self.descriptionTextView.text = request?.desc
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "PopoverNewResponseViewController" {
-            print(sender)
-            
-            let newResponseVC = segue.destination.childViewControllers[0] as! NewResponseTableViewController
-            newResponseVC.delegate = self
+    @IBAction func respondButtonPressed(_ sender: UIButton) {
+        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        guard let navVC = storyboard.instantiateViewController(
+            withIdentifier: "NewResponseNavigationController") as? UINavigationController else {
+                assert(false, "Misnamed view controller")
+                return
         }
+        let responseVC = (navVC.childViewControllers[0] as! NewResponseTableViewController)
+        responseVC.delegate = self
+        responseVC.request = self.request
+        self.present(navVC, animated: true, completion: nil)
     }
+    
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if segue.identifier == "PopoverNewResponseViewController" {
+//            print(sender)
+//            
+//            let newResponseVC = segue.destination.childViewControllers[0] as! NewResponseTableViewController
+//            newResponseVC.delegate = self
+//            newResponseVC.request = self.request
+//        }
+//    }
     
 }
 
