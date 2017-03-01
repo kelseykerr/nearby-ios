@@ -206,12 +206,6 @@ class HomeViewController: UIViewController, LoginViewDelegate {
     */
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "PushFilterTableViewController" {
-            print("filter called")
-            let filterVC = segue.destination.childViewControllers[0] as! FilterTableViewController
-            filterVC.filter = searchFilter
-            filterVC.delegate = self
-        }
         if segue.identifier == "PushRequestDetailViewController" {
             print(sender)
             
@@ -232,7 +226,6 @@ class HomeViewController: UIViewController, LoginViewDelegate {
         }
     }
  
-    
 }
 
 extension HomeViewController: MKMapViewDelegate {
@@ -297,7 +290,6 @@ extension HomeViewController: MKMapViewDelegate {
     }
     
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-        print("yo:")
         
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
         guard let requestDetailVC = storyboard.instantiateViewController(
@@ -349,9 +341,9 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         let firstName = (request.user?.firstName)!
         let lastName = (request.user?.lastName)!
 
-        let text = " wants to borrow "
+        let text = " wants to \(((request.rental)! ? "borrow" : "buy")) "
         let attrText = NSMutableAttributedString(string: "")
-        let boldFont = UIFont.boldSystemFont(ofSize: 16)
+        let boldFont = UIFont.boldSystemFont(ofSize: 15)
         let boldFullname = NSMutableAttributedString(string: "\(firstName) \(lastName)", attributes: [NSFontAttributeName: boldFont])
         attrText.append(boldFullname)
         attrText.append(NSMutableAttributedString(string: text))
@@ -360,7 +352,6 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         attrText.append(boldItemName)
         attrText.append(NSMutableAttributedString(string: "."))
 
-        
         //setting cell's views
         cell.messageLabel.attributedText = attrText
 //        cell.messageLabel.sizeToFit()
@@ -370,6 +361,9 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         let myLocation = LocationManager.sharedInstance.location
         let distanceString = request.getDistanceAsString(fromLocation: myLocation!)
         cell.distance = distanceString
+        
+        cell.userImageView.image = UIImage(named: "User-64")
+        cell.setNeedsLayout()
         
         if let pictureURL = request.user?.pictureUrl {
             NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
@@ -384,12 +378,12 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
                 }
             })
         }
-        else if request.user?.firstName == "Demo" {
+        else if request.user?.lastName == "App" {
             cell.userImageView.image = UIImage(named: "IMG_1426")
             cell.setNeedsLayout()
         }
-        else {
-            cell.userImageView.image = UIImage(named: "User-64")
+        else if request.user?.lastName == "AppTwo" {
+            cell.userImageView.image = UIImage(named: "Penny")
             cell.setNeedsLayout()
         }
         
@@ -408,10 +402,8 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("Yoo1")
-        print(indexPath)
-        print(requests[(indexPath as NSIndexPath).section].toString())
-        print("Yoo2")
+//        print(indexPath)
+//        print(requests[(indexPath as NSIndexPath).section].toString())
     }
     
     func refresh(_ sender: AnyObject) {
@@ -423,19 +415,26 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension HomeViewController: FilterTableViewDelegate {
     
-    func cancelled() {
-        print("yo cancelled")
+    @IBAction func filterButtonPressed(_ sender: UIBarButtonItem) {
+        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        guard let navVC = storyboard.instantiateViewController(withIdentifier: "FilterNavigationController") as? UINavigationController else {
+            assert(false, "Misnamed view controller")
+            return
+        }
+        let filterVC = (navVC.childViewControllers[0] as! FilterTableViewController)
+        filterVC.delegate = self
+        filterVC.filter = searchFilter
+        self.present(navVC, animated: true, completion: nil)
     }
     
     func searched() {
-        print("yo searched")
-        
         let radius = self.getRadius()
         let center = self.getCenterCoordinate()
         
-        //        print(radius)
-        //        print(center)
-        
         reloadRequests(center.latitude, longitude: center.longitude, radius: radius)
     }
+    
+    func cancelled() {
+    }
+    
 }

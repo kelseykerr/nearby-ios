@@ -39,6 +39,19 @@
 		AA8B21E91D9A363C0026ED7D /* NBTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8B21E81D9A363C0026ED7D /* NBTransaction.swift */; };
 		AA8B21EB1D9A4A220026ED7D /* NBExchangeOverride.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8B21EA1D9A4A220026ED7D /* NBExchangeOverride.swift */; };
 		AA8B21ED1D9A50D50026ED7D /* TransactionsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8B21EC1D9A50D50026ED7D /* TransactionsRouter.swift */; };
+		AA8F27931E5AA24D003CDC22 /* HistoryRequestTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8F27921E5AA24D003CDC22 /* HistoryRequestTableViewCell.swift */; };
+		AA8F27961E5AB3C4003CDC22 /* HistoryStateStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8F27951E5AB3C4003CDC22 /* HistoryStateStrategy.swift */; };
+		AA8F27981E5AB547003CDC22 /* SellerFinishStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8F27971E5AB547003CDC22 /* SellerFinishStrategy.swift */; };
+		AA8F279A1E5AB5F4003CDC22 /* SellerBuyerConfirmStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8F27991E5AB5F4003CDC22 /* SellerBuyerConfirmStrategy.swift */; };
+		AA8F279C1E5AB621003CDC22 /* SellerSellerConfirmStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8F279B1E5AB621003CDC22 /* SellerSellerConfirmStrategy.swift */; };
+		AA8F279E1E5AB630003CDC22 /* SellerExchangeStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8F279D1E5AB630003CDC22 /* SellerExchangeStrategy.swift */; };
+		AA8F27A01E5AB644003CDC22 /* SellerReturnStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8F279F1E5AB644003CDC22 /* SellerReturnStrategy.swift */; };
+		AA8F27A21E5ABCCC003CDC22 /* BuyerBuyerConfirmStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8F27A11E5ABCCC003CDC22 /* BuyerBuyerConfirmStrategy.swift */; };
+		AA8F27A41E5ABD28003CDC22 /* BuyerSellerConfirmStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8F27A31E5ABD28003CDC22 /* BuyerSellerConfirmStrategy.swift */; };
+		AA8F27A81E5ABE04003CDC22 /* BuyerExchangeStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8F27A71E5ABE04003CDC22 /* BuyerExchangeStrategy.swift */; };
+		AA8F27AA1E5ABE2E003CDC22 /* BuyerReturnStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8F27A91E5ABE2E003CDC22 /* BuyerReturnStrategy.swift */; };
+		AA8F27AC1E5ABE3F003CDC22 /* BuyerFinishStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8F27AB1E5ABE3F003CDC22 /* BuyerFinishStrategy.swift */; };
+		AA8F27AE1E5AC1D2003CDC22 /* HistoryStateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8F27AD1E5AC1D2003CDC22 /* HistoryStateManager.swift */; };
 		AA90271D1DD6FC9800B5CA2B /* QRGeneratorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA90271C1DD6FC9800B5CA2B /* QRGeneratorViewController.swift */; };
 		AA9027231DD7D53400B5CA2B /* ProfileTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9027221DD7D53400B5CA2B /* ProfileTableViewController.swift */; };
 		AA9721171D64D7410036E007 /* NBUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9721161D64D7410036E007 /* NBUser.swift */; };
@@ -102,6 +115,19 @@
 		AA8B21E81D9A363C0026ED7D /* NBTransaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NBTransaction.swift; sourceTree = "<group>"; };
 		AA8B21EA1D9A4A220026ED7D /* NBExchangeOverride.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NBExchangeOverride.swift; sourceTree = "<group>"; };
 		AA8B21EC1D9A50D50026ED7D /* TransactionsRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionsRouter.swift; sourceTree = "<group>"; };
+		AA8F27921E5AA24D003CDC22 /* HistoryRequestTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryRequestTableViewCell.swift; sourceTree = "<group>"; };
+		AA8F27951E5AB3C4003CDC22 /* HistoryStateStrategy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryStateStrategy.swift; sourceTree = "<group>"; };
+		AA8F27971E5AB547003CDC22 /* SellerFinishStrategy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SellerFinishStrategy.swift; sourceTree = "<group>"; };
+		AA8F27991E5AB5F4003CDC22 /* SellerBuyerConfirmStrategy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SellerBuyerConfirmStrategy.swift; sourceTree = "<group>"; };
+		AA8F279B1E5AB621003CDC22 /* SellerSellerConfirmStrategy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SellerSellerConfirmStrategy.swift; sourceTree = "<group>"; };
+		AA8F279D1E5AB630003CDC22 /* SellerExchangeStrategy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SellerExchangeStrategy.swift; sourceTree = "<group>"; };
+		AA8F279F1E5AB644003CDC22 /* SellerReturnStrategy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SellerReturnStrategy.swift; sourceTree = "<group>"; };
+		AA8F27A11E5ABCCC003CDC22 /* BuyerBuyerConfirmStrategy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuyerBuyerConfirmStrategy.swift; sourceTree = "<group>"; };
+		AA8F27A31E5ABD28003CDC22 /* BuyerSellerConfirmStrategy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuyerSellerConfirmStrategy.swift; sourceTree = "<group>"; };
+		AA8F27A71E5ABE04003CDC22 /* BuyerExchangeStrategy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuyerExchangeStrategy.swift; sourceTree = "<group>"; };
+		AA8F27A91E5ABE2E003CDC22 /* BuyerReturnStrategy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuyerReturnStrategy.swift; sourceTree = "<group>"; };
+		AA8F27AB1E5ABE3F003CDC22 /* BuyerFinishStrategy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuyerFinishStrategy.swift; sourceTree = "<group>"; };
+		AA8F27AD1E5AC1D2003CDC22 /* HistoryStateManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryStateManager.swift; sourceTree = "<group>"; };
 		AA90271C1DD6FC9800B5CA2B /* QRGeneratorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRGeneratorViewController.swift; sourceTree = "<group>"; };
 		AA9027221DD7D53400B5CA2B /* ProfileTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileTableViewController.swift; sourceTree = "<group>"; };
 		AA9721161D64D7410036E007 /* NBUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NBUser.swift; sourceTree = "<group>"; };
@@ -174,6 +200,7 @@
 		AA0F72A11D7549A80023DAA6 /* old */ = {
 			isa = PBXGroup;
 			children = (
+				AA98F7381D9C69910083BB4B /* RequestTableViewCell.swift */,
 				AA97211D1D64DB580036E007 /* NBGeoJsonPoint.swift */,
 				AA2C47471D6824F00013F350 /* AllRequestsTableViewController.swift */,
 			);
@@ -236,6 +263,41 @@
 			path = Lend;
 			sourceTree = "<group>";
 		};
+		AA8F27941E5AB370003CDC22 /* Strategies */ = {
+			isa = PBXGroup;
+			children = (
+				AA8F27951E5AB3C4003CDC22 /* HistoryStateStrategy.swift */,
+				AA8F27AD1E5AC1D2003CDC22 /* HistoryStateManager.swift */,
+				AA8F27A51E5ABD2E003CDC22 /* Buyer */,
+				AA8F27A61E5ABD3D003CDC22 /* Seller */,
+			);
+			name = Strategies;
+			sourceTree = "<group>";
+		};
+		AA8F27A51E5ABD2E003CDC22 /* Buyer */ = {
+			isa = PBXGroup;
+			children = (
+				AA8F27A11E5ABCCC003CDC22 /* BuyerBuyerConfirmStrategy.swift */,
+				AA8F27A31E5ABD28003CDC22 /* BuyerSellerConfirmStrategy.swift */,
+				AA8F27A71E5ABE04003CDC22 /* BuyerExchangeStrategy.swift */,
+				AA8F27A91E5ABE2E003CDC22 /* BuyerReturnStrategy.swift */,
+				AA8F27AB1E5ABE3F003CDC22 /* BuyerFinishStrategy.swift */,
+			);
+			name = Buyer;
+			sourceTree = "<group>";
+		};
+		AA8F27A61E5ABD3D003CDC22 /* Seller */ = {
+			isa = PBXGroup;
+			children = (
+				AA8F27991E5AB5F4003CDC22 /* SellerBuyerConfirmStrategy.swift */,
+				AA8F279B1E5AB621003CDC22 /* SellerSellerConfirmStrategy.swift */,
+				AA8F279D1E5AB630003CDC22 /* SellerExchangeStrategy.swift */,
+				AA8F279F1E5AB644003CDC22 /* SellerReturnStrategy.swift */,
+				AA8F27971E5AB547003CDC22 /* SellerFinishStrategy.swift */,
+			);
+			name = Seller;
+			sourceTree = "<group>";
+		};
 		AA90271E1DD7D48E00B5CA2B /* Home */ = {
 			isa = PBXGroup;
 			children = (
@@ -250,7 +312,9 @@
 		AA90271F1DD7D49400B5CA2B /* History */ = {
 			isa = PBXGroup;
 			children = (
+				AA8F27941E5AB370003CDC22 /* Strategies */,
 				AAC3C8A71D5A789800B8F2A9 /* HistoryTableViewController.swift */,
+				AA8F27921E5AA24D003CDC22 /* HistoryRequestTableViewCell.swift */,
 				AAB769091E285C1C0021F657 /* HistoryResponseTableViewCell.swift */,
 			);
 			name = History;
@@ -274,6 +338,7 @@
 				AA2F16BF1E4662200029AB47 /* QRScannerViewController.swift */,
 				AA4310B71D616DAB00E00F45 /* LoginViewController.swift */,
 				AA9746691E4E38B900C1FA17 /* ProgressHUD.swift */,
+				AA97466D1E56C10C00C1FA17 /* UIViewControllerExtension.swift */,
 			);
 			name = Other;
 			sourceTree = "<group>";
@@ -315,8 +380,6 @@
 				AA9027201DD7D4AE00B5CA2B /* Account */,
 				AA90271F1DD7D49400B5CA2B /* History */,
 				AA90271E1DD7D48E00B5CA2B /* Home */,
-				AA98F7381D9C69910083BB4B /* RequestTableViewCell.swift */,
-				AA97466D1E56C10C00C1FA17 /* UIViewControllerExtension.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -481,19 +544,27 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA8F27A41E5ABD28003CDC22 /* BuyerSellerConfirmStrategy.swift in Sources */,
 				AA9721171D64D7410036E007 /* NBUser.swift in Sources */,
 				AA0F72A81D77F9360023DAA6 /* AccountManager.swift in Sources */,
 				AA2C47481D6824F00013F350 /* AllRequestsTableViewController.swift in Sources */,
+				AA8F279E1E5AB630003CDC22 /* SellerExchangeStrategy.swift in Sources */,
 				AAB7690C1E2B35EF0021F657 /* UserManager.swift in Sources */,
 				AA2C47531D6D0B0B0013F350 /* CategoriesRouter.swift in Sources */,
 				AA8B21E91D9A363C0026ED7D /* NBTransaction.swift in Sources */,
+				AA8F27A01E5AB644003CDC22 /* SellerReturnStrategy.swift in Sources */,
 				AA2C474C1D6B4C150013F350 /* LocationManger.swift in Sources */,
 				AA2F16C01E4662210029AB47 /* QRScannerViewController.swift in Sources */,
 				AABAD2C71DFCB2C600F87CA2 /* HomeTableViewCell.swift in Sources */,
+				AA8F27931E5AA24D003CDC22 /* HistoryRequestTableViewCell.swift in Sources */,
 				AAB7690E1E2B3CF80021F657 /* NBPayment.swift in Sources */,
 				AAB769121E2B43380021F657 /* DirectDepositTableViewController.swift in Sources */,
 				AA2C47461D679BA50013F350 /* NewRequestTableViewController.swift in Sources */,
+				AA8F279A1E5AB5F4003CDC22 /* SellerBuyerConfirmStrategy.swift in Sources */,
+				AA8F279C1E5AB621003CDC22 /* SellerSellerConfirmStrategy.swift in Sources */,
+				AA8F27AA1E5ABE2E003CDC22 /* BuyerReturnStrategy.swift in Sources */,
 				AA9721261D65637E0036E007 /* UsersRouter.swift in Sources */,
+				AA8F27AE1E5AC1D2003CDC22 /* HistoryStateManager.swift in Sources */,
 				AA3F641E1D7B8DB80021964B /* NBMessage.swift in Sources */,
 				AA2C47511D6B759D0013F350 /* Converter.swift in Sources */,
 				AA9721281D66B54E0036E007 /* AccountTableViewController.swift in Sources */,
@@ -511,19 +582,24 @@
 				AAD278E71E150501003DCEE0 /* SearchFilter.swift in Sources */,
 				AA9027231DD7D53400B5CA2B /* ProfileTableViewController.swift in Sources */,
 				AAB769101E2B41A80021F657 /* PaymentTableViewController.swift in Sources */,
+				AA8F27981E5AB547003CDC22 /* SellerFinishStrategy.swift in Sources */,
 				AA97466E1E56C10C00C1FA17 /* UIViewControllerExtension.swift in Sources */,
 				AA97211E1D64DB580036E007 /* NBGeoJsonPoint.swift in Sources */,
 				AA9721221D651C460036E007 /* RequestsRouter.swift in Sources */,
 				AA8B21E71D98EECD0026ED7D /* NBHistory.swift in Sources */,
 				AA38307F1D5A75F600C125F6 /* AppDelegate.swift in Sources */,
+				AA8F27A21E5ABCCC003CDC22 /* BuyerBuyerConfirmStrategy.swift in Sources */,
+				AA8F27A81E5ABE04003CDC22 /* BuyerExchangeStrategy.swift in Sources */,
 				AA90271D1DD6FC9800B5CA2B /* QRGeneratorViewController.swift in Sources */,
 				AA3F641C1D7B80740021964B /* NBResponse.swift in Sources */,
 				AA8B21EB1D9A4A220026ED7D /* NBExchangeOverride.swift in Sources */,
 				AA0F72A31D7791C20023DAA6 /* CategorySelectionTableViewController.swift in Sources */,
+				AA8F27AC1E5ABE3F003CDC22 /* BuyerFinishStrategy.swift in Sources */,
 				AA0F72A51D77E7FD0023DAA6 /* CategoriesManager.swift in Sources */,
 				AA97466A1E4E38B900C1FA17 /* ProgressHUD.swift in Sources */,
 				AAC3C8AD1D5A789800B8F2A9 /* AlamofireRequest+JSONSerializable.swift in Sources */,
 				AAB7690A1E285C1C0021F657 /* HistoryResponseTableViewCell.swift in Sources */,
+				AA8F27961E5AB3C4003CDC22 /* HistoryStateStrategy.swift in Sources */,
 				AA8B21ED1D9A50D50026ED7D /* TransactionsRouter.swift in Sources */,
 				AAC3C8B01D5A789800B8F2A9 /* NearbyAPIManager.swift in Sources */,
 				AA97211B1D64DA710036E007 /* NBCategory.swift in Sources */,

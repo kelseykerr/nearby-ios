@@ -1,17 +1,19 @@
 //
-//  HistoryResponseTableViewCell.swift
+//  HistoryRequestTableViewCell.swift
 //  Nearby
 //
-//  Created by Kei Sakaguchi on 1/12/17.
+//  Created by Kei Sakaguchi on 2/19/17.
 //  Copyright © 2017 Kei Sakaguchi. All rights reserved.
 //
 
 import UIKit
 
-class HistoryResponseTableViewCell: UITableViewCell {
+class HistoryRequestTableViewCell: UITableViewCell {
     
     @IBOutlet var userImageView: UIImageView!
     @IBOutlet var messageLabel: UILabel!
+    @IBOutlet var historyStateLabel: UILabel!
+    @IBOutlet var timeLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

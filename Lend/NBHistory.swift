@@ -11,11 +11,16 @@ import Alamofire
 import SwiftyJSON
 
 enum HistoryStatus {
-    case buyerConfirm
-    case sellerConfirm
-    case exchange
-    case returns
-    case finish
+    case buyer_buyerConfirm
+    case buyer_sellerConfirm
+    case buyer_exchange
+    case buyer_returns
+    case buyer_finish
+    case seller_buyerConfirm
+    case seller_sellerConfirm
+    case seller_exchange
+    case seller_returns
+    case seller_finish
 }
 
 class NBHistory: ResponseJSONObjectSerializable {
@@ -110,20 +115,45 @@ extension NBHistory {
         get {
             if self.transaction?.getStatus() == .start {
                 if responseAccepted() {
-                    return HistoryStatus.sellerConfirm
+                    if self.isMyRequest() {
+                        return HistoryStatus.buyer_sellerConfirm
+                    }
+                    else {
+                        return HistoryStatus.seller_sellerConfirm
+                    }
                 }
                 else {
-                    return HistoryStatus.buyerConfirm
+                    if self.isMyRequest() {
+                        return HistoryStatus.buyer_buyerConfirm
+                    }
+                    else {
+                        return HistoryStatus.seller_buyerConfirm
+                    }
                 }
             }
             else if self.transaction?.getStatus() == .exchange {
-                return HistoryStatus.exchange
+                if self.isMyRequest() {
+                    return HistoryStatus.buyer_exchange
+                }
+                else {
+                    return HistoryStatus.seller_exchange
+                }
             }
             else if self.transaction?.getStatus() == .returns {
-                return HistoryStatus.returns
+                if self.isMyRequest() {
+                    return HistoryStatus.buyer_returns
+                }
+                else {
+                    return HistoryStatus.seller_returns
+                }
             }
             else {
-                return HistoryStatus.finish
+                if self.isMyRequest() {
+                    return HistoryStatus.buyer_finish
+                }
+                else {
+                    return HistoryStatus.seller_finish
+                }
             }
         }
     }
