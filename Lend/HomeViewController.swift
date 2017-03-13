@@ -354,7 +354,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 
         //setting cell's views
         cell.messageLabel.attributedText = attrText
-//        cell.messageLabel.sizeToFit()
+        cell.messageLabel.sizeToFit()
         
         cell.time = request.getElapsedTimeAsString()
         
@@ -364,6 +364,8 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         
         cell.userImageView.image = UIImage(named: "User-64")
         cell.setNeedsLayout()
+        
+//        cell.sizeToFit()
         
         if let pictureURL = request.user?.pictureUrl {
             NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
@@ -402,8 +404,14 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        print(indexPath)
-//        print(requests[(indexPath as NSIndexPath).section].toString())
+        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        guard let requestDetailVC = storyboard.instantiateViewController(
+            withIdentifier: "RequestDetailTableViewController") as? RequestDetailTableViewController else {
+                assert(false, "Misnamed view controller")
+                return
+        }
+        requestDetailVC.request = requests[(indexPath as NSIndexPath).section]
+        self.navigationController?.pushViewController(requestDetailVC, animated: true)
     }
     
     func refresh(_ sender: AnyObject) {

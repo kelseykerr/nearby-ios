@@ -22,6 +22,7 @@ class AccountTableViewController: UITableViewController, LoginViewDelegate {
     @IBOutlet var userIdLabel: UILabel!
     
     @IBOutlet var userImageView: UIImageView!
+    @IBOutlet var versionLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,6 +30,11 @@ class AccountTableViewController: UITableViewController, LoginViewDelegate {
         userImageView.layer.cornerRadius = userImageView.frame.size.width / 2
         userImageView.clipsToBounds = true
         
+        let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
+        let build = Bundle.main.infoDictionary?[kCFBundleVersionKey as String] as! String
+        
+        self.versionLabel.text = "©2016-17 Iuxta, Inc. v\(version) (\(build))"
+            
         loadInitialData()
     }
     

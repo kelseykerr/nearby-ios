@@ -167,7 +167,7 @@ extension NBRequest {
     
     func getDistanceAsString(fromLocation: CLLocation) -> String {
         let distance = getDistance(fromLocation: fromLocation)
-        let retStr = String(format: "%.3f Miles", distance)
+        let retStr = String(format: "%.2f Miles", distance)
         return retStr
     }
     
@@ -185,16 +185,20 @@ extension NBRequest {
         let seconds = Int(getElapsedTime()!)
         
         if seconds < 60 { // less than a min
-            return "\(seconds) Secs Ago"
+//            return "\(seconds) Secs Ago"
+            return "\(seconds)s"
         }
         else if seconds < 3600 { // less than an hour
-            return "\(seconds / 60) Mins Ago"
+//            return "\(seconds / 60) Mins Ago"
+            return "\(seconds / 60)m"
         }
         else if seconds < 60 * 60 * 24 { // less than a day
-            return "\(seconds / (60 * 60)) Hours Ago"
+//            return "\(seconds / (60 * 60)) Hours Ago"
+            return "\(seconds / (60 * 60))h"
         }
         else {
-            return "\(seconds / (60 * 60 * 24)) Days Ago"
+//            return "\(seconds / (60 * 60 * 24)) Days Ago"
+            return "\(seconds / (60 * 60 * 24))d"
         }
 
         return "Should not happen"

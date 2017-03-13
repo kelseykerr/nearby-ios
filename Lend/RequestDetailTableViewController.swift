@@ -1,5 +1,5 @@
 //
-//  RequestDetailViewController.swift
+//  RequestDetailTableViewController.swift
 //  Nearby
 //
 //  Created by Kei Sakaguchi on 8/23/16.
@@ -44,6 +44,10 @@ class RequestDetailTableViewController: UITableViewController {
 //            newResponseVC.request = self.request
 //        }
 //    }
+    
+    @IBAction func backButtonPressed(_ sender: UIBarButtonItem) {
+        self.navigationController?.popViewController(animated: true)
+    }
     
 }
 

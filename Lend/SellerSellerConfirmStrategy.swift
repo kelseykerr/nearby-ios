@@ -14,9 +14,14 @@ class SellerSellerConfirmStrategy: HistoryStateStrategy {
     func cell(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UITableViewCell {
         let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath) as! HistoryRequestTableViewCell
         
-            let name = history.request?.user?.fullName ?? "NAME"
-            let item = history.request?.itemName ?? "ITEM"
-            cell.messageLabel?.text = "\(name) has accepted your offer for \(item). Please confirm to proceed."
+        let name = history.request?.user?.fullName ?? "NAME"
+        let item = history.request?.itemName ?? "ITEM"
+        cell.messageLabel?.text = "\(name) has accepted your offer for \(item). Please confirm to proceed."
+        
+        cell.historyStateLabel.backgroundColor = UIColor.energy
+        cell.historyStateLabel.textColor = UIColor.white
+        cell.historyStateLabel.text = "SELLER CONFIRM"
+        cell.timeLabel.text = history.request?.getElapsedTimeAsString()
         
         return cell
     }
@@ -48,6 +53,16 @@ class SellerSellerConfirmStrategy: HistoryStateStrategy {
         alertController.addAction(declineAction)
         
         return alertController
+    }
+    
+    func detailViewController(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UIViewController {
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        guard let responseDetailVC = storyboard.instantiateViewController(
+            withIdentifier: "ResponseDetailTableViewController") as? ResponseDetailTableViewController else {
+                assert(false, "Misnamed view controller")
+        }
+        return responseDetailVC
     }
     
     func rowAction(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> [UITableViewRowAction]? {

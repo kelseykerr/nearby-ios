@@ -89,6 +89,31 @@ class HistoryStateManager {
         }
     }
     
+    func detailViewController(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UIViewController {
+        switch history.status {
+        case .buyer_buyerConfirm:
+            return buyerBuyerConfirmStrategy.detailViewController(historyVC: historyVC, indexPath: indexPath, history: history)
+        case .buyer_sellerConfirm:
+            return buyerSellerConfirmStrategy.detailViewController(historyVC: historyVC, indexPath: indexPath, history: history)
+        case .buyer_exchange:
+            return buyerExchangeStrategy.detailViewController(historyVC: historyVC, indexPath: indexPath, history: history)
+        case .buyer_returns:
+            return buyerReturnStrategy.detailViewController(historyVC: historyVC, indexPath: indexPath, history: history)
+        case .buyer_finish:
+            return buyerFinishStrategy.detailViewController(historyVC: historyVC, indexPath: indexPath, history: history)
+        case .seller_buyerConfirm:
+            return sellerBuyerConfirmStrategy.detailViewController(historyVC: historyVC, indexPath: indexPath, history: history)
+        case .seller_sellerConfirm:
+            return sellerSellerConfirmStrategy.detailViewController(historyVC: historyVC, indexPath: indexPath, history: history)
+        case .seller_exchange:
+            return sellerExchangeStrategy.detailViewController(historyVC: historyVC, indexPath: indexPath, history: history)
+        case .seller_returns:
+            return sellerReturnStrategy.detailViewController(historyVC: historyVC, indexPath: indexPath, history: history)
+        case .seller_finish:
+            return sellerFinishStrategy.detailViewController(historyVC: historyVC, indexPath: indexPath, history: history)
+        }
+    }
+    
     func rowAction(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> [UITableViewRowAction]? {
         switch history.status {
             case .buyer_buyerConfirm:

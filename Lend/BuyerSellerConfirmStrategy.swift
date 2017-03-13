@@ -18,10 +18,10 @@ class BuyerSellerConfirmStrategy: HistoryStateStrategy {
         let item = history.request?.itemName ?? "ITEM"
         cell.messageLabel?.text = "Awaiting \(name) to confirm offer for \(item)."
         
-        cell.historyStateLabel.backgroundColor = UIColor.orange
+        cell.historyStateLabel.backgroundColor = UIColor.energy
         cell.historyStateLabel.textColor = UIColor.white
         cell.historyStateLabel.text = "SELLER CONFIRM"
-        cell.timeLabel.text = "2 Days Ago"
+        cell.timeLabel.text = history.request?.getElapsedTimeAsString()
         
         return cell
     }
@@ -33,6 +33,16 @@ class BuyerSellerConfirmStrategy: HistoryStateStrategy {
         alertController.addAction(cancelAction)
         
         return alertController
+    }
+    
+    func detailViewController(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UIViewController {
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        guard let responseDetailVC = storyboard.instantiateViewController(
+            withIdentifier: "ResponseDetailTableViewController") as? ResponseDetailTableViewController else {
+                assert(false, "Misnamed view controller")
+        }
+        return responseDetailVC
     }
     
     func rowAction(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> [UITableViewRowAction]? {

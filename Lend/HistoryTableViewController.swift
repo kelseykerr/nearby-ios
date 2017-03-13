@@ -159,9 +159,12 @@ class HistoryTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let history = histories[indexPath.section]
 
-        let alertController = HistoryStateManager.sharedInstance.alertController(historyVC: self, indexPath: indexPath, history: history)
+//        let alertController = HistoryStateManager.sharedInstance.alertController(historyVC: self, indexPath: indexPath, history: history)
+//        
+//        self.present(alertController, animated: true, completion: nil)
+        let detailViewController = HistoryStateManager.sharedInstance.detailViewController(historyVC: self, indexPath: indexPath, history: history)
         
-        self.present(alertController, animated: true, completion: nil)
+        self.navigationController?.pushViewController(detailViewController, animated: true)        
     }
     
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {

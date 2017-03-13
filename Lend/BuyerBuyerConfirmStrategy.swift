@@ -16,12 +16,13 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
             let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath) as! HistoryRequestTableViewCell
             
             let item = history.request?.itemName ?? "ITEM"
-                cell.messageLabel?.text = "You want to borrow \(item)."
+            cell.messageLabel?.text = "You want to borrow \(item)."
             
-            cell.historyStateLabel.backgroundColor = UIColor.red
+//            cell.historyStateLabel.backgroundColor = UIColor.almondFrost
+            cell.historyStateLabel.backgroundColor = UIColor.energy
             cell.historyStateLabel.textColor = UIColor.white
             cell.historyStateLabel.text = "BUYER CONFIRM"
-            cell.timeLabel.text = "2 Days Ago"
+            cell.timeLabel.text = history.request?.getElapsedTimeAsString()
             
             cell.userImageView.image = UIImage(named: "User-64")
             cell.setNeedsLayout()
@@ -91,14 +92,14 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
             let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
             alertController.addAction(cancelAction)
         
-            let OKAction = UIAlertAction(title: "Delete", style: .destructive) { action in
-//                if let request = self.getRequest((indexPath as NSIndexPath).section) {
-//                    NBRequest.removeRequest(request, completionHandler: { error in
-//                        print("Request Deleted")
-//                    })
-//                }
+            let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { action in
+                if let request = history.request {
+                    NBRequest.removeRequest(request, completionHandler: { error in
+                        print("Request deleted")
+                    })
+                }
             }
-            alertController.addAction(OKAction)
+            alertController.addAction(deleteAction)
         
             return alertController
         }
@@ -109,21 +110,16 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
             alertController.addAction(cancelAction)
         
             let acceptAction = UIAlertAction(title: "Accept", style: .default) { action in
-                print("accepted:")
-//                if let response = self.getResponse(indexPath) {
-//                    print("got an response")
-//                
-//                    response.buyerStatus = BuyerStatus(rawValue: "ACCEPTED")
-//                
-//                    NBResponse.editResponse(response, completionHandler: { error in
-//                        print("done")
-//                    })
-//                }
+                let response = history.responses[(indexPath as NSIndexPath).row - 1]
+                response.buyerStatus = BuyerStatus(rawValue: "ACCEPTED")
+                
+                NBResponse.editResponse(response, completionHandler: { error in
+                    print("Accept an offer")
+                })
             }
             alertController.addAction(acceptAction)
         
             let declineAction = UIAlertAction(title: "Decline", style: .default) { action in
-                // ...
             }
             alertController.addAction(declineAction)
         
@@ -131,22 +127,47 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
         }
     }
     
+    func detailViewController(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UIViewController {
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        guard let responseDetailVC = storyboard.instantiateViewController(
+            withIdentifier: "ResponseDetailTableViewController") as? ResponseDetailTableViewController else {
+                assert(false, "Misnamed view controller")
+//                return nil
+        }
+        return responseDetailVC
+//        historyVC.navigationController?.pushViewController(responseDetailVC, animated: true)
+    }
+    
     func rowAction(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> [UITableViewRowAction]? {
         if (indexPath as NSIndexPath).row == 0 {
-            let edit = UITableViewRowAction(style: .normal, title: "Edit") { action, index in
-                print("edit button tapped")
-            }
-            edit.backgroundColor = UIColor.lightGray
+//            let edit = UITableViewRowAction(style: .normal, title: "Edit") { action, index in
+//                print("edit button tapped")
+//            }
+//            edit.backgroundColor = UIColor.lightGray
             
             let delete = UITableViewRowAction(style: .normal, title: "Delete") { action, index in
-                print("delete button tapped")
+//                print("delete button tapped")
+                if let request = history.request {
+                    NBRequest.removeRequest(request, completionHandler: { error in
+                        print("Request deleted")
+                    })
+                }
             }
             delete.backgroundColor = UIColor.red
             
-            return [delete, edit]
+//            return [delete, edit]
+            return [delete]
         }
         else {
             let accept = UITableViewRowAction(style: .normal, title: "Accept") { action, index in
+//                let response = history.responses[(indexPath as NSIndexPath).row - 1]
+//                response.buyerStatus = BuyerStatus(rawValue: "ACCEPTED")
+//                
+//                NBResponse.editResponse(response, completionHandler: { error in
+//                    print("Accept an offer")
+//                })
+                
                 print("accept button tapped")
             }
             accept.backgroundColor = UIColor.blue

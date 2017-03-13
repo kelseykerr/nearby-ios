@@ -12,16 +12,16 @@ import Foundation
 class BuyerExchangeStrategy: HistoryStateStrategy {
     
     func cell(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UITableViewCell {
-        let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath) as! HistoryRequestTableViewCell
+        let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "TransactionCell", for: indexPath) as! HistoryTransactionTableViewCell
         
         let name = "<NAME>"
         let item = (history.request?.itemName)!
         cell.messageLabel?.text = "You are meeting \(name) to exchange \(item)."
         
-        cell.historyStateLabel.backgroundColor = UIColor.yellow
+        cell.historyStateLabel.backgroundColor = UIColor.mountainMedow
         cell.historyStateLabel.textColor = UIColor.white
         cell.historyStateLabel.text = "EXCHANGE"
-        cell.timeLabel.text = "2 Days Ago"
+        cell.timeLabel.text = history.request?.getElapsedTimeAsString()
         
         return cell
     }
@@ -39,14 +39,24 @@ class BuyerExchangeStrategy: HistoryStateStrategy {
                     assert(false, "Misnamed view controller")
                     return
             }
-//            let scannerVC = (navVC.childViewControllers[0] as! QRScannerViewController)
-//            scannerVC.delegate = self
-//            scannerVC.transaction = self.getTransaction(indexPath.section)
-//            self.present(navVC, animated: true, completion: nil)
+            let scannerVC = (navVC.childViewControllers[0] as! QRScannerViewController)
+            scannerVC.delegate = historyVC
+            scannerVC.transaction = history.transaction
+            historyVC.present(navVC, animated: true, completion: nil)
         }
         alertController.addAction(exchangeAction)
         
         return alertController
+    }
+    
+    func detailViewController(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UIViewController {
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        guard let responseDetailVC = storyboard.instantiateViewController(
+            withIdentifier: "ResponseDetailTableViewController") as? ResponseDetailTableViewController else {
+                assert(false, "Misnamed view controller")
+        }
+        return responseDetailVC
     }
     
     func rowAction(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> [UITableViewRowAction]? {

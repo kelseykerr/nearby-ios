@@ -12,10 +12,15 @@ import Foundation
 class SellerFinishStrategy: HistoryStateStrategy {
     
     func cell(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UITableViewCell {
-        let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath) as! HistoryRequestTableViewCell
+        let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "TransactionCell", for: indexPath) as! HistoryTransactionTableViewCell
         
         let item = history.request?.itemName ?? "ITEM"
         cell.messageLabel?.text = "You have successfully completed transaction for \(item)."
+        
+        cell.historyStateLabel.backgroundColor = UIColor.wisteria
+        cell.historyStateLabel.textColor = UIColor.white
+        cell.historyStateLabel.text = "FINISH"
+        cell.timeLabel.text = history.request?.getElapsedTimeAsString()
         
         return cell
     }
@@ -27,6 +32,16 @@ class SellerFinishStrategy: HistoryStateStrategy {
         alertController.addAction(cancelAction)
         
         return alertController
+    }
+    
+    func detailViewController(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UIViewController {
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        guard let responseDetailVC = storyboard.instantiateViewController(
+            withIdentifier: "ResponseDetailTableViewController") as? ResponseDetailTableViewController else {
+                assert(false, "Misnamed view controller")
+        }
+        return responseDetailVC
     }
     
     func rowAction(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> [UITableViewRowAction]? {
