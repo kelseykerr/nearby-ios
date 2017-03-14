@@ -10,7 +10,4 @@ import Foundation
 
 class ResponseDetailTableViewController: UITableViewController {
     
-    @IBAction func backButtonPressed(_ sender: UIBarButtonItem) {
-        self.navigationController?.popViewController(animated: true)
-    }
 }

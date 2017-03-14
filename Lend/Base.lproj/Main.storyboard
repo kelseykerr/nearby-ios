@@ -1202,16 +1202,16 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="E8O-bd-iGr" id="lfn-vB-hoQ">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="79.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="80"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="User-64" translatesAutoresizingMaskIntoConstraints="NO" id="ls2-9b-CTK">
                                                     <rect key="frame" x="14" y="14" width="52" height="52"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="52" id="TPe-Dk-fux"/>
+                                                        <constraint firstAttribute="width" constant="52" id="Xgc-3W-U1k"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WMQ-Vf-vR5">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WMQ-Vf-vR5">
                                                     <rect key="frame" x="79" y="10" width="288" height="23"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" red="0.24705882352941178" green="0.27450980392156865" blue="0.32549019607843138" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1220,7 +1220,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="39f-i8-7B9">
                                                     <rect key="frame" x="79" y="54" width="142" height="16"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="142" id="0P0-Ug-v8F"/>
+                                                        <constraint firstAttribute="width" constant="142" id="dbQ-LP-Nv1"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -1234,19 +1234,19 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="39f-i8-7B9" firstAttribute="baseline" secondItem="Z33-RP-6Z5" secondAttribute="baseline" id="4Yj-cn-Ybv"/>
-                                                <constraint firstItem="WMQ-Vf-vR5" firstAttribute="trailing" secondItem="Z33-RP-6Z5" secondAttribute="trailing" id="5Gk-Vh-63j"/>
-                                                <constraint firstItem="ls2-9b-CTK" firstAttribute="leading" secondItem="lfn-vB-hoQ" secondAttribute="leadingMargin" constant="6" id="B6Q-Js-nlp"/>
-                                                <constraint firstItem="Z33-RP-6Z5" firstAttribute="leading" secondItem="39f-i8-7B9" secondAttribute="trailing" constant="4" id="Nfu-i5-fj2"/>
-                                                <constraint firstItem="ls2-9b-CTK" firstAttribute="bottom" secondItem="39f-i8-7B9" secondAttribute="bottom" constant="-4" id="Otd-Iy-ia1"/>
-                                                <constraint firstItem="39f-i8-7B9" firstAttribute="top" relation="lessThanOrEqual" secondItem="WMQ-Vf-vR5" secondAttribute="bottom" constant="25" id="Ts1-rd-YbR"/>
-                                                <constraint firstItem="Z33-RP-6Z5" firstAttribute="baseline" secondItem="39f-i8-7B9" secondAttribute="firstBaseline" id="f89-34-6Nl"/>
-                                                <constraint firstItem="WMQ-Vf-vR5" firstAttribute="leading" secondItem="ls2-9b-CTK" secondAttribute="trailing" constant="13" id="jjv-w2-2sX"/>
-                                                <constraint firstItem="ls2-9b-CTK" firstAttribute="top" secondItem="WMQ-Vf-vR5" secondAttribute="top" constant="4" id="qJ6-dF-f0O"/>
-                                                <constraint firstItem="ls2-9b-CTK" firstAttribute="bottom" secondItem="lfn-vB-hoQ" secondAttribute="bottomMargin" constant="-5" id="rme-Al-iYB"/>
-                                                <constraint firstItem="WMQ-Vf-vR5" firstAttribute="leading" secondItem="39f-i8-7B9" secondAttribute="leading" id="sGH-lW-Kgf"/>
-                                                <constraint firstItem="WMQ-Vf-vR5" firstAttribute="trailing" secondItem="lfn-vB-hoQ" secondAttribute="trailingMargin" id="wlt-QS-Fmm"/>
-                                                <constraint firstItem="ls2-9b-CTK" firstAttribute="top" secondItem="lfn-vB-hoQ" secondAttribute="topMargin" constant="6" id="xIp-MD-RQU"/>
+                                                <constraint firstItem="39f-i8-7B9" firstAttribute="baseline" secondItem="Z33-RP-6Z5" secondAttribute="baseline" id="6d9-76-2Qk"/>
+                                                <constraint firstItem="ls2-9b-CTK" firstAttribute="top" secondItem="lfn-vB-hoQ" secondAttribute="topMargin" constant="6" id="7p0-qZ-RCo"/>
+                                                <constraint firstItem="WMQ-Vf-vR5" firstAttribute="trailing" secondItem="Z33-RP-6Z5" secondAttribute="trailing" id="Kd8-r8-xvM"/>
+                                                <constraint firstItem="Z33-RP-6Z5" firstAttribute="leading" secondItem="39f-i8-7B9" secondAttribute="trailing" constant="4" id="aQR-1V-5cw"/>
+                                                <constraint firstItem="WMQ-Vf-vR5" firstAttribute="leading" secondItem="ls2-9b-CTK" secondAttribute="trailing" constant="13" id="b2A-qh-qwK"/>
+                                                <constraint firstItem="WMQ-Vf-vR5" firstAttribute="leading" secondItem="39f-i8-7B9" secondAttribute="leading" id="iRr-N5-8bo"/>
+                                                <constraint firstItem="Z33-RP-6Z5" firstAttribute="baseline" secondItem="39f-i8-7B9" secondAttribute="firstBaseline" id="lQy-fy-tXi"/>
+                                                <constraint firstItem="WMQ-Vf-vR5" firstAttribute="trailing" secondItem="lfn-vB-hoQ" secondAttribute="trailingMargin" id="pL0-H6-Sbg"/>
+                                                <constraint firstItem="ls2-9b-CTK" firstAttribute="leading" secondItem="lfn-vB-hoQ" secondAttribute="leadingMargin" constant="6" id="ttg-ZD-G7O"/>
+                                                <constraint firstItem="39f-i8-7B9" firstAttribute="top" relation="lessThanOrEqual" secondItem="WMQ-Vf-vR5" secondAttribute="bottom" constant="21" id="uzN-5N-HJO"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="39f-i8-7B9" secondAttribute="bottom" constant="1" id="vIE-Oo-IqN"/>
+                                                <constraint firstItem="WMQ-Vf-vR5" firstAttribute="top" secondItem="lfn-vB-hoQ" secondAttribute="topMargin" constant="2" id="z8U-Bz-6tf"/>
+                                                <constraint firstItem="ls2-9b-CTK" firstAttribute="centerY" secondItem="lfn-vB-hoQ" secondAttribute="centerY" id="zIt-o2-zcU"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
@@ -1622,14 +1622,7 @@
                             <outlet property="delegate" destination="ill-1j-oOf" id="lx2-Hr-I5K"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Request Detail" id="6l3-NR-Sz4">
-                        <barButtonItem key="rightBarButtonItem" title="Back" id="XPz-OG-S09">
-                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <connections>
-                                <action selector="backButtonPressed:" destination="ill-1j-oOf" id="mlj-Ih-lSd"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Request Detail" id="6l3-NR-Sz4"/>
                     <connections>
                         <outlet property="descriptionTextView" destination="YmM-WZ-bWf" id="Swa-Ee-fY0"/>
                         <outlet property="itemNameLabel" destination="Vzr-Qx-Vy5" id="0Ec-cg-nKt"/>
@@ -2005,12 +1998,6 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Response Detail" id="VqX-oT-RYO">
-                        <barButtonItem key="leftBarButtonItem" title="Back" id="mfy-CC-9Ba">
-                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <connections>
-                                <action selector="backButtonPressed:" destination="XN9-pu-OvB" id="OI6-Oz-TvR"/>
-                            </connections>
-                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Edit" id="ptN-31-1Hw">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </barButtonItem>
@@ -2047,7 +2034,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="rJI-lK-4qC" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="trg-cH-HGj">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="trg-cH-HGj">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

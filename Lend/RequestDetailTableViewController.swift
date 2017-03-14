@@ -45,10 +45,6 @@ class RequestDetailTableViewController: UITableViewController {
 //        }
 //    }
     
-    @IBAction func backButtonPressed(_ sender: UIBarButtonItem) {
-        self.navigationController?.popViewController(animated: true)
-    }
-    
 }
 
 extension RequestDetailTableViewController: NewResponseTableViewDelegate {

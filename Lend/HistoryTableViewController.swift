@@ -179,6 +179,7 @@ class HistoryTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        print("blah")
         if editingStyle == .delete {
             // Delete the row from the data source
 //            let req = requests[indexPath.row]

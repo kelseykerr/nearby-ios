@@ -15,12 +15,47 @@ class BuyerFinishStrategy: HistoryStateStrategy {
         let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "TransactionCell", for: indexPath) as! HistoryTransactionTableViewCell
         
         let item = history.request?.itemName ?? "ITEM"
-        cell.messageLabel?.text = "You have successfully completed transaction for \(item)."
+        let text = " have successfully completed transaction for "
+        let attrText = NSMutableAttributedString(string: "")
+        let boldFont = UIFont.boldSystemFont(ofSize: 15)
+        let boldFullname = NSMutableAttributedString(string: "You", attributes: [NSFontAttributeName: boldFont])
+        attrText.append(boldFullname)
+        attrText.append(NSMutableAttributedString(string: text))
         
+        let boldItemName = NSMutableAttributedString(string: item, attributes: [NSFontAttributeName: boldFont])
+        attrText.append(boldItemName)
+        attrText.append(NSMutableAttributedString(string: "."))
+        
+        cell.messageLabel.attributedText = attrText
+
         cell.historyStateLabel.backgroundColor = UIColor.wisteria
         cell.historyStateLabel.textColor = UIColor.white
         cell.historyStateLabel.text = "FINISH"
         cell.timeLabel.text = history.request?.getElapsedTimeAsString()
+        
+        cell.userImageView.image = UIImage(named: "User-64")
+        cell.setNeedsLayout()
+        
+        if let pictureURL = history.request?.user?.pictureUrl {
+            NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
+                guard error == nil else {
+                    print(error!)
+                    return
+                }
+                if let cellToUpdate = historyVC.tableView?.cellForRow(at: indexPath) as! HistoryRequestTableViewCell? {
+                    cellToUpdate.userImageView?.image = image
+                    cellToUpdate.setNeedsLayout()
+                }
+            })
+        }
+        else if history.request?.user?.lastName == "App" {
+            cell.userImageView.image = UIImage(named: "IMG_1426")
+            cell.setNeedsLayout()
+        }
+        else if history.request?.user?.lastName == "AppTwo" {
+            cell.userImageView.image = UIImage(named: "Penny")
+            cell.setNeedsLayout()
+        }
         
         return cell
     }

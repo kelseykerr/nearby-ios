@@ -21,6 +21,7 @@
 		AA2C47551D6D3FB60013F350 /* RequestDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2C47541D6D3FB60013F350 /* RequestDetailTableViewController.swift */; };
 		AA2EB2DE1E7675AB00646AF3 /* HistoryTransactionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2EB2DD1E7675AB00646AF3 /* HistoryTransactionTableViewCell.swift */; };
 		AA2EB2E01E767E3700646AF3 /* NBColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2EB2DF1E767E3700646AF3 /* NBColor.swift */; };
+		AA2EB2E21E77B09F00646AF3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AA2EB2E11E77B09F00646AF3 /* GoogleService-Info.plist */; };
 		AA2F16C01E4662210029AB47 /* QRScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2F16BF1E4662200029AB47 /* QRScannerViewController.swift */; };
 		AA38307F1D5A75F600C125F6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA38307E1D5A75F600C125F6 /* AppDelegate.swift */; };
 		AA3830841D5A75F600C125F6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA3830821D5A75F600C125F6 /* Main.storyboard */; };
@@ -80,7 +81,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3B344D84CECD7C90C5B9EA5C /* Pods_Lend.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Lend.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F39B826BC3AE0F067446572 /* Pods-Nearby.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Nearby.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Nearby/Pods-Nearby.debug.xcconfig"; sourceTree = "<group>"; };
 		AA0F72A21D7791C20023DAA6 /* CategorySelectionTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategorySelectionTableViewController.swift; sourceTree = "<group>"; };
 		AA0F72A41D77E7FD0023DAA6 /* CategoriesManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoriesManager.swift; sourceTree = "<group>"; };
@@ -95,6 +95,7 @@
 		AA2C47541D6D3FB60013F350 /* RequestDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestDetailTableViewController.swift; sourceTree = "<group>"; };
 		AA2EB2DD1E7675AB00646AF3 /* HistoryTransactionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryTransactionTableViewCell.swift; sourceTree = "<group>"; };
 		AA2EB2DF1E767E3700646AF3 /* NBColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NBColor.swift; sourceTree = "<group>"; };
+		AA2EB2E11E77B09F00646AF3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		AA2F16BF1E4662200029AB47 /* QRScannerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRScannerViewController.swift; sourceTree = "<group>"; };
 		AA38307B1D5A75F600C125F6 /* Nearby.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Nearby.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA38307E1D5A75F600C125F6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -184,7 +185,6 @@
 				AA4310B91D62392E00E00F45 /* FBSDKCoreKit.framework */,
 				AA4310BA1D62392E00E00F45 /* FBSDKLoginKit.framework */,
 				AA4310BB1D62392E00E00F45 /* FBSDKShareKit.framework */,
-				3B344D84CECD7C90C5B9EA5C /* Pods_Lend.framework */,
 				C4BE07AAD7E7749E48DF11BF /* Pods_Nearby.framework */,
 			);
 			name = Frameworks;
@@ -261,6 +261,7 @@
 				AAC3C8B21D5A78B600B8F2A9 /* Views */,
 				AA38307E1D5A75F600C125F6 /* AppDelegate.swift */,
 				AA38308A1D5A75F600C125F6 /* Info.plist */,
+				AA2EB2E11E77B09F00646AF3 /* GoogleService-Info.plist */,
 				AA4310BF1D623E1100E00F45 /* Lend-Bridging-Header.h */,
 			);
 			path = Lend;
@@ -458,7 +459,13 @@
 						DevelopmentTeam = 53PDQ4KE23;
 						LastSwiftMigration = 0800;
 						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
 							com.apple.Keychain = {
+								enabled = 1;
+							};
+							com.apple.Push = {
 								enabled = 1;
 							};
 						};
@@ -490,6 +497,7 @@
 			files = (
 				AA3830891D5A75F600C125F6 /* LaunchScreen.storyboard in Resources */,
 				AA3830861D5A75F600C125F6 /* Assets.xcassets in Resources */,
+				AA2EB2E21E77B09F00646AF3 /* GoogleService-Info.plist in Resources */,
 				AA3830841D5A75F600C125F6 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -734,7 +742,7 @@
 				INFOPLIST_FILE = Lend/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.superstartupteam.Nearby;
+				PRODUCT_BUNDLE_IDENTIFIER = com.iuxta.Nearby;
 				PRODUCT_NAME = Nearby;
 				SWIFT_OBJC_BRIDGING_HEADER = "Lend/Lend-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -757,7 +765,7 @@
 				INFOPLIST_FILE = Lend/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.superstartupteam.Nearby;
+				PRODUCT_BUNDLE_IDENTIFIER = com.iuxta.Nearby;
 				PRODUCT_NAME = Nearby;
 				SWIFT_OBJC_BRIDGING_HEADER = "Lend/Lend-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;

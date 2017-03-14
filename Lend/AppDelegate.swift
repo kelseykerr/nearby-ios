@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Firebase
+import FirebaseMessaging
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -20,7 +22,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // maybe I need to do this in Home View, seems like it doesn't like it when user isn't logged in
 //        CategoriesManager.sharedInstance
+        FIRApp.configure()
         
+        let notificationTypes: UIUserNotificationType = [UIUserNotificationType.alert, UIUserNotificationType.badge, UIUserNotificationType.sound]
+        let notificationSettings = UIUserNotificationSettings(types: notificationTypes, categories: nil)
+        application.registerForRemoteNotifications()
+        application.registerUserNotificationSettings(notificationSettings)
         return true
     }
     
@@ -51,6 +58,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
+        print("MessageID: \(userInfo["gcm_message_id"])")
+        print(userInfo)
+    }
 
 }
 

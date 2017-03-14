@@ -14,11 +14,25 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
     func cell(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UITableViewCell {
         if (indexPath as NSIndexPath).row == 0 {
             let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath) as! HistoryRequestTableViewCell
-            
+
+            let request = history.request
             let item = history.request?.itemName ?? "ITEM"
-            cell.messageLabel?.text = "You want to borrow \(item)."
             
-//            cell.historyStateLabel.backgroundColor = UIColor.almondFrost
+            let text = " want to \(((request?.rental)! ? "borrow" : "buy")) "
+            let attrText = NSMutableAttributedString(string: "")
+            let boldFont = UIFont.boldSystemFont(ofSize: 15)
+            let boldFullname = NSMutableAttributedString(string: "You", attributes: [NSFontAttributeName: boldFont])
+            attrText.append(boldFullname)
+            attrText.append(NSMutableAttributedString(string: text))
+            
+            let boldItemName = NSMutableAttributedString(string: item, attributes: [NSFontAttributeName: boldFont])
+            attrText.append(boldItemName)
+            attrText.append(NSMutableAttributedString(string: "."))
+            
+            //setting cell's views
+            cell.messageLabel.attributedText = attrText
+            cell.messageLabel.sizeToFit()
+            
             cell.historyStateLabel.backgroundColor = UIColor.energy
             cell.historyStateLabel.textColor = UIColor.white
             cell.historyStateLabel.text = "BUYER CONFIRM"

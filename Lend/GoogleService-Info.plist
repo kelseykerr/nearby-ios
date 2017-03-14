@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AD_UNIT_ID_FOR_BANNER_TEST</key>
+	<string>ca-app-pub-3940256099942544/2934735716</string>
+	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
+	<string>ca-app-pub-3940256099942544/4411468910</string>
+	<key>CLIENT_ID</key>
+	<string>491459641376-stml3jthmd8kj1krh4qov87954t405b3.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.491459641376-stml3jthmd8kj1krh4qov87954t405b3</string>
+	<key>API_KEY</key>
+	<string>AIzaSyB1eOfhSbIdKDxqZRiTWohY4h-rtJnNkFk</string>
+	<key>GCM_SENDER_ID</key>
+	<string>491459641376</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.iuxta.Nearby</string>
+	<key>PROJECT_ID</key>
+	<string>nearby-44593</string>
+	<key>STORAGE_BUCKET</key>
+	<string>nearby-44593.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<true/>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false/>
+	<key>IS_APPINVITE_ENABLED</key>
+	<false/>
+	<key>IS_GCM_ENABLED</key>
+	<true/>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true/>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:491459641376:ios:4d23c29cb0d62b3f</string>
+	<key>DATABASE_URL</key>
+	<string>https://nearby-44593.firebaseio.com</string>
+</dict>
+</plist>

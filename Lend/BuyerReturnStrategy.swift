@@ -23,6 +23,30 @@ class BuyerReturnStrategy: HistoryStateStrategy {
         cell.historyStateLabel.text = "RETURN"
         cell.timeLabel.text = history.request?.getElapsedTimeAsString()
         
+        cell.userImageView.image = UIImage(named: "User-64")
+        cell.setNeedsLayout()
+        
+        if let pictureURL = history.request?.user?.pictureUrl {
+            NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
+                guard error == nil else {
+                    print(error!)
+                    return
+                }
+                if let cellToUpdate = historyVC.tableView?.cellForRow(at: indexPath) as! HistoryRequestTableViewCell? {
+                    cellToUpdate.userImageView?.image = image
+                    cellToUpdate.setNeedsLayout()
+                }
+            })
+        }
+        else if history.request?.user?.lastName == "App" {
+            cell.userImageView.image = UIImage(named: "IMG_1426")
+            cell.setNeedsLayout()
+        }
+        else if history.request?.user?.lastName == "AppTwo" {
+            cell.userImageView.image = UIImage(named: "Penny")
+            cell.setNeedsLayout()
+        }
+
         return cell
     }
     

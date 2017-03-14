@@ -9,5 +9,7 @@ target 'Nearby' do
   # Pods for Lend
     pod 'Alamofire', '~> 4.0'
     pod 'SwiftyJSON', '~> 3.0'
+    pod 'Firebase/Core'
+    pod 'Firebase/Messaging'
 
 end
