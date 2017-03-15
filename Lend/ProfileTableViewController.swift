@@ -84,8 +84,9 @@ class ProfileTableViewController: UITableViewController {
             
             //tmp
             user?.tosAccepted = true
+            user?.tosAcceptIp = "0.0.0.0"
             
-//            print(user?.toString())
+            print(user?.toString())
             
             progressHUD.show()
             

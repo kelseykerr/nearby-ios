@@ -27,6 +27,8 @@
 		AA3830841D5A75F600C125F6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA3830821D5A75F600C125F6 /* Main.storyboard */; };
 		AA3830861D5A75F600C125F6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA3830851D5A75F600C125F6 /* Assets.xcassets */; };
 		AA3830891D5A75F600C125F6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA3830871D5A75F600C125F6 /* LaunchScreen.storyboard */; };
+		AA3E34011E78E9A800B92943 /* StripeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3E34001E78E9A800B92943 /* StripeRouter.swift */; };
+		AA3E34031E79015000B92943 /* NBStripe.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3E34021E79015000B92943 /* NBStripe.swift */; };
 		AA3F641C1D7B80740021964B /* NBResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3F641B1D7B80740021964B /* NBResponse.swift */; };
 		AA3F641E1D7B8DB80021964B /* NBMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3F641D1D7B8DB80021964B /* NBMessage.swift */; };
 		AA3F64201D80B55C0021964B /* NewResponseTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3F641F1D80B55C0021964B /* NewResponseTableViewController.swift */; };
@@ -103,6 +105,8 @@
 		AA3830851D5A75F600C125F6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AA3830881D5A75F600C125F6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AA38308A1D5A75F600C125F6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AA3E34001E78E9A800B92943 /* StripeRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StripeRouter.swift; sourceTree = "<group>"; };
+		AA3E34021E79015000B92943 /* NBStripe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NBStripe.swift; sourceTree = "<group>"; };
 		AA3F641B1D7B80740021964B /* NBResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NBResponse.swift; sourceTree = "<group>"; };
 		AA3F641D1D7B8DB80021964B /* NBMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NBMessage.swift; sourceTree = "<group>"; };
 		AA3F641F1D80B55C0021964B /* NewResponseTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewResponseTableViewController.swift; sourceTree = "<group>"; };
@@ -395,6 +399,7 @@
 			children = (
 				AA9721161D64D7410036E007 /* NBUser.swift */,
 				AA546A831DCA5CD3007E1E8F /* NBBraintree.swift */,
+				AA3E34021E79015000B92943 /* NBStripe.swift */,
 				AA97211A1D64DA710036E007 /* NBCategory.swift */,
 				AA97211F1D64E0A50036E007 /* NBRequest.swift */,
 				AA3F641B1D7B80740021964B /* NBResponse.swift */,
@@ -416,6 +421,7 @@
 				AA2C47521D6D0B0B0013F350 /* CategoriesRouter.swift */,
 				AA8B21EC1D9A50D50026ED7D /* TransactionsRouter.swift */,
 				AA546A851DCA5F89007E1E8F /* BraintreeRouter.swift */,
+				AA3E34001E78E9A800B92943 /* StripeRouter.swift */,
 				AAC3C8AB1D5A789800B8F2A9 /* NearbyAPIManager.swift */,
 			);
 			name = Networking;
@@ -605,11 +611,13 @@
 				AA8B21E71D98EECD0026ED7D /* NBHistory.swift in Sources */,
 				AA38307F1D5A75F600C125F6 /* AppDelegate.swift in Sources */,
 				AA8F27A21E5ABCCC003CDC22 /* BuyerBuyerConfirmStrategy.swift in Sources */,
+				AA3E34031E79015000B92943 /* NBStripe.swift in Sources */,
 				AA8F27A81E5ABE04003CDC22 /* BuyerExchangeStrategy.swift in Sources */,
 				AA90271D1DD6FC9800B5CA2B /* QRGeneratorViewController.swift in Sources */,
 				AA3F641C1D7B80740021964B /* NBResponse.swift in Sources */,
 				AA8B21EB1D9A4A220026ED7D /* NBExchangeOverride.swift in Sources */,
 				AA0F72A31D7791C20023DAA6 /* CategorySelectionTableViewController.swift in Sources */,
+				AA3E34011E78E9A800B92943 /* StripeRouter.swift in Sources */,
 				AA8F27AC1E5ABE3F003CDC22 /* BuyerFinishStrategy.swift in Sources */,
 				AA0F72A51D77E7FD0023DAA6 /* CategoriesManager.swift in Sources */,
 				AA97466A1E4E38B900C1FA17 /* ProgressHUD.swift in Sources */,

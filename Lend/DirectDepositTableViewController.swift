@@ -16,10 +16,15 @@ class DirectDepositTableViewController: UITableViewController {
     
     var user: NBUser?
     
+    let progressHUD = ProgressHUD(text: "Saving")
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.hideKeyboardWhenTappedAround()
+        
+        self.view.addSubview(progressHUD)
+        progressHUD.hide()
         
         UserManager.sharedInstance.getUser { user in
             self.user = user
@@ -47,28 +52,34 @@ class DirectDepositTableViewController: UITableViewController {
 //            user?.phone = self.phoneNumberTextField.text
             
             //tmp
-            user?.bankAccountNumber = "1123581321"
-            user?.bankRoutingNumber = "071101307"
+//            user?.bankAccountNumber = "1123581321"
+//            user?.bankRoutingNumber = "071101307"
+            user?.bankAccountNumber = "000123456789"
+            user?.bankRoutingNumber = "110000000"
             user?.fundDestination = "bank"
             
             print(user?.toString())
             
-            NBUser.editSelf(user!, completionHandler: { error in
-                if (error != nil) {
-                    print("there was an error")
-                }
-                else {
-                    print("no error")
-                }
-            })
+            progressHUD.show()
             
-            NBBraintree.addMerchant(user!, completionHandler: { error in
-                if (error != nil) {
-                    print("there was an error")
+//            NBUser.editSelf(user!, completionHandler: { error in
+//                if (error != nil) {
+//                    print("there was an error")
+//                }
+//                else {
+//                    print("no error")
+//                }
+//            })
+            
+            NBStripe.addBank(user!, completionHandler: { response in
+                print(response.result.value)
+                if let error = response.result.error {
+                    let statusCode = response.response?.statusCode
+                    let alert = UIAlertController(title: "Error", message: "\(statusCode!)", preferredStyle: UIAlertControllerStyle.alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
                 }
-                else {
-                    print("no error")
-                }
+                self.progressHUD.hide()
             })
         }
     }

@@ -9,17 +9,20 @@
 import UIKit
 import Firebase
 import FirebaseMessaging
+import Stripe
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
 
+        STPPaymentConfiguration.shared().publishableKey = "pk_test_XXhtxu1S44u1en0gH6ozoB7t"
+        //"pk_test_6pRNASCoBOKtIshFeQd4XMUh"
+        
         // maybe I need to do this in Home View, seems like it doesn't like it when user isn't logged in
 //        CategoriesManager.sharedInstance
         FIRApp.configure()

@@ -19,6 +19,10 @@ class NBUser: ResponseJSONObjectSerializable {
     var fullName: String?
     var id: String?
     var pictureUrl: String?
+    var facebookId: String?
+    var googleId: String?
+    var gender: String?
+    var name: String?
     
     var email: String?
     var phone: String?
@@ -50,6 +54,22 @@ class NBUser: ResponseJSONObjectSerializable {
     var tosAccepted: Bool
     var paymentMethodNonce: String?
     
+    var accessToken: String?
+    var authMethod: String?
+    var googleAccessToken: String?
+    
+    var stripeCCToken: String?
+    var tosAcceptIp: String?
+    var stripeBankToken: String?
+    
+    //
+    var canRespond: Bool?
+    var canRequest: Bool?
+    var hasCustomerAccount: Bool?
+    var hasManagedAccount: Bool?
+    var stripeManagedAccountId: String?
+    var stripeCustomerId: String?
+        
     required init?(json: SwiftyJSON.JSON) {
         self.firstName = json["firstName"].string
         self.lastName = json["lastName"].string
@@ -57,6 +77,11 @@ class NBUser: ResponseJSONObjectSerializable {
         self.fullName = json["fullName"].string
         self.id = json["id"].string
         self.pictureUrl = json["pictureUrl"].string
+        self.facebookId = json["facebookId"].string
+        self.googleId = json["googleId"].string
+        self.gender = json["gender"].string
+        self.name = json["name"].string
+        
         self.email = json["email"].string
         self.phone = json["phone"].string
         self.address = json["address"].string
@@ -84,42 +109,17 @@ class NBUser: ResponseJSONObjectSerializable {
         self.fundDestination = json["fundDestination"].string
         self.tosAccepted = json["tosAccepted"].bool ?? false
         self.paymentMethodNonce = json["paymentMethodNonce"].string
+        
+        self.accessToken = json["accessToken"].string
+        self.authMethod = json["authMethod"].string
+        self.googleAccessToken = json["googleAccessToken"].string
+        self.stripeCCToken = json["stripeCCToken"].string
+        self.tosAcceptIp = json["tosAcceptIp"].string
+        self.stripeBankToken = json["stripeBankToken"].string
+        
     }
     
     init(test: Bool) {
-        if test {
-            self.firstName = "Demo"
-            self.lastName = "App"
-            self.userId = "190639591352732"
-            self.fullName = "Demo App"
-            self.id = "57b5de1e46e0fb000175e3d5"
-            self.email = "k@nearby.com"
-            self.phone = "555-555-5555"
-            self.address = "1234 Lender's Way"
-            self.addressLine2 = "Apt 7"
-            self.city = "Burlingame"
-            self.state = "CA"
-            self.zip = "94010"
-            
-//            self.homeLongitude = 0.0
-//            self.homeLatitude = 0.0
-//            self.newRequestNotificationsEnabled = true
-//            self.notificationRadius = 1.0
-//            
-//            self.currentLocationNotifications = true
-//            self.homeLocationNotifications = true
-//            self.merchantId = ""
-//            self.merchantStatus = json["merchantStatus"].string
-//            self.merchantStatusMessage = json["merchantStatusMessage"].string
-//            self.customerId = json["customerId"].string
-//            self.isPaymentSetup = json["isPaymentSetup"].bool
-//            self.customerStatus = json["customerStatus"].string
-//            self.dateOfBirth = json["dateOfBirth"].string
-//            self.bankAccountNumber = json["bankAccountNumber"].string
-//            self.bankRoutingNumber = json["bankRoutingNumber"].string
-//            self.fundDestination = json["fundDestination"].string
-//            self.paymentMethodNonce = json["paymentMethodNonce"].string
-        }
         self.tosAccepted = false
     }
 
@@ -158,6 +158,18 @@ class NBUser: ResponseJSONObjectSerializable {
         }
         if let pictureUrl = pictureUrl {
             json["pictureUrl"] = pictureUrl as AnyObject?
+        }
+        if let facebookId = facebookId {
+            json["facebookId"] = facebookId as AnyObject?
+        }
+        if let googleId = googleId {
+            json["googleId"] = googleId as AnyObject?
+        }
+        if let gender = gender {
+            json["gender"] = gender as AnyObject?
+        }
+        if let name = name {
+            json["name"] = name as AnyObject?
         }
         if let email = email {
             json["email"] = email as AnyObject?
@@ -227,14 +239,33 @@ class NBUser: ResponseJSONObjectSerializable {
         if let bankRoutingNumber = bankRoutingNumber {
             json["bankRoutingNumber"] = bankRoutingNumber as AnyObject?
         }
-        if let fundDestination = fundDestination {
-            json["fundDestination"] = fundDestination as AnyObject?
-        }
+//        if let fundDestination = fundDestination {
+//            json["fundDestination"] = fundDestination as AnyObject?
+//        }
 //        if let tosAccepted = tosAccepted {
             json["tosAccepted"] = tosAccepted as AnyObject?
 //        }
-        if let paymentMethodNonce = paymentMethodNonce {
-            json["paymentMethodNonce"] = paymentMethodNonce as AnyObject?
+//        if let paymentMethodNonce = paymentMethodNonce {
+//            json["paymentMethodNonce"] = paymentMethodNonce as AnyObject?
+//        }
+        
+        if let accessToken = accessToken {
+            json["accessToken"] = accessToken as AnyObject?
+        }
+        if let authMethod = authMethod {
+            json["authMethod"] = authMethod as AnyObject?
+        }
+        if let googleAccessToken = googleAccessToken {
+            json["googleAccessToken"] = googleAccessToken as AnyObject?
+        }
+        if let stripeCCToken = stripeCCToken {
+            json["stripeCCToken"] = stripeCCToken as AnyObject?
+        }
+        if let tosAcceptIp = tosAcceptIp {
+            json["tosAcceptIp"] = tosAcceptIp as AnyObject?
+        }
+        if let stripeBankToken = stripeBankToken {
+            json["stripeBankToken"] = stripeBankToken as AnyObject?
         }
         
         return json

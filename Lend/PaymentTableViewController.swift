@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Stripe
 
 class PaymentTableViewController: UITableViewController {
     
@@ -16,12 +17,20 @@ class PaymentTableViewController: UITableViewController {
     
     var user: NBUser?
     
+    let progressHUD = ProgressHUD(text: "Saving")
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.hideKeyboardWhenTappedAround()
 
-        loadCells()
+        self.view.addSubview(progressHUD)
+        progressHUD.hide()
+        
+        UserManager.sharedInstance.getUser { user in
+            self.user = user
+            self.loadCells()
+        }
     }
     
     func loadCells() {
@@ -44,28 +53,37 @@ class PaymentTableViewController: UITableViewController {
 //            user?.phone = self.phoneNumberTextField.text
             
             //tmp
-            user?.paymentMethodNonce = "fake-valid-nonce"
+//            user?.paymentMethodNonce = "fake-valid-nonce"
             
             print(user?.toString())
             
-            NBUser.editSelf(user!, completionHandler: { error in
-                if (error != nil) {
-                    print("there was an error")
-                }
-                else {
-                    print("no error")
-                }
-            })
+            progressHUD.show()
             
-            NBBraintree.addCustomer(user!, completionHandler: { error in
-                if (error != nil) {
-                    print("there was an error")
+            // generate creditcard token
+            // set that value to user object
+            let cardParams = STPCardParams()
+            cardParams.number = "4242424242424242"
+            cardParams.expMonth = 10
+            cardParams.expYear = 2018
+            cardParams.cvc = "123"
+            STPAPIClient.shared().createToken(withCard: cardParams) { (token, error) in
+                if let error = error {
+                    // show the error to the user
+                } else if let token = token {
+                    self.user?.stripeCCToken = token.tokenId
+                    NBStripe.addCreditcard(self.user!, completionHandler: { response in
+                        print(response.result.value)
+                        if let error = response.result.error {
+                            let statusCode = response.response?.statusCode
+                            let alert = UIAlertController(title: "Error", message: "\(statusCode!)", preferredStyle: UIAlertControllerStyle.alert)
+                            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+                            self.present(alert, animated: true, completion: nil)
+                        }
+                        self.progressHUD.hide()
+                    })
                 }
-                else {
-                    print("no error")
-                }
-            })
-            
+            }
+
         }
     }
     

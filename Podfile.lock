@@ -24,12 +24,14 @@ PODS:
   - GoogleToolboxForMac/NSData+zlib (2.1.1):
     - GoogleToolboxForMac/Defines (= 2.1.1)
   - Protobuf (3.2.0)
+  - Stripe (10.0.0)
   - SwiftyJSON (3.1.0)
 
 DEPENDENCIES:
   - Alamofire (~> 4.0)
   - Firebase/Core
   - Firebase/Messaging
+  - Stripe
   - SwiftyJSON (~> 3.0)
 
 SPEC CHECKSUMS:
@@ -41,8 +43,9 @@ SPEC CHECKSUMS:
   FirebaseMessaging: df8267f378580a24174ce7861233aa11d5c90109
   GoogleToolboxForMac: 8e329f1b599f2512c6b10676d45736bcc2cbbeb0
   Protobuf: 745f59e122e5de98d4d7ef291e264a0eef80f58e
+  Stripe: abf87fc01f74a2143bba1b1798dd2e4d71fd2cb3
   SwiftyJSON: 29b9f2a64f118c07e691667c2ba1efe536acfe0b
 
-PODFILE CHECKSUM: bdffd56e6d7e3cec4fc81fd93e2237935347c5f7
+PODFILE CHECKSUM: 8630a06363bed5bd9acf6be8040e56ebe9239aec
 
 COCOAPODS: 1.2.0
