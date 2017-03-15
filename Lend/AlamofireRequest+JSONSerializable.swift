@@ -45,9 +45,13 @@ extension Alamofire.DataRequest {
                 return .failure(error)
             case .success(let value):
                 let json = SwiftyJSON.JSON(value)
+                
+print(json)
+                
                 if let errorMessage = json["message"].string {
 //                    let error = Alamofire.Error.errorWithCode(.dataSerializationFailed, failureReason: errorMessage)
-                    let error = BackendError.dataSerialization(error: error!)
+//                    let error = BackendError.dataSerialization(error: error!)
+                    let error = BackendError.objectSerialization(reason: errorMessage)
                     return .failure(error)
                 }
                 guard let object = T(json: json) else {
@@ -76,6 +80,11 @@ extension Alamofire.DataRequest {
             }
             
             let JSONResponseSerializer = DataRequest.jsonResponseSerializer(options: .allowFragments)
+            
+            print(request)
+            print(response)
+            print(responseData)
+            print(error)
             let result = JSONResponseSerializer.serializeResponse(request, response,
                 responseData, error)
             
@@ -85,13 +94,13 @@ extension Alamofire.DataRequest {
             case .success(let value):
                 let json = SwiftyJSON.JSON(value)
                 
-                print(json)
-                
+print(json)
                 
                 if let errorMessage = json["message"].string {
 //                    let error = Alamofire.Error.errorWithCode(.dataSerializationFailed, failureReason: errorMessage)
-                    let error2 = BackendError.dataSerialization(error: error!)
-                    return .failure(error2)
+//                    let error = BackendError.dataSerialization(error: error!)
+                    let error = BackendError.objectSerialization(reason: errorMessage)
+                    return .failure(error)
                 }
                 var objects: [T] = []
                 for (_, item) in json {

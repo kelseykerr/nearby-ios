@@ -48,14 +48,6 @@ class BuyerFinishStrategy: HistoryStateStrategy {
                 }
             })
         }
-        else if history.request?.user?.lastName == "App" {
-            cell.userImageView.image = UIImage(named: "IMG_1426")
-            cell.setNeedsLayout()
-        }
-        else if history.request?.user?.lastName == "AppTwo" {
-            cell.userImageView.image = UIImage(named: "Penny")
-            cell.setNeedsLayout()
-        }
         
         return cell
     }

@@ -97,6 +97,8 @@ class HomeViewController: UIViewController, LoginViewDelegate {
 //                self.refreshControl?.endRefreshing()
 //            }
             
+            print(result)
+            
             guard result.error == nil else {
                 print(result.error)
                 return
@@ -265,24 +267,6 @@ extension HomeViewController: MKMapViewDelegate {
                     view.leftCalloutAccessoryView = imageView
                 })
             }
-            else if annotation.user?.firstName == "Demo" {
-                let image = UIImage(named: "IMG_1426")
-                let imageView = UIImageView(image: image)
-                imageView.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
-                imageView.contentMode = UIViewContentMode.scaleAspectFill
-                imageView.layer.cornerRadius = imageView.frame.size.width / 2
-                imageView.clipsToBounds = true
-                view.leftCalloutAccessoryView = imageView
-            }
-            else {
-                let image = UIImage(named: "User-64")
-                let imageView = UIImageView(image: image)
-                imageView.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
-                imageView.contentMode = UIViewContentMode.scaleAspectFill
-                imageView.layer.cornerRadius = imageView.frame.size.width / 2
-                imageView.clipsToBounds = true
-                view.leftCalloutAccessoryView = imageView
-            }
             
             return view
         }
@@ -379,14 +363,6 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
                     cellToUpdate.setNeedsLayout()
                 }
             })
-        }
-        else if request.user?.lastName == "App" {
-            cell.userImageView.image = UIImage(named: "IMG_1426")
-            cell.setNeedsLayout()
-        }
-        else if request.user?.lastName == "AppTwo" {
-            cell.userImageView.image = UIImage(named: "Penny")
-            cell.setNeedsLayout()
         }
         
 //        if !isLoading {

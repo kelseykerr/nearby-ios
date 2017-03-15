@@ -270,11 +270,35 @@ extension HistoryTableViewController: NewRequestTableViewDelegate {
     }
     
     func saved(_ request: NBRequest) {
-        print(request.toJSON())
+        print(JSON(request.toJSON()))
 
-        Alamofire.request(RequestsRouter.createRequest(request.toJSON())).response { response in
+        Alamofire.request(RequestsRouter.createRequest(request.toJSON())).validate(statusCode: 200..<300).responseJSON { response in
+            print("REQUEST:")
+            print(response.request)
+            print("RESPONSE:")
+            print(response.response)
+            print("DATA:")
+//            print(JSON(response.data))
+            let json = String(data: response.data!, encoding: String.Encoding.utf8)
+            print(json)
+            print("ERROR:")
+            print(response.result.error)
+            print("VALUE:")
+            print(response.result.value)
+            
+            if let error = response.result.error {
+                let statusCode = response.response?.statusCode
+                let errorMessage = String(data: response.data!, encoding: String.Encoding.utf8)
+                let alert = UIAlertController(title: "Error \(statusCode!)", message: "\(errorMessage!)", preferredStyle: UIAlertControllerStyle.alert)
+                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+            }
 //            print(response.request)
-//            print(response.response)
+//            print("CODE:")
+//            print(response.response?.statusCode)
+////            print(response.response?)
+//            print(response.error)
+//            print(JSON(response.data))
             
             //probably should not be doing this, but I need an easy way to update it for now
             self.loadHistories()

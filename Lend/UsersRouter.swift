@@ -11,8 +11,8 @@ import Alamofire
 
 // add fcmToken once I figure out what it is :-P
 enum UsersRouter: URLRequestConvertible {
-//    static let baseURLString = "http://ec2-54-152-71-22.compute-1.amazonaws.com/api/"
-    static let baseURLString = "http://ec2-54-242-185-46.compute-1.amazonaws.com/api/"
+//    static let baseURLString = "http://ec2-54-242-185-46.compute-1.amazonaws.com/api/"
+    static let baseURLString = "https://server.thenearbyapp.com/api/"
     
     case getSelf() // myself
     case getSelfRequests()

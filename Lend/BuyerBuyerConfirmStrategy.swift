@@ -53,14 +53,6 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
                     }
                 })
             }
-            else if history.request?.user?.lastName == "App" {
-                cell.userImageView.image = UIImage(named: "IMG_1426")
-                cell.setNeedsLayout()
-            }
-            else if history.request?.user?.lastName == "AppTwo" {
-                cell.userImageView.image = UIImage(named: "Penny")
-                cell.setNeedsLayout()
-            }
             
             return cell
         }
@@ -85,14 +77,6 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
                         cellToUpdate.setNeedsLayout()
                     }
                 })
-            }
-            else if history.responses[indexPath.row - 1].seller?.lastName == "App" {
-                cell.userImageView.image = UIImage(named: "IMG_1426")
-                cell.setNeedsLayout()
-            }
-            else if history.responses[indexPath.row - 1].seller?.lastName == "AppTwo" {
-                cell.userImageView.image = UIImage(named: "Penny")
-                cell.setNeedsLayout()
             }
 
             return cell

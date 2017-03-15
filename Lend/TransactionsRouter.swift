@@ -12,8 +12,8 @@ import Alamofire
 // things are commented out, so I can build, it should mostly be there... few things needs edit
 // look into parameters sent back (put and post) so I can build without commenting them out
 enum TransactionsRouter: URLRequestConvertible {
-//    static let baseURLString = "http://ec2-54-152-71-22.compute-1.amazonaws.com/api/"
-    static let baseURLString = "http://ec2-54-242-185-46.compute-1.amazonaws.com/api/"
+//    static let baseURLString = "http://ec2-54-242-185-46.compute-1.amazonaws.com/api/"
+    static let baseURLString = "https://server.thenearbyapp.com/api/"
     
     case getTransaction(String)
 //    case deleteTransaction(String)

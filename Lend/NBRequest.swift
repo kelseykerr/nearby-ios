@@ -106,6 +106,9 @@ extension NBRequest {
     }
     
     static func fetchRequests2(_ latitude: Double, longitude: Double, radius: Double, expired: Bool, includeMine: Bool, searchTerm: String, sort: String, completionHandler: @escaping (Result<[NBRequest]>) -> Void) {
+        print(latitude)
+        print(longitude)
+        print(radius)
         print(expired)
         print(includeMine)
         print(searchTerm)
@@ -133,7 +136,18 @@ extension NBRequest {
 
     //response should have the request with new id
     static func addRequest(_ req: NBRequest, completionHandler: @escaping (NSError?) -> Void) {
+//        Alamofire.request(RequestsRouter.createRequest(req.toJSON())).response { response in
+//            completionHandler(response.error as NSError?)
+//        }
         Alamofire.request(RequestsRouter.createRequest(req.toJSON())).response { response in
+            print("DATA:")
+            print(response.data)
+            print("ERROR:")
+            print(response.error)
+            print("REQUEST:")
+            print(response.request)
+            print("RESPONSE:")
+            print(response.response)
             completionHandler(response.error as NSError?)
         }
     }

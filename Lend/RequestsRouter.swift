@@ -10,9 +10,9 @@ import Foundation
 import Alamofire
 
 enum RequestsRouter: URLRequestConvertible {
-//    static let baseURLString = "http://ec2-54-152-71-22.compute-1.amazonaws.com/api/"
-    static let baseURLString = "http://ec2-54-242-185-46.compute-1.amazonaws.com/api/"
-    
+//    static let baseURLString = "http://ec2-54-242-185-46.compute-1.amazonaws.com/api/"
+    static let baseURLString = "https://server.thenearbyapp.com/api/"
+
     case getRequests(Double, Double, Double)
     case getRequests2(Double, Double, Double, Bool, Bool, String, String) // latitude, longitude, radius, expired, includeMine, searchTerm, sort
     case getRequest(String)
