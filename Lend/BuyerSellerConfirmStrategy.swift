@@ -14,9 +14,8 @@ class BuyerSellerConfirmStrategy: HistoryStateStrategy {
     func cell(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UITableViewCell {
         let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath) as! HistoryRequestTableViewCell
         
-        let name = "<NAME>"
         let item = history.request?.itemName ?? "ITEM"
-        cell.messageLabel?.text = "Awaiting \(name) to confirm offer for \(item)."
+        cell.messageLabel?.text = "Awaiting seller to confirm your offer for \(item)."
         
         cell.historyStateLabel.backgroundColor = UIColor.energy
         cell.historyStateLabel.textColor = UIColor.white

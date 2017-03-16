@@ -46,38 +46,11 @@ class NBHistory: ResponseJSONObjectSerializable {
     }
     
     init(test: Bool) {
-//        if test {
-//            self.id = "id"
-//            self.requestId = "requestId"
-//            self.sellerId = "sellerId"
-//            self.responseTime = "responseTime"
-//            self.offerPrice = 0
-//            self.priceType = "flat"
-//            self.exchangeLocation = "exchangeLocation"
-//            self.returnLocation = "returnLocation"
-//            self.exchangeTime = "exchangeTime"
-//            self.responseTime = "responseTime"
-//            self.buyerStatus = "buyerStatus"
-//            self.sellerStatus = "sellerStatus"
-//            self.responseStatus = "responseStatus"
-//        }
     }
     
     func toString() -> String {
         return "history" +
         " transaction: \(self.transaction?.toString())"
-//        return "firstName: \(self.firstName)" +
-//        " lastName: \(self.lastName)" +
-//            " userId: \(self.userId)" +
-//            " fullName: \(self.fullName)" +
-//            " id: \(self.id)" +
-//            " email: \(self.email)" +
-//            " phone: \(self.phone)" +
-//            " address: \(self.address)" +
-//            " addressLine2: \(self.addressLine2)" +
-//            " city: \(self.city)" +
-//            " state: \(self.state)" +
-//            " zip: \(self.zip)\n"
     }
     
     func toJSON() -> [String: AnyObject] {
@@ -106,6 +79,15 @@ class NBHistory: ResponseJSONObjectSerializable {
 }
 
 extension NBHistory {
+    
+    func getResponseById(id: String) -> NBResponse? {
+        for response in responses {
+            if response.id == id {
+                return response
+            }
+        }
+        return nil
+    }
     
     func isMyRequest() -> Bool {
         return UserManager.sharedInstance.user!.id == self.request!.user!.id

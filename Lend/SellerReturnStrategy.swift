@@ -60,12 +60,23 @@ class SellerReturnStrategy: HistoryStateStrategy {
     }
     
     func rowAction(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> [UITableViewRowAction]? {
-        let detail = UITableViewRowAction(style: .normal, title: "Detail") { action, index in
-            print("detail button tapped")
+        let exchange = UITableViewRowAction(style: .normal, title: "Return") { action, index in
+            let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+            guard let navVC = storyboard.instantiateViewController(
+                withIdentifier: "QRScannerNavigationController") as? UINavigationController else {
+                    assert(false, "Misnamed view controller")
+                    return
+            }
+            let scannerVC = (navVC.childViewControllers[0] as! QRScannerViewController)
+            scannerVC.delegate = historyVC
+            scannerVC.transaction = history.transaction
+            historyVC.present(navVC, animated: true, completion: nil)
+            
+            historyVC.tableView.isEditing = false
         }
-        detail.backgroundColor = UIColor.lightGray
+        exchange.backgroundColor = UIColor.blue
         
-        return [detail]
+        return [exchange]
     }
     
 }

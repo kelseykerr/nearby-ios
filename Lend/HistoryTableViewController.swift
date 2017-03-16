@@ -59,44 +59,7 @@ class HistoryTableViewController: UITableViewController {
         let cell = HistoryStateManager.sharedInstance.cell(historyVC: self, indexPath: indexPath, history: history)
         
         return cell
-/*
-        if (indexPath as NSIndexPath).row == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath)
-     
-            if let transaction = histories[indexPath.section].transaction {
-                print("Yay, transaction is available")
-                let text = "You are meeting with * to exchange "
-                let attrText = NSMutableAttributedString(string: "")
-//                let boldFont = UIFont.boldSystemFont(ofSize: 17)
-//                let boldFullname = NSMutableAttributedString(string: "You", attributes: [NSFontAttributeName: boldFont])
-//                attrText.append(boldFullname)
-                attrText.append(NSMutableAttributedString(string: text))
-//                    
-//                let boldItemName = NSMutableAttributedString(string: request.itemName!, attributes: [NSFontAttributeName: boldFont])
-//                attrText.append(boldItemName)
-//                attrText.append(NSMutableAttributedString(string: "."))
-                
-                cell.textLabel?.attributedText = attrText
-            }
-            else {
-                print("Boo, transaction is not available")
-                if let request = getRequest((indexPath as NSIndexPath).section) {
-                    let text = " want to borrow "
-                    let attrText = NSMutableAttributedString(string: "")
-                    let boldFont = UIFont.boldSystemFont(ofSize: 17)
-                    let boldFullname = NSMutableAttributedString(string: "You", attributes: [NSFontAttributeName: boldFont])
-                    attrText.append(boldFullname)
-                    attrText.append(NSMutableAttributedString(string: text))
-                    
-                    let boldItemName = NSMutableAttributedString(string: request.itemName!, attributes: [NSFontAttributeName: boldFont])
-                    attrText.append(boldItemName)
-                    attrText.append(NSMutableAttributedString(string: "."))
-                    
-                    cell.textLabel?.attributedText = attrText
-                }
-            }
 
-        
 //            if !isLoading {
 //                let rowsLoaded = requests.count
 //                let rowsRemaining = rowsLoaded - indexPath.row
@@ -107,44 +70,6 @@ class HistoryTableViewController: UITableViewController {
 //                    }
 //                }
 //            }
-        
-            return cell
-        }
-        else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "ResponseCell", for: indexPath) as! HistoryResponseTableViewCell
-            
-            if let response = getResponse(indexPath) {
-                let fullname = response.seller?.fullName
-///                cell.textLabel?.text = fullname
-                
-                let price = response.offerPrice!
-                let priceType = response.priceType!
-///                cell.detailTextLabel?.text = "Type: \(priceType) $\(price)"
-                
-//                cell.textLabel?.text = "\(fullname!) is offering to lend you coffee for $\(price)."
-                
-                let text = " is offering to lend it to you for "
-                let attrText = NSMutableAttributedString(string: "")
-                let boldFont = UIFont.boldSystemFont(ofSize: 17)
-//                let boldFullname = NSMutableAttributedString(string: fullname!, attributes: [NSFontAttributeName: boldFont])
-//                attrText.append(boldFullname)
-                attrText.append(NSMutableAttributedString(string: text))
-
-                let boldPrice = NSMutableAttributedString(string: "$\(price)", attributes: [NSFontAttributeName: boldFont])
-                attrText.append(boldPrice)
-                attrText.append(NSMutableAttributedString(string: "."))
-                
-                cell.textLabel?.attributedText = attrText
-                
-//                let responseTime = response.responseTime!
-//                let responseTimeNum =  Double(responseTime)
-//                let date = NSDate(timeIntervalSinceReferenceDate: responseTimeNum!)
-//                cell.detailTextLabel?.text = "Type: \(priceType) $\(price) Date: \(date)"
-            }
-            
-            return cell
-        }
- */
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -159,23 +84,24 @@ class HistoryTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let history = histories[indexPath.section]
 
-//        let alertController = HistoryStateManager.sharedInstance.alertController(historyVC: self, indexPath: indexPath, history: history)
-//        
-//        self.present(alertController, animated: true, completion: nil)
         let detailViewController = HistoryStateManager.sharedInstance.detailViewController(historyVC: self, indexPath: indexPath, history: history)
-        
-        self.navigationController?.pushViewController(detailViewController, animated: true)        
+
+//        self.navigationController?.navigationBar.tintColor = UIColor.white
+        self.navigationController?.pushViewController(detailViewController, animated: true)
     }
     
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let history = histories[indexPath.section]
         
         let rowActions = HistoryStateManager.sharedInstance.rowAction(historyVC: self, indexPath: indexPath, history: history)
+
         return rowActions
     }
     
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return true
+        let history = histories[indexPath.section]
+        
+        return history.status != HistoryStatus.seller_finish || history.status != HistoryStatus.seller_finish
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
@@ -320,7 +246,6 @@ extension HistoryTableViewController: QRGeneratorViewDelegate {
     }
     
     func generateCancelled() {
-        
     }
 
 }
@@ -335,7 +260,6 @@ extension HistoryTableViewController: QRScannerViewDelegate {
             
             self.loadHistories()
         }
-
     }
     
     func scanCancelled() {

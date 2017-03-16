@@ -14,7 +14,8 @@ class BuyerExchangeStrategy: HistoryStateStrategy {
     func cell(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UITableViewCell {
         let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "TransactionCell", for: indexPath) as! HistoryTransactionTableViewCell
         
-        let name = "<NAME>"
+        let name = history.getResponseById(id: (history.transaction?.responseId)!)?.seller?.name
+        print("name: \(name)")
         let item = (history.request?.itemName)!
         cell.messageLabel?.text = "You are meeting \(name) to exchange \(item)."
         
@@ -32,7 +33,7 @@ class BuyerExchangeStrategy: HistoryStateStrategy {
                     print(error!)
                     return
                 }
-                if let cellToUpdate = historyVC.tableView?.cellForRow(at: indexPath) as! HistoryRequestTableViewCell? {
+                if let cellToUpdate = historyVC.tableView?.cellForRow(at: indexPath) as! HistoryTransactionTableViewCell? {
                     cellToUpdate.userImageView?.image = image
                     cellToUpdate.setNeedsLayout()
                 }
@@ -76,12 +77,23 @@ class BuyerExchangeStrategy: HistoryStateStrategy {
     }
     
     func rowAction(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> [UITableViewRowAction]? {
-        let detail = UITableViewRowAction(style: .normal, title: "Detail") { action, index in
-            print("detail button tapped")
+        let exchange = UITableViewRowAction(style: .normal, title: "Exchange") { action, index in
+            let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+            guard let navVC = storyboard.instantiateViewController(
+                withIdentifier: "QRScannerNavigationController") as? UINavigationController else {
+                    assert(false, "Misnamed view controller")
+                    return
+            }
+            let scannerVC = (navVC.childViewControllers[0] as! QRScannerViewController)
+            scannerVC.delegate = historyVC
+            scannerVC.transaction = history.transaction
+            historyVC.present(navVC, animated: true, completion: nil)
+            
+            historyVC.tableView.isEditing = false
         }
-        detail.backgroundColor = UIColor.lightGray
+        exchange.backgroundColor = UIColor.blue
         
-        return [detail]
+        return [exchange]
     }
 
 }

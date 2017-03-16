@@ -14,6 +14,7 @@ class HomeViewController: UIViewController, LoginViewDelegate {
     @IBOutlet var mapView: MKMapView!
     @IBOutlet var tableView: UITableView!
     @IBOutlet var reloadView: UIToolbar!
+    var searchBar: UISearchBar = UISearchBar()
     
     var requests = [NBRequest]()
     var nextPageURLString: String?
@@ -38,8 +39,24 @@ class HomeViewController: UIViewController, LoginViewDelegate {
         
         self.navigationItem.titleView = imageView
         
+        navigationController?.navigationBar.isTranslucent = false
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.barStyle = .black
+//        navigationController?.navigationBar.barTintColor = UIColor.red
+        navigationController?.navigationBar.shadowImage = UIImage()
+        
+//        let searchBar = UISearchBar()
+        searchBar.placeholder = "Search"
+        searchBar.frame = CGRect(x: 0, y: 0, width: (navigationController?.view.bounds.size.width)!, height: 44)
+        searchBar.barStyle = .default
+        searchBar.isTranslucent = false
+        searchBar.barTintColor = navigationController?.navigationBar.barTintColor
+        searchBar.backgroundImage = UIImage()
+        view.addSubview(searchBar)
+        
         self.mapView.delegate = self
         self.view.bringSubview(toFront: mapView)
+        self.view.bringSubview(toFront: searchBar)
 //        self.view.bringSubview(toFront: reloadView)
         loadInitialData()
     }
@@ -174,6 +191,7 @@ class HomeViewController: UIViewController, LoginViewDelegate {
         else {
             sender.title = "List"
             self.view.bringSubview(toFront: mapView)
+            self.view.bringSubview(toFront: searchBar)
             self.view.bringSubview(toFront: reloadView)
         }
     }
@@ -187,6 +205,7 @@ class HomeViewController: UIViewController, LoginViewDelegate {
 
         reloadRequests(center.latitude, longitude: center.longitude, radius: radius)
         self.view.bringSubview(toFront: mapView)
+        self.view.bringSubview(toFront: searchBar)
     }
     
     /*

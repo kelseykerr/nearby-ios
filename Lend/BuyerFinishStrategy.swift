@@ -42,7 +42,7 @@ class BuyerFinishStrategy: HistoryStateStrategy {
                     print(error!)
                     return
                 }
-                if let cellToUpdate = historyVC.tableView?.cellForRow(at: indexPath) as! HistoryRequestTableViewCell? {
+                if let cellToUpdate = historyVC.tableView?.cellForRow(at: indexPath) as! HistoryTransactionTableViewCell? {
                     cellToUpdate.userImageView?.image = image
                     cellToUpdate.setNeedsLayout()
                 }
@@ -77,7 +77,7 @@ class BuyerFinishStrategy: HistoryStateStrategy {
         }
         detail.backgroundColor = UIColor.lightGray
         
-        return [detail]
+        return nil
     }
 
 }

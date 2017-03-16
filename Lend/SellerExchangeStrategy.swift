@@ -60,12 +60,23 @@ class SellerExchangeStrategy: HistoryStateStrategy {
     }
     
     func rowAction(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> [UITableViewRowAction]? {
-        let detail = UITableViewRowAction(style: .normal, title: "Detail") { action, index in
-            print("detail button tapped")
+        let exchange = UITableViewRowAction(style: .normal, title: "Exchange") { action, index in
+            let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+            guard let navVC = storyboard.instantiateViewController(
+                withIdentifier: "QRGeneratorNavigationController") as? UINavigationController else {
+                    assert(false, "Misnamed view controller")
+                    return
+            }
+            let generatorVC = (navVC.childViewControllers[0] as! QRGeneratorViewController)
+            generatorVC.delegate = historyVC
+            generatorVC.transaction = history.transaction
+            historyVC.present(navVC, animated: true, completion: nil)
+            
+            historyVC.tableView.isEditing = false
         }
-        detail.backgroundColor = UIColor.lightGray
+        exchange.backgroundColor = UIColor.blue
         
-        return [detail]
+        return [exchange]
     }
     
 }

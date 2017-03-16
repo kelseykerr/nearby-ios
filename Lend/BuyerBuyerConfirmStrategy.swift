@@ -139,32 +139,30 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
     
     func rowAction(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> [UITableViewRowAction]? {
         if (indexPath as NSIndexPath).row == 0 {
-//            let edit = UITableViewRowAction(style: .normal, title: "Edit") { action, index in
-//                print("edit button tapped")
-//            }
-//            edit.backgroundColor = UIColor.lightGray
-            
             let delete = UITableViewRowAction(style: .normal, title: "Delete") { action, index in
 //                print("delete button tapped")
                 if let request = history.request {
                     NBRequest.removeRequest(request, completionHandler: { error in
                         print("Request deleted")
                     })
+                    
+                    historyVC.tableView.isEditing = false
+                    print("Request delete button pressed")
                 }
             }
             delete.backgroundColor = UIColor.red
             
-//            return [delete, edit]
             return [delete]
         }
         else {
             let accept = UITableViewRowAction(style: .normal, title: "Accept") { action, index in
-//                let response = history.responses[(indexPath as NSIndexPath).row - 1]
-//                response.buyerStatus = BuyerStatus(rawValue: "ACCEPTED")
-//                
-//                NBResponse.editResponse(response, completionHandler: { error in
-//                    print("Accept an offer")
-//                })
+                let response = history.responses[(indexPath as NSIndexPath).row - 1]
+                response.buyerStatus = BuyerStatus(rawValue: "ACCEPTED")
+                
+                NBResponse.editResponse(response, completionHandler: { error in
+                    print("Accept an offer")
+                    historyVC.tableView.isEditing = false
+                })
                 
                 print("accept button tapped")
             }
