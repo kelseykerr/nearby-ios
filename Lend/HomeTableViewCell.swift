@@ -12,26 +12,16 @@ class HomeTableViewCell: UITableViewCell {
 
     @IBOutlet var userImageView: UIImageView!
     @IBOutlet var messageLabel: UILabel!
-    @IBOutlet var itemLabel: UILabel!
-    @IBOutlet var nameLabel: UILabel!
     @IBOutlet var timeLabel: UILabel!
     @IBOutlet var distanceLabel: UILabel!
+    @IBOutlet var rentLabel: UILabel!
     
-    var item: String {
+    var rent: String {
         get {
-            return itemLabel.text!
+            return rentLabel.text!
         }
         set {
-            itemLabel.text = newValue
-        }
-    }
-    
-    var name: String {
-        get {
-            return nameLabel.text!
-        }
-        set {
-            nameLabel.text = newValue
+            rentLabel.text = newValue
         }
     }
     
@@ -59,6 +49,9 @@ class HomeTableViewCell: UITableViewCell {
         // Initialization code
         userImageView.layer.cornerRadius = userImageView.frame.size.width / 2
         userImageView.clipsToBounds = true
+        
+        rentLabel.layer.cornerRadius = rentLabel.frame.size.height / 2
+        rentLabel.clipsToBounds = true
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

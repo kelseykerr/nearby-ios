@@ -101,7 +101,7 @@ class HistoryTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         let history = histories[indexPath.section]
         
-        return history.status != HistoryStatus.seller_finish || history.status != HistoryStatus.seller_finish
+        return (history.status != HistoryStatus.buyer_finish) && (history.status != HistoryStatus.seller_finish)
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {

@@ -45,27 +45,8 @@ class SellerFinishStrategy: HistoryStateStrategy {
     }
     
     func rowAction(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> [UITableViewRowAction]? {
-        let edit = UITableViewRowAction(style: .normal, title: "Edit") { action, index in
-            print("edit button tapped")
-        }
-        edit.backgroundColor = UIColor.lightGray
-        
-        let delete = UITableViewRowAction(style: .normal, title: "Delete") { action, index in
-            print("delete button tapped")
-        }
-        delete.backgroundColor = UIColor.red
-        
-        let delete2 = UITableViewRowAction(style: .normal, title: "Delete") { action, index in
-            print("delete button tapped")
-        }
-        delete2.backgroundColor = UIColor.green
-        
-        let delete3 = UITableViewRowAction(style: .normal, title: "Delete") { action, index in
-            print("delete button tapped")
-        }
-        delete3.backgroundColor = UIColor.purple
-        
-        return [delete3, delete2, delete, edit]
+
+        return []
     }
     
 }

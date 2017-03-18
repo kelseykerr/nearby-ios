@@ -272,6 +272,16 @@ extension HomeViewController: MKMapViewDelegate {
                 view.tintColor = UIColor.lightGray
             }
             
+            view.pinTintColor = annotation.rental! ? UIColor.turbo : UIColor.mountainMedow
+            
+            let image = UIImage(named: "User-64")
+            let imageView = UIImageView(image: image)
+            imageView.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+            imageView.contentMode = UIViewContentMode.scaleAspectFill
+            imageView.layer.cornerRadius = imageView.frame.size.width / 2
+            imageView.clipsToBounds = true
+            view.leftCalloutAccessoryView = imageView
+            
             if let pictureURL = annotation.user?.pictureUrl {
                 NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
                     guard error == nil else {
@@ -296,7 +306,7 @@ extension HomeViewController: MKMapViewDelegate {
         
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
         guard let requestDetailVC = storyboard.instantiateViewController(
-            withIdentifier: "DetailViewController") as? RequestDetailTableViewController else {
+            withIdentifier: "RequestDetailTableViewController") as? RequestDetailTableViewController else {
                 assert(false, "Misnamed view controller")
                 return
         }
@@ -359,15 +369,19 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         cell.messageLabel.attributedText = attrText
         cell.messageLabel.sizeToFit()
         
-        cell.time = request.getElapsedTimeAsString()
-        
         let myLocation = LocationManager.sharedInstance.location
         let distanceString = request.getDistanceAsString(fromLocation: myLocation!)
-        cell.distance = distanceString
+//        cell.distance = distanceString
+        cell.distance = ""
+        
+        cell.time = distanceString + " ∙ " + request.getElapsedTimeAsString()
+//        cell.time = request.getElapsedTimeAsString()
         
         cell.userImageView.image = UIImage(named: "User-64")
         cell.setNeedsLayout()
         
+        cell.rentLabel.backgroundColor = request.rental! ? UIColor.energy : UIColor.mountainMedow
+        cell.rent = request.rental! ? "RENT" : "BUY"
 //        cell.sizeToFit()
         
         if let pictureURL = request.user?.pictureUrl {

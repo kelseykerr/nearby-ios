@@ -13,10 +13,15 @@ class RequestDetailTableViewController: UITableViewController {
     @IBOutlet var itemNameLabel: UILabel!
     @IBOutlet var descriptionTextView: UITextView!
     
+    @IBOutlet var saveButton: UIButton!
+    
     var request: NBRequest?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        saveButton.layer.cornerRadius = saveButton.frame.size.width / 64
+        saveButton.clipsToBounds = true
         
         self.itemNameLabel.text = request?.itemName
         self.descriptionTextView.text = request?.desc

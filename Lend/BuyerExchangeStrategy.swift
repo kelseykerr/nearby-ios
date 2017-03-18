@@ -14,10 +14,28 @@ class BuyerExchangeStrategy: HistoryStateStrategy {
     func cell(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UITableViewCell {
         let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "TransactionCell", for: indexPath) as! HistoryTransactionTableViewCell
         
-        let name = history.getResponseById(id: (history.transaction?.responseId)!)?.seller?.name
-        print("name: \(name)")
+        let name = history.getResponseById(id: (history.transaction?.responseId)!)?.seller?.fullName ?? "NAME"
         let item = (history.request?.itemName)!
-        cell.messageLabel?.text = "You are meeting \(name) to exchange \(item)."
+//        cell.messageLabel?.text = "You are meeting \(name) to exchange \(item)."
+        
+        let text1 = " are meeting "
+        let text2 = " to exchange "
+        let attrText = NSMutableAttributedString(string: "")
+        let boldFont = UIFont.boldSystemFont(ofSize: 15)
+        let boldFullname = NSMutableAttributedString(string: "You", attributes: [NSFontAttributeName: boldFont])
+        attrText.append(boldFullname)
+        attrText.append(NSMutableAttributedString(string: text1))
+        let boldFullname2 = NSMutableAttributedString(string: name, attributes: [NSFontAttributeName: boldFont])
+        attrText.append(boldFullname2)
+        attrText.append(NSMutableAttributedString(string: text2))
+        
+        let boldItemName = NSMutableAttributedString(string: item, attributes: [NSFontAttributeName: boldFont])
+        attrText.append(boldItemName)
+        attrText.append(NSMutableAttributedString(string: "."))
+        
+        //setting cell's views
+        cell.messageLabel.attributedText = attrText
+        cell.messageLabel.sizeToFit()
         
         cell.historyStateLabel.backgroundColor = UIColor.mountainMedow
         cell.historyStateLabel.textColor = UIColor.white
@@ -35,6 +53,24 @@ class BuyerExchangeStrategy: HistoryStateStrategy {
                 }
                 if let cellToUpdate = historyVC.tableView?.cellForRow(at: indexPath) as! HistoryTransactionTableViewCell? {
                     cellToUpdate.userImageView?.image = image
+                    cellToUpdate.setNeedsLayout()
+                }
+            })
+        }
+        
+        cell.userImageView2.image = UIImage(named: "User-64")
+        cell.setNeedsLayout()
+        
+        let seller = history.getResponseById(id: (history.transaction?.responseId)!)?.seller
+        
+        if let pictureURL = seller?.pictureUrl {
+            NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
+                guard error == nil else {
+                    print(error!)
+                    return
+                }
+                if let cellToUpdate = historyVC.tableView?.cellForRow(at: indexPath) as! HistoryTransactionTableViewCell? {
+                    cellToUpdate.userImageView2?.image = image
                     cellToUpdate.setNeedsLayout()
                 }
             })
@@ -91,7 +127,7 @@ class BuyerExchangeStrategy: HistoryStateStrategy {
             
             historyVC.tableView.isEditing = false
         }
-        exchange.backgroundColor = UIColor.blue
+        exchange.backgroundColor = UIColor.mountainMedow
         
         return [exchange]
     }

@@ -36,6 +36,7 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
             cell.historyStateLabel.backgroundColor = UIColor.energy
             cell.historyStateLabel.textColor = UIColor.white
             cell.historyStateLabel.text = "BUYER CONFIRM"
+            
             cell.timeLabel.text = history.request?.getElapsedTimeAsString()
             
             cell.userImageView.image = UIImage(named: "User-64")
@@ -150,7 +151,7 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
                     print("Request delete button pressed")
                 }
             }
-            delete.backgroundColor = UIColor.red
+            delete.backgroundColor = UIColor.cinnabar
             
             return [delete]
         }
@@ -166,12 +167,12 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
                 
                 print("accept button tapped")
             }
-            accept.backgroundColor = UIColor.blue
+            accept.backgroundColor = UIColor.pictonBlue
             
             let decline = UITableViewRowAction(style: .normal, title: "Decline") { action, index in
                 print("decline button tapped")
             }
-            decline.backgroundColor = UIColor.red
+            decline.backgroundColor = UIColor.cinnabar
             
             return [decline, accept]
         }

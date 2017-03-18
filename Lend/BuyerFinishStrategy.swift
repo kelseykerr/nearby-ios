@@ -49,6 +49,24 @@ class BuyerFinishStrategy: HistoryStateStrategy {
             })
         }
         
+        cell.userImageView2.image = UIImage(named: "User-64")
+        cell.setNeedsLayout()
+        
+        let seller = history.getResponseById(id: (history.transaction?.responseId)!)?.seller
+        
+        if let pictureURL = seller?.pictureUrl {
+            NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
+                guard error == nil else {
+                    print(error!)
+                    return
+                }
+                if let cellToUpdate = historyVC.tableView?.cellForRow(at: indexPath) as! HistoryTransactionTableViewCell? {
+                    cellToUpdate.userImageView2?.image = image
+                    cellToUpdate.setNeedsLayout()
+                }
+            })
+        }
+        
         return cell
     }
     
@@ -72,12 +90,8 @@ class BuyerFinishStrategy: HistoryStateStrategy {
     }
     
     func rowAction(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> [UITableViewRowAction]? {
-        let detail = UITableViewRowAction(style: .normal, title: "Detail") { action, index in
-            print("detail button tapped")
-        }
-        detail.backgroundColor = UIColor.lightGray
         
-        return nil
+        return []
     }
 
 }

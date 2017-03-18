@@ -26,6 +26,8 @@ class NewResponseTableViewController: UITableViewController {
     @IBOutlet var returnTimeDatePicker: UIDatePicker!
     @IBOutlet var returnTimeDateTextField: UITextField!
 
+    @IBOutlet var saveButton: UIButton!
+    
     weak var delegate: NewResponseTableViewDelegate?
     var request: NBRequest?
     var response: NBResponse?
@@ -79,6 +81,9 @@ class NewResponseTableViewController: UITableViewController {
         super.viewDidLoad()
         
         self.hideKeyboardWhenTappedAround()
+        
+        saveButton.layer.cornerRadius = saveButton.frame.size.width / 64
+        saveButton.clipsToBounds = true
         
         createDatePickers()
 
@@ -141,7 +146,7 @@ class NewResponseTableViewController: UITableViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
+    @IBAction func saveButtonPressed(_ sender: UIButton) {
         print("response saved")
 
         if response == nil {

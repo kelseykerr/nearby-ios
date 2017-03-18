@@ -14,6 +14,8 @@ class DirectDepositTableViewController: UITableViewController {
 //    @IBOutlet var ccNumberTextField: UITextField!
 //    @IBOutlet var ccExpDateTextField: UITextField!
     
+    @IBOutlet var saveButton: UIButton!
+    
     var user: NBUser?
     
     let progressHUD = ProgressHUD(text: "Saving")
@@ -25,6 +27,9 @@ class DirectDepositTableViewController: UITableViewController {
         
         self.view.addSubview(progressHUD)
         progressHUD.hide()
+        
+        saveButton.layer.cornerRadius = saveButton.frame.size.width / 64
+        saveButton.clipsToBounds = true
         
         UserManager.sharedInstance.getUser { user in
             self.user = user

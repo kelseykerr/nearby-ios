@@ -16,7 +16,26 @@ class BuyerReturnStrategy: HistoryStateStrategy {
         
         let name = history.responses[indexPath.row].seller?.fullName ?? "NAME"
         let item = history.request?.itemName ?? "ITEM"
-        cell.messageLabel?.text = "You are meeting \(name) to return \(item)."
+//        cell.messageLabel?.text = "You are meeting \(name) to return \(item)."
+        
+        let text1 = " are meeting "
+        let text2 = " to return "
+        let attrText = NSMutableAttributedString(string: "")
+        let boldFont = UIFont.boldSystemFont(ofSize: 15)
+        let boldFullname = NSMutableAttributedString(string: "You", attributes: [NSFontAttributeName: boldFont])
+        attrText.append(boldFullname)
+        attrText.append(NSMutableAttributedString(string: text1))
+        let boldFullname2 = NSMutableAttributedString(string: name, attributes: [NSFontAttributeName: boldFont])
+        attrText.append(boldFullname2)
+        attrText.append(NSMutableAttributedString(string: text2))
+        
+        let boldItemName = NSMutableAttributedString(string: item, attributes: [NSFontAttributeName: boldFont])
+        attrText.append(boldItemName)
+        attrText.append(NSMutableAttributedString(string: "."))
+        
+        //setting cell's views
+        cell.messageLabel.attributedText = attrText
+        cell.messageLabel.sizeToFit()
         
         cell.historyStateLabel.backgroundColor = UIColor.pictonBlue
         cell.historyStateLabel.textColor = UIColor.white
@@ -39,6 +58,24 @@ class BuyerReturnStrategy: HistoryStateStrategy {
             })
         }
 
+        cell.userImageView2.image = UIImage(named: "User-64")
+        cell.setNeedsLayout()
+        
+        let seller = history.getResponseById(id: (history.transaction?.responseId)!)?.seller
+        
+        if let pictureURL = seller?.pictureUrl {
+            NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
+                guard error == nil else {
+                    print(error!)
+                    return
+                }
+                if let cellToUpdate = historyVC.tableView?.cellForRow(at: indexPath) as! HistoryTransactionTableViewCell? {
+                    cellToUpdate.userImageView2?.image = image
+                    cellToUpdate.setNeedsLayout()
+                }
+            })
+        }
+        
         return cell
     }
     
@@ -90,7 +127,7 @@ class BuyerReturnStrategy: HistoryStateStrategy {
             
             historyVC.tableView.isEditing = false
         }
-        exchange.backgroundColor = UIColor.blue
+        exchange.backgroundColor = UIColor.pictonBlue
         
         return [exchange]
     }

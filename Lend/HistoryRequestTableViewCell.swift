@@ -21,6 +21,9 @@ class HistoryRequestTableViewCell: UITableViewCell {
         // Initialization code
         userImageView.layer.cornerRadius = userImageView.frame.size.width / 2
         userImageView.clipsToBounds = true
+        
+        historyStateLabel.layer.cornerRadius = historyStateLabel.frame.size.height / 2
+        historyStateLabel.clipsToBounds = true
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {

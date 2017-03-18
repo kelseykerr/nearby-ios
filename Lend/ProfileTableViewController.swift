@@ -21,6 +21,8 @@ class ProfileTableViewController: UITableViewController {
     @IBOutlet var stateTextField: UITextField!
     @IBOutlet var zipCodeTextField: UITextField!
     
+    @IBOutlet var saveButton: UIButton!
+    
     var user: NBUser?
     
     let progressHUD = ProgressHUD(text: "Saving")
@@ -32,6 +34,9 @@ class ProfileTableViewController: UITableViewController {
         
         self.view.addSubview(progressHUD)
         progressHUD.hide()
+        
+        saveButton.layer.cornerRadius = saveButton.frame.size.width / 64
+        saveButton.clipsToBounds = true
         
         loadCells()
     }

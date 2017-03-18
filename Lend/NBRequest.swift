@@ -181,8 +181,15 @@ extension NBRequest {
     
     func getDistanceAsString(fromLocation: CLLocation) -> String {
         let distance = getDistance(fromLocation: fromLocation)
-        let retStr = String(format: "%.2f Miles", distance)
-        return retStr
+        
+        if distance < 1 {
+            let retStr = String(format: "<1 Mi", distance)
+            return retStr
+        }
+        else {
+            let retStr = String(format: "%.0f Mi", distance)
+            return retStr
+        }
     }
     
     func getElapsedTime() -> TimeInterval? {
