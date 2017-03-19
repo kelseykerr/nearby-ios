@@ -57,13 +57,9 @@ class PaymentTableViewController: UITableViewController {
 //            user?.email = self.emailAddressTextField.text
 //            user?.phone = self.phoneNumberTextField.text
             
-            //tmp
-//            user?.paymentMethodNonce = "fake-valid-nonce"
-            
-            print(user?.toString())
-            
             progressHUD.show()
             
+            //tmp
             // generate creditcard token
             // set that value to user object
             let cardParams = STPCardParams()
@@ -71,6 +67,7 @@ class PaymentTableViewController: UITableViewController {
             cardParams.expMonth = 10
             cardParams.expYear = 2018
             cardParams.cvc = "123"
+            
             STPAPIClient.shared().createToken(withCard: cardParams) { (token, error) in
                 if let error = error {
                     // show the error to the user

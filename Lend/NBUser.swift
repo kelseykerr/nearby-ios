@@ -274,6 +274,17 @@ class NBUser: ResponseJSONObjectSerializable {
 }
 
 extension NBUser {
+    var shortName: String {
+        get {
+            let first = firstName ?? "FIRST"
+            let last = lastName ?? "LAST"
+            let lastCharacter = last.characters.first ?? "@"
+            return "\(first) \(lastCharacter)"
+        }
+    }
+}
+
+extension NBUser {
     
     static func fetchSelf(_ completionHandler: @escaping (Result<NBUser>) -> Void) {
         Alamofire.request(UsersRouter.getSelf())

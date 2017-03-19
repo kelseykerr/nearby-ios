@@ -90,7 +90,10 @@ extension NBHistory {
     }
     
     func isMyRequest() -> Bool {
-        return UserManager.sharedInstance.user!.id == self.request!.user!.id
+        if let isMine = self.request?.isMyRequest() {
+            return isMine
+        }
+        return false
     }
     
     var status: HistoryStatus {

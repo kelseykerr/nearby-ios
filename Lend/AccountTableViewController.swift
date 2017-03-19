@@ -82,10 +82,8 @@ class AccountTableViewController: UITableViewController, LoginViewDelegate {
         let zip = user?.zip ?? "<zip>"
         self.cityStateZipLabel.text = "\(city), \(state) \(zip)"
         
-        print(user?.pictureUrl)
         if let pictureUrl = user?.pictureUrl {
             NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureUrl, completionHandler: { (image, error) in
-                print("picture : \(image)")
                 guard error == nil else {
                     print(error!)
                     return
@@ -93,7 +91,6 @@ class AccountTableViewController: UITableViewController, LoginViewDelegate {
                 self.userImageView.image = image
             })
         }
-        
     }
 
     func loadUser() {

@@ -91,8 +91,6 @@ class ProfileTableViewController: UITableViewController {
             user?.tosAccepted = true
             user?.tosAcceptIp = "0.0.0.0"
             
-            print(user?.toString())
-            
             progressHUD.show()
             
             UserManager.sharedInstance.editUser(user: user!, completionHandler: { error in
@@ -105,15 +103,6 @@ class ProfileTableViewController: UITableViewController {
                     print("no error")
                 }
             })
-            
-//            NBUser.editSelf(user!, completionHandler: { error in
-//                if (error != nil) {
-//                    print("there was an error")
-//                }
-//                else {
-//                    print("no error")
-//                }
-//            })
         }
     }
 

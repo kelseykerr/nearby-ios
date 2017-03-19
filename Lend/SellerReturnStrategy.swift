@@ -12,16 +12,51 @@ import Foundation
 class SellerReturnStrategy: HistoryStateStrategy {
     
     func cell(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UITableViewCell {
-        let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "TransactionCell", for: indexPath) as! HistoryTransactionTableViewCell
+        let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath) as! HistoryRequestTableViewCell
         
         let name: String = history.request?.user?.fullName ?? "NAME"
         let item = history.request?.itemName ?? "ITEM"
-        cell.messageLabel?.text = "You are meeting \(name) to claim \(item)."
         
-        cell.historyStateLabel.backgroundColor = UIColor.pictonBlue
+        let text1 = " are meeting "
+        let text2 = " to receive "
+        let attrText = NSMutableAttributedString(string: "")
+        let boldFont = UIFont.boldSystemFont(ofSize: 15)
+        let boldFullname = NSMutableAttributedString(string: "You", attributes: [NSFontAttributeName: boldFont])
+        attrText.append(boldFullname)
+        attrText.append(NSMutableAttributedString(string: text1))
+        let boldFullname2 = NSMutableAttributedString(string: name, attributes: [NSFontAttributeName: boldFont])
+        attrText.append(boldFullname2)
+        attrText.append(NSMutableAttributedString(string: text2))
+        
+        let boldItemName = NSMutableAttributedString(string: item, attributes: [NSFontAttributeName: boldFont])
+        attrText.append(boldItemName)
+        attrText.append(NSMutableAttributedString(string: "."))
+        
+        //setting cell's views
+        cell.messageLabel.attributedText = attrText
+        cell.messageLabel.sizeToFit()
+        
+//        cell.historyStateLabel.backgroundColor = UIColor.pictonBlue
+        cell.historyStateLabel.backgroundColor = UIColor.nbBlue
         cell.historyStateLabel.textColor = UIColor.white
         cell.historyStateLabel.text = "RETURN"
         cell.timeLabel.text = history.request?.getElapsedTimeAsString()
+        
+        cell.userImageView.image = UIImage(named: "User-64")
+        cell.setNeedsLayout()
+        
+        if let pictureURL = history.request?.user?.pictureUrl {
+            NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
+                guard error == nil else {
+                    print(error!)
+                    return
+                }
+                if let cellToUpdate = historyVC.tableView?.cellForRow(at: indexPath) as! HistoryRequestTableViewCell? {
+                    cellToUpdate.userImageView?.image = image
+                    cellToUpdate.setNeedsLayout()
+                }
+            })
+        }
         
         return cell
     }
@@ -74,7 +109,8 @@ class SellerReturnStrategy: HistoryStateStrategy {
             
             historyVC.tableView.isEditing = false
         }
-        exchange.backgroundColor = UIColor.blue
+//        exchange.backgroundColor = UIColor.blue
+        exchange.backgroundColor = UIColor.lightGray
         
         return [exchange]
     }

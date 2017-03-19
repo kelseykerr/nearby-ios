@@ -12,7 +12,8 @@ import Foundation
 class BuyerExchangeStrategy: HistoryStateStrategy {
     
     func cell(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UITableViewCell {
-        let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "TransactionCell", for: indexPath) as! HistoryTransactionTableViewCell
+//        let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "TransactionCell", for: indexPath) as! HistoryTransactionTableViewCell
+        let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath) as! HistoryRequestTableViewCell
         
         let name = history.getResponseById(id: (history.transaction?.responseId)!)?.seller?.fullName ?? "NAME"
         let item = (history.request?.itemName)!
@@ -37,7 +38,8 @@ class BuyerExchangeStrategy: HistoryStateStrategy {
         cell.messageLabel.attributedText = attrText
         cell.messageLabel.sizeToFit()
         
-        cell.historyStateLabel.backgroundColor = UIColor.mountainMedow
+//        cell.historyStateLabel.backgroundColor = UIColor.mountainMedow
+        cell.historyStateLabel.backgroundColor = UIColor.nbGreen
         cell.historyStateLabel.textColor = UIColor.white
         cell.historyStateLabel.text = "EXCHANGE"
         cell.timeLabel.text = history.request?.getElapsedTimeAsString()
@@ -45,36 +47,38 @@ class BuyerExchangeStrategy: HistoryStateStrategy {
         cell.userImageView.image = UIImage(named: "User-64")
         cell.setNeedsLayout()
         
-        if let pictureURL = history.request?.user?.pictureUrl {
-            NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
-                guard error == nil else {
-                    print(error!)
-                    return
-                }
-                if let cellToUpdate = historyVC.tableView?.cellForRow(at: indexPath) as! HistoryTransactionTableViewCell? {
-                    cellToUpdate.userImageView?.image = image
-                    cellToUpdate.setNeedsLayout()
-                }
-            })
-        }
-        
-        cell.userImageView2.image = UIImage(named: "User-64")
-        cell.setNeedsLayout()
-        
         let seller = history.getResponseById(id: (history.transaction?.responseId)!)?.seller
-        
         if let pictureURL = seller?.pictureUrl {
             NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
                 guard error == nil else {
                     print(error!)
                     return
                 }
-                if let cellToUpdate = historyVC.tableView?.cellForRow(at: indexPath) as! HistoryTransactionTableViewCell? {
-                    cellToUpdate.userImageView2?.image = image
+//                if let cellToUpdate = historyVC.tableView?.cellForRow(at: indexPath) as! HistoryTransactionTableViewCell? {
+                if let cellToUpdate = historyVC.tableView?.cellForRow(at: indexPath) as! HistoryRequestTableViewCell? {
+                    cellToUpdate.userImageView?.image = image
                     cellToUpdate.setNeedsLayout()
                 }
             })
         }
+        
+//        cell.userImageView2.image = UIImage(named: "User-64")
+//        cell.setNeedsLayout()
+//        
+//        let seller = history.getResponseById(id: (history.transaction?.responseId)!)?.seller
+//        
+//        if let pictureURL = seller?.pictureUrl {
+//            NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
+//                guard error == nil else {
+//                    print(error!)
+//                    return
+//                }
+//                if let cellToUpdate = historyVC.tableView?.cellForRow(at: indexPath) as! HistoryTransactionTableViewCell? {
+//                    cellToUpdate.userImageView2?.image = image
+//                    cellToUpdate.setNeedsLayout()
+//                }
+//            })
+//        }
         
         return cell
     }
@@ -127,7 +131,8 @@ class BuyerExchangeStrategy: HistoryStateStrategy {
             
             historyVC.tableView.isEditing = false
         }
-        exchange.backgroundColor = UIColor.mountainMedow
+//        exchange.backgroundColor = UIColor.mountainMedow
+        exchange.backgroundColor = UIColor.lightGray
         
         return [exchange]
     }

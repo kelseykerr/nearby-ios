@@ -183,11 +183,15 @@ extension NBRequest {
         let distance = getDistance(fromLocation: fromLocation)
         
         if distance < 1 {
-            let retStr = String(format: "<1 Mi", distance)
+            let retStr = String(format: "<1 mile", distance)
+            return retStr
+        }
+        else if distance < 2 {
+            let retStr = String(format: "%.0f mile", distance)
             return retStr
         }
         else {
-            let retStr = String(format: "%.0f Mi", distance)
+            let retStr = String(format: "%.0f miles", distance)
             return retStr
         }
     }
@@ -224,6 +228,11 @@ extension NBRequest {
 
         return "Should not happen"
     }
+    
+    func isMyRequest() -> Bool {
+        return UserManager.sharedInstance.user?.id == self.user?.id
+    }
+    
 }
 
 extension NBRequest: MKAnnotation {

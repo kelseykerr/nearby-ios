@@ -162,6 +162,15 @@ class NBResponse: ResponseJSONObjectSerializable {
 }
 
 extension NBResponse {
+    var priceInDollarFormat: String {
+        get {
+            let price = self.offerPrice ?? -9.99
+            return String(format: "$%.2f", price)
+        }
+    }
+}
+
+extension NBResponse {
     
     static func fetchResponse(_ requestId: String, responseId: String, completionHandler: @escaping (Result<NBResponse>) -> Void) {
         Alamofire.request(RequestsRouter.getResponse(requestId, responseId))

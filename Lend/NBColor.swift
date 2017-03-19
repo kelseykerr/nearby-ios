@@ -26,6 +26,8 @@ extension UIColor {
     static let nbYellow = UIColor(red: 255, green: 226, blue: 77)
     static let nbGreen = UIColor(red: 78, green: 236, blue: 207)
     static let nbBlue = UIColor(red: 79, green: 226, blue: 236)
+/// yellow FFE54D
+    static let nbTurquoise = UIColor(netHex: 0x23CAD1)
     
     static let fern = UIColor(netHex: 0x61BD6D)
     static let mountainMedow = UIColor(netHex: 0x19B193)

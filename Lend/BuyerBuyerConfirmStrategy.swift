@@ -33,7 +33,8 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
             cell.messageLabel.attributedText = attrText
             cell.messageLabel.sizeToFit()
             
-            cell.historyStateLabel.backgroundColor = UIColor.energy
+//            cell.historyStateLabel.backgroundColor = UIColor.energy
+            cell.historyStateLabel.backgroundColor = UIColor.nbYellow
             cell.historyStateLabel.textColor = UIColor.white
             cell.historyStateLabel.text = "BUYER CONFIRM"
             
@@ -140,7 +141,7 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
     
     func rowAction(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> [UITableViewRowAction]? {
         if (indexPath as NSIndexPath).row == 0 {
-            let delete = UITableViewRowAction(style: .normal, title: "Delete") { action, index in
+            let delete = UITableViewRowAction(style: .normal, title: "Close") { action, index in
 //                print("delete button tapped")
                 if let request = history.request {
                     NBRequest.removeRequest(request, completionHandler: { error in
@@ -151,7 +152,8 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
                     print("Request delete button pressed")
                 }
             }
-            delete.backgroundColor = UIColor.cinnabar
+//            delete.backgroundColor = UIColor.cinnabar
+            delete.backgroundColor = UIColor.red
             
             return [delete]
         }
@@ -167,12 +169,14 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
                 
                 print("accept button tapped")
             }
-            accept.backgroundColor = UIColor.pictonBlue
+//            accept.backgroundColor = UIColor.pictonBlue
+            accept.backgroundColor = UIColor.lightGray
             
             let decline = UITableViewRowAction(style: .normal, title: "Decline") { action, index in
                 print("decline button tapped")
             }
-            decline.backgroundColor = UIColor.cinnabar
+//            decline.backgroundColor = UIColor.cinnabar
+            decline.backgroundColor = UIColor.red
             
             return [decline, accept]
         }

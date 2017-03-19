@@ -14,16 +14,7 @@ class HomeTableViewCell: UITableViewCell {
     @IBOutlet var messageLabel: UILabel!
     @IBOutlet var timeLabel: UILabel!
     @IBOutlet var distanceLabel: UILabel!
-    @IBOutlet var rentLabel: UILabel!
-    
-    var rent: String {
-        get {
-            return rentLabel.text!
-        }
-        set {
-            rentLabel.text = newValue
-        }
-    }
+    @IBOutlet var messageLabel2: UILabel!
     
     var time: String {
         get {
@@ -50,8 +41,8 @@ class HomeTableViewCell: UITableViewCell {
         userImageView.layer.cornerRadius = userImageView.frame.size.width / 2
         userImageView.clipsToBounds = true
         
-        rentLabel.layer.cornerRadius = rentLabel.frame.size.height / 2
-        rentLabel.clipsToBounds = true
+        distanceLabel.layer.cornerRadius = distanceLabel.frame.size.height / 2
+        distanceLabel.clipsToBounds = true
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

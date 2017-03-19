@@ -12,7 +12,7 @@ import Foundation
 class BuyerFinishStrategy: HistoryStateStrategy {
     
     func cell(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UITableViewCell {
-        let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "TransactionCell", for: indexPath) as! HistoryTransactionTableViewCell
+        let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath) as! HistoryRequestTableViewCell
         
         let item = history.request?.itemName ?? "ITEM"
         let text = " have successfully completed transaction for "
@@ -28,28 +28,13 @@ class BuyerFinishStrategy: HistoryStateStrategy {
         
         cell.messageLabel.attributedText = attrText
 
-        cell.historyStateLabel.backgroundColor = UIColor.wisteria
+//        cell.historyStateLabel.backgroundColor = UIColor.wisteria
+        cell.historyStateLabel.backgroundColor = UIColor.nbRed
         cell.historyStateLabel.textColor = UIColor.white
         cell.historyStateLabel.text = "FINISH"
         cell.timeLabel.text = history.request?.getElapsedTimeAsString()
         
         cell.userImageView.image = UIImage(named: "User-64")
-        cell.setNeedsLayout()
-        
-        if let pictureURL = history.request?.user?.pictureUrl {
-            NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
-                guard error == nil else {
-                    print(error!)
-                    return
-                }
-                if let cellToUpdate = historyVC.tableView?.cellForRow(at: indexPath) as! HistoryTransactionTableViewCell? {
-                    cellToUpdate.userImageView?.image = image
-                    cellToUpdate.setNeedsLayout()
-                }
-            })
-        }
-        
-        cell.userImageView2.image = UIImage(named: "User-64")
         cell.setNeedsLayout()
         
         let seller = history.getResponseById(id: (history.transaction?.responseId)!)?.seller
@@ -60,8 +45,8 @@ class BuyerFinishStrategy: HistoryStateStrategy {
                     print(error!)
                     return
                 }
-                if let cellToUpdate = historyVC.tableView?.cellForRow(at: indexPath) as! HistoryTransactionTableViewCell? {
-                    cellToUpdate.userImageView2?.image = image
+                if let cellToUpdate = historyVC.tableView?.cellForRow(at: indexPath) as! HistoryRequestTableViewCell? {
+                    cellToUpdate.userImageView?.image = image
                     cellToUpdate.setNeedsLayout()
                 }
             })

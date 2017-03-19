@@ -49,8 +49,6 @@ class NewRequestTableViewController: UITableViewController {
     }
     
     @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
-        print("request saved")
-        
         if request == nil {
             let req = NBRequest()
             req.itemName = itemName
@@ -58,9 +56,6 @@ class NewRequestTableViewController: UITableViewController {
             let currentLocation = LocationManager.sharedInstance.location
             req.latitude = currentLocation?.coordinate.latitude
             req.longitude = currentLocation?.coordinate.longitude
-            
-            print("date in milli")
-            print(Date().timeIntervalSince1970)
             
             let postDate64: Int64 = Int64(Date().timeIntervalSince1970) * 1000
             req.postDate = postDate64

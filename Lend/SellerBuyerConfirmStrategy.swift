@@ -12,17 +12,64 @@ import Foundation
 class SellerBuyerConfirmStrategy: HistoryStateStrategy {
     
     func cell(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UITableViewCell {
+        print("index row: ")
+        print((indexPath as NSIndexPath).row)
+        
         if (indexPath as NSIndexPath).row == 0 {
             let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath) as! HistoryRequestTableViewCell
             
-            let name: String = history.request?.user?.fullName ?? "NAME"
+            let name = history.request?.user?.shortName ?? "NAME"
             let item = history.request?.itemName ?? "ITEM"
-            cell.messageLabel?.text = "\(name) wants to borrow \(item)."
+            let rent = (history.request?.rental)! ? "lend" : "sell"
+            let price = history.responses[0].priceInDollarFormat
             
-            cell.historyStateLabel.backgroundColor = UIColor.energy
+            let attrText = NSMutableAttributedString(string: "")
+            let boldFont = UIFont.boldSystemFont(ofSize: 15)
+            
+            let boldYou = NSMutableAttributedString(string: "You", attributes: [NSFontAttributeName: boldFont])
+            attrText.append(boldYou)
+            
+            attrText.append(NSMutableAttributedString(string: " are offering to \(rent) "))
+            
+            let boldItem = NSMutableAttributedString(string: item, attributes: [NSFontAttributeName: boldFont])
+            attrText.append(boldItem)
+            
+            attrText.append(NSMutableAttributedString(string: " to "))
+            
+            let boldName = NSMutableAttributedString(string: name, attributes: [NSFontAttributeName: boldFont])
+            attrText.append(boldName)
+            
+            attrText.append(NSMutableAttributedString(string: " for "))
+            
+            let boldPrice = NSMutableAttributedString(string: price, attributes: [NSFontAttributeName: boldFont])
+            attrText.append(boldPrice)
+            
+            attrText.append(NSMutableAttributedString(string: "."))
+            
+            cell.messageLabel.attributedText = attrText
+            cell.messageLabel.sizeToFit()
+            
+//            cell.historyStateLabel.backgroundColor = UIColor.energy
+            cell.historyStateLabel.backgroundColor = UIColor.nbYellow
             cell.historyStateLabel.textColor = UIColor.white
             cell.historyStateLabel.text = "BUYER CONFIRM"
             cell.timeLabel.text = history.request?.getElapsedTimeAsString()
+            
+            cell.userImageView.image = UIImage(named: "User-64")
+            cell.setNeedsLayout()
+            
+            if let pictureURL = history.request?.user?.pictureUrl {
+                NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
+                    guard error == nil else {
+                        print(error!)
+                        return
+                    }
+                    if let cellToUpdate = historyVC.tableView?.cellForRow(at: indexPath) as! HistoryRequestTableViewCell? {
+                        cellToUpdate.userImageView?.image = image
+                        cellToUpdate.setNeedsLayout()
+                    }
+                })
+            }
             
             return cell
         }

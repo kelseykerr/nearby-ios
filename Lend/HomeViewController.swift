@@ -14,6 +14,8 @@ class HomeViewController: UIViewController, LoginViewDelegate {
     @IBOutlet var mapView: MKMapView!
     @IBOutlet var tableView: UITableView!
     @IBOutlet var reloadView: UIToolbar!
+    @IBOutlet var requestButton: UIButton!
+    
     var searchBar: UISearchBar = UISearchBar()
     
     var requests = [NBRequest]()
@@ -45,6 +47,9 @@ class HomeViewController: UIViewController, LoginViewDelegate {
 //        navigationController?.navigationBar.barTintColor = UIColor.red
         navigationController?.navigationBar.shadowImage = UIImage()
         
+        requestButton.layer.cornerRadius = requestButton.frame.size.width / 2
+        requestButton.clipsToBounds = true
+        
 //        let searchBar = UISearchBar()
         searchBar.placeholder = "Search"
         searchBar.frame = CGRect(x: 0, y: 0, width: (navigationController?.view.bounds.size.width)!, height: 44)
@@ -57,6 +62,7 @@ class HomeViewController: UIViewController, LoginViewDelegate {
         self.mapView.delegate = self
         self.view.bringSubview(toFront: mapView)
         self.view.bringSubview(toFront: searchBar)
+        self.view.bringSubview(toFront: requestButton)
 //        self.view.bringSubview(toFront: reloadView)
         loadInitialData()
     }
@@ -193,6 +199,7 @@ class HomeViewController: UIViewController, LoginViewDelegate {
             self.view.bringSubview(toFront: mapView)
             self.view.bringSubview(toFront: searchBar)
             self.view.bringSubview(toFront: reloadView)
+            self.view.bringSubview(toFront: requestButton)
         }
     }
     
@@ -206,6 +213,7 @@ class HomeViewController: UIViewController, LoginViewDelegate {
         reloadRequests(center.latitude, longitude: center.longitude, radius: radius)
         self.view.bringSubview(toFront: mapView)
         self.view.bringSubview(toFront: searchBar)
+        self.view.bringSubview(toFront: requestButton)
     }
     
     /*
@@ -272,7 +280,7 @@ extension HomeViewController: MKMapViewDelegate {
                 view.tintColor = UIColor.lightGray
             }
             
-            view.pinTintColor = annotation.rental! ? UIColor.turbo : UIColor.mountainMedow
+            view.pinTintColor = annotation.rental! ? UIColor.cinnabar : UIColor.pictonBlue
             
             let image = UIImage(named: "User-64")
             let imageView = UIImageView(image: image)
@@ -332,6 +340,7 @@ extension HomeViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
         print("map moving")
         self.view.bringSubview(toFront: reloadView)
+        self.view.bringSubview(toFront: requestButton)
     }
 }
 
@@ -351,15 +360,19 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         
         let request = requests[(indexPath as NSIndexPath).section]
         
-        let firstName = (request.user?.firstName)!
-        let lastName = (request.user?.lastName)!
-
-        let text = " wants to \(((request.rental)! ? "borrow" : "buy")) "
+        let name = request.user?.shortName ?? "NAME"
+        
+        let text = " wants to "
         let attrText = NSMutableAttributedString(string: "")
         let boldFont = UIFont.boldSystemFont(ofSize: 15)
-        let boldFullname = NSMutableAttributedString(string: "\(firstName) \(lastName)", attributes: [NSFontAttributeName: boldFont])
+        let boldFullname = NSMutableAttributedString(string: name, attributes: [NSFontAttributeName: boldFont])
         attrText.append(boldFullname)
         attrText.append(NSMutableAttributedString(string: text))
+        
+        let rent = (request.rental)! ? "borrow " : "buy "
+        attrText.append(NSMutableAttributedString(string: rent))
+//        let coloredRent = NSMutableAttributedString(string: rent, attributes: [NSFontAttributeName: boldFont, NSForegroundColorAttributeName: UIColor.nbTurquoise])
+//        attrText.append(coloredRent)
         
         let boldItemName = NSMutableAttributedString(string: request.itemName!, attributes: [NSFontAttributeName: boldFont])
         attrText.append(boldItemName)
@@ -369,20 +382,16 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         cell.messageLabel.attributedText = attrText
         cell.messageLabel.sizeToFit()
         
+        cell.messageLabel2.text = request.desc
+        
         let myLocation = LocationManager.sharedInstance.location
         let distanceString = request.getDistanceAsString(fromLocation: myLocation!)
-//        cell.distance = distanceString
-        cell.distance = ""
+        cell.distance = distanceString
         
-        cell.time = distanceString + " ∙ " + request.getElapsedTimeAsString()
-//        cell.time = request.getElapsedTimeAsString()
+        cell.time = request.getElapsedTimeAsString()
         
         cell.userImageView.image = UIImage(named: "User-64")
         cell.setNeedsLayout()
-        
-        cell.rentLabel.backgroundColor = request.rental! ? UIColor.energy : UIColor.mountainMedow
-        cell.rent = request.rental! ? "RENT" : "BUY"
-//        cell.sizeToFit()
         
         if let pictureURL = request.user?.pictureUrl {
             NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
@@ -423,6 +432,37 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         self.navigationController?.pushViewController(requestDetailVC, animated: true)
     }
     
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let request = requests[(indexPath as NSIndexPath).section]
+        
+        if request.isMyRequest() {
+            let close = UITableViewRowAction(style: .normal, title: "Close") { action, index in
+            }
+            close.backgroundColor = UIColor.red
+            
+            return [close]
+        }
+        else {
+            let respond = UITableViewRowAction(style: .normal, title: "Respond") { action, index in
+                let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+                guard let navVC = storyboard.instantiateViewController(
+                    withIdentifier: "NewResponseNavigationController") as? UINavigationController else {
+                        assert(false, "Misnamed view controller")
+                        return
+                }
+                let responseVC = (navVC.childViewControllers[0] as! NewResponseTableViewController)
+//                responseVC.delegate = self
+//                responseVC.request = self.request
+                self.present(navVC, animated: true, completion: nil)
+                
+                self.tableView.isEditing = false
+            }
+            respond.backgroundColor = UIColor.lightGray
+            
+            return [respond]
+        }
+    }
+    
     func refresh(_ sender: AnyObject) {
 //        nextPageURLString = nil // so it doesn't try to append the results
         NearbyAPIManager.sharedInstance.clearCache()
@@ -453,5 +493,26 @@ extension HomeViewController: FilterTableViewDelegate {
     
     func cancelled() {
     }
+    
+}
+
+extension HomeViewController: NewRequestTableViewDelegate {
+    
+    @IBAction func requestButtonPressed(_ sender: UIButton) {
+        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        guard let navVC = storyboard.instantiateViewController(
+            withIdentifier: "NewRequestNavigationController") as? UINavigationController else {
+                assert(false, "Misnamed view controller")
+                return
+        }
+        let newRequestVC = (navVC.childViewControllers[0] as! NewRequestTableViewController)
+        newRequestVC.delegate = self
+        self.present(navVC, animated: true, completion: nil)
+    }
+    
+    func saved(_ request: NBRequest) {
+    }
+    
+//    func cancelled()
     
 }

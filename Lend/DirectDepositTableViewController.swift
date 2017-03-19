@@ -63,18 +63,7 @@ class DirectDepositTableViewController: UITableViewController {
             user?.bankRoutingNumber = "110000000"
             user?.fundDestination = "bank"
             
-            print(user?.toString())
-            
             progressHUD.show()
-            
-//            NBUser.editSelf(user!, completionHandler: { error in
-//                if (error != nil) {
-//                    print("there was an error")
-//                }
-//                else {
-//                    print("no error")
-//                }
-//            })
             
             NBStripe.addBank(user!, completionHandler: { response in
                 print(response.result.value)
