@@ -17,21 +17,22 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
 
             let request = history.request
             let item = history.request?.itemName ?? "ITEM"
-            
-            let text = " want to \(((request?.rental)! ? "borrow" : "buy")) "
+            let rent = (request?.rental)! ? "borrow" : "buy"
+
             let attrText = NSMutableAttributedString(string: "")
             let boldFont = UIFont.boldSystemFont(ofSize: 15)
-            let boldFullname = NSMutableAttributedString(string: "You", attributes: [NSFontAttributeName: boldFont])
-            attrText.append(boldFullname)
-            attrText.append(NSMutableAttributedString(string: text))
+            
+            let boldYou = NSMutableAttributedString(string: "You", attributes: [NSFontAttributeName: boldFont])
+            attrText.append(boldYou)
+            
+            attrText.append(NSMutableAttributedString(string: " want to \(rent) "))
             
             let boldItemName = NSMutableAttributedString(string: item, attributes: [NSFontAttributeName: boldFont])
             attrText.append(boldItemName)
+            
             attrText.append(NSMutableAttributedString(string: "."))
             
-            //setting cell's views
             cell.messageLabel.attributedText = attrText
-            cell.messageLabel.sizeToFit()
             
 //            cell.historyStateLabel.backgroundColor = UIColor.energy
             cell.historyStateLabel.backgroundColor = UIColor.nbYellow
@@ -61,9 +62,24 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
         else {
             let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "ResponseCell", for: indexPath) as! HistoryResponseTableViewCell
             
-            let name: String = history.responses[indexPath.row - 1].seller?.fullName ?? "NAME"
-            let price = history.responses[indexPath.row - 1].offerPrice ?? -9.99
-                cell.messageLabel?.text = "\(name) is offering to sell it to you for $\(price)."
+            let name = history.responses[indexPath.row - 1].seller?.shortName ?? "NAME"
+            let price = history.responses[indexPath.row - 1].priceInDollarFormat
+            let rent = (history.request?.rental)! ? "lend" : "sell"
+
+            let attrText = NSMutableAttributedString(string: "")
+            let boldFont = UIFont.boldSystemFont(ofSize: 15)
+            
+            let boldName = NSMutableAttributedString(string: name, attributes: [NSFontAttributeName: boldFont])
+            attrText.append(boldName)
+            
+            attrText.append(NSMutableAttributedString(string: " is offering to \(rent) it to you for "))
+            
+            let boldPrice = NSMutableAttributedString(string: price, attributes: [NSFontAttributeName: boldFont])
+            attrText.append(boldPrice)
+            
+            attrText.append(NSMutableAttributedString(string: "."))
+            
+            cell.messageLabel.attributedText = attrText
             
             cell.userImageView.image = UIImage(named: "User-64")
             cell.setNeedsLayout()

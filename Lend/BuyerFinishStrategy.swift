@@ -15,15 +15,18 @@ class BuyerFinishStrategy: HistoryStateStrategy {
         let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath) as! HistoryRequestTableViewCell
         
         let item = history.request?.itemName ?? "ITEM"
-        let text = " have successfully completed transaction for "
+        
         let attrText = NSMutableAttributedString(string: "")
         let boldFont = UIFont.boldSystemFont(ofSize: 15)
-        let boldFullname = NSMutableAttributedString(string: "You", attributes: [NSFontAttributeName: boldFont])
-        attrText.append(boldFullname)
-        attrText.append(NSMutableAttributedString(string: text))
+        
+        let boldYou = NSMutableAttributedString(string: "You", attributes: [NSFontAttributeName: boldFont])
+        attrText.append(boldYou)
+        
+        attrText.append(NSMutableAttributedString(string: " have successfully completed transaction for "))
         
         let boldItemName = NSMutableAttributedString(string: item, attributes: [NSFontAttributeName: boldFont])
         attrText.append(boldItemName)
+        
         attrText.append(NSMutableAttributedString(string: "."))
         
         cell.messageLabel.attributedText = attrText

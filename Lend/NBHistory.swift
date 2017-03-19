@@ -124,6 +124,14 @@ extension NBHistory {
                     return HistoryStatus.seller_exchange
                 }
             }
+            else if self.transaction?.getStatus() == .returns && (self.request?.rental)! == false {
+                if self.isMyRequest() {
+                    return HistoryStatus.buyer_finish
+                }
+                else {
+                    return HistoryStatus.seller_finish
+                }
+            }
             else if self.transaction?.getStatus() == .returns {
                 if self.isMyRequest() {
                     return HistoryStatus.buyer_returns

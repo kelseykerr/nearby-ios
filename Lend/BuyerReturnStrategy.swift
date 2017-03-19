@@ -14,28 +14,28 @@ class BuyerReturnStrategy: HistoryStateStrategy {
     func cell(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UITableViewCell {
         let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath) as! HistoryRequestTableViewCell
         
-        let name = history.responses[indexPath.row].seller?.fullName ?? "NAME"
+        let name = history.responses[indexPath.row].seller?.shortName ?? "NAME"
         let item = history.request?.itemName ?? "ITEM"
-//        cell.messageLabel?.text = "You are meeting \(name) to return \(item)."
         
-        let text1 = " are meeting "
-        let text2 = " to return "
         let attrText = NSMutableAttributedString(string: "")
         let boldFont = UIFont.boldSystemFont(ofSize: 15)
-        let boldFullname = NSMutableAttributedString(string: "You", attributes: [NSFontAttributeName: boldFont])
-        attrText.append(boldFullname)
-        attrText.append(NSMutableAttributedString(string: text1))
-        let boldFullname2 = NSMutableAttributedString(string: name, attributes: [NSFontAttributeName: boldFont])
-        attrText.append(boldFullname2)
-        attrText.append(NSMutableAttributedString(string: text2))
+        
+        let boldYou = NSMutableAttributedString(string: "You", attributes: [NSFontAttributeName: boldFont])
+        attrText.append(boldYou)
+        
+        attrText.append(NSMutableAttributedString(string: " are meeting "))
+        
+        let boldName = NSMutableAttributedString(string: name, attributes: [NSFontAttributeName: boldFont])
+        attrText.append(boldName)
+        
+        attrText.append(NSMutableAttributedString(string: " to return "))
         
         let boldItemName = NSMutableAttributedString(string: item, attributes: [NSFontAttributeName: boldFont])
         attrText.append(boldItemName)
+        
         attrText.append(NSMutableAttributedString(string: "."))
         
-        //setting cell's views
         cell.messageLabel.attributedText = attrText
-        cell.messageLabel.sizeToFit()
         
 //        cell.historyStateLabel.backgroundColor = UIColor.pictonBlue
         cell.historyStateLabel.backgroundColor = UIColor.nbBlue

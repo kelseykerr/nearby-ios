@@ -359,30 +359,23 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath) as! HomeTableViewCell
         
         let request = requests[(indexPath as NSIndexPath).section]
-        
         let name = request.user?.shortName ?? "NAME"
+        let rent = (request.rental)! ? "borrow" : "buy"
         
-        let text = " wants to "
         let attrText = NSMutableAttributedString(string: "")
         let boldFont = UIFont.boldSystemFont(ofSize: 15)
+        
         let boldFullname = NSMutableAttributedString(string: name, attributes: [NSFontAttributeName: boldFont])
         attrText.append(boldFullname)
-        attrText.append(NSMutableAttributedString(string: text))
         
-        let rent = (request.rental)! ? "borrow " : "buy "
-        attrText.append(NSMutableAttributedString(string: rent))
-//        let coloredRent = NSMutableAttributedString(string: rent, attributes: [NSFontAttributeName: boldFont, NSForegroundColorAttributeName: UIColor.nbTurquoise])
-//        attrText.append(coloredRent)
+        attrText.append(NSMutableAttributedString(string: " wants to \(rent) "))
         
         let boldItemName = NSMutableAttributedString(string: request.itemName!, attributes: [NSFontAttributeName: boldFont])
         attrText.append(boldItemName)
+        
         attrText.append(NSMutableAttributedString(string: "."))
 
-        //setting cell's views
         cell.messageLabel.attributedText = attrText
-        cell.messageLabel.sizeToFit()
-        
-        cell.messageLabel2.text = request.desc
         
         let myLocation = LocationManager.sharedInstance.location
         let distanceString = request.getDistanceAsString(fromLocation: myLocation!)
@@ -400,8 +393,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
                     return
                 }
                 if let cellToUpdate = self.tableView?.cellForRow(at: indexPath) as! HomeTableViewCell? {
-                    cellToUpdate.userImageView?.image = image // will work fine even if image is nil // need to reload the view, which won't happen otherwise
-                    // since this is in an async call
+                    cellToUpdate.userImageView?.image = image
                     cellToUpdate.setNeedsLayout()
                 }
             })
