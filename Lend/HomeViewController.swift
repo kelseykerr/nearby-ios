@@ -8,6 +8,8 @@
 
 import UIKit
 import MapKit
+import Alamofire
+import SwiftyJSON
 
 class HomeViewController: UIViewController, LoginViewDelegate {
 
@@ -15,8 +17,6 @@ class HomeViewController: UIViewController, LoginViewDelegate {
     @IBOutlet var tableView: UITableView!
     @IBOutlet var reloadView: UIToolbar!
     @IBOutlet var requestButton: UIButton!
-    
-    var searchBar: UISearchBar = UISearchBar()
     
     var requests = [NBRequest]()
     var nextPageURLString: String?
@@ -41,27 +41,13 @@ class HomeViewController: UIViewController, LoginViewDelegate {
         
         self.navigationItem.titleView = imageView
         
-        navigationController?.navigationBar.isTranslucent = false
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        navigationController?.navigationBar.barStyle = .black
-//        navigationController?.navigationBar.barTintColor = UIColor.red
-        navigationController?.navigationBar.shadowImage = UIImage()
+        self.tableView.contentInset = UIEdgeInsetsMake(-26, 0, 0, 0)
         
         requestButton.layer.cornerRadius = requestButton.frame.size.width / 2
         requestButton.clipsToBounds = true
         
-//        let searchBar = UISearchBar()
-        searchBar.placeholder = "Search"
-        searchBar.frame = CGRect(x: 0, y: 0, width: (navigationController?.view.bounds.size.width)!, height: 44)
-        searchBar.barStyle = .default
-        searchBar.isTranslucent = false
-        searchBar.barTintColor = navigationController?.navigationBar.barTintColor
-        searchBar.backgroundImage = UIImage()
-        view.addSubview(searchBar)
-        
         self.mapView.delegate = self
         self.view.bringSubview(toFront: mapView)
-        self.view.bringSubview(toFront: searchBar)
         self.view.bringSubview(toFront: requestButton)
 //        self.view.bringSubview(toFront: reloadView)
         loadInitialData()
@@ -76,6 +62,8 @@ class HomeViewController: UIViewController, LoginViewDelegate {
         
         let currentLocation = LocationManager.sharedInstance.location
         loadRequests((currentLocation?.coordinate.latitude)!, longitude: (currentLocation?.coordinate.longitude)!, radius: 1000)
+        UserManager.sharedInstance.getUser(completionHandler: { user in
+        })
     }
     
     func showOAuthLoginView() {
@@ -98,6 +86,9 @@ class HomeViewController: UIViewController, LoginViewDelegate {
             
             let currentLocation = LocationManager.sharedInstance.location
             self.loadRequests((currentLocation?.coordinate.latitude)!, longitude: (currentLocation?.coordinate.longitude)!, radius: 1000)
+            
+            UserManager.sharedInstance.getUser(completionHandler: { user in
+            })
         }
     }
     
@@ -197,7 +188,6 @@ class HomeViewController: UIViewController, LoginViewDelegate {
         else {
             sender.title = "List"
             self.view.bringSubview(toFront: mapView)
-            self.view.bringSubview(toFront: searchBar)
             self.view.bringSubview(toFront: reloadView)
             self.view.bringSubview(toFront: requestButton)
         }
@@ -212,7 +202,6 @@ class HomeViewController: UIViewController, LoginViewDelegate {
 
         reloadRequests(center.latitude, longitude: center.longitude, radius: radius)
         self.view.bringSubview(toFront: mapView)
-        self.view.bringSubview(toFront: searchBar)
         self.view.bringSubview(toFront: requestButton)
     }
     
@@ -414,14 +403,11 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-        guard let requestDetailVC = storyboard.instantiateViewController(
-            withIdentifier: "RequestDetailTableViewController") as? RequestDetailTableViewController else {
-                assert(false, "Misnamed view controller")
-                return
-        }
-        requestDetailVC.request = requests[(indexPath as NSIndexPath).section]
-        self.navigationController?.pushViewController(requestDetailVC, animated: true)
+        let request = requests[(indexPath as NSIndexPath).section]
+        
+        let detailRequestVC = UIStoryboard.getDetailRequestVC() as! RequestDetailTableViewController
+        detailRequestVC.request = request
+        self.navigationController?.pushViewController(detailRequestVC, animated: true)
     }
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
@@ -502,9 +488,18 @@ extension HomeViewController: NewRequestTableViewDelegate {
         self.present(navVC, animated: true, completion: nil)
     }
     
-    func saved(_ request: NBRequest) {
+    func saved(_ request: NBRequest?, error: NSError?) {
+        if let error = error {
+            let alert = Utils.createServerErrorAlert(error: error)
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
-//    func cancelled()
-    
+    func edited(_ request: NBRequest?, error: NSError?) {
+        if let error = error {
+            let alert = Utils.createServerErrorAlert(error: error)
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+        
 }

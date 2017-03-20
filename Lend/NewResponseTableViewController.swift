@@ -105,8 +105,6 @@ class NewResponseTableViewController: UITableViewController {
         pickupTimeDateTextField.inputAccessoryView = pickupToolbar
         pickupTimeDateTextField.inputView = pickupDatePicker
         
-        print(pickupDatePicker.date)
-        
         let returnToolbar = UIToolbar()
         returnToolbar.sizeToFit()
         

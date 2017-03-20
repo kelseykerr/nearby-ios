@@ -22,7 +22,7 @@ class HistoryRequestTableViewCell: UITableViewCell {
         userImageView.layer.cornerRadius = userImageView.frame.size.width / 2
         userImageView.clipsToBounds = true
         
-        historyStateLabel.layer.cornerRadius = historyStateLabel.frame.size.height / 2
+        historyStateLabel.layer.cornerRadius = historyStateLabel.frame.size.height / 8
         historyStateLabel.clipsToBounds = true
     }
     

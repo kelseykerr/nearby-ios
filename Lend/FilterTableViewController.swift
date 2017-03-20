@@ -21,12 +21,19 @@ class FilterTableViewController: UITableViewController {
     
     var filter: SearchFilter?
     
+    @IBOutlet var searchTextField: UITextField!
+    
     @IBOutlet var includeMyRequestSwitch: UISwitch!
     @IBOutlet var includeExpiredRequestSwitch: UISwitch!
     @IBOutlet var sortRequestByDateSwitch: UISwitch!
     
+    @IBOutlet var searchButton: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        searchButton.layer.cornerRadius = searchButton.frame.size.width / 64
+        searchButton.clipsToBounds = true
         
         loadInitialData()
     }

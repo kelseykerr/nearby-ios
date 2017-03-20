@@ -20,7 +20,7 @@
 		AA2C47531D6D0B0B0013F350 /* CategoriesRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2C47521D6D0B0B0013F350 /* CategoriesRouter.swift */; };
 		AA2C47551D6D3FB60013F350 /* RequestDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2C47541D6D3FB60013F350 /* RequestDetailTableViewController.swift */; };
 		AA2EB2DE1E7675AB00646AF3 /* HistoryTransactionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2EB2DD1E7675AB00646AF3 /* HistoryTransactionTableViewCell.swift */; };
-		AA2EB2E01E767E3700646AF3 /* NBColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2EB2DF1E767E3700646AF3 /* NBColor.swift */; };
+		AA2EB2E01E767E3700646AF3 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2EB2DF1E767E3700646AF3 /* UIColorExtension.swift */; };
 		AA2EB2E21E77B09F00646AF3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AA2EB2E11E77B09F00646AF3 /* GoogleService-Info.plist */; };
 		AA2F16C01E4662210029AB47 /* QRScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2F16BF1E4662200029AB47 /* QRScannerViewController.swift */; };
 		AA38307F1D5A75F600C125F6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA38307E1D5A75F600C125F6 /* AppDelegate.swift */; };
@@ -70,6 +70,7 @@
 		AA97466C1E54540C00C1FA17 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA97466B1E54540C00C1FA17 /* Utils.swift */; };
 		AA97466E1E56C10C00C1FA17 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA97466D1E56C10C00C1FA17 /* UIViewControllerExtension.swift */; };
 		AA98F7391D9C69910083BB4B /* RequestTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA98F7381D9C69910083BB4B /* RequestTableViewCell.swift */; };
+		AA9B97B01E7FAB3400EE055F /* UIStoryboardExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9B97AF1E7FAB3400EE055F /* UIStoryboardExtension.swift */; };
 		AAB7690A1E285C1C0021F657 /* HistoryResponseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB769091E285C1C0021F657 /* HistoryResponseTableViewCell.swift */; };
 		AAB7690C1E2B35EF0021F657 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB7690B1E2B35EF0021F657 /* UserManager.swift */; };
 		AAB7690E1E2B3CF80021F657 /* NBPayment.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB7690D1E2B3CF80021F657 /* NBPayment.swift */; };
@@ -96,7 +97,7 @@
 		AA2C47521D6D0B0B0013F350 /* CategoriesRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoriesRouter.swift; sourceTree = "<group>"; };
 		AA2C47541D6D3FB60013F350 /* RequestDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestDetailTableViewController.swift; sourceTree = "<group>"; };
 		AA2EB2DD1E7675AB00646AF3 /* HistoryTransactionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryTransactionTableViewCell.swift; sourceTree = "<group>"; };
-		AA2EB2DF1E767E3700646AF3 /* NBColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NBColor.swift; sourceTree = "<group>"; };
+		AA2EB2DF1E767E3700646AF3 /* UIColorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 		AA2EB2E11E77B09F00646AF3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		AA2F16BF1E4662200029AB47 /* QRScannerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRScannerViewController.swift; sourceTree = "<group>"; };
 		AA38307B1D5A75F600C125F6 /* Nearby.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Nearby.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -150,6 +151,7 @@
 		AA97466B1E54540C00C1FA17 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		AA97466D1E56C10C00C1FA17 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
 		AA98F7381D9C69910083BB4B /* RequestTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestTableViewCell.swift; sourceTree = "<group>"; };
+		AA9B97AF1E7FAB3400EE055F /* UIStoryboardExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIStoryboardExtension.swift; sourceTree = "<group>"; };
 		AAB769091E285C1C0021F657 /* HistoryResponseTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryResponseTableViewCell.swift; sourceTree = "<group>"; };
 		AAB7690B1E2B35EF0021F657 /* UserManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		AAB7690D1E2B3CF80021F657 /* NBPayment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NBPayment.swift; sourceTree = "<group>"; };
@@ -206,6 +208,7 @@
 		AA0F72A11D7549A80023DAA6 /* old */ = {
 			isa = PBXGroup;
 			children = (
+				AA2EB2DD1E7675AB00646AF3 /* HistoryTransactionTableViewCell.swift */,
 				AA98F7381D9C69910083BB4B /* RequestTableViewCell.swift */,
 				AA97211D1D64DB580036E007 /* NBGeoJsonPoint.swift */,
 				AA2C47471D6824F00013F350 /* AllRequestsTableViewController.swift */,
@@ -229,7 +232,8 @@
 			children = (
 				AA2C47501D6B759D0013F350 /* Converter.swift */,
 				AA97466B1E54540C00C1FA17 /* Utils.swift */,
-				AA2EB2DF1E767E3700646AF3 /* NBColor.swift */,
+				AA2EB2DF1E767E3700646AF3 /* UIColorExtension.swift */,
+				AA9B97AF1E7FAB3400EE055F /* UIStoryboardExtension.swift */,
 			);
 			name = Other;
 			sourceTree = "<group>";
@@ -324,7 +328,6 @@
 				AAC3C8A71D5A789800B8F2A9 /* HistoryTableViewController.swift */,
 				AA8F27921E5AA24D003CDC22 /* HistoryRequestTableViewCell.swift */,
 				AAB769091E285C1C0021F657 /* HistoryResponseTableViewCell.swift */,
-				AA2EB2DD1E7675AB00646AF3 /* HistoryTransactionTableViewCell.swift */,
 			);
 			name = History;
 			sourceTree = "<group>";
@@ -365,8 +368,8 @@
 			isa = PBXGroup;
 			children = (
 				AA2C47451D679BA50013F350 /* NewRequestTableViewController.swift */,
-				AA0F72A21D7791C20023DAA6 /* CategorySelectionTableViewController.swift */,
 				AA2C47541D6D3FB60013F350 /* RequestDetailTableViewController.swift */,
+				AA0F72A21D7791C20023DAA6 /* CategorySelectionTableViewController.swift */,
 			);
 			name = Request;
 			sourceTree = "<group>";
@@ -582,6 +585,7 @@
 				AAB769121E2B43380021F657 /* DirectDepositTableViewController.swift in Sources */,
 				AA2C47461D679BA50013F350 /* NewRequestTableViewController.swift in Sources */,
 				AA8F279A1E5AB5F4003CDC22 /* SellerBuyerConfirmStrategy.swift in Sources */,
+				AA9B97B01E7FAB3400EE055F /* UIStoryboardExtension.swift in Sources */,
 				AA8F279C1E5AB621003CDC22 /* SellerSellerConfirmStrategy.swift in Sources */,
 				AA8F27AA1E5ABE2E003CDC22 /* BuyerReturnStrategy.swift in Sources */,
 				AA9721261D65637E0036E007 /* UsersRouter.swift in Sources */,
@@ -594,7 +598,7 @@
 				AA546A861DCA5F89007E1E8F /* BraintreeRouter.swift in Sources */,
 				AA546A841DCA5CD3007E1E8F /* NBBraintree.swift in Sources */,
 				AA97466C1E54540C00C1FA17 /* Utils.swift in Sources */,
-				AA2EB2E01E767E3700646AF3 /* NBColor.swift in Sources */,
+				AA2EB2E01E767E3700646AF3 /* UIColorExtension.swift in Sources */,
 				AA9721201D64E0A50036E007 /* NBRequest.swift in Sources */,
 				AA2C47551D6D3FB60013F350 /* RequestDetailTableViewController.swift in Sources */,
 				AA4310B81D616DAB00E00F45 /* LoginViewController.swift in Sources */,

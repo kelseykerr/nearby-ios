@@ -44,16 +44,12 @@ extension NBStripe {
     
     static func addBank(_ user: NBUser, completionHandler: @escaping (DataResponse<Any>) -> Void) {
         Alamofire.request(StripeRouter.createBank(user.toJSON())).validate(statusCode: 200..<300).responseJSON { response in
-            print(JSON(user.toJSON()))
-            print(response.response)
             completionHandler(response)
         }
     }
     
     static func addCreditcard(_ user: NBUser, completionHandler: @escaping (DataResponse<Any>) -> Void) {
         Alamofire.request(StripeRouter.createCreditcard(user.toJSON())).validate(statusCode: 200..<300).responseJSON { response in
-            print(JSON(user.toJSON()))
-            print(response.response)
             completionHandler(response)
         }
     }

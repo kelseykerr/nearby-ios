@@ -9,6 +9,7 @@
 import UIKit
 import Alamofire
 import SwiftyJSON
+import Firebase
 
 class AccountTableViewController: UITableViewController, LoginViewDelegate {
     
@@ -36,6 +37,12 @@ class AccountTableViewController: UITableViewController, LoginViewDelegate {
         self.versionLabel.text = "©2016-17 Iuxta, Inc. v\(version) (\(build))"
             
         loadInitialData()
+        
+        let token = FIRInstanceID.instanceID().token()!
+        print("token: \(token)")
+        
+        NBUser.editFcmToken(token) { error in
+        }
     }
     
     func loadInitialData() {

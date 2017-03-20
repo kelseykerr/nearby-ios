@@ -136,25 +136,30 @@ extension NBRequest {
 
     //response should have the request with new id
     static func addRequest(_ req: NBRequest, completionHandler: @escaping (NSError?) -> Void) {
-//        Alamofire.request(RequestsRouter.createRequest(req.toJSON())).response { response in
-//            completionHandler(response.error as NSError?)
-//        }
-        Alamofire.request(RequestsRouter.createRequest(req.toJSON())).response { response in
-            print("DATA:")
-            print(response.data)
-            print("ERROR:")
-            print(response.error)
-            print("REQUEST:")
-            print(response.request)
-            print("RESPONSE:")
-            print(response.response)
-            completionHandler(response.error as NSError?)
+        Alamofire.request(RequestsRouter.createRequest(req.toJSON())).validate(statusCode: 200..<300).responseJSON { response in
+            if response.result.error != nil {
+                let statusCode = response.response?.statusCode
+                let errorMessage = String(data: response.data!, encoding: String.Encoding.utf8)
+                let nsError = NSError(domain: errorMessage!, code: statusCode!, userInfo: nil)
+                completionHandler(nsError)
+            }
+            else {
+                completionHandler(nil)
+            }
         }
     }
     
     static func editRequest(_ req: NBRequest, completionHandler: @escaping (NSError?) -> Void) {
-        Alamofire.request(RequestsRouter.editRequest(req.id!, req.toJSON())).response { response in
-            completionHandler(response.error as NSError?)
+        Alamofire.request(RequestsRouter.editRequest(req.id!, req.toJSON())).validate(statusCode: 200..<300).responseJSON { response in
+            if response.result.error != nil {
+                let statusCode = response.response?.statusCode
+                let errorMessage = String(data: response.data!, encoding: String.Encoding.utf8)
+                let nsError = NSError(domain: errorMessage!, code: statusCode!, userInfo: nil)
+                completionHandler(nsError)
+            }
+            else {
+                completionHandler(nil)
+            }
         }
     }
     

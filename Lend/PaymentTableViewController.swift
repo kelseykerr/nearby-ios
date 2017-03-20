@@ -70,15 +70,16 @@ class PaymentTableViewController: UITableViewController {
             
             STPAPIClient.shared().createToken(withCard: cardParams) { (token, error) in
                 if let error = error {
-                    // show the error to the user
+                    let alert = Utils.createErrorAlert(errorMessage: error.localizedDescription)
+                    self.present(alert, animated: true, completion: nil)
+                    self.progressHUD.hide()
                 } else if let token = token {
                     self.user?.stripeCCToken = token.tokenId
                     NBStripe.addCreditcard(self.user!, completionHandler: { response in
-                        print(response.result.value)
                         if let error = response.result.error {
                             let statusCode = response.response?.statusCode
-                            let alert = UIAlertController(title: "Error", message: "\(statusCode!)", preferredStyle: UIAlertControllerStyle.alert)
-                            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+                            let errorMessage = String(data: response.data!, encoding: String.Encoding.utf8)
+                            let alert = Utils.createServerErrorAlert(errorCode: statusCode!, errorMessage: errorMessage)
                             self.present(alert, animated: true, completion: nil)
                         }
                         self.progressHUD.hide()

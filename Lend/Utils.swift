@@ -33,4 +33,22 @@ class Utils {
         }
     }
     
+    static func createErrorAlert(errorMessage: String?) -> UIAlertController {
+        let alert = UIAlertController(title: "Error", message: "\(errorMessage ?? "No error message")", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+        return alert
+    }
+    
+    static func createServerErrorAlert(errorCode: Int, errorMessage: String?) -> UIAlertController {
+        let alert = createErrorAlert(errorMessage: "\(errorCode): \(errorMessage ?? "No error message")")
+        return alert
+    }
+    
+    static func createServerErrorAlert(error: NSError?) -> UIAlertController {
+        let errorMessage = error?.domain
+        let errorCode = error?.code
+        let alert = createServerErrorAlert(errorCode: errorCode!, errorMessage: errorMessage)
+        return alert
+    }
+    
 }

@@ -317,4 +317,10 @@ extension NBUser {
         }
     }
     
+    static func editFcmToken(_ fcmToken: String, completionHandler: @escaping (NSError?) -> Void) {
+        Alamofire.request(UsersRouter.editFcmToken(fcmToken)).response { response in
+            completionHandler(response.error as NSError?)
+        }
+    }
+    
 }

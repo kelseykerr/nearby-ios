@@ -19,6 +19,7 @@ enum UsersRouter: URLRequestConvertible {
     case editSelf([String: AnyObject])
     case getSelfHistory()
     case getUser(String)
+    case editFcmToken(String)
 //    case getPayment()
     //Would be nice to have users in an array
     case getAtPath(String)
@@ -33,7 +34,7 @@ enum UsersRouter: URLRequestConvertible {
             switch self {
             case .getSelf, .getSelfRequests, .getSelfHistory, .getUser, .getAtPath:
                 return .get
-            case .editSelf:
+            case .editSelf, .editFcmToken:
                 return .put
             }
         }
@@ -49,6 +50,8 @@ enum UsersRouter: URLRequestConvertible {
                 relativePath = "users/me/history"
             case .editSelf:
                 relativePath = "users/me"
+            case .editFcmToken(let token):
+                relativePath = "users/me/fcmToken/\(token)"
             case .getUser(let id):
                 relativePath = "users/\(id)"
             case .getAtPath(let path):
@@ -69,6 +72,8 @@ enum UsersRouter: URLRequestConvertible {
                 return nil
             case .editSelf(let newItem):
                 return (newItem)
+            case .editFcmToken:
+                return nil
             }
         }()
         

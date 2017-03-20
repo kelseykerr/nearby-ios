@@ -146,13 +146,14 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
     func detailViewController(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UIViewController {
         
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-        guard let responseDetailVC = storyboard.instantiateViewController(
-            withIdentifier: "ResponseDetailTableViewController") as? ResponseDetailTableViewController else {
+        guard let requestDetailVC = storyboard.instantiateViewController(
+            withIdentifier: "RequestDetailTableViewController") as? RequestDetailTableViewController else {
                 assert(false, "Misnamed view controller")
 //                return nil
         }
-        return responseDetailVC
-//        historyVC.navigationController?.pushViewController(responseDetailVC, animated: true)
+        requestDetailVC.request = history.request
+        
+        return requestDetailVC
     }
     
     func rowAction(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> [UITableViewRowAction]? {

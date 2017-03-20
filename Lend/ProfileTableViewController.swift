@@ -56,18 +56,6 @@ class ProfileTableViewController: UITableViewController {
             self.stateTextField.text = fetchedUser.state ?? ""
             self.zipCodeTextField.text = fetchedUser.zip ?? ""
         }
-//        if user != nil {
-//            self.firstNameTextField.text = user?.firstName ?? ""
-//            self.lastNameTextField.text = user?.lastName ?? ""
-//            self.emailAddressTextField.text = user?.email ?? ""
-//            self.phoneNumberTextField.text = user?.phone ?? ""
-//            self.dateOfBirthTextField.text = user?.dateOfBirth ?? ""
-//            
-//            self.streetAddressTextField.text = user?.address ?? ""
-//            self.cityTextField.text = user?.city ?? ""
-//            self.stateTextField.text = user?.state ?? ""
-//            self.zipCodeTextField.text = user?.zip ?? ""
-//        }
     }
     
     @IBAction func saveButtonPressed(_ sender: UIButton) {

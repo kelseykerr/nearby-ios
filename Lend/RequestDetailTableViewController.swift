@@ -16,6 +16,25 @@ class RequestDetailTableViewController: UITableViewController {
     @IBOutlet var saveButton: UIButton!
     
     var request: NBRequest?
+    var edit = false
+    
+    var itemName: String? {
+        get {
+            return itemNameLabel.text
+        }
+        set {
+            itemNameLabel.text = newValue
+        }
+    }
+    
+    var desc: String? {
+        get {
+            return descriptionTextView.text
+        }
+        set {
+            descriptionTextView.text = newValue
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,32 +42,47 @@ class RequestDetailTableViewController: UITableViewController {
         saveButton.layer.cornerRadius = saveButton.frame.size.width / 64
         saveButton.clipsToBounds = true
         
-        self.itemNameLabel.text = request?.itemName
-        self.descriptionTextView.text = request?.desc
+        loadFields(request: request!)
+        
+        if let request = request {
+            edit = request.isMyRequest()
+            if edit {
+                self.saveButton.setTitle("Edit", for: UIControlState.normal)
+            }
+        }
+    }
+    
+    func loadFields(request: NBRequest) {
+        itemName = request.itemName
+        desc = request.desc
     }
     
     @IBAction func respondButtonPressed(_ sender: UIButton) {
-        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-        guard let navVC = storyboard.instantiateViewController(
-            withIdentifier: "NewResponseNavigationController") as? UINavigationController else {
-                assert(false, "Misnamed view controller")
-                return
+        if edit {
+            let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+            guard let navVC = storyboard.instantiateViewController(
+                withIdentifier: "NewRequestNavigationController") as? UINavigationController else {
+                    assert(false, "Misnamed view controller")
+                    return
+            }
+            let newRequestVC = (navVC.childViewControllers[0] as! NewRequestTableViewController)
+//            newRequestVC.delegate = self
+            newRequestVC.request = request
+            self.present(navVC, animated: true, completion: nil)
         }
-        let responseVC = (navVC.childViewControllers[0] as! NewResponseTableViewController)
-        responseVC.delegate = self
-        responseVC.request = self.request
-        self.present(navVC, animated: true, completion: nil)
+        else {
+            let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+            guard let navVC = storyboard.instantiateViewController(
+                withIdentifier: "NewResponseNavigationController") as? UINavigationController else {
+                    assert(false, "Misnamed view controller")
+                    return
+            }
+            let responseVC = (navVC.childViewControllers[0] as! NewResponseTableViewController)
+            responseVC.delegate = self
+            responseVC.request = self.request
+            self.present(navVC, animated: true, completion: nil)
+        }
     }
-    
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if segue.identifier == "PopoverNewResponseViewController" {
-//            print(sender)
-//            
-//            let newResponseVC = segue.destination.childViewControllers[0] as! NewResponseTableViewController
-//            newResponseVC.delegate = self
-//            newResponseVC.request = self.request
-//        }
-//    }
     
 }
 
