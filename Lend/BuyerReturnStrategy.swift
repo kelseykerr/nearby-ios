@@ -14,9 +14,11 @@ class BuyerReturnStrategy: HistoryStateStrategy {
     func cell(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UITableViewCell {
         let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath) as! HistoryRequestTableViewCell
         
-        let name = history.responses[indexPath.row].seller?.shortName ?? "NAME"
+        let sellerName = history.responses[indexPath.row].seller?.shortName ?? "NAME"
         let item = history.request?.itemName ?? "ITEM"
         
+        cell.messageLabel.text = "You are meeting \(sellerName) to return \(item)."
+/*
         let attrText = NSMutableAttributedString(string: "")
         let boldFont = UIFont.boldSystemFont(ofSize: 15)
         
@@ -36,11 +38,11 @@ class BuyerReturnStrategy: HistoryStateStrategy {
         attrText.append(NSMutableAttributedString(string: "."))
         
         cell.messageLabel.attributedText = attrText
+*/
         
-//        cell.historyStateLabel.backgroundColor = UIColor.pictonBlue
         cell.historyStateLabel.backgroundColor = UIColor.nbBlue
-        cell.historyStateLabel.textColor = UIColor.white
-        cell.historyStateLabel.text = "RETURN"
+        cell.historyStateLabel.text = "Return"
+        
         cell.timeLabel.text = history.request?.getElapsedTimeAsString()
         
         cell.userImageView.image = UIImage(named: "User-64")

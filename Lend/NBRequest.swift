@@ -12,7 +12,7 @@ import SwiftyJSON
 import MapKit
 
 
-class NBRequest: NSObject, ResponseJSONObjectSerializable {
+class NBRequest: NSObject, NSCopying, ResponseJSONObjectSerializable {
     
     var user: NBUser?
     var itemName: String?
@@ -47,6 +47,10 @@ class NBRequest: NSObject, ResponseJSONObjectSerializable {
 //            self.category = NBCategory(test: true)
     }
     
+    func copy(with zone: NSZone? = nil) -> Any {
+        return NBRequest(json: SwiftyJSON.JSON(self.toJSON()))
+    }
+        
     func toString() -> String {
         return desc ?? "No description"
     }
@@ -98,22 +102,15 @@ class NBRequest: NSObject, ResponseJSONObjectSerializable {
 
 extension NBRequest {
     
-    static func fetchRequests(_ latitude: Double, longitude: Double, radius: Double, completionHandler: @escaping (Result<[NBRequest]>) -> Void) {
-        Alamofire.request(RequestsRouter.getRequests(latitude, longitude, radius))
-            .responseArray { response in
-                completionHandler(response.result)
-        }
-    }
+//    static func fetchRequests(_ latitude: Double, longitude: Double, radius: Double, completionHandler: @escaping (Result<[NBRequest]>) -> Void) {
+//        Alamofire.request(RequestsRouter.getRequests(latitude, longitude, radius))
+//            .responseArray { response in
+//                completionHandler(response.result)
+//        }
+//    }
     
-    static func fetchRequests2(_ latitude: Double, longitude: Double, radius: Double, expired: Bool, includeMine: Bool, searchTerm: String, sort: String, completionHandler: @escaping (Result<[NBRequest]>) -> Void) {
-        print(latitude)
-        print(longitude)
-        print(radius)
-        print(expired)
-        print(includeMine)
-        print(searchTerm)
-        print(sort)
-        Alamofire.request(RequestsRouter.getRequests2(latitude, longitude, radius, expired, includeMine, searchTerm, sort))
+    static func fetchRequests(_ latitude: Double, longitude: Double, radius: Double, expired: Bool, includeMine: Bool, searchTerm: String, sort: String, completionHandler: @escaping (Result<[NBRequest]>) -> Void) {
+        Alamofire.request(RequestsRouter.getRequests(latitude, longitude, radius, expired, includeMine, searchTerm, sort))
             .responseArray { response in
                 completionHandler(response.result)
         }

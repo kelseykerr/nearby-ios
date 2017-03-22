@@ -16,7 +16,7 @@ class RequestDetailTableViewController: UITableViewController {
     @IBOutlet var saveButton: UIButton!
     
     var request: NBRequest?
-    var edit = false
+    var editMode = false
     
     var itemName: String? {
         get {
@@ -45,8 +45,8 @@ class RequestDetailTableViewController: UITableViewController {
         loadFields(request: request!)
         
         if let request = request {
-            edit = request.isMyRequest()
-            if edit {
+            editMode = request.isMyRequest()
+            if editMode {
                 self.saveButton.setTitle("Edit", for: UIControlState.normal)
             }
         }
@@ -58,7 +58,7 @@ class RequestDetailTableViewController: UITableViewController {
     }
     
     @IBAction func respondButtonPressed(_ sender: UIButton) {
-        if edit {
+        if editMode {
             let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
             guard let navVC = storyboard.instantiateViewController(
                 withIdentifier: "NewRequestNavigationController") as? UINavigationController else {
@@ -66,7 +66,7 @@ class RequestDetailTableViewController: UITableViewController {
                     return
             }
             let newRequestVC = (navVC.childViewControllers[0] as! NewRequestTableViewController)
-//            newRequestVC.delegate = self
+            newRequestVC.delegate = self
             newRequestVC.request = request
             self.present(navVC, animated: true, completion: nil)
         }
@@ -86,7 +86,31 @@ class RequestDetailTableViewController: UITableViewController {
     
 }
 
+extension RequestDetailTableViewController: NewRequestTableViewDelegate {
+    
+    func edited(_ request: NBRequest?, error: NSError?) {
+        if let error = error {
+            print("error: \(error)")
+        }
+        else {
+            print("OK")
+            self.request = request
+        }
+    }
+
+    func saved(_ request: NBRequest?, error: NSError?) {
+        if let error = error {
+            print("error: \(error)")
+        }
+        else {
+            self.request = request
+        }
+    }
+    
+}
+
 extension RequestDetailTableViewController: NewResponseTableViewDelegate {
+    
     func saved(_ response: NBResponse) {
         print("saved 2")
     }

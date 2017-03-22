@@ -40,6 +40,7 @@ class FilterTableViewController: UITableViewController {
     
     func loadInitialData() {
         if let filter = filter {
+            searchTextField.text = filter.searchTerm
             includeMyRequestSwitch.setOn(filter.includeMyRequest, animated: false)
             includeExpiredRequestSwitch.setOn(filter.includeExpiredRequest, animated: false)
             sortRequestByDateSwitch.setOn(filter.sortRequestByDate, animated: false)
@@ -62,6 +63,7 @@ class FilterTableViewController: UITableViewController {
         print("FilterTableView::searchButtonPressed")
         
         if let filter = filter {
+            filter.searchTerm = searchTextField.text ?? ""
             filter.includeMyRequest = includeMyRequestSwitch.isOn
             filter.includeExpiredRequest = includeExpiredRequestSwitch.isOn
             filter.sortRequestByDate = sortRequestByDateSwitch.isOn

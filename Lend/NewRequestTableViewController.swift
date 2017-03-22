@@ -26,7 +26,7 @@ class NewRequestTableViewController: UITableViewController {
 
     weak var delegate: NewRequestTableViewDelegate?
     var request: NBRequest?
-    var edit = false
+    var editMode = false
     
     var itemName: String? {
         get {
@@ -61,7 +61,7 @@ class NewRequestTableViewController: UITableViewController {
         self.hideKeyboardWhenTappedAround()
         
         if request != nil {
-            edit = true
+            editMode = true
             loadFields(request: request!)
         }
     }
@@ -79,44 +79,42 @@ class NewRequestTableViewController: UITableViewController {
     }
     
     @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
+        var req = NBRequest()
+        
         if request == nil {
-            let req = NBRequest()
-            
             let currentLocation = LocationManager.sharedInstance.location
             req.latitude = currentLocation?.coordinate.latitude
             req.longitude = currentLocation?.coordinate.longitude
-            
+        
             let postDate64: Int64 = Int64(Date().timeIntervalSince1970) * 1000
             req.postDate = postDate64
             
             let oneWeek = 60 * 60 * 24 * 7.0
             let expireDate64: Int64 = Int64(Date().addingTimeInterval(oneWeek).timeIntervalSince1970) * 1000
             req.expireDate = expireDate64
-            
-            request = req
+        }
+        else {
+            req = request?.copy() as! NBRequest
         }
         
-        saveFields(request: request!)
+        saveFields(request: req)
         
-        //tmp
-        request?.type = "item"
+        req.type = "item"
         
-        if edit {
-            NBRequest.editRequest(request!) { error in
-                self.delegate?.edited(self.request, error: error)
+        if editMode {
+            NBRequest.editRequest(req) { error in
+                self.delegate?.edited(req, error: error)
             }
         }
         else {
-            NBRequest.addRequest(request!) { error in
-                self.delegate?.saved(self.request, error: error)
+            NBRequest.addRequest(req) { error in
+                self.delegate?.saved(req, error: error)
             }
         }
-        
         self.dismiss(animated: true, completion: nil)
     }
     
     @IBAction func cancelButtonPressed(_ sender: UIBarButtonItem) {
-        print("request cancelled")
         delegate?.cancelled()
         self.dismiss(animated: true, completion: nil)
     }

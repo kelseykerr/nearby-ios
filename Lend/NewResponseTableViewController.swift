@@ -99,8 +99,9 @@ class NewResponseTableViewController: UITableViewController {
         let pickupToolbar = UIToolbar()
         pickupToolbar.sizeToFit()
         
+        let spaceBarItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let pickupDoneButton = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: #selector(pickupDoneButtonPressed))
-        pickupToolbar.setItems([pickupDoneButton], animated: false)
+        pickupToolbar.setItems([spaceBarItem, pickupDoneButton], animated: false)
         
         pickupTimeDateTextField.inputAccessoryView = pickupToolbar
         pickupTimeDateTextField.inputView = pickupDatePicker
@@ -109,7 +110,7 @@ class NewResponseTableViewController: UITableViewController {
         returnToolbar.sizeToFit()
         
         let returnDoneButton = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: #selector(returnDoneButtonPressed))
-        returnToolbar.setItems([returnDoneButton], animated: false)
+        returnToolbar.setItems([spaceBarItem, returnDoneButton], animated: false)
         
         returnTimeDateTextField.inputAccessoryView = returnToolbar
         returnTimeDateTextField.inputView = returnDatePicker

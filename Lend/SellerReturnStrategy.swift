@@ -17,6 +17,8 @@ class SellerReturnStrategy: HistoryStateStrategy {
         let name = history.request?.user?.shortName ?? "NAME"
         let item = history.request?.itemName ?? "ITEM"
         
+        cell.messageLabel.text = "You are meeting \(name) to receive \(item)."
+/*
         let attrText = NSMutableAttributedString(string: "")
         let boldFont = UIFont.boldSystemFont(ofSize: 15)
         
@@ -36,11 +38,11 @@ class SellerReturnStrategy: HistoryStateStrategy {
         attrText.append(NSMutableAttributedString(string: "."))
         
         cell.messageLabel.attributedText = attrText
-        
-//        cell.historyStateLabel.backgroundColor = UIColor.pictonBlue
+*/
+
         cell.historyStateLabel.backgroundColor = UIColor.nbBlue
-        cell.historyStateLabel.textColor = UIColor.white
-        cell.historyStateLabel.text = "RETURN"
+        cell.historyStateLabel.text = "Return"
+        
         cell.timeLabel.text = history.request?.getElapsedTimeAsString()
         
         cell.userImageView.image = UIImage(named: "User-64")

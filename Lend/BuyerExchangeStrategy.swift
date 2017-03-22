@@ -15,9 +15,12 @@ class BuyerExchangeStrategy: HistoryStateStrategy {
 
         let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath) as! HistoryRequestTableViewCell
         
-        let name = history.getResponseById(id: (history.transaction?.responseId)!)?.seller?.shortName ?? "NAME"
+        let sellerName = history.getResponseById(id: (history.transaction?.responseId)!)?.seller?.shortName ?? "NAME"
         let item = history.request?.itemName ?? "ITEM"
         
+        cell.messageLabel.text = "You are meeting \(sellerName) to exchange \(item)."
+        
+/*
         let attrText = NSMutableAttributedString(string: "")
         let boldFont = UIFont.boldSystemFont(ofSize: 15)
         
@@ -37,10 +40,11 @@ class BuyerExchangeStrategy: HistoryStateStrategy {
         attrText.append(NSMutableAttributedString(string: "."))
         
         cell.messageLabel.attributedText = attrText
+*/
         
         cell.historyStateLabel.backgroundColor = UIColor.nbGreen
-        cell.historyStateLabel.textColor = UIColor.white
-        cell.historyStateLabel.text = "EXCHANGE"
+        cell.historyStateLabel.text = "Exchange"
+
         cell.timeLabel.text = history.request?.getElapsedTimeAsString()
         
         cell.userImageView.image = UIImage(named: "User-64")

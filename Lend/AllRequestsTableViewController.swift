@@ -108,24 +108,24 @@ class AllRequestsTableViewController: UITableViewController, LoginViewDelegate {
     
     
     func loadRequests(_ latitude: Double, longitude: Double, radius: Double) {
-        NBRequest.fetchRequests(latitude, longitude: longitude, radius: Converter.metersToMiles(radius)) { result in
-            if self.refreshControl != nil && self.refreshControl!.isRefreshing {
-                self.refreshControl?.endRefreshing()
-            }
-            
-            guard result.error == nil else {
-                print(result.error)
-                return
-            }
-            
-            guard let fetchedRequests = result.value else {
-                print("no requests fetched")
-                return
-            }
-            self.requests = fetchedRequests
-            
-            self.tableView.reloadData()
-        }
+//        NBRequest.fetchRequests(latitude, longitude: longitude, radius: Converter.metersToMiles(radius)) { result in
+//            if self.refreshControl != nil && self.refreshControl!.isRefreshing {
+//                self.refreshControl?.endRefreshing()
+//            }
+//            
+//            guard result.error == nil else {
+//                print(result.error)
+//                return
+//            }
+//            
+//            guard let fetchedRequests = result.value else {
+//                print("no requests fetched")
+//                return
+//            }
+//            self.requests = fetchedRequests
+//            
+//            self.tableView.reloadData()
+//        }
     }
     
     func refresh(_ sender: AnyObject) {

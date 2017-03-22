@@ -10,6 +10,8 @@ import Foundation
 
 class SearchFilter {
     
+    var searchTerm: String
+    
     var includeMyRequest: Bool
     
     var includeExpiredRequest: Bool
@@ -17,6 +19,7 @@ class SearchFilter {
     var sortRequestByDate: Bool
     
     init() {
+        self.searchTerm = ""
         self.includeMyRequest = false
         self.includeExpiredRequest = false
         self.sortRequestByDate = false

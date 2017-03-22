@@ -62,6 +62,8 @@ class NBUser: ResponseJSONObjectSerializable {
     var tosAcceptIp: String?
     var stripeBankToken: String?
     
+    var userAgent: String?
+    
     //
     var canRespond: Bool?
     var canRequest: Bool?
@@ -116,6 +118,8 @@ class NBUser: ResponseJSONObjectSerializable {
         self.stripeCCToken = json["stripeCCToken"].string
         self.tosAcceptIp = json["tosAcceptIp"].string
         self.stripeBankToken = json["stripeBankToken"].string
+        
+        self.userAgent = json["userAgent"].string
         
     }
     
@@ -266,6 +270,9 @@ class NBUser: ResponseJSONObjectSerializable {
         }
         if let stripeBankToken = stripeBankToken {
             json["stripeBankToken"] = stripeBankToken as AnyObject?
+        }
+        if let userAgent = userAgent {
+            json["userAgent"] = userAgent as AnyObject?
         }
         
         return json

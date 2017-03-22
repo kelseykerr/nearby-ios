@@ -16,7 +16,10 @@ class SellerExchangeStrategy: HistoryStateStrategy {
         
         let name = history.request?.user?.shortName ?? "NAME"
         let item = history.request?.itemName ?? "ITEM"
+        
+        cell.messageLabel.text = "You are meeting \(name) to exchange \(item)."
 
+/*
         let attrText = NSMutableAttributedString(string: "")
         let boldFont = UIFont.boldSystemFont(ofSize: 15)
         
@@ -34,13 +37,12 @@ class SellerExchangeStrategy: HistoryStateStrategy {
         attrText.append(boldItemName)
         
         attrText.append(NSMutableAttributedString(string: "."))
-        
         cell.messageLabel.attributedText = attrText
+*/
         
-//        cell.historyStateLabel.backgroundColor = UIColor.mountainMedow
         cell.historyStateLabel.backgroundColor = UIColor.nbGreen
-        cell.historyStateLabel.textColor = UIColor.white
-        cell.historyStateLabel.text = "EXCHANGE"
+        cell.historyStateLabel.text = "Exchange"
+        
         cell.timeLabel.text = history.request?.getElapsedTimeAsString()
         
         cell.userImageView.image = UIImage(named: "User-64")

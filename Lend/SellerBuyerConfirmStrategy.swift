@@ -22,7 +22,8 @@ class SellerBuyerConfirmStrategy: HistoryStateStrategy {
             let item = history.request?.itemName ?? "ITEM"
             let rent = (history.request?.rental)! ? "lend" : "sell"
             let price = history.responses[0].priceInDollarFormat
-            
+            cell.messageLabel.text = "You are offering to \(rent) \(item) to \(name) for \(price)."
+/*
             let attrText = NSMutableAttributedString(string: "")
             let boldFont = UIFont.boldSystemFont(ofSize: 15)
             
@@ -48,11 +49,10 @@ class SellerBuyerConfirmStrategy: HistoryStateStrategy {
             
             cell.messageLabel.attributedText = attrText
             cell.messageLabel.sizeToFit()
+*/
             
-//            cell.historyStateLabel.backgroundColor = UIColor.energy
             cell.historyStateLabel.backgroundColor = UIColor.nbYellow
-            cell.historyStateLabel.textColor = UIColor.white
-            cell.historyStateLabel.text = "BUYER CONFIRM"
+            cell.historyStateLabel.text = "Buyer Confirm"
             cell.timeLabel.text = history.request?.getElapsedTimeAsString()
             
             cell.userImageView.image = UIImage(named: "User-64")

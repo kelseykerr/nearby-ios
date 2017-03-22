@@ -101,12 +101,12 @@ class HomeViewController: UIViewController, LoginViewDelegate {
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(myLocation.coordinate, regionRadius * 2.0, regionRadius * 2.0)
 //        mapView.setRegion(coordinateRegion, animated: true)
         
+        let searchTerm = searchFilter.searchTerm
         let includeMine = searchFilter.includeMyRequest
         let expired = searchFilter.includeExpiredRequest
         let sort = searchFilter.sortRequestByDate ? "distance": "newest"
         
-        NBRequest.fetchRequests2(latitude, longitude: longitude, radius: Converter.metersToMiles(radius), expired: expired, includeMine: includeMine, searchTerm: "blah", sort: sort) { result in
-//        NBRequest.fetchRequests(latitude, longitude: longitude, radius: Converter.metersToMiles(radius)) { result in
+        NBRequest.fetchRequests(latitude, longitude: longitude, radius: Converter.metersToMiles(radius), expired: expired, includeMine: includeMine, searchTerm: searchTerm, sort: sort) { result in
 //            if self.refreshControl != nil && self.refreshControl!.refreshing {
 //                self.refreshControl?.endRefreshing()
 //            }
@@ -143,12 +143,12 @@ class HomeViewController: UIViewController, LoginViewDelegate {
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(myLocation.coordinate, regionRadius * 2.0, regionRadius * 2.0)
         mapView.setRegion(coordinateRegion, animated: true)
             
+        let searchTerm = searchFilter.searchTerm
         let includeMine = searchFilter.includeMyRequest
         let expired = searchFilter.includeExpiredRequest
         let sort = searchFilter.sortRequestByDate ? "distance": "newest"
         
-        NBRequest.fetchRequests2(latitude, longitude: longitude, radius: Converter.metersToMiles(radius), expired: expired, includeMine: includeMine, searchTerm: "blah", sort: sort) { result in
-//        NBRequest.fetchRequests(latitude, longitude: longitude, radius: Converter.metersToMiles(radius)) { result in
+        NBRequest.fetchRequests(latitude, longitude: longitude, radius: Converter.metersToMiles(radius), expired: expired, includeMine: includeMine, searchTerm: searchTerm, sort: sort) { result in
 //            if self.refreshControl != nil && self.refreshControl!.refreshing {
 //                self.refreshControl?.endRefreshing()
 //            }
@@ -346,7 +346,13 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath) as! HomeTableViewCell
-        
+
+        let request = requests[(indexPath as NSIndexPath).section]
+        let name = request.user?.shortName ?? "NAME"
+        let rent = (request.rental)! ? "borrow" : "buy"
+        let item = request.itemName ?? "ITEM"
+        cell.messageLabel.text = "\(name) wants to \(rent) \(item)."
+        /*
         let request = requests[(indexPath as NSIndexPath).section]
         let name = request.user?.shortName ?? "NAME"
         let rent = (request.rental)! ? "borrow" : "buy"
@@ -365,6 +371,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         attrText.append(NSMutableAttributedString(string: "."))
 
         cell.messageLabel.attributedText = attrText
+        */
         
         let myLocation = LocationManager.sharedInstance.location
         let distanceString = request.getDistanceAsString(fromLocation: myLocation!)

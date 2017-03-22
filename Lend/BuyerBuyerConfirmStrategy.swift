@@ -19,6 +19,8 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
             let item = history.request?.itemName ?? "ITEM"
             let rent = (request?.rental)! ? "borrow" : "buy"
 
+            cell.messageLabel.text = "You want to \(rent) \(item)."
+/*
             let attrText = NSMutableAttributedString(string: "")
             let boldFont = UIFont.boldSystemFont(ofSize: 15)
             
@@ -33,11 +35,10 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
             attrText.append(NSMutableAttributedString(string: "."))
             
             cell.messageLabel.attributedText = attrText
+*/
             
-//            cell.historyStateLabel.backgroundColor = UIColor.energy
             cell.historyStateLabel.backgroundColor = UIColor.nbYellow
-            cell.historyStateLabel.textColor = UIColor.white
-            cell.historyStateLabel.text = "BUYER CONFIRM"
+            cell.historyStateLabel.text = "Buyer Confirm"
             
             cell.timeLabel.text = history.request?.getElapsedTimeAsString()
             
@@ -62,10 +63,12 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
         else {
             let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "ResponseCell", for: indexPath) as! HistoryResponseTableViewCell
             
-            let name = history.responses[indexPath.row - 1].seller?.shortName ?? "NAME"
+            let sellerName = history.responses[indexPath.row - 1].seller?.shortName ?? "NAME"
             let price = history.responses[indexPath.row - 1].priceInDollarFormat
             let rent = (history.request?.rental)! ? "lend" : "sell"
 
+            cell.messageLabel.text = "\(sellerName) is offering to \(rent) it to you for \(price)."
+/*
             let attrText = NSMutableAttributedString(string: "")
             let boldFont = UIFont.boldSystemFont(ofSize: 15)
             
@@ -80,6 +83,7 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
             attrText.append(NSMutableAttributedString(string: "."))
             
             cell.messageLabel.attributedText = attrText
+*/
             
             cell.userImageView.image = UIImage(named: "User-64")
             cell.setNeedsLayout()

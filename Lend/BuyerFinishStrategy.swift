@@ -15,7 +15,9 @@ class BuyerFinishStrategy: HistoryStateStrategy {
         let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath) as! HistoryRequestTableViewCell
         
         let item = history.request?.itemName ?? "ITEM"
-        
+
+        cell.messageLabel.text = "You have successfully completed transaction for \(item)."
+/*
         let attrText = NSMutableAttributedString(string: "")
         let boldFont = UIFont.boldSystemFont(ofSize: 15)
         
@@ -30,11 +32,11 @@ class BuyerFinishStrategy: HistoryStateStrategy {
         attrText.append(NSMutableAttributedString(string: "."))
         
         cell.messageLabel.attributedText = attrText
-
-//        cell.historyStateLabel.backgroundColor = UIColor.wisteria
+*/
+ 
         cell.historyStateLabel.backgroundColor = UIColor.nbRed
-        cell.historyStateLabel.textColor = UIColor.white
-        cell.historyStateLabel.text = "FINISH"
+        cell.historyStateLabel.text = "Finish"
+        
         cell.timeLabel.text = history.request?.getElapsedTimeAsString()
         
         cell.userImageView.image = UIImage(named: "User-64")
