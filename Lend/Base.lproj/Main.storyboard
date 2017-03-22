@@ -260,7 +260,7 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="Message" id="wsc-j0-EBC">
+                            <tableViewSection headerTitle="Description" id="wsc-j0-EBC">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="176" id="4Ra-EX-hLC">
                                         <rect key="frame" x="0.0" y="157" width="375" height="176"/>
@@ -1621,7 +1621,7 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="Message" id="cc4-it-Aqu">
+                            <tableViewSection headerTitle="Description" id="cc4-it-Aqu">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="176" id="vmk-fH-OZo">
                                         <rect key="frame" x="0.0" y="157" width="375" height="176"/>
