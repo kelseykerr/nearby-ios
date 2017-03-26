@@ -19,4 +19,6 @@ protocol HistoryStateStrategy: class {
     
     func rowAction(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> [UITableViewRowAction]?
     
+    func canEditRowAt(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> Bool
+    
 }

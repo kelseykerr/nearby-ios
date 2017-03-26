@@ -14,6 +14,7 @@ enum TransactionStatus {
     case start
     case exchange
     case returns
+    case payment
     case finish
 }
 
@@ -138,6 +139,9 @@ extension NBTransaction {
         else if self.returned == false {
             return TransactionStatus.returns
         }
+        else if self.sellerAccepted == false || self.sellerAccepted == nil {
+            return TransactionStatus.payment
+        }
         else {
             return TransactionStatus.finish
         }
@@ -178,6 +182,18 @@ extension NBTransaction {
         }
     }
     
+    static func verifyTransactionPrice(id: String, transaction: NBTransaction, completionHandler: @escaping(NSError?)-> Void) {
+        Alamofire.request(TransactionsRouter.editTransactionPrice(id, transaction.toJSON())).validate(statusCode: 200..<300).responseJSON { response in
+            var error: NSError? = nil
+            if response.result.error != nil {
+                let statusCode = response.response?.statusCode
+                let errorMessage = String(data: response.data!, encoding: String.Encoding.utf8)
+                error = NSError(domain: errorMessage!, code: statusCode!, userInfo: nil)
+            }
+            completionHandler(error)
+        }
+    }
+    
 //    static func createTransactionOverride() {
 //        Alamofire.request(TransactionsRouter.postTransactionExchange(id))
 //            .responseArray { response in
@@ -192,11 +208,5 @@ extension NBTransaction {
 //        }
 //    }
     
-//    static func verifyTransactionPrice(id: String, price: Double, completionHandler: /*???*/) {
-//        Alamofire.request(TransactionsRouter.putTransactionPrice(id))
-//            .responseArray { response in
-//                completionHandler(response.result)
-//        }
-//    }
     
 }

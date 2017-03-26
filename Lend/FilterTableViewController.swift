@@ -32,7 +32,9 @@ class FilterTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        searchButton.layer.cornerRadius = searchButton.frame.size.width / 64
+        self.hideKeyboardWhenTappedAround()
+        
+        searchButton.layer.cornerRadius = searchButton.frame.size.height / 16
         searchButton.clipsToBounds = true
         
         loadInitialData()

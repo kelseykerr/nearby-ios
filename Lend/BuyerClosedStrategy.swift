@@ -1,8 +1,8 @@
 //
-//  SellerFinishStrategy.swift
+//  BuyerClosedStrategy.swift
 //  Nearby
 //
-//  Created by Kei Sakaguchi on 2/19/17.
+//  Created by Kei Sakaguchi on 3/24/17.
 //  Copyright © 2017 Kei Sakaguchi. All rights reserved.
 //
 
@@ -10,33 +10,33 @@ import Foundation
 import SwiftyJSON
 
 
-class SellerFinishStrategy: HistoryStateStrategy {
+class BuyerClosedStrategy: HistoryStateStrategy {
     
     func cell(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UITableViewCell {
         let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath) as! HistoryRequestTableViewCell
         
         let item = history.request?.itemName ?? "ITEM"
-
-        cell.messageLabel.text = "You have successfully completed transaction for \(item)."
-/*
-        let attrText = NSMutableAttributedString(string: "")
-        let boldFont = UIFont.boldSystemFont(ofSize: 15)
         
-        let boldYou = NSMutableAttributedString(string: "You", attributes: [NSFontAttributeName: boldFont])
-        attrText.append(boldYou)
+        cell.messageLabel.text = "You have closed transaction for \(item)."
+        /*
+         let attrText = NSMutableAttributedString(string: "")
+         let boldFont = UIFont.boldSystemFont(ofSize: 15)
+         
+         let boldYou = NSMutableAttributedString(string: "You", attributes: [NSFontAttributeName: boldFont])
+         attrText.append(boldYou)
+         
+         attrText.append(NSMutableAttributedString(string: " have successfully completed transaction for "))
+         
+         let boldItemName = NSMutableAttributedString(string: item, attributes: [NSFontAttributeName: boldFont])
+         attrText.append(boldItemName)
+         
+         attrText.append(NSMutableAttributedString(string: "."))
+         
+         cell.messageLabel.attributedText = attrText
+         */
         
-        attrText.append(NSMutableAttributedString(string: " have successfully completed transaction for "))
-        
-        let boldItemName = NSMutableAttributedString(string: item, attributes: [NSFontAttributeName: boldFont])
-        attrText.append(boldItemName)
-        
-        attrText.append(NSMutableAttributedString(string: "."))
-        
-        cell.messageLabel.attributedText = attrText
-*/
-        
-        cell.historyStateLabel.backgroundColor = UIColor.nbRed
-        cell.historyStateLabel.text = "Finish"
+        cell.historyStateLabel.backgroundColor = UIColor.lightGray
+        cell.historyStateLabel.text = "Closed"
         
         cell.timeLabel.text = history.request?.getElapsedTimeAsString()
         
@@ -60,7 +60,7 @@ class SellerFinishStrategy: HistoryStateStrategy {
     }
     
     func alertController(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UIAlertController {
-        let alertController = UIAlertController(title: "Finish Seller", message: nil, preferredStyle: .actionSheet)
+        let alertController = UIAlertController(title: "Finish Buyer", message: nil, preferredStyle: .actionSheet)
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         alertController.addAction(cancelAction)
@@ -71,18 +71,18 @@ class SellerFinishStrategy: HistoryStateStrategy {
     func detailViewController(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UIViewController {
         
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-        guard let transactionDetailVC = storyboard.instantiateViewController(
-            withIdentifier: "TransactionDetailTableViewController") as? TransactionDetailTableViewController else {
+        guard let requestDetailVC = storyboard.instantiateViewController(
+            withIdentifier: "RequestDetailTableViewController") as? RequestDetailTableViewController else {
                 assert(false, "Misnamed view controller")
         }
-        transactionDetailVC.delegate = historyVC
-        transactionDetailVC.history = history
-        transactionDetailVC.mode = .none
-        return transactionDetailVC
+        requestDetailVC.request = history.request
+        requestDetailVC.mode = .none
+        return requestDetailVC
+
     }
     
     func rowAction(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> [UITableViewRowAction]? {
-
+        
         return []
     }
     

@@ -29,7 +29,7 @@ class PaymentTableViewController: UITableViewController {
         self.view.addSubview(progressHUD)
         progressHUD.hide()
         
-        saveButton.layer.cornerRadius = saveButton.frame.size.width / 64
+        saveButton.layer.cornerRadius = saveButton.frame.size.height / 16
         saveButton.clipsToBounds = true
         
         UserManager.sharedInstance.getUser { user in
@@ -75,15 +75,13 @@ class PaymentTableViewController: UITableViewController {
                     self.progressHUD.hide()
                 } else if let token = token {
                     self.user?.stripeCCToken = token.tokenId
-                    NBStripe.addCreditcard(self.user!, completionHandler: { response in
-                        if let error = response.result.error {
-                            let statusCode = response.response?.statusCode
-                            let errorMessage = String(data: response.data!, encoding: String.Encoding.utf8)
-                            let alert = Utils.createServerErrorAlert(errorCode: statusCode!, errorMessage: errorMessage)
+                    NBStripe.addCreditcard(self.user!) { error in
+                        if let error = error {
+                            let alert = Utils.createServerErrorAlert(error: error)
                             self.present(alert, animated: true, completion: nil)
                         }
                         self.progressHUD.hide()
-                    })
+                    }
                 }
             }
 

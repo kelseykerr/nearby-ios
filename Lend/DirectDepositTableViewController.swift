@@ -28,7 +28,7 @@ class DirectDepositTableViewController: UITableViewController {
         self.view.addSubview(progressHUD)
         progressHUD.hide()
         
-        saveButton.layer.cornerRadius = saveButton.frame.size.width / 64
+        saveButton.layer.cornerRadius = saveButton.frame.size.height / 16
         saveButton.clipsToBounds = true
         
         UserManager.sharedInstance.getUser { user in
@@ -57,24 +57,19 @@ class DirectDepositTableViewController: UITableViewController {
 //            user?.phone = self.phoneNumberTextField.text
             
             //tmp
-//            user?.bankAccountNumber = "1123581321"
-//            user?.bankRoutingNumber = "071101307"
             user?.bankAccountNumber = "000123456789"
             user?.bankRoutingNumber = "110000000"
             user?.fundDestination = "bank"
             
             progressHUD.show()
             
-            NBStripe.addBank(user!, completionHandler: { response in
-                print(response.result.value)
-                if let error = response.result.error {
-                    let statusCode = response.response?.statusCode
-                    let errorMessage = String(data: response.data!, encoding: String.Encoding.utf8)
-                    let alert = Utils.createServerErrorAlert(errorCode: statusCode!, errorMessage: errorMessage)
+            NBStripe.addBank(user!) { error in
+                if let error = error {
+                    let alert = Utils.createServerErrorAlert(error: error)
                     self.present(alert, animated: true, completion: nil)
                 }
                 self.progressHUD.hide()
-            })
+            }
         }
     }
     

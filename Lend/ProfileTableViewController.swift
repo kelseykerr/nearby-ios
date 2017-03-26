@@ -35,7 +35,7 @@ class ProfileTableViewController: UITableViewController {
         self.view.addSubview(progressHUD)
         progressHUD.hide()
         
-        saveButton.layer.cornerRadius = saveButton.frame.size.width / 64
+        saveButton.layer.cornerRadius = saveButton.frame.size.height / 16
         saveButton.clipsToBounds = true
         
         loadCells()
@@ -81,16 +81,13 @@ class ProfileTableViewController: UITableViewController {
             
             progressHUD.show()
             
-            UserManager.sharedInstance.editUser(user: user!, completionHandler: { error in
+            UserManager.sharedInstance.editUser(user: user!) { error in
+                if let error = error {
+                    let alert = Utils.createServerErrorAlert(error: error)
+                    self.present(alert, animated: true, completion: nil)
+                }
                 self.progressHUD.hide()
-                
-                if (error != nil) {
-                    print("there was an error")
-                }
-                else {
-                    print("no error")
-                }
-            })
+            }
         }
     }
 

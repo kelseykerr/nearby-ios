@@ -104,7 +104,7 @@ class HomeViewController: UIViewController, LoginViewDelegate {
         let searchTerm = searchFilter.searchTerm
         let includeMine = searchFilter.includeMyRequest
         let expired = searchFilter.includeExpiredRequest
-        let sort = searchFilter.sortRequestByDate ? "distance": "newest"
+        let sort = searchFilter.sortRequestByDate ? "newest": "distance"
         
         NBRequest.fetchRequests(latitude, longitude: longitude, radius: Converter.metersToMiles(radius), expired: expired, includeMine: includeMine, searchTerm: searchTerm, sort: sort) { result in
 //            if self.refreshControl != nil && self.refreshControl!.refreshing {
@@ -205,6 +205,13 @@ class HomeViewController: UIViewController, LoginViewDelegate {
         self.view.bringSubview(toFront: requestButton)
     }
     
+    func loadRequests() {
+        let radius = self.getRadius()
+        let center = self.getCenterCoordinate()
+        
+        reloadRequests(center.latitude, longitude: center.longitude, radius: radius)
+    }
+    
     /*
     func showRequestDetailView(req: NBRequest) {
         let storyboard = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
@@ -302,13 +309,16 @@ extension HomeViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-        guard let requestDetailVC = storyboard.instantiateViewController(
+        guard let detailRequestVC = storyboard.instantiateViewController(
             withIdentifier: "RequestDetailTableViewController") as? RequestDetailTableViewController else {
                 assert(false, "Misnamed view controller")
                 return
         }
-        requestDetailVC.request = view.annotation as! NBRequest?
-        self.navigationController?.pushViewController(requestDetailVC, animated: true)
+        let request = view.annotation as! NBRequest?
+        detailRequestVC.request = request
+        detailRequestVC.delegate = self
+        detailRequestVC.mode = (request?.isMyRequest())! ? .buyer : .seller
+        self.navigationController?.pushViewController(detailRequestVC, animated: true)
     }
     
     func getRadius() -> CLLocationDistance {
@@ -319,7 +329,7 @@ extension HomeViewController: MKMapViewDelegate {
         let topLocation = CLLocation(latitude: top.latitude, longitude: top.longitude)
         
         let radius = centerLocation.distance(from: topLocation)
-        return radius;
+        return radius
     }
     
     func getCenterCoordinate() -> CLLocationCoordinate2D {
@@ -348,10 +358,22 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath) as! HomeTableViewCell
 
         let request = requests[(indexPath as NSIndexPath).section]
-        let name = request.user?.shortName ?? "NAME"
+        let name = request.isMyRequest() ? "You" : (request.user?.shortName ?? "NAME")
+        let want = request.isMyRequest() ? "want" : "wants"
         let rent = (request.rental)! ? "borrow" : "buy"
         let item = request.itemName ?? "ITEM"
-        cell.messageLabel.text = "\(name) wants to \(rent) \(item)."
+//        cell.messageLabel.text = "\(name) wants to \(rent) \(item)."
+        
+        let attrText = NSMutableAttributedString(string: "")
+        let boldFont = UIFont.boldSystemFont(ofSize: 16)
+        
+        let boldFullname = NSMutableAttributedString(string: name, attributes: [NSFontAttributeName: boldFont])
+        attrText.append(boldFullname)
+        
+        attrText.append(NSMutableAttributedString(string: " \(want) to \(rent) \(item)."))
+        
+        cell.messageLabel.attributedText = attrText
+        
         /*
         let request = requests[(indexPath as NSIndexPath).section]
         let name = request.user?.shortName ?? "NAME"
@@ -413,7 +435,9 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         let request = requests[(indexPath as NSIndexPath).section]
         
         let detailRequestVC = UIStoryboard.getDetailRequestVC() as! RequestDetailTableViewController
+        detailRequestVC.delegate = self
         detailRequestVC.request = request
+        detailRequestVC.mode = request.isMyRequest() ? .buyer : .seller
         self.navigationController?.pushViewController(detailRequestVC, animated: true)
     }
     
@@ -422,8 +446,10 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         
         if request.isMyRequest() {
             let close = UITableViewRowAction(style: .normal, title: "Close") { action, index in
+                self.requestClosed(request)
+                self.tableView.isEditing = false
             }
-            close.backgroundColor = UIColor.red
+            close.backgroundColor = UIColor.nbRed
             
             return [close]
         }
@@ -436,13 +462,13 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
                         return
                 }
                 let responseVC = (navVC.childViewControllers[0] as! NewResponseTableViewController)
-//                responseVC.delegate = self
-//                responseVC.request = self.request
+                responseVC.delegate = self
+                responseVC.request = request
                 self.present(navVC, animated: true, completion: nil)
                 
                 self.tableView.isEditing = false
             }
-            respond.backgroundColor = UIColor.lightGray
+            respond.backgroundColor = UIColor.nbTurquoise
             
             return [respond]
         }
@@ -481,7 +507,7 @@ extension HomeViewController: FilterTableViewDelegate {
     
 }
 
-extension HomeViewController: NewRequestTableViewDelegate {
+extension HomeViewController: NewRequestTableViewDelegate, NewResponseTableViewDelegate, RequestDetailTableViewDelegate {
     
     @IBAction func requestButtonPressed(_ sender: UIButton) {
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
@@ -495,18 +521,89 @@ extension HomeViewController: NewRequestTableViewDelegate {
         self.present(navVC, animated: true, completion: nil)
     }
     
-    func saved(_ request: NBRequest?, error: NSError?) {
-        if let error = error {
-            let alert = Utils.createServerErrorAlert(error: error)
-            self.present(alert, animated: true, completion: nil)
+    //request
+    func saved(_ request: NBRequest?) {
+        print("HomeViewController->saved")
+        requestSaved(request)
+    }
+    
+    func edited(_ request: NBRequest?) {
+        print("HomeViewController->edited")
+        requestEdited(request)
+    }
+    
+    func closed(_ request: NBRequest?) {
+        print("HomeViewController->closed")
+        requestClosed(request)
+    }
+    
+    func requestSaved(_ request: NBRequest?) {
+        print("HomeViewController->requestSaved")
+        if let request = request {
+            NBRequest.addRequest(request) { error in
+                print("Request added")
+                if let error = error {
+                    let alert = Utils.createServerErrorAlert(error: error)
+                    self.present(alert, animated: true, completion: nil)
+                }
+                self.loadRequests()
+            }
         }
     }
     
-    func edited(_ request: NBRequest?, error: NSError?) {
-        if let error = error {
-            let alert = Utils.createServerErrorAlert(error: error)
-            self.present(alert, animated: true, completion: nil)
+    func requestClosed(_ request: NBRequest?) {
+        print("HomeViewController->requestClosed")
+        if let request = request {
+            request.expireDate = 0
+//            request.requestStatus = RequestStatus.closed
+            NBRequest.editRequest(request) { error in
+                print("Request closed")
+                if let error = error {
+                    let alert = Utils.createServerErrorAlert(error: error)
+                    self.present(alert, animated: true, completion: nil)
+                }
+                self.loadRequests()
+            }
         }
     }
-        
+    
+    func requestEdited(_ request: NBRequest?) {
+        print("HomeViewController->requestEdited")
+        if let request = request {
+            NBRequest.editRequest(request) { error in
+                print("Request edited")
+                if let error = error {
+                    let alert = Utils.createServerErrorAlert(error: error)
+                    self.present(alert, animated: true, completion: nil)
+                }
+                self.loadRequests()
+            }
+        }
+    }
+    
+    //response
+    func saved(_ response: NBResponse?) {
+        print("HomeViewController->saved")
+        responseOffered(response)
+    }
+    
+    func offered(_ response: NBResponse?) {
+        print("HomeViewController->offered")
+        responseOffered(response)
+    }
+    
+    func responseOffered(_ response: NBResponse?) {
+        print("HomeViewController->responseOffered")
+        if let response = response {
+            NBResponse.addResponse(response) { error in
+                print("Response added")
+                if let error = error {
+                    let alert = Utils.createServerErrorAlert(error: error)
+                    self.present(alert, animated: true, completion: nil)
+                }
+                self.loadRequests()
+            }
+        }
+    }
+    
 }

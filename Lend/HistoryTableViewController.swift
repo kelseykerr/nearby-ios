@@ -73,6 +73,7 @@ class HistoryTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        // move to strategy
         if indexPath.row == 0 {
             return 80
         }
@@ -86,7 +87,6 @@ class HistoryTableViewController: UITableViewController {
 
         let detailViewController = HistoryStateManager.sharedInstance.detailViewController(historyVC: self, indexPath: indexPath, history: history)
 
-//        self.navigationController?.navigationBar.tintColor = UIColor.white
         self.navigationController?.pushViewController(detailViewController, animated: true)
     }
     
@@ -101,11 +101,13 @@ class HistoryTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         let history = histories[indexPath.section]
         
-        return (history.status != HistoryStatus.buyer_finish) && (history.status != HistoryStatus.seller_finish)
+        let canEditRow = HistoryStateManager.sharedInstance.canEditRowAt(historyVC: self, indexPath: indexPath, history: history)
+        
+        return canEditRow
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        print("blah")
+
         if editingStyle == .delete {
             // Delete the row from the data source
 //            let req = requests[indexPath.row]
@@ -139,6 +141,7 @@ class HistoryTableViewController: UITableViewController {
                 print("no histories fetched")
                 return
             }
+            
             self.histories = fetchedHistories
             
             self.tableView.reloadData()
@@ -151,10 +154,6 @@ class HistoryTableViewController: UITableViewController {
         loadHistories()
     }
 
-//    func isMyPost(_ section: Int) -> Bool {
-//        return section < 3
-//    }
-    
     func getHistory(_ section: Int) -> NBHistory? {
         return histories[section]
     }
@@ -181,33 +180,92 @@ class HistoryTableViewController: UITableViewController {
     
 }
 
-extension HistoryTableViewController: NewRequestTableViewDelegate {
+extension HistoryTableViewController: RequestDetailTableViewDelegate, ResponseDetailTableViewDelegate, TransactionDetailTableViewDelegate {
     
-    @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
-        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-        guard let navVC = storyboard.instantiateViewController(
-            withIdentifier: "NewRequestNavigationController") as? UINavigationController else {
-                assert(false, "Misnamed view controller")
-                return
+    //request
+    
+    func edited(_ request: NBRequest?) {
+        print("HistoryTableViewController->edited")
+    }
+    
+    func closed(_ request: NBRequest?) {
+        print("HistoryTableViewController->closed")
+        request?.expireDate = 0
+        requestEdited(request)
+    }
+    
+    func requestEdited(_ request: NBRequest?) {
+        print("HomeViewController->requestEdited")
+        if let request = request {
+            NBRequest.editRequest(request) { error in
+                print("Request edited")
+                if let error = error {
+                    let alert = Utils.createServerErrorAlert(error: error)
+                    self.present(alert, animated: true, completion: nil)
+                }
+                self.loadHistories()
+            }
         }
-        let newRequestVC = (navVC.childViewControllers[0] as! NewRequestTableViewController)
-        newRequestVC.delegate = self
-        self.present(navVC, animated: true, completion: nil)
     }
     
-    func saved(_ request: NBRequest?, error: NSError?) {
-//        print(JSON(request.toJSON()))
-
-        self.loadHistories()
-    }
+    //response
     
-    func edited(_ request: NBRequest?, error: NSError?) {
-    }
-    
-    func cancelled() {
-//        self.navigationController?.popViewController(animated: true)
+    func edited(_ response: NBResponse?) {
+        print("HistoryTableViewController->edited")
     }
 
+    // do we need this here???
+    func offered(_ request: NBResponse?) {
+        print("HistoryTableViewController->offered")
+    }
+    
+    func withdrawn(_ response: NBResponse?) {
+        print("HistoryTableViewController->withdrawn")
+        response?.sellerStatus = .withdrawn
+        responseEdited(response)
+    }
+    
+    func accepted(_ response: NBResponse?) {
+        print("HistoryTableViewController->accepted")
+        response?.buyerStatus = .accepted
+        responseEdited(response)
+    }
+    
+    func declined(_ response: NBResponse?) {
+        print("HistoryTableViewController->declined")
+        response?.buyerStatus = .declined
+        responseEdited(response)
+    }
+    
+    func responseEdited(_ response: NBResponse?) {
+        print("HomeViewController->responseEdited")
+        if let response = response {
+            NBResponse.editResponse(response) { error in
+                print("Response edited")
+                if let error = error {
+                    let alert = Utils.createServerErrorAlert(error: error)
+                    self.present(alert, animated: true, completion: nil)
+                }
+                self.loadHistories()
+            }
+        }
+    }
+ 
+    //transaction
+    //some are below
+    func confirmed(_ transaction: NBTransaction?) {
+        if let transaction = transaction {
+            NBTransaction.verifyTransactionPrice(id: transaction.id!, transaction: transaction) { error in
+                print("price verified test")
+                if let error = error {
+                    let alert = Utils.createServerErrorAlert(error: error)
+                    self.present(alert, animated: true, completion: nil)
+                }
+                self.loadHistories()
+            }
+        }
+    }
+    
 }
 
 extension HistoryTableViewController: QRGeneratorViewDelegate {

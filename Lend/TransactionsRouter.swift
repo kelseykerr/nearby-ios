@@ -19,6 +19,7 @@ enum TransactionsRouter: URLRequestConvertible {
 //    case deleteTransaction(String)
     case getTransactionCode(String)
     case editTransactionCode(String, String)
+    case editTransactionPrice(String, [String: AnyObject])
 //    case postTransactionExchange(String)
 //    case putTransactionExchange(String)
 //    case putTransactionPrice(String)
@@ -34,7 +35,7 @@ enum TransactionsRouter: URLRequestConvertible {
             case .getTransaction, .getTransactionCode:
                 return .get
 //            case .putTransactionCode, .putTransactionExchange, .putTransactionPrice:
-            case .editTransactionCode:
+            case .editTransactionCode, .editTransactionPrice:
                 return .put
 //            case .postTransactionExchange:
 //                return .post
@@ -54,6 +55,8 @@ enum TransactionsRouter: URLRequestConvertible {
                 relativePath = "transactions/\(id)/code"
             case .editTransactionCode(let id, let code):
                 relativePath = "transactions/\(id)/code/\(code)"
+            case .editTransactionPrice(let id, _):
+                relativePath = "transactions/\(id)/price"
 //            case .postTransactionExchange(let id):
 //                relativePath = "transactions/\(id)/exchange"
 //            case .putTransactionExchange(let id):
@@ -78,6 +81,8 @@ enum TransactionsRouter: URLRequestConvertible {
 //            case .putTransactionCode, .putTransactionExchange, .putTransactionPrice:
             case .editTransactionCode:
                 return nil
+            case .editTransactionPrice(_, let newItem):
+                return (newItem)
 //            case .postTransactionExchange:
 //                return ??? // return the param?
 //            case .deleteTransaction: // move this up with get?

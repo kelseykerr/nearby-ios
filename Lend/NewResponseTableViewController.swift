@@ -10,7 +10,7 @@ import UIKit
 
 protocol NewResponseTableViewDelegate: class {
     
-    func saved(_ response: NBResponse)
+    func saved(_ response: NBResponse?)
     
     func cancelled()
     
@@ -26,6 +26,10 @@ class NewResponseTableViewController: UITableViewController {
     @IBOutlet var returnTimeDatePicker: UIDatePicker!
     @IBOutlet var returnTimeDateTextField: UITextField!
 
+    @IBOutlet var perHourImageView: UIImageView!
+    @IBOutlet var perDayImageView: UIImageView!
+    @IBOutlet var flatImageView: UIImageView!
+    
     @IBOutlet var saveButton: UIButton!
     
     weak var delegate: NewResponseTableViewDelegate?
@@ -77,12 +81,32 @@ class NewResponseTableViewController: UITableViewController {
 //        }
 //    }
     
+    var priceType: PriceType {
+        get {
+            if !self.perHourImageView.isHidden {
+                return .per_hour
+            }
+            else if !self.perDayImageView.isHidden {
+                return .per_day
+            }
+            else {
+                return .flat
+            }
+        }
+        set {
+            self.perHourImageView.isHidden = (newValue != .per_hour)
+            self.perDayImageView.isHidden = (newValue != .per_day)
+            self.flatImageView.isHidden = (newValue != .flat)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.hideKeyboardWhenTappedAround()
-        
-        saveButton.layer.cornerRadius = saveButton.frame.size.width / 64
+        priceType = .per_hour
+            
+        saveButton.layer.cornerRadius = saveButton.frame.size.height / 16
         saveButton.clipsToBounds = true
         
         createDatePickers()
@@ -162,15 +186,28 @@ class NewResponseTableViewController: UITableViewController {
         response?.exchangeTime = Int64(pickupDatePicker.date.timeIntervalSince1970) * 1000
         response?.returnLocation = returnLocation
         response?.returnTime = Int64(returnDatePicker.date.timeIntervalSince1970) * 1000
-        response?.priceType = PriceType(rawValue: "FLAT")
+        response?.priceType = priceType
         
-        NBResponse.addResponse(response!) { error in
-            if let error = error {
-                print("There was an error")
-            }
-        }
+//        NBResponse.addResponse(response!) { error in
+//            if let error = error {
+//                print("There was an error")
+//            }
+//        }
         
-        delegate?.saved(response!)
+        delegate?.saved(response)
         self.dismiss(animated: true, completion: nil)
     }
+    
+    @IBAction func perHourButtonPressed(_ sender: UIButton) {
+        priceType = .per_hour
+    }
+    
+    @IBAction func perDayButtonPressed(_ sender: UIButton) {
+        priceType = .per_day
+    }
+    
+    @IBAction func flatButtonPressed(_ sender: UIButton) {
+        priceType = .flat
+    }
+    
 }

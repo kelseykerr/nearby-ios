@@ -8,6 +8,26 @@
 
 import UIKit
 
+protocol RequestDetailTableViewDelegate: class {
+    
+    //request
+    
+    func edited(_ request: NBRequest?)
+    
+    func closed(_ request: NBRequest?)
+    
+    //response
+
+    func offered(_ request: NBResponse?)
+    
+}
+
+enum RequestDetailTableViewMode {
+    case buyer
+    case seller
+    case none
+}
+
 class RequestDetailTableViewController: UITableViewController {
 
     @IBOutlet var itemNameLabel: UILabel!
@@ -15,8 +35,9 @@ class RequestDetailTableViewController: UITableViewController {
     
     @IBOutlet var saveButton: UIButton!
     
+    weak var delegate: RequestDetailTableViewDelegate?
     var request: NBRequest?
-    var editMode = false
+    var mode: RequestDetailTableViewMode = .none
     
     var itemName: String? {
         get {
@@ -36,18 +57,27 @@ class RequestDetailTableViewController: UITableViewController {
         }
     }
     
+    var isMyRequest: Bool {
+        get {
+            return request?.isMyRequest() ?? false
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        saveButton.layer.cornerRadius = saveButton.frame.size.width / 64
+        saveButton.layer.cornerRadius = saveButton.frame.size.height / 16
         saveButton.clipsToBounds = true
         
-        loadFields(request: request!)
-        
         if let request = request {
-            editMode = request.isMyRequest()
-            if editMode {
-                self.saveButton.setTitle("Edit", for: UIControlState.normal)
+            loadFields(request: request)
+
+            if mode == .buyer {
+                self.saveButton.setTitle("Close", for: UIControlState.normal)
+                self.saveButton.backgroundColor = UIColor.nbRed
+            }
+            else if mode == .none {
+                self.saveButton.isHidden = true
             }
         }
     }
@@ -58,17 +88,11 @@ class RequestDetailTableViewController: UITableViewController {
     }
     
     @IBAction func respondButtonPressed(_ sender: UIButton) {
-        if editMode {
-            let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-            guard let navVC = storyboard.instantiateViewController(
-                withIdentifier: "NewRequestNavigationController") as? UINavigationController else {
-                    assert(false, "Misnamed view controller")
-                    return
-            }
-            let newRequestVC = (navVC.childViewControllers[0] as! NewRequestTableViewController)
-            newRequestVC.delegate = self
-            newRequestVC.request = request
-            self.present(navVC, animated: true, completion: nil)
+        if mode == .buyer {
+            print("close button pressed")
+            delegate?.closed(request)
+            
+            self.navigationController?.popViewController(animated: true)
         }
         else {
             let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
@@ -83,40 +107,25 @@ class RequestDetailTableViewController: UITableViewController {
             self.present(navVC, animated: true, completion: nil)
         }
     }
-    
 }
 
 extension RequestDetailTableViewController: NewRequestTableViewDelegate {
     
-    func edited(_ request: NBRequest?, error: NSError?) {
-        if let error = error {
-            print("error: \(error)")
-        }
-        else {
-            print("OK")
-            self.request = request
-        }
+    func saved(_ request: NBRequest?) {
+        delegate?.edited(request)
+        self.navigationController?.popViewController(animated: true)
     }
-
-    func saved(_ request: NBRequest?, error: NSError?) {
-        if let error = error {
-            print("error: \(error)")
-        }
-        else {
-            self.request = request
-        }
+    
+    func cancelled() {
     }
     
 }
 
 extension RequestDetailTableViewController: NewResponseTableViewDelegate {
     
-    func saved(_ response: NBResponse) {
-        print("saved 2")
+    func saved(_ response: NBResponse?) {
+        delegate?.offered(response)
+        self.navigationController?.popViewController(animated: true)
     }
     
-    func cancelled() {
-        print("cancelled 2")
-    }
-
 }

@@ -42,9 +42,8 @@ class AccountTableViewController: UITableViewController, LoginViewDelegate {
             
         loadInitialData()
         
+        //likely not where this should be
         let token = FIRInstanceID.instanceID().token()!
-        print("token: \(token)")
-        
         NBUser.editFcmToken(token) { error in
         }
     }
@@ -119,32 +118,6 @@ class AccountTableViewController: UITableViewController, LoginViewDelegate {
             self.loadCells()
         }
     }
-    
-    /*
-    func loadUser() {
-        NBUser.fetchSelf { result in
-            if self.refreshControl != nil && self.refreshControl!.isRefreshing {
-                self.refreshControl?.endRefreshing()
-            }
-            
-            guard result.error == nil else {
-                print(result.error)
-                return
-            }
-            
-            guard let fetchedUser = result.value else {
-                print("no value was returned")
-                return
-            }
-            
-            self.user = fetchedUser
-            
-//            print(self.user?.toString())
-            
-            self.loadCells()
-        }
-    }
-     */
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "PushProfileViewController" {

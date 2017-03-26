@@ -1,42 +1,41 @@
 //
-//  SellerFinishStrategy.swift
+//  SellerPriceConfirmStrategy.swift
 //  Nearby
 //
-//  Created by Kei Sakaguchi on 2/19/17.
+//  Created by Kei Sakaguchi on 3/24/17.
 //  Copyright © 2017 Kei Sakaguchi. All rights reserved.
 //
 
 import Foundation
-import SwiftyJSON
 
 
-class SellerFinishStrategy: HistoryStateStrategy {
+class SellerPriceConfirmStrategy: HistoryStateStrategy {
     
     func cell(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UITableViewCell {
         let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath) as! HistoryRequestTableViewCell
         
         let item = history.request?.itemName ?? "ITEM"
-
-        cell.messageLabel.text = "You have successfully completed transaction for \(item)."
-/*
-        let attrText = NSMutableAttributedString(string: "")
-        let boldFont = UIFont.boldSystemFont(ofSize: 15)
         
-        let boldYou = NSMutableAttributedString(string: "You", attributes: [NSFontAttributeName: boldFont])
-        attrText.append(boldYou)
+        cell.messageLabel.text = "Please confirm price for \(item)."
+        /*
+         let attrText = NSMutableAttributedString(string: "")
+         let boldFont = UIFont.boldSystemFont(ofSize: 15)
+         
+         let boldYou = NSMutableAttributedString(string: "You", attributes: [NSFontAttributeName: boldFont])
+         attrText.append(boldYou)
+         
+         attrText.append(NSMutableAttributedString(string: " have successfully completed transaction for "))
+         
+         let boldItemName = NSMutableAttributedString(string: item, attributes: [NSFontAttributeName: boldFont])
+         attrText.append(boldItemName)
+         
+         attrText.append(NSMutableAttributedString(string: "."))
+         
+         cell.messageLabel.attributedText = attrText
+         */
         
-        attrText.append(NSMutableAttributedString(string: " have successfully completed transaction for "))
-        
-        let boldItemName = NSMutableAttributedString(string: item, attributes: [NSFontAttributeName: boldFont])
-        attrText.append(boldItemName)
-        
-        attrText.append(NSMutableAttributedString(string: "."))
-        
-        cell.messageLabel.attributedText = attrText
-*/
-        
-        cell.historyStateLabel.backgroundColor = UIColor.nbRed
-        cell.historyStateLabel.text = "Finish"
+        cell.historyStateLabel.backgroundColor = UIColor.purple
+        cell.historyStateLabel.text = "Price Confirm"
         
         cell.timeLabel.text = history.request?.getElapsedTimeAsString()
         
@@ -77,17 +76,33 @@ class SellerFinishStrategy: HistoryStateStrategy {
         }
         transactionDetailVC.delegate = historyVC
         transactionDetailVC.history = history
-        transactionDetailVC.mode = .none
+        transactionDetailVC.mode = .confirm
         return transactionDetailVC
     }
     
     func rowAction(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> [UITableViewRowAction]? {
-
-        return []
+        
+        let confirm = UITableViewRowAction(style: .normal, title: "Confirm") { action, index in
+            
+            if let transaction = history.transaction {
+                NBTransaction.verifyTransactionPrice(id: transaction.id!, transaction: transaction) { error in
+                    print("price verified test")
+                    if let error = error {
+                        let alert = Utils.createServerErrorAlert(error: error)
+                        historyVC.present(alert, animated: true, completion: nil)
+                    }
+                }
+            }
+            
+            historyVC.tableView.isEditing = false
+        }
+        confirm.backgroundColor = UIColor.purple
+        
+        return [confirm]
     }
     
     func canEditRowAt(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> Bool {
-        return false
+        return true
     }
     
 }

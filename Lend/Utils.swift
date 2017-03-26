@@ -32,7 +32,7 @@ class Utils {
             return "\(seconds / (60 * 60 * 24)) Days Ago"
         }
     }
-    
+
     static func createErrorAlert(errorMessage: String?) -> UIAlertController {
         let alert = UIAlertController(title: "Error", message: "\(errorMessage ?? "No error message")", preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))

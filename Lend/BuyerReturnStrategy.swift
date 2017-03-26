@@ -92,11 +92,14 @@ class BuyerReturnStrategy: HistoryStateStrategy {
     func detailViewController(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UIViewController {
         
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-        guard let responseDetailVC = storyboard.instantiateViewController(
-            withIdentifier: "ResponseDetailTableViewController") as? ResponseDetailTableViewController else {
+        guard let transactionDetailVC = storyboard.instantiateViewController(
+            withIdentifier: "TransactionDetailTableViewController") as? TransactionDetailTableViewController else {
                 assert(false, "Misnamed view controller")
         }
-        return responseDetailVC
+        transactionDetailVC.delegate = historyVC
+        transactionDetailVC.history = history
+        transactionDetailVC.mode = .buyer_generate
+        return transactionDetailVC
     }
     
     func rowAction(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> [UITableViewRowAction]? {
@@ -114,10 +117,13 @@ class BuyerReturnStrategy: HistoryStateStrategy {
             
             historyVC.tableView.isEditing = false
         }
-//        exchange.backgroundColor = UIColor.pictonBlue
-        exchange.backgroundColor = UIColor.lightGray
+        exchange.backgroundColor = UIColor.nbTurquoise
         
         return [exchange]
+    }
+    
+    func canEditRowAt(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> Bool {
+        return true
     }
     
 }

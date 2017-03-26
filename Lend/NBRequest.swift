@@ -11,6 +11,11 @@ import Alamofire
 import SwiftyJSON
 import MapKit
 
+enum RequestStatus: String {
+    case pending = "OPEN"
+    case accepted = "FULFILLED"
+    case closed = "CLOSED"
+}
 
 class NBRequest: NSObject, NSCopying, ResponseJSONObjectSerializable {
     
@@ -25,7 +30,7 @@ class NBRequest: NSObject, NSCopying, ResponseJSONObjectSerializable {
     var desc: String?
     var id: String?
     var type: String?
-    var status: String?
+    var requestStatus: RequestStatus?
     
     required init?(json: SwiftyJSON.JSON) {
         self.user = NBUser(json: json["user"])
@@ -39,7 +44,10 @@ class NBRequest: NSObject, NSCopying, ResponseJSONObjectSerializable {
         self.desc = json["description"].string
         self.id = json["id"].string
         self.type = json["type"].string
-        self.status = json["status"].string
+//        self.status = json["status"].string
+        if let requestStatusString = json["requestStatus"].string {
+            self.requestStatus = RequestStatus(rawValue: requestStatusString)
+        }
     }
     
     override init() {
@@ -92,8 +100,8 @@ class NBRequest: NSObject, NSCopying, ResponseJSONObjectSerializable {
         if let type = type {
             json["type"] = type as AnyObject?
         }
-        if let status = status {
-            json["status"] = status as AnyObject?
+        if let requestStatus = requestStatus {
+            json["requestStatus"] = requestStatus.rawValue as AnyObject?
         }
         return json
     }
@@ -134,29 +142,25 @@ extension NBRequest {
     //response should have the request with new id
     static func addRequest(_ req: NBRequest, completionHandler: @escaping (NSError?) -> Void) {
         Alamofire.request(RequestsRouter.createRequest(req.toJSON())).validate(statusCode: 200..<300).responseJSON { response in
+            var error: NSError? = nil
             if response.result.error != nil {
                 let statusCode = response.response?.statusCode
                 let errorMessage = String(data: response.data!, encoding: String.Encoding.utf8)
-                let nsError = NSError(domain: errorMessage!, code: statusCode!, userInfo: nil)
-                completionHandler(nsError)
+                error = NSError(domain: errorMessage!, code: statusCode!, userInfo: nil)
             }
-            else {
-                completionHandler(nil)
-            }
+            completionHandler(error)
         }
     }
     
     static func editRequest(_ req: NBRequest, completionHandler: @escaping (NSError?) -> Void) {
         Alamofire.request(RequestsRouter.editRequest(req.id!, req.toJSON())).validate(statusCode: 200..<300).responseJSON { response in
+            var error: NSError? = nil
             if response.result.error != nil {
                 let statusCode = response.response?.statusCode
-                let errorMessage = String(data: response.data!, encoding: String.Encoding.utf8)
-                let nsError = NSError(domain: errorMessage!, code: statusCode!, userInfo: nil)
-                completionHandler(nsError)
+                let errorMessage = String(data: response.data!, encoding: String.Encoding.utf8) ?? "No Error Message"
+                error = NSError(domain: errorMessage, code: statusCode!, userInfo: nil)
             }
-            else {
-                completionHandler(nil)
-            }
+            completionHandler(error)
         }
     }
     

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Alamofire
 
 //this may eventually move to AccountManager?
 
@@ -52,9 +53,9 @@ class UserManager {
     func editUser(user: NBUser, completionHandler: @escaping (NSError?) -> Void) {
         self.user = user
         
-        NBUser.editSelf(user, completionHandler: { error in
+        NBUser.editSelf(user) { error in
             completionHandler(error)
-        })
+        }
     }
     
     func userAvailable() -> Bool {

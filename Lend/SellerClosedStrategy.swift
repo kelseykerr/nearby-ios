@@ -1,8 +1,8 @@
 //
-//  SellerFinishStrategy.swift
+//  SellerClosedStrategy.swift
 //  Nearby
 //
-//  Created by Kei Sakaguchi on 2/19/17.
+//  Created by Kei Sakaguchi on 3/24/17.
 //  Copyright © 2017 Kei Sakaguchi. All rights reserved.
 //
 
@@ -10,33 +10,34 @@ import Foundation
 import SwiftyJSON
 
 
-class SellerFinishStrategy: HistoryStateStrategy {
+class SellerClosedStrategy: HistoryStateStrategy {
     
     func cell(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UITableViewCell {
         let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath) as! HistoryRequestTableViewCell
         
+        let name = history.request?.user?.shortName ?? "NAME"
         let item = history.request?.itemName ?? "ITEM"
-
-        cell.messageLabel.text = "You have successfully completed transaction for \(item)."
-/*
-        let attrText = NSMutableAttributedString(string: "")
-        let boldFont = UIFont.boldSystemFont(ofSize: 15)
         
-        let boldYou = NSMutableAttributedString(string: "You", attributes: [NSFontAttributeName: boldFont])
-        attrText.append(boldYou)
+        cell.messageLabel.text = "\(name) has closed transaction for \(item)."
+        /*
+         let attrText = NSMutableAttributedString(string: "")
+         let boldFont = UIFont.boldSystemFont(ofSize: 15)
+         
+         let boldYou = NSMutableAttributedString(string: "You", attributes: [NSFontAttributeName: boldFont])
+         attrText.append(boldYou)
+         
+         attrText.append(NSMutableAttributedString(string: " have successfully completed transaction for "))
+         
+         let boldItemName = NSMutableAttributedString(string: item, attributes: [NSFontAttributeName: boldFont])
+         attrText.append(boldItemName)
+         
+         attrText.append(NSMutableAttributedString(string: "."))
+         
+         cell.messageLabel.attributedText = attrText
+         */
         
-        attrText.append(NSMutableAttributedString(string: " have successfully completed transaction for "))
-        
-        let boldItemName = NSMutableAttributedString(string: item, attributes: [NSFontAttributeName: boldFont])
-        attrText.append(boldItemName)
-        
-        attrText.append(NSMutableAttributedString(string: "."))
-        
-        cell.messageLabel.attributedText = attrText
-*/
-        
-        cell.historyStateLabel.backgroundColor = UIColor.nbRed
-        cell.historyStateLabel.text = "Finish"
+        cell.historyStateLabel.backgroundColor = UIColor.lightGray
+        cell.historyStateLabel.text = "Closed"
         
         cell.timeLabel.text = history.request?.getElapsedTimeAsString()
         
@@ -71,18 +72,17 @@ class SellerFinishStrategy: HistoryStateStrategy {
     func detailViewController(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UIViewController {
         
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-        guard let transactionDetailVC = storyboard.instantiateViewController(
-            withIdentifier: "TransactionDetailTableViewController") as? TransactionDetailTableViewController else {
+        guard let requestDetailVC = storyboard.instantiateViewController(
+            withIdentifier: "RequestDetailTableViewController") as? RequestDetailTableViewController else {
                 assert(false, "Misnamed view controller")
         }
-        transactionDetailVC.delegate = historyVC
-        transactionDetailVC.history = history
-        transactionDetailVC.mode = .none
-        return transactionDetailVC
+        requestDetailVC.request = history.request
+        requestDetailVC.mode = .none
+        return requestDetailVC
     }
     
     func rowAction(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> [UITableViewRowAction]? {
-
+        
         return []
     }
     

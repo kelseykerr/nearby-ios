@@ -15,12 +15,16 @@ enum HistoryStatus {
     case buyer_sellerConfirm
     case buyer_exchange
     case buyer_returns
+    case buyer_priceConfirm
     case buyer_finish
+    case buyer_closed
     case seller_buyerConfirm
     case seller_sellerConfirm
     case seller_exchange
     case seller_returns
+    case seller_priceConfirm
     case seller_finish
+    case seller_closed
 }
 
 class NBHistory: ResponseJSONObjectSerializable {
@@ -98,7 +102,16 @@ extension NBHistory {
     
     var status: HistoryStatus {
         get {
-            if self.transaction?.getStatus() == .start {
+            // check if request status is closed
+            if (self.request?.expireDate)! < (self.request?.postDate)! {
+                if self.isMyRequest() {
+                    return HistoryStatus.buyer_closed
+                }
+                else {
+                    return HistoryStatus.seller_closed
+                }
+            }
+            else if self.transaction?.getStatus() == .start {
                 if responseAccepted() {
                     if self.isMyRequest() {
                         return HistoryStatus.buyer_sellerConfirm
@@ -140,7 +153,15 @@ extension NBHistory {
                     return HistoryStatus.seller_returns
                 }
             }
-            else {
+            else if self.transaction?.getStatus() == .payment {
+                if self.isMyRequest() {
+                    return HistoryStatus.buyer_priceConfirm
+                }
+                else {
+                    return HistoryStatus.seller_priceConfirm
+                }
+            }
+            else { // check request is fulfilled
                 if self.isMyRequest() {
                     return HistoryStatus.buyer_finish
                 }

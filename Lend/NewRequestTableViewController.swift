@@ -10,9 +10,7 @@ import UIKit
 
 protocol NewRequestTableViewDelegate: class {
     
-    func saved(_ request: NBRequest?, error: NSError?)
-    
-    func edited(_ request: NBRequest?, error: NSError?)
+    func saved(_ request: NBRequest?)
     
     func cancelled()
     
@@ -22,11 +20,12 @@ class NewRequestTableViewController: UITableViewController {
 
     @IBOutlet var itemNameTextField: UITextField!
     @IBOutlet var descriptionTextView: UITextView!
-    @IBOutlet var buyRentSegmentedControl: UISegmentedControl!
-
+    @IBOutlet var saveButton: UIButton!
+    @IBOutlet var rentImageView: UIImageView!
+    @IBOutlet var buyImageView: UIImageView!
+    
     weak var delegate: NewRequestTableViewDelegate?
     var request: NBRequest?
-    var editMode = false
     
     var itemName: String? {
         get {
@@ -48,20 +47,24 @@ class NewRequestTableViewController: UITableViewController {
     
     var rental: Bool {
         get {
-            return buyRentSegmentedControl.selectedSegmentIndex == 1
+            return !self.rentImageView.isHidden
         }
         set {
-            buyRentSegmentedControl.selectedSegmentIndex = newValue ? 1 : 0
+            self.rentImageView.isHidden = !newValue
+            self.buyImageView.isHidden = newValue
         }
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        saveButton.layer.cornerRadius = saveButton.frame.size.height / 16
+        saveButton.clipsToBounds = true
+        
         self.hideKeyboardWhenTappedAround()
+        rental = true
         
         if request != nil {
-            editMode = true
             loadFields(request: request!)
         }
     }
@@ -78,7 +81,7 @@ class NewRequestTableViewController: UITableViewController {
         request.rental = rental
     }
     
-    @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
+    @IBAction func saveButtonPressed(_ sender: UIButton) {
         var req = NBRequest()
         
         if request == nil {
@@ -100,17 +103,9 @@ class NewRequestTableViewController: UITableViewController {
         saveFields(request: req)
         
         req.type = "item"
+       
+        self.delegate?.saved(req)
         
-        if editMode {
-            NBRequest.editRequest(req) { error in
-                self.delegate?.edited(req, error: error)
-            }
-        }
-        else {
-            NBRequest.addRequest(req) { error in
-                self.delegate?.saved(req, error: error)
-            }
-        }
         self.dismiss(animated: true, completion: nil)
     }
     
@@ -118,4 +113,13 @@ class NewRequestTableViewController: UITableViewController {
         delegate?.cancelled()
         self.dismiss(animated: true, completion: nil)
     }
+    
+    @IBAction func rentButtonPressed(_ sender: UIButton) {
+        rental = true
+    }
+
+    @IBAction func buyButtonPressed(_ sender: UIButton) {
+        rental = false
+    }
+    
 }

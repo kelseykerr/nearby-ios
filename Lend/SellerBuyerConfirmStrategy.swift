@@ -12,9 +12,6 @@ import Foundation
 class SellerBuyerConfirmStrategy: HistoryStateStrategy {
     
     func cell(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UITableViewCell {
-        print("index row: ")
-        print((indexPath as NSIndexPath).row)
-        
         if (indexPath as NSIndexPath).row == 0 {
             let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath) as! HistoryRequestTableViewCell
             
@@ -22,7 +19,15 @@ class SellerBuyerConfirmStrategy: HistoryStateStrategy {
             let item = history.request?.itemName ?? "ITEM"
             let rent = (history.request?.rental)! ? "lend" : "sell"
             let price = history.responses[0].priceInDollarFormat
-            cell.messageLabel.text = "You are offering to \(rent) \(item) to \(name) for \(price)."
+            
+//            if history.responses[0].buyerStatus == .declined {
+//                cell.messageLabel.text = "Your offer for \(item) has been declined by \(name)."
+//            }
+//            else {
+                cell.messageLabel.text = "You are offering to \(rent) \(item) to \(name) for \(price)."
+//            }
+
+            
 /*
             let attrText = NSMutableAttributedString(string: "")
             let boldFont = UIFont.boldSystemFont(ofSize: 15)
@@ -95,21 +100,26 @@ class SellerBuyerConfirmStrategy: HistoryStateStrategy {
     
     func detailViewController(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UIViewController {
         
+        let response = history.responses[0]
+        
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
         guard let responseDetailVC = storyboard.instantiateViewController(
             withIdentifier: "ResponseDetailTableViewController") as? ResponseDetailTableViewController else {
                 assert(false, "Misnamed view controller")
         }
+        responseDetailVC.mode = .seller
+        responseDetailVC.delegate = historyVC
+        responseDetailVC.response = response
         return responseDetailVC
     }
     
     func rowAction(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> [UITableViewRowAction]? {
-        let detail = UITableViewRowAction(style: .normal, title: "Detail") { action, index in
-            print("detail button tapped")
-        }
-        detail.backgroundColor = UIColor.lightGray
         
-        return [detail]
+        return []
     }
 
+    func canEditRowAt(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> Bool {
+        return false
+    }
+    
 }

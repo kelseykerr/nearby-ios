@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+import SwiftyJSON
 
 class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
     
@@ -149,58 +149,70 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
     
     func detailViewController(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UIViewController {
         
-        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-        guard let requestDetailVC = storyboard.instantiateViewController(
-            withIdentifier: "RequestDetailTableViewController") as? RequestDetailTableViewController else {
-                assert(false, "Misnamed view controller")
-//                return nil
+        if indexPath.row == 0 {
+            let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+            guard let requestDetailVC = storyboard.instantiateViewController(
+                withIdentifier: "RequestDetailTableViewController") as? RequestDetailTableViewController else {
+                    assert(false, "Misnamed view controller")
+            }
+            requestDetailVC.mode = .buyer
+            requestDetailVC.request = history.request
+            requestDetailVC.delegate = historyVC
+            return requestDetailVC
         }
-        requestDetailVC.request = history.request
-        
-        return requestDetailVC
+        else {
+            let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+            guard let responseDetailVC = storyboard.instantiateViewController(
+                withIdentifier: "ResponseDetailTableViewController") as? ResponseDetailTableViewController else {
+                    assert(false, "Misnamed view controller")
+            }
+            responseDetailVC.response = history.responses[indexPath.row - 1]
+            responseDetailVC.mode = .buyer
+            responseDetailVC.delegate = historyVC
+            return responseDetailVC
+        }
     }
     
     func rowAction(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> [UITableViewRowAction]? {
         if (indexPath as NSIndexPath).row == 0 {
             let delete = UITableViewRowAction(style: .normal, title: "Close") { action, index in
-//                print("delete button tapped")
-                if let request = history.request {
-                    NBRequest.removeRequest(request, completionHandler: { error in
-                        print("Request deleted")
-                    })
-                    
-                    historyVC.tableView.isEditing = false
-                    print("Request delete button pressed")
-                }
+                print("Request close button pressed")
+                
+                historyVC.closed(history.request)
+                
+                historyVC.tableView.isEditing = false
             }
-//            delete.backgroundColor = UIColor.cinnabar
-            delete.backgroundColor = UIColor.red
+            delete.backgroundColor = UIColor.nbRed
             
             return [delete]
         }
         else {
             let accept = UITableViewRowAction(style: .normal, title: "Accept") { action, index in
-                let response = history.responses[(indexPath as NSIndexPath).row - 1]
-                response.buyerStatus = BuyerStatus(rawValue: "ACCEPTED")
-                
-                NBResponse.editResponse(response, completionHandler: { error in
-                    print("Accept an offer")
-                    historyVC.tableView.isEditing = false
-                })
-                
                 print("accept button tapped")
+                
+                let response = history.responses[(indexPath as NSIndexPath).row - 1]
+                historyVC.accepted(response)
+                
+                historyVC.tableView.isEditing = false
             }
-//            accept.backgroundColor = UIColor.pictonBlue
-            accept.backgroundColor = UIColor.lightGray
+            accept.backgroundColor = UIColor.nbTurquoise
             
             let decline = UITableViewRowAction(style: .normal, title: "Decline") { action, index in
                 print("decline button tapped")
+                
+                let response = history.responses[(indexPath as NSIndexPath).row - 1]
+                historyVC.declined(response)
+                
+                historyVC.tableView.isEditing = false
             }
-//            decline.backgroundColor = UIColor.cinnabar
-            decline.backgroundColor = UIColor.red
+            decline.backgroundColor = UIColor.nbRed
             
             return [decline, accept]
         }
+    }
+    
+    func canEditRowAt(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> Bool {
+        return true
     }
     
 }

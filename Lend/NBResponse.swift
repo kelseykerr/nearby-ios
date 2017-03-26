@@ -29,7 +29,7 @@ enum SellerStatus: String {
     case withdrawn = "WITHDRAWN"
 }
 
-enum Status: String {
+enum ResponseStatus: String {
     case pending = "PENDING"
     case accepted = "ACCEPTED"
     case closed = "CLOSED"
@@ -42,14 +42,15 @@ class NBResponse: ResponseJSONObjectSerializable {
     var sellerId: String? //REQ
     var responseTime: Int64?
     var offerPrice: Float? //REQ
-    var priceType: PriceType? //REQ: Should be enum
+    var priceType: PriceType? //REQ
     var exchangeLocation: String?
     var returnLocation: String?
     var exchangeTime: Int64?
     var returnTime: Int64?
     var buyerStatus: BuyerStatus?
     var sellerStatus: SellerStatus?
-    var responseStatus: String?
+//    var responseStatus: String?
+    var responseStatus: ResponseStatus?
     var messages = [NBMessage]()
     var seller: NBUser?
     
@@ -72,7 +73,10 @@ class NBResponse: ResponseJSONObjectSerializable {
         if let sellerStatusString = json["sellerStatus"].string {
             self.sellerStatus = SellerStatus(rawValue: sellerStatusString)
         }
-        self.responseStatus = json["responseStatus"].string
+//        self.responseStatus = json["responseStatus"].string
+        if let responseStatusString = json["responseStatus"].string {
+            self.responseStatus = ResponseStatus(rawValue: responseStatusString)
+        }
         for (index, messageJson) in json["messages"] {
 //            print("\(index) mess: \(messageJson)")
             //instantiate, check if nil, then append
@@ -84,18 +88,6 @@ class NBResponse: ResponseJSONObjectSerializable {
     init(test: Bool) {
         if test {
             self.id = "id"
-//            self.requestId = "requestId"
-//            self.sellerId = "sellerId"
-//            self.responseTime = "responseTime"
-//            self.offerPrice = 0
-//            self.priceType = "flat"
-//            self.exchangeLocation = "exchangeLocation"
-//            self.returnLocation = "returnLocation"
-//            self.exchangeTime = "exchangeTime"
-//            self.returnTime = "returnTime"
-//            self.buyerStatus = "buyerStatus"
-//            self.sellerStatus = "sellerStatus"
-//            self.responseStatus = "responseStatus"
         }
     }
     
@@ -154,7 +146,7 @@ class NBResponse: ResponseJSONObjectSerializable {
             json["sellerStatus"] = sellerStatus.rawValue as AnyObject?
         }
         if let responseStatus = responseStatus {
-            json["responseStatus"] = responseStatus as AnyObject?
+            json["responseStatus"] = responseStatus.rawValue as AnyObject?
         }
         return json
     }
@@ -187,17 +179,27 @@ extension NBResponse {
     }
     
     static func editResponse(_ response: NBResponse, completionHandler: @escaping (NSError?) -> Void) {
-        Alamofire.request(RequestsRouter.editResponse(response.requestId!, response.id!, response.toJSON())).response { response in
-            completionHandler(response.error as NSError?)
+        Alamofire.request(RequestsRouter.editResponse(response.requestId!, response.id!, response.toJSON())).validate(statusCode: 200..<300).responseJSON { response in
+            var error: NSError? = nil
+            if response.result.error != nil {
+                let statusCode = response.response?.statusCode
+                let errorMessage = String(data: response.data!, encoding: String.Encoding.utf8)
+                error = NSError(domain: errorMessage!, code: statusCode!, userInfo: nil)
+            }
+            completionHandler(error)
         }
     }
     
     static func addResponse(_ response: NBResponse, completionHandler: @escaping (NSError?) -> Void) {
-        print(JSON(response.toJSON()))
-        Alamofire.request(RequestsRouter.createResponse(response.requestId!, response.toJSON()))
-            .response { response in
-                print(response.response)
-                completionHandler(response.error as NSError?)
+        print(SwiftyJSON.JSON(response.toJSON()))
+        Alamofire.request(RequestsRouter.createResponse(response.requestId!, response.toJSON())).validate(statusCode: 200..<300).responseJSON { response in
+            var error: NSError? = nil
+            if response.result.error != nil {
+                let statusCode = response.response?.statusCode
+                let errorMessage = String(data: response.data!, encoding: String.Encoding.utf8)
+                error = NSError(domain: errorMessage!, code: statusCode!, userInfo: nil)
+            }
+            completionHandler(error)
         }
     }
     
