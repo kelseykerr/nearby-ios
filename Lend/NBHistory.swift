@@ -103,7 +103,7 @@ extension NBHistory {
     var status: HistoryStatus {
         get {
             // check if request status is closed
-            if (self.request?.expireDate)! < (self.request?.postDate)! {
+            if self.request?.expireDate != nil && (self.request?.expireDate)! < (self.request?.postDate)! {
                 if self.isMyRequest() {
                     return HistoryStatus.buyer_closed
                 }
