@@ -37,8 +37,8 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
             cell.messageLabel.attributedText = attrText
 */
             
-            cell.historyStateLabel.backgroundColor = UIColor.nbYellow
-            cell.historyStateLabel.text = "Buyer Confirm"
+            cell.historyStateLabel.backgroundColor = UIColor.nbGreen
+            cell.historyStateLabel.text = "open"
             
             cell.timeLabel.text = history.request?.getElapsedTimeAsString()
             
