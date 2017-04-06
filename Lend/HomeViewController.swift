@@ -122,6 +122,16 @@ class HomeViewController: UIViewController, LoginViewDelegate {
                 print("no requests fetched")
                 return
             }
+            if (fetchedRequests.count == 0) {
+                let noDataLabel: UILabel = UILabel(frame: CGRect(x: 0, y: 0, width: self.tableView.bounds.size.width, height: self.tableView.bounds.size.height))
+                noDataLabel.text = "No Requests Found"
+                noDataLabel.textColor = UIColor.black
+                noDataLabel.textAlignment = .center
+                self.tableView.backgroundView = noDataLabel
+                self.tableView.separatorStyle = .none
+            } else {
+                self.tableView.backgroundView = nil
+            }
             
             for req in fetchedRequests {
                 print(req.toString())
@@ -161,6 +171,16 @@ class HomeViewController: UIViewController, LoginViewDelegate {
             guard let fetchedRequests = result.value else {
                 print("no requests fetched")
                 return
+            }
+            if (fetchedRequests.count == 0) {
+                let noDataLabel: UILabel = UILabel(frame: CGRect(x: 0, y: 0, width: self.tableView.bounds.size.width, height: self.tableView.bounds.size.height))
+                noDataLabel.text = "No Requests Found"
+                noDataLabel.textColor = UIColor.black
+                noDataLabel.textAlignment = .center
+                self.tableView.backgroundView = noDataLabel
+                self.tableView.separatorStyle = .none
+            } else {
+                self.tableView.backgroundView = nil
             }
             
             for req in fetchedRequests {
