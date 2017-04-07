@@ -71,7 +71,19 @@ class NBUser: ResponseJSONObjectSerializable {
     var hasManagedAccount: Bool?
     var stripeManagedAccountId: String?
     var stripeCustomerId: String?
-        
+    
+    var imageUrl: String? {
+        get {
+            if let pictureUrl = pictureUrl {
+                return pictureUrl
+            }
+            else if let userId = userId, authMethod == "facebook" {
+                return "https://graph.facebook.com/\(userId)/picture?height=500"
+            }
+            return nil
+        }
+    }
+    
     required init?(json: SwiftyJSON.JSON) {
         self.firstName = json["firstName"].string
         self.lastName = json["lastName"].string

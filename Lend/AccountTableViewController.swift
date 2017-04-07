@@ -96,7 +96,8 @@ class AccountTableViewController: UITableViewController, LoginViewDelegate {
         self.readyLabel.text = "Ready"
         self.readyLabel.backgroundColor = UIColor.nbRed
         
-        if let pictureUrl = user?.pictureUrl {
+//        if let pictureUrl = user?.pictureUrl {
+        if let pictureUrl = user?.imageUrl {
             NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureUrl, completionHandler: { (image, error) in
                 guard error == nil else {
                     print(error!)

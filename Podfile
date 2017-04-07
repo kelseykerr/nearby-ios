@@ -14,3 +14,8 @@ target 'Nearby' do
     pod 'Stripe'
 
 end
+
+target 'NearbyTests' do
+    pod 'KIF'
+
+end

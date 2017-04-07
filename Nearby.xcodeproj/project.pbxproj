@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		4279B300DB3AA0DD5522684E /* Pods_Nearby.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4BE07AAD7E7749E48DF11BF /* Pods_Nearby.framework */; };
+		73F7CF868071072F78D6D1CB /* libPods-NearbyTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D418FAC02A6167DA6BE47114 /* libPods-NearbyTests.a */; };
+		AA0382891E985A0F006D9DD0 /* NearbyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0382881E985A0F006D9DD0 /* NearbyTests.swift */; };
 		AA0F72A31D7791C20023DAA6 /* CategorySelectionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0F72A21D7791C20023DAA6 /* CategorySelectionTableViewController.swift */; };
 		AA0F72A51D77E7FD0023DAA6 /* CategoriesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0F72A41D77E7FD0023DAA6 /* CategoriesManager.swift */; };
 		AA0F72A81D77F9360023DAA6 /* AccountManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0F72A71D77F9360023DAA6 /* AccountManager.swift */; };
@@ -88,8 +90,23 @@
 		AAD278E71E150501003DCEE0 /* SearchFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAD278E61E150501003DCEE0 /* SearchFilter.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		AA03828B1E985A0F006D9DD0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AA3830731D5A75F600C125F6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AA38307A1D5A75F600C125F6;
+			remoteInfo = Nearby;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		3F39B826BC3AE0F067446572 /* Pods-Nearby.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Nearby.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Nearby/Pods-Nearby.debug.xcconfig"; sourceTree = "<group>"; };
+		569611B4DD22FDE0552E9CEE /* Pods-NearbyTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NearbyTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NearbyTests/Pods-NearbyTests.debug.xcconfig"; sourceTree = "<group>"; };
+		6F95CC3ED8D95B99CFCAD3F0 /* Pods-NearbyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NearbyTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-NearbyTests/Pods-NearbyTests.release.xcconfig"; sourceTree = "<group>"; };
+		AA0382861E985A0F006D9DD0 /* NearbyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NearbyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA0382881E985A0F006D9DD0 /* NearbyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearbyTests.swift; sourceTree = "<group>"; };
+		AA03828A1E985A0F006D9DD0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AA0F72A21D7791C20023DAA6 /* CategorySelectionTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategorySelectionTableViewController.swift; sourceTree = "<group>"; };
 		AA0F72A41D77E7FD0023DAA6 /* CategoriesManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoriesManager.swift; sourceTree = "<group>"; };
 		AA0F72A71D77F9360023DAA6 /* AccountManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountManager.swift; sourceTree = "<group>"; };
@@ -174,10 +191,19 @@
 		AAD278E61E150501003DCEE0 /* SearchFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchFilter.swift; sourceTree = "<group>"; };
 		AAE171031DA24D8B008DD5D8 /* Nearby.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Nearby.entitlements; sourceTree = "<group>"; };
 		C4BE07AAD7E7749E48DF11BF /* Pods_Nearby.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Nearby.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D418FAC02A6167DA6BE47114 /* libPods-NearbyTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NearbyTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F38B22B5A119CABAC0271EF4 /* Pods-Nearby.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Nearby.release.xcconfig"; path = "Pods/Target Support Files/Pods-Nearby/Pods-Nearby.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		AA0382831E985A0F006D9DD0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				73F7CF868071072F78D6D1CB /* libPods-NearbyTests.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AA3830781D5A75F600C125F6 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -202,6 +228,7 @@
 				AA4310BA1D62392E00E00F45 /* FBSDKLoginKit.framework */,
 				AA4310BB1D62392E00E00F45 /* FBSDKShareKit.framework */,
 				C4BE07AAD7E7749E48DF11BF /* Pods_Nearby.framework */,
+				D418FAC02A6167DA6BE47114 /* libPods-NearbyTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -211,8 +238,19 @@
 			children = (
 				3F39B826BC3AE0F067446572 /* Pods-Nearby.debug.xcconfig */,
 				F38B22B5A119CABAC0271EF4 /* Pods-Nearby.release.xcconfig */,
+				569611B4DD22FDE0552E9CEE /* Pods-NearbyTests.debug.xcconfig */,
+				6F95CC3ED8D95B99CFCAD3F0 /* Pods-NearbyTests.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		AA0382871E985A0F006D9DD0 /* NearbyTests */ = {
+			isa = PBXGroup;
+			children = (
+				AA0382881E985A0F006D9DD0 /* NearbyTests.swift */,
+				AA03828A1E985A0F006D9DD0 /* Info.plist */,
+			);
+			path = NearbyTests;
 			sourceTree = "<group>";
 		};
 		AA0F72A11D7549A80023DAA6 /* old */ = {
@@ -261,6 +299,7 @@
 			children = (
 				AAE171031DA24D8B008DD5D8 /* Nearby.entitlements */,
 				AA38307D1D5A75F600C125F6 /* Lend */,
+				AA0382871E985A0F006D9DD0 /* NearbyTests */,
 				AA38307C1D5A75F600C125F6 /* Products */,
 				41CE8E9FDEA29684C591CEA8 /* Pods */,
 				03C81C8D17E004617BD623E6 /* Frameworks */,
@@ -271,6 +310,7 @@
 			isa = PBXGroup;
 			children = (
 				AA38307B1D5A75F600C125F6 /* Nearby.app */,
+				AA0382861E985A0F006D9DD0 /* NearbyTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -456,6 +496,27 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		AA0382851E985A0F006D9DD0 /* NearbyTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AA03828F1E985A0F006D9DD0 /* Build configuration list for PBXNativeTarget "NearbyTests" */;
+			buildPhases = (
+				E113794C67C68A62AB470687 /* [CP] Check Pods Manifest.lock */,
+				AA0382821E985A0F006D9DD0 /* Sources */,
+				AA0382831E985A0F006D9DD0 /* Frameworks */,
+				AA0382841E985A0F006D9DD0 /* Resources */,
+				6AA34EBD7EC59E713909C1A8 /* [CP] Embed Pods Frameworks */,
+				A6CB080849139BD3AF8F16ED /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AA03828C1E985A0F006D9DD0 /* PBXTargetDependency */,
+			);
+			name = NearbyTests;
+			productName = NearbyTests;
+			productReference = AA0382861E985A0F006D9DD0 /* NearbyTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		AA38307A1D5A75F600C125F6 /* Nearby */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = AA38308D1D5A75F600C125F6 /* Build configuration list for PBXNativeTarget "Nearby" */;
@@ -482,10 +543,15 @@
 		AA3830731D5A75F600C125F6 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0730;
+				LastSwiftUpdateCheck = 0820;
 				LastUpgradeCheck = 0730;
 				ORGANIZATIONNAME = "Kei Sakaguchi";
 				TargetAttributes = {
+					AA0382851E985A0F006D9DD0 = {
+						CreatedOnToolsVersion = 8.2.1;
+						ProvisioningStyle = Automatic;
+						TestTargetID = AA38307A1D5A75F600C125F6;
+					};
 					AA38307A1D5A75F600C125F6 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = 53PDQ4KE23;
@@ -518,11 +584,19 @@
 			projectRoot = "";
 			targets = (
 				AA38307A1D5A75F600C125F6 /* Nearby */,
+				AA0382851E985A0F006D9DD0 /* NearbyTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		AA0382841E985A0F006D9DD0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AA3830791D5A75F600C125F6 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -582,9 +656,62 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
+		6AA34EBD7EC59E713909C1A8 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-NearbyTests/Pods-NearbyTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A6CB080849139BD3AF8F16ED /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-NearbyTests/Pods-NearbyTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E113794C67C68A62AB470687 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		AA0382821E985A0F006D9DD0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA0382891E985A0F006D9DD0 /* NearbyTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AA3830771D5A75F600C125F6 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -664,6 +791,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		AA03828C1E985A0F006D9DD0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AA38307A1D5A75F600C125F6 /* Nearby */;
+			targetProxy = AA03828B1E985A0F006D9DD0 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		AA3830821D5A75F600C125F6 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
@@ -684,6 +819,44 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		AA03828D1E985A0F006D9DD0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 569611B4DD22FDE0552E9CEE /* Pods-NearbyTests.debug.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				INFOPLIST_FILE = NearbyTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.iuxtainc.NearbyTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Nearby.app/Nearby";
+			};
+			name = Debug;
+		};
+		AA03828E1E985A0F006D9DD0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6F95CC3ED8D95B99CFCAD3F0 /* Pods-NearbyTests.release.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				INFOPLIST_FILE = NearbyTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.iuxtainc.NearbyTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Nearby.app/Nearby";
+			};
+			name = Release;
+		};
 		AA38308B1D5A75F600C125F6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -817,6 +990,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		AA03828F1E985A0F006D9DD0 /* Build configuration list for PBXNativeTarget "NearbyTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA03828D1E985A0F006D9DD0 /* Debug */,
+				AA03828E1E985A0F006D9DD0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		AA3830761D5A75F600C125F6 /* Build configuration list for PBXProject "Nearby" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
