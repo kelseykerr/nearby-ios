@@ -554,7 +554,7 @@
 					};
 					AA38307A1D5A75F600C125F6 = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = 53PDQ4KE23;
+						DevelopmentTeam = 2E2Z3LHU3H;
 						LastSwiftMigration = 0800;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -948,7 +948,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Nearby.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = 53PDQ4KE23;
+				DEVELOPMENT_TEAM = 2E2Z3LHU3H;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -956,7 +956,7 @@
 				INFOPLIST_FILE = Lend/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.iuxta.Nearby;
+				PRODUCT_BUNDLE_IDENTIFIER = com.iuxtainc.Nearby;
 				PRODUCT_NAME = Nearby;
 				SWIFT_OBJC_BRIDGING_HEADER = "Lend/Lend-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -972,7 +972,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Nearby.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = 53PDQ4KE23;
+				DEVELOPMENT_TEAM = 2E2Z3LHU3H;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -980,7 +980,7 @@
 				INFOPLIST_FILE = Lend/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.iuxta.Nearby;
+				PRODUCT_BUNDLE_IDENTIFIER = com.iuxtainc.Nearby;
 				PRODUCT_NAME = Nearby;
 				SWIFT_OBJC_BRIDGING_HEADER = "Lend/Lend-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;

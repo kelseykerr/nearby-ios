@@ -61,6 +61,7 @@ class SellerSellerConfirmStrategy: HistoryStateStrategy {
         guard let responseDetailVC = storyboard.instantiateViewController(
             withIdentifier: "ResponseDetailTableViewController") as? ResponseDetailTableViewController else {
                 assert(false, "Misnamed view controller")
+                return UIViewController()
         }
         return responseDetailVC
     }

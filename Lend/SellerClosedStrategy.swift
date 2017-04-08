@@ -75,6 +75,7 @@ class SellerClosedStrategy: HistoryStateStrategy {
         guard let requestDetailVC = storyboard.instantiateViewController(
             withIdentifier: "RequestDetailTableViewController") as? RequestDetailTableViewController else {
                 assert(false, "Misnamed view controller")
+                return UIViewController()
         }
         requestDetailVC.request = history.request
         requestDetailVC.mode = .none

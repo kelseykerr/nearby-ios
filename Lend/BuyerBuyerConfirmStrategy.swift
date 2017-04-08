@@ -37,8 +37,8 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
             cell.messageLabel.attributedText = attrText
 */
             
-            cell.historyStateLabel.backgroundColor = UIColor.nbYellow
-            cell.historyStateLabel.text = "Buyer Confirm"
+            cell.historyStateLabel.backgroundColor = UIColor.nbGreen
+            cell.historyStateLabel.text = "open"
             
             cell.timeLabel.text = history.request?.getElapsedTimeAsString()
             
@@ -154,6 +154,7 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
             guard let requestDetailVC = storyboard.instantiateViewController(
                 withIdentifier: "RequestDetailTableViewController") as? RequestDetailTableViewController else {
                     assert(false, "Misnamed view controller")
+                    return UIViewController()
             }
             requestDetailVC.mode = .buyer
             requestDetailVC.request = history.request
@@ -165,6 +166,7 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
             guard let responseDetailVC = storyboard.instantiateViewController(
                 withIdentifier: "ResponseDetailTableViewController") as? ResponseDetailTableViewController else {
                     assert(false, "Misnamed view controller")
+                    return UIViewController()
             }
             responseDetailVC.response = history.responses[indexPath.row - 1]
             responseDetailVC.mode = .buyer
