@@ -45,7 +45,7 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
             cell.userImageView.image = UIImage(named: "User-64")
             cell.setNeedsLayout()
             
-            if let pictureURL = history.request?.user?.pictureUrl {
+            if let pictureURL = history.request?.user?.imageUrl {
                 NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
                     guard error == nil else {
                         print(error!)
@@ -88,7 +88,7 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
             cell.userImageView.image = UIImage(named: "User-64")
             cell.setNeedsLayout()
             
-            if let pictureURL = history.responses[indexPath.row - 1].seller?.pictureUrl {
+            if let pictureURL = history.responses[indexPath.row - 1].seller?.imageUrl {
                 NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
                     guard error == nil else {
                         print(error!)

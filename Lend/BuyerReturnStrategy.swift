@@ -50,7 +50,7 @@ class BuyerReturnStrategy: HistoryStateStrategy {
         
         let seller = history.getResponseById(id: (history.transaction?.responseId)!)?.seller
         
-        if let pictureURL = seller?.pictureUrl {
+        if let pictureURL = seller?.imageUrl {
             NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
                 guard error == nil else {
                     print(error!)
