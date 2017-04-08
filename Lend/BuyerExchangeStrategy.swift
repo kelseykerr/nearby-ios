@@ -96,6 +96,7 @@ class BuyerExchangeStrategy: HistoryStateStrategy {
         guard let transactionDetailVC = storyboard.instantiateViewController(
             withIdentifier: "TransactionDetailTableViewController") as? TransactionDetailTableViewController else {
                 assert(false, "Misnamed view controller")
+                return UIViewController ()
         }
         transactionDetailVC.delegate = historyVC
         transactionDetailVC.history = history
