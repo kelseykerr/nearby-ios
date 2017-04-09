@@ -45,6 +45,11 @@ class AccountManager {
         }
     }
     
+    func googleSignInSilently() {
+        print("silently signing in with google")
+        GIDSignIn.sharedInstance().signInSilently()
+    }
+    
     func setGoogleAuth() {
         self.isGoogleAuth = true
         self.isFbAuth = false

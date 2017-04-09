@@ -103,7 +103,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
             AccountManager.sharedInstance.setGoogleAuth()
             AccountManager.sharedInstance.setGoogleAuthToken(token: idToken!)
             
-            if let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "HomeViewNavigationController") as? UIViewController {
+            if let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TabBarNavigationController") as? UIViewController {
                 if let window = self.window, let rootViewController = window.rootViewController {
                     var currentController = rootViewController
                     while let presentedController = currentController.presentedViewController {
@@ -130,8 +130,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         
         let facebookDidHandle = FBSDKApplicationDelegate.sharedInstance().application(
             application, open: url, sourceApplication: sourceApplication, annotation: annotation)
-        print(googleDidHandle, "**did google handle")
-        print(facebookDidHandle, "***did facebook handle")
         return googleDidHandle || facebookDidHandle
         
     }
@@ -241,7 +239,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
     func applicationDidBecomeActive(_ application: UIApplication) {
         connectToFcm()
         print("application did become active")
-        FBSDKAppEvents.activateApp()
+        if (AccountManager.sharedInstance.isGoogleAuth != nil && AccountManager.sharedInstance.isGoogleAuth) {
+            AccountManager.sharedInstance.googleSignInSilently()
+        } else {
+            FBSDKAppEvents.activateApp()
+        }
     }
     // [END connect_on_active]
     // [START disconnect_from_fcm]

@@ -16,8 +16,12 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate {
 
     weak var delegate: LoginViewDelegate?
     
-    @IBOutlet weak var googleSignInButton: GIDSignInButton!
-
+    //@IBOutlet weak var googleSignInButton: GIDSignInButton!
+    
+    @IBAction func tappedGoogleLogin() {
+        print("starting google sign in")
+        GIDSignIn.sharedInstance().signIn();
+    }
     
     @IBAction func tappedLoginButton() {
 //        print("login")
@@ -36,8 +40,9 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate {
         
         GIDSignIn.sharedInstance().uiDelegate = self
         
-        // Uncomment to automatically sign in the user.
+        // Automatically sign in the user.
         if (AccountManager.sharedInstance.isGoogleAuth != nil && AccountManager.sharedInstance.isGoogleAuth) {
+            print("automatically signing user in with google")
             GIDSignIn.sharedInstance().signInSilently()
         }
         // TODO(developer) Configure the sign-in button look/feel
