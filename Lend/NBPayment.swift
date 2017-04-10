@@ -70,11 +70,12 @@ class NBPayment: ResponseJSONObjectSerializable {
 
 extension NBPayment {
     
-//    static func fetchSelfHistories(_ completionHandler: @escaping (Result<[NBHistory]>) -> Void) {
-//        Alamofire.request(UsersRouter.getSelfHistory())
-//            .responseArray { response in
-//                completionHandler(response.result)
-//        }
-//    }
+    static func fetchPaymentInfo(completionHandler: @escaping (Result<NBPayment>) -> Void) {
+        Alamofire.request(UsersRouter.getPaymentInfo())
+            .responseObject { paymentInfo in
+                completionHandler(paymentInfo.result)
+        }
+
+    }
     
 }
