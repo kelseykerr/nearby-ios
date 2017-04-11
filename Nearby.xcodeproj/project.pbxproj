@@ -88,6 +88,7 @@
 		AAC3C8AD1D5A789800B8F2A9 /* AlamofireRequest+JSONSerializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC3C8A81D5A789800B8F2A9 /* AlamofireRequest+JSONSerializable.swift */; };
 		AAC3C8B01D5A789800B8F2A9 /* NearbyAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC3C8AB1D5A789800B8F2A9 /* NearbyAPIManager.swift */; };
 		AAD278E71E150501003DCEE0 /* SearchFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAD278E61E150501003DCEE0 /* SearchFilter.swift */; };
+		E62E7F6E1E9AC7CA00AF16DB /* BanksAndCardsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E62E7F6D1E9AC7CA00AF16DB /* BanksAndCardsTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -192,6 +193,7 @@
 		AAE171031DA24D8B008DD5D8 /* Nearby.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Nearby.entitlements; sourceTree = "<group>"; };
 		C4BE07AAD7E7749E48DF11BF /* Pods_Nearby.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Nearby.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D418FAC02A6167DA6BE47114 /* libPods-NearbyTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NearbyTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E62E7F6D1E9AC7CA00AF16DB /* BanksAndCardsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BanksAndCardsTableViewController.swift; sourceTree = "<group>"; };
 		F38B22B5A119CABAC0271EF4 /* Pods-Nearby.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Nearby.release.xcconfig"; path = "Pods/Target Support Files/Pods-Nearby/Pods-Nearby.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -401,6 +403,7 @@
 				AA9027221DD7D53400B5CA2B /* ProfileTableViewController.swift */,
 				AAB7690F1E2B41A80021F657 /* PaymentTableViewController.swift */,
 				AAB769111E2B43380021F657 /* DirectDepositTableViewController.swift */,
+				E62E7F6D1E9AC7CA00AF16DB /* BanksAndCardsTableViewController.swift */,
 			);
 			name = Account;
 			sourceTree = "<group>";
@@ -769,6 +772,7 @@
 				AA8F27A21E5ABCCC003CDC22 /* BuyerBuyerConfirmStrategy.swift in Sources */,
 				AA3E34031E79015000B92943 /* NBStripe.swift in Sources */,
 				AA8F27A81E5ABE04003CDC22 /* BuyerExchangeStrategy.swift in Sources */,
+				E62E7F6E1E9AC7CA00AF16DB /* BanksAndCardsTableViewController.swift in Sources */,
 				AA90271D1DD6FC9800B5CA2B /* QRGeneratorViewController.swift in Sources */,
 				AA3F641C1D7B80740021964B /* NBResponse.swift in Sources */,
 				AA8B21EB1D9A4A220026ED7D /* NBExchangeOverride.swift in Sources */,
