@@ -997,6 +997,7 @@
 				AA03828E1E985A0F006D9DD0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		AA3830761D5A75F600C125F6 /* Build configuration list for PBXProject "Nearby" */ = {
 			isa = XCConfigurationList;
