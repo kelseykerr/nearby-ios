@@ -33,7 +33,8 @@ class AccountManager {
             return self.googleAuthToken
         } else {
             print("no auth token")
-            return ""
+            //return ""
+            return FBSDKAccessToken.current().tokenString
         }
     }
     
