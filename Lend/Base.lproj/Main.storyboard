@@ -395,7 +395,7 @@
                     <connections>
                         <outlet property="buyImageView" destination="PX1-kk-ELu" id="zVL-Io-gfA"/>
                         <outlet property="descriptionTextView" destination="uQL-Ii-n5Z" id="3tb-2k-fUu"/>
-                        <outlet property="itemNameTextField" destination="cGe-7R-cXz" id="Lbd-nC-rbD"/>
+                        <outlet property="itemNameTextField" destination="cGe-7R-cXz" id="Oec-at-5eZ"/>
                         <outlet property="rentImageView" destination="6g7-Kh-poi" id="pBf-0N-gNI"/>
                         <outlet property="saveButton" destination="IF9-kr-yla" id="EHL-De-bKI"/>
                     </connections>
@@ -1888,11 +1888,30 @@
         <!--Edit Request-->
         <scene sceneID="zDJ-gy-3KX">
             <objects>
-                <tableViewController id="s2d-kI-3iw" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="EditRequestTableViewController" id="s2d-kI-3iw" customClass="EditRequestTableViewController" customModule="Nearby" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="UwN-ma-SFZ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <view key="tableFooterView" contentMode="scaleToFill" id="i15-aG-b1X">
+                            <rect key="frame" x="0.0" y="349.5" width="375" height="44"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qwb-5K-61q">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <color key="backgroundColor" red="0.0" green="0.76862745098039209" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
+                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                    <state key="normal" title="Save">
+                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="saveButtonPressed:" destination="s2d-kI-3iw" eventType="touchUpInside" id="5x5-ur-TY9"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </view>
                         <sections>
                             <tableViewSection headerTitle="Item" id="PIO-ZK-fC2">
                                 <cells>
@@ -1904,7 +1923,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Vf4-4o-XfQ">
-                                                    <rect key="frame" x="15" y="10" width="352" height="44"/>
+                                                    <rect key="frame" x="15" y="0.0" width="352" height="44"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="textColor" red="0.24606668949999999" green="0.27366775269999999" blue="0.32354259489999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -1939,11 +1958,16 @@
                             </tableViewSection>
                         </sections>
                         <connections>
-                            <outlet property="dataSource" destination="s2d-kI-3iw" id="SfI-sL-4BN"/>
-                            <outlet property="delegate" destination="s2d-kI-3iw" id="o0c-e9-chG"/>
+                            <outlet property="dataSource" destination="s2d-kI-3iw" id="XoH-3q-saU"/>
+                            <outlet property="delegate" destination="s2d-kI-3iw" id="HB0-8a-9KM"/>
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Edit Request" id="BGj-rJ-LTu"/>
+                    <connections>
+                        <outlet property="descriptionText" destination="tTR-Pf-gOS" id="znJ-Il-9Te"/>
+                        <outlet property="itemName" destination="Vf4-4o-XfQ" id="VDB-Ms-kak"/>
+                        <outlet property="saveButton" destination="Qwb-5K-61q" id="HNF-qg-UDU"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="phg-J3-nsD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1953,7 +1977,7 @@
         <scene sceneID="Oca-Jf-GGh">
             <objects>
                 <navigationController id="XwA-cq-k0W" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="qyE-nR-3uo">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="qyE-nR-3uo">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1963,7 +1987,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ee9-Kd-NQn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2425" y="1722"/>
+            <point key="canvasLocation" x="2526" y="1721"/>
         </scene>
         <!--New Response-->
         <scene sceneID="xMk-kx-4sd">

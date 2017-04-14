@@ -151,12 +151,23 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
         
         if indexPath.row == 0 {
             let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+            /*guard let navVC = storyboard.instantiateViewController(
+                withIdentifier: "EditRequestNavigationController") as? UINavigationController else {
+                    assert(false, "Misnamed view controller")
+            }
+            let editRequestVC = (navVC.childViewControllers[0] as! EditRequestTableViewController)
+            editRequestVC.delegate = historyVC
+            editRequestVC.request = history.request
+            return editRequestVC
+            self.present(navVC, animated: true, completion: nil)*/
+            
+            
             guard let requestDetailVC = storyboard.instantiateViewController(
-                withIdentifier: "RequestDetailTableViewController") as? RequestDetailTableViewController else {
+                withIdentifier: "EditRequestTableViewController") as? EditRequestTableViewController else {
                     assert(false, "Misnamed view controller")
                     return UIViewController()
             }
-            requestDetailVC.mode = .buyer
+            //requestDetailVC.mode = .buyer
             requestDetailVC.request = history.request
             requestDetailVC.delegate = historyVC
             return requestDetailVC

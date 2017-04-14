@@ -527,7 +527,7 @@ extension HomeViewController: FilterTableViewDelegate {
     
 }
 
-extension HomeViewController: NewRequestTableViewDelegate, NewResponseTableViewDelegate, RequestDetailTableViewDelegate {
+extension HomeViewController: NewRequestTableViewDelegate, NewResponseTableViewDelegate, RequestDetailTableViewDelegate, EditRequestTableViewDelegate {
     
     @IBAction func requestButtonPressed(_ sender: UIButton) {
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
