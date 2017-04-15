@@ -156,7 +156,11 @@ class NBUser: ResponseJSONObjectSerializable {
     }
     
     func acceptedTos() -> Bool {
-        return self.tosAccepted == nil || !self.tosAccepted || self.tosAcceptIp == nil
+        return !self.tosAccepted || self.tosAcceptIp == nil
+    }
+    
+    func hasAllRequiredFields() -> Bool {
+        return self.firstName != nil && self.lastName != nil && self.email != nil && self.phone != nil && self.dateOfBirth != nil && self.address != nil && self.city != nil && self.state != nil && self.zip != nil;
     }
     
     func toJSON() -> [String: AnyObject] {

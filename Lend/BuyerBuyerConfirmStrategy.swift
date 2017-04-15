@@ -186,7 +186,7 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
             }
             delete.backgroundColor = UIColor.nbRed
             
-            let edit = UITableViewRowAction(style: .normal, title: "Edit") { action, index in
+            let edit = UITableViewRowAction(style: .normal, title: " Edit ") { action, index in
                 print("Edit request button pressed")
                 //go to edit request page
                 let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)

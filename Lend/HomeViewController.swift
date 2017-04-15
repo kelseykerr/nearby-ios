@@ -27,6 +27,10 @@ class HomeViewController: UIViewController, LoginViewDelegate {
     var searchFilter = SearchFilter()
     let progressHUD = ProgressHUD(text: "Saving")
     
+    var alertController: UIAlertController?
+    var alertTimer: Timer?
+    var remainingTime = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -95,11 +99,14 @@ class HomeViewController: UIViewController, LoginViewDelegate {
                 }))
                 self.present(alert, animated: true, completion: nil)
             }
+            if (!user.hasAllRequiredFields()) {
+                self.showEditProfileView()
+            }
         })
     }
     
     func acceptTOS(user:NBUser) -> () {
-        progressHUD.show()
+        self.progressHUD.show()
         
         UserManager.sharedInstance.editUser(user: user) { error in
             if let error = error {
@@ -120,6 +127,16 @@ class HomeViewController: UIViewController, LoginViewDelegate {
         }
         loginVC.delegate = self
         self.present(loginVC, animated: true, completion: nil)
+    }
+    
+    func showEditProfileView() {
+        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        guard let editProfileVC = storyboard.instantiateViewController(
+            withIdentifier: "ProfileTableViewController") as? ProfileTableViewController else {
+                assert(false, "Misnamed view controller")
+                return
+        }
+        self.navigationController?.pushViewController(editProfileVC, animated: true)
     }
     
     func didTapLoginButton() {
@@ -315,6 +332,41 @@ class HomeViewController: UIViewController, LoginViewDelegate {
 //            })
         }
     }
+    
+    func showAlertMsg(message: String, time: Int) {
+        guard (self.alertController == nil) else {
+            print("Alert already displayed")
+            return
+        }
+        
+        self.alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        
+        let cancelAction = UIAlertAction(title: "close", style: .cancel) { (action) in
+            print("Alert was cancelled")
+            self.alertController=nil;
+        }
+        
+        self.alertController!.addAction(cancelAction)
+        if (time > 0) {
+            self.alertTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.countDown), userInfo: nil, repeats: true)
+        }
+        
+        self.present(self.alertController!, animated: true, completion: nil)
+    }
+    
+    func countDown() {
+        
+        self.remainingTime -= 1
+        if (self.remainingTime < 0) {
+            self.alertTimer?.invalidate()
+            self.alertTimer = nil
+            self.alertController!.dismiss(animated: true, completion: {
+                self.alertController = nil
+            })
+        } else {
+        }
+    }
+
  
 }
 
@@ -544,6 +596,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         NearbyAPIManager.sharedInstance.clearCache()
         self.loadRequests(37.5789, longitude: -122.3451, radius: 1000)
     }
+    
 }
 
 extension HomeViewController: FilterTableViewDelegate {
@@ -575,15 +628,22 @@ extension HomeViewController: FilterTableViewDelegate {
 extension HomeViewController: NewRequestTableViewDelegate, NewResponseTableViewDelegate, RequestDetailTableViewDelegate, EditRequestTableViewDelegate {
     
     @IBAction func requestButtonPressed(_ sender: UIButton) {
-        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-        guard let navVC = storyboard.instantiateViewController(
-            withIdentifier: "NewRequestNavigationController") as? UINavigationController else {
-                assert(false, "Misnamed view controller")
-                return
+        UserManager.sharedInstance.getUser { fetchedUser in
+            if (!fetchedUser.hasAllRequiredFields()) {
+                self.showAlertMsg(message: "You must finish filling out your profile before you can make requests", time: 0)
+
+            } else {
+                let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+                guard let navVC = storyboard.instantiateViewController(
+                    withIdentifier: "NewRequestNavigationController") as? UINavigationController else {
+                        assert(false, "Misnamed view controller")
+                        return
+                }
+                let newRequestVC = (navVC.childViewControllers[0] as! NewRequestTableViewController)
+                newRequestVC.delegate = self
+                self.present(navVC, animated: true, completion: nil)
+            }
         }
-        let newRequestVC = (navVC.childViewControllers[0] as! NewRequestTableViewController)
-        newRequestVC.delegate = self
-        self.present(navVC, animated: true, completion: nil)
     }
     
     //request
