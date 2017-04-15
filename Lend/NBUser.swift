@@ -155,6 +155,10 @@ class NBUser: ResponseJSONObjectSerializable {
                " zip: \(self.zip)\n"
     }
     
+    func acceptedTos() -> Bool {
+        return self.tosAccepted == nil || !self.tosAccepted || self.tosAcceptIp == nil
+    }
+    
     func toJSON() -> [String: AnyObject] {
         var json = [String: AnyObject]()
         if let firstName = firstName {

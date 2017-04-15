@@ -13,6 +13,7 @@ target 'Nearby' do
     pod 'Firebase/Messaging'
     pod 'Stripe'
     pod 'Google/SignIn'
+    pod 'Ipify'
 
 end
 

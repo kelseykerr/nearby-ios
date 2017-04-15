@@ -151,23 +151,12 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
         
         if indexPath.row == 0 {
             let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-            /*guard let navVC = storyboard.instantiateViewController(
-                withIdentifier: "EditRequestNavigationController") as? UINavigationController else {
-                    assert(false, "Misnamed view controller")
-            }
-            let editRequestVC = (navVC.childViewControllers[0] as! EditRequestTableViewController)
-            editRequestVC.delegate = historyVC
-            editRequestVC.request = history.request
-            return editRequestVC
-            self.present(navVC, animated: true, completion: nil)*/
-            
-            
+   
             guard let requestDetailVC = storyboard.instantiateViewController(
                 withIdentifier: "EditRequestTableViewController") as? EditRequestTableViewController else {
                     assert(false, "Misnamed view controller")
                     return UIViewController()
             }
-            //requestDetailVC.mode = .buyer
             requestDetailVC.request = history.request
             requestDetailVC.delegate = historyVC
             return requestDetailVC
@@ -197,7 +186,23 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
             }
             delete.backgroundColor = UIColor.nbRed
             
-            return [delete]
+            let edit = UITableViewRowAction(style: .normal, title: "Edit") { action, index in
+                print("Edit request button pressed")
+                //go to edit request page
+                let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+                guard let requestDetailVC = storyboard.instantiateViewController(
+                    withIdentifier: "EditRequestTableViewController") as? EditRequestTableViewController else {
+                        assert(false, "Misnamed view controller")
+                        return
+                }
+                requestDetailVC.request = history.request
+                requestDetailVC.delegate = historyVC
+                historyVC.navigationController?.pushViewController(requestDetailVC, animated: true)
+            }
+            edit.backgroundColor = UIColor.nbTurquoise
+
+
+            return [delete, edit]
         }
         else {
             let accept = UITableViewRowAction(style: .normal, title: "Accept") { action, index in

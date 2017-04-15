@@ -75,10 +75,6 @@ class ProfileTableViewController: UITableViewController {
             user?.state = self.stateTextField.text
             user?.zip = self.zipCodeTextField.text
             
-            //tmp
-            user?.tosAccepted = true
-            user?.tosAcceptIp = "0.0.0.0"
-            
             progressHUD.show()
             
             UserManager.sharedInstance.editUser(user: user!) { error in

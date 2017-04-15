@@ -47,6 +47,7 @@ PODS:
   - GTMSessionFetcher/Core (1.1.8)
   - GTMSessionFetcher/Full (1.1.8):
     - GTMSessionFetcher/Core (= 1.1.8)
+  - Ipify (1.1.0)
   - KIF (3.5.1):
     - KIF/Core (= 3.5.1)
   - KIF/Core (3.5.1)
@@ -59,6 +60,7 @@ DEPENDENCIES:
   - Firebase/Core
   - Firebase/Messaging
   - Google/SignIn
+  - Ipify
   - KIF
   - Stripe
   - SwiftyJSON (~> 3.0)
@@ -75,11 +77,12 @@ SPEC CHECKSUMS:
   GoogleToolboxForMac: 8e329f1b599f2512c6b10676d45736bcc2cbbeb0
   GTMOAuth2: 7fc9c10f5c745f4d9850419ea88889fe3baa6b7d
   GTMSessionFetcher: 6f8d8b28b7e345549ac471071608170b31cb4977
+  Ipify: 1d96ce2b7ee8fd8ee41568c3fc39a45dac15d7ca
   KIF: 082eb65279e51c3092923802849eb796a04982ab
   Protobuf: 745f59e122e5de98d4d7ef291e264a0eef80f58e
   Stripe: abf87fc01f74a2143bba1b1798dd2e4d71fd2cb3
   SwiftyJSON: 29b9f2a64f118c07e691667c2ba1efe536acfe0b
 
-PODFILE CHECKSUM: 17877bf29c15f9cbef271131c6a0e08b551b6137
+PODFILE CHECKSUM: 32eb88f03a1ca66ce76b46adb8299dfc540c169b
 
 COCOAPODS: 1.2.0

@@ -21,6 +21,7 @@ class EditRequestTableViewController: UITableViewController {
     @IBOutlet var itemName: UITextField!
     @IBOutlet var descriptionText: UITextView!
     @IBOutlet var saveButton: UIButton!
+    @IBOutlet var closeButton: UIButton!
     
     weak var delegate: EditRequestTableViewDelegate?
     var request: NBRequest?
@@ -74,6 +75,19 @@ class EditRequestTableViewController: UITableViewController {
         self.navigationController?.popViewController(animated: true)
 
         //self.dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func closeButtonPressed(_ sender: UIButton) {
+        let req = self.request
+        let date = Date()
+        let calendar = Calendar.current
+        calendar.component(.hour, from: date)
+        calendar.component(.minute, from: date)
+        let dateInt = Int64((date.timeIntervalSince1970 * 1000.0).rounded())
+        req?.expireDate = dateInt
+        self.delegate?.closed(req)
+        self.navigationController?.popViewController(animated: true)
+
     }
 
     
