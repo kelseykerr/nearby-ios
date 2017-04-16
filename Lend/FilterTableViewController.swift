@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import DropDown
 
 protocol FilterTableViewDelegate: class {
     
@@ -26,11 +27,106 @@ class FilterTableViewController: UITableViewController {
     @IBOutlet var includeMyRequestSwitch: UISwitch!
     @IBOutlet var includeExpiredRequestSwitch: UISwitch!
     @IBOutlet var sortRequestByDateSwitch: UISwitch!
+    @IBOutlet weak var locationButton: UIButton!
+    @IBOutlet weak var radiusButton: UIButton!
+
+    
+    let locationDropDown = DropDown()
+    let radiusDropDown = DropDown()
+    let textField = UITextField()
+
     
     @IBOutlet var searchButton: UIButton!
     
+    lazy var dropDowns: [DropDown] = {
+        return [
+            self.locationDropDown,
+            self.radiusDropDown
+        ]
+    }()
+    
+    @IBAction func chooseLocation(_ sender: AnyObject) {
+        locationDropDown.show()
+    }
+    
+    @IBAction func chooseRadius(_ sender: AnyObject) {
+        radiusDropDown.show()
+    }
+    
+    func setupDefaultDropDown() {
+        DropDown.setupDefaultAppearance()
+        
+        dropDowns.forEach {
+            $0.cellNib = UINib(nibName: "DropDownCell", bundle: Bundle(for: DropDownCell.self))
+            $0.customCellConfiguration = nil
+        }
+    }
+    
+    func setupDropDowns() {
+        setupLocationDropDown()
+        setupRadiusDropDown()
+    }
+    
+    func setupLocationDropDown() {
+        locationDropDown.anchorView = locationButton
+        
+        // By default, the dropdown will have its origin on the top left corner of its anchor view
+        // So it will come over the anchor view and hide it completely
+        // If you want to have the dropdown underneath your anchor view, you can do this:
+        locationDropDown.bottomOffset = CGPoint(x: 0, y: locationButton.bounds.height)
+        UserManager.sharedInstance.getUser { fetchedUser in
+            if (fetchedUser.hasHomeLocation()) {
+                // You can also use localizationKeysDataSource instead. Check the docs.
+                self.locationDropDown.dataSource = [
+                    "current location",
+                    "home location"
+                ]
+            } else {
+                // You can also use localizationKeysDataSource instead. Check the docs.
+                self.locationDropDown.dataSource = [
+                    "current location"
+                ]
+                self.filter?.searchBy = "current location"
+            }
+        }
+        
+        // Action triggered on selection
+        locationDropDown.selectionAction = { [unowned self] (index, item) in
+            self.locationButton.setTitle(item, for: .normal)
+        }
+    }
+    
+    func setupRadiusDropDown() {
+        radiusDropDown.anchorView = radiusButton
+        
+        // By default, the dropdown will have its origin on the top left corner of its anchor view
+        // So it will come over the anchor view and hide it completely
+        // If you want to have the dropdown underneath your anchor view, you can do this:
+        radiusDropDown.bottomOffset = CGPoint(x: 0, y: radiusButton.bounds.height)
+        radiusDropDown.dataSource = [
+            ".1 mile radius",
+            ".25 mile radius",
+            ".5 mile radius",
+            "1 mile radius",
+            "5 mile radius",
+            "10 mile radius"
+        ]
+        
+        // Action triggered on selection
+        radiusDropDown.selectionAction = { [unowned self] (index, item) in
+            self.radiusButton.setTitle(item, for: .normal)
+        }
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setupDropDowns()
+        dropDowns.forEach { $0.dismissMode = .onTap }
+        dropDowns.forEach { $0.direction = .any }
+        
+        view.addSubview(textField)
         
         self.hideKeyboardWhenTappedAround()
         
@@ -46,8 +142,50 @@ class FilterTableViewController: UITableViewController {
             includeMyRequestSwitch.setOn(filter.includeMyRequest, animated: false)
             includeExpiredRequestSwitch.setOn(filter.includeExpiredRequest, animated: false)
             sortRequestByDateSwitch.setOn(filter.sortRequestByDate, animated: false)
+            locationButton.setTitle(filter.searchBy, for: .normal)
+            let radiusString = switchRadiusDoubleToText(radius: filter.searchRadius)
+            radiusButton.setTitle(radiusString, for: .normal)
         }
     }
+    
+    func switchRadiusDoubleToText(radius: Double) -> String {
+        switch radius {
+        case 0.1:
+        return ".1 mile radius"
+        case 0.25:
+        return ".25 mile radius"
+        case 0.5:
+        return ".5 mile radius"
+        case 1:
+        return "1 mile radius"
+        case 5:
+        return "5 mile radius"
+        case 10:
+        return "10 mile radius"
+        default:
+        return "1 mile radius"
+        }
+    }
+    
+    func switchRadiusTextToDouble(radiusText: String) -> Double {
+        switch radiusText {
+        case ".1 mile radius":
+            return 0.1
+        case ".25 mile radius":
+            return 0.25
+        case ".5 mile radius":
+            return 0.5
+        case "1 mile radius":
+            return 1
+        case "5 mile radius":
+            return 5
+        case "10 mile radius":
+            return 10
+        default:
+            return 1
+        }
+    }
+
 
     @IBAction func includeMyRequestChanged(_ sender: UISwitch) {
 //        filter?.includeMyRequest = includeMyRequestSwitch.isOn
@@ -69,6 +207,9 @@ class FilterTableViewController: UITableViewController {
             filter.includeMyRequest = includeMyRequestSwitch.isOn
             filter.includeExpiredRequest = includeExpiredRequestSwitch.isOn
             filter.sortRequestByDate = sortRequestByDateSwitch.isOn
+            filter.searchBy = (locationButton.titleLabel?.text)!
+            let radiusDouble = switchRadiusTextToDouble(radiusText: (radiusButton.titleLabel?.text)!)
+            filter.searchRadius = radiusDouble
         }
         
         delegate?.searched()

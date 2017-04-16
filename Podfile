@@ -14,6 +14,7 @@ target 'Nearby' do
     pod 'Stripe'
     pod 'Google/SignIn'
     pod 'Ipify'
+    pod 'DropDown'
 
 end
 

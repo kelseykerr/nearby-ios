@@ -163,6 +163,10 @@ class NBUser: ResponseJSONObjectSerializable {
         return self.firstName != nil && self.lastName != nil && self.email != nil && self.phone != nil && self.dateOfBirth != nil && self.address != nil && self.city != nil && self.state != nil && self.zip != nil;
     }
     
+    func hasHomeLocation() -> Bool {
+        return self.homeLongitude != nil && self.homeLatitude != nil
+    }
+    
     func toJSON() -> [String: AnyObject] {
         var json = [String: AnyObject]()
         if let firstName = firstName {

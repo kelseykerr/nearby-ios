@@ -16,7 +16,7 @@ class HomeViewController: UIViewController, LoginViewDelegate {
 
     @IBOutlet var mapView: MKMapView!
     @IBOutlet var tableView: UITableView!
-    @IBOutlet var reloadView: UIToolbar!
+    //@IBOutlet var reloadView: UIToolbar!
     @IBOutlet var requestButton: UIButton!
     
     var requests = [NBRequest]()
@@ -67,7 +67,8 @@ class HomeViewController: UIViewController, LoginViewDelegate {
         }
         
         let currentLocation = LocationManager.sharedInstance.location
-        loadRequests((currentLocation?.coordinate.latitude)!, longitude: (currentLocation?.coordinate.longitude)!, radius: 1000)
+        let radius = getRadius()
+        loadRequests((currentLocation?.coordinate.latitude)!, longitude: (currentLocation?.coordinate.longitude)!, radius: radius)
         UserManager.sharedInstance.getUser(completionHandler: { user in
             if (!user.acceptedTos()) {
                 let tosString = "Payment processing services for sellers on Nearby are provided by Stripe and are subject to the Stripe Connected Account Agreement, which includes the Stripe Terms of Service (collectively, the “Stripe Services Agreement”). By agreeing to these terms or continuing to operate as a user on Nearby, you agree to be bound by the Stripe Services Agreement, as the same may be modified by Stripe from time to time. As a condition of Nearby enabling payment processing services through Stripe, you agree to provide Nearby accurate and complete information about you and your business, and you authorize Nearby to share it and transaction information related to your use of the payment processing services provided by Stripe."
@@ -147,7 +148,8 @@ class HomeViewController: UIViewController, LoginViewDelegate {
 // TODO: show web page
             
             let currentLocation = LocationManager.sharedInstance.location
-            self.loadRequests((currentLocation?.coordinate.latitude)!, longitude: (currentLocation?.coordinate.longitude)!, radius: 1000)
+            let radius = self.getRadius()
+            self.loadRequests((currentLocation?.coordinate.latitude)!, longitude: (currentLocation?.coordinate.longitude)!, radius: radius)
             
             UserManager.sharedInstance.getUser(completionHandler: { user in
             })
@@ -161,7 +163,7 @@ class HomeViewController: UIViewController, LoginViewDelegate {
         let myLocation = CLLocation(latitude: latitude, longitude: longitude)
         let regionRadius: CLLocationDistance = radius
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(myLocation.coordinate, regionRadius * 2.0, regionRadius * 2.0)
-//        mapView.setRegion(coordinateRegion, animated: true)
+        mapView.setRegion(coordinateRegion, animated: true)
         
         let searchTerm = searchFilter.searchTerm
         let includeMine = searchFilter.includeMyRequest
@@ -270,12 +272,12 @@ class HomeViewController: UIViewController, LoginViewDelegate {
         else {
             sender.title = "List"
             self.view.bringSubview(toFront: mapView)
-            self.view.bringSubview(toFront: reloadView)
+            //self.view.bringSubview(toFront: reloadView)
             self.view.bringSubview(toFront: requestButton)
         }
     }
     
-    @IBAction func redoSearchButtonPressed(_ sender: UIBarButtonItem) {
+    /*@IBAction func redoSearchButtonPressed(_ sender: UIBarButtonItem) {
         let radius = self.getRadius()
         let center = self.getCenterCoordinate()
         
@@ -285,7 +287,7 @@ class HomeViewController: UIViewController, LoginViewDelegate {
         reloadRequests(center.latitude, longitude: center.longitude, radius: radius)
         self.view.bringSubview(toFront: mapView)
         self.view.bringSubview(toFront: requestButton)
-    }
+    }*/
     
     func loadRequests() {
         let radius = self.getRadius()
@@ -439,23 +441,30 @@ extension HomeViewController: MKMapViewDelegate {
     }
     
     func getRadius() -> CLLocationDistance {
-        let center = self.getCenterCoordinate()
-        let centerLocation = CLLocation(latitude: center.latitude, longitude: center.longitude)
-        
-        let top = self.mapView.convert(CGPoint(x: self.mapView.frame.size.width / 2.0, y: 0), toCoordinateFrom: mapView)
-        let topLocation = CLLocation(latitude: top.latitude, longitude: top.longitude)
-        
-        let radius = centerLocation.distance(from: topLocation)
-        return radius
+        let meters = Converter.milesToMeters(searchFilter.searchRadius)
+        return CLLocationDistance(meters)
     }
     
     func getCenterCoordinate() -> CLLocationCoordinate2D {
-        return self.mapView.centerCoordinate
+        if (searchFilter.searchBy == "home location") {
+            var lat = 0.0
+            var lng = 0.0
+            UserManager.sharedInstance.getUser { fetchedUser in
+                lat = Double(fetchedUser.homeLatitude!)
+                lng = Double(fetchedUser.homeLongitude!)
+            }
+            print("home lat: \(lat) and home lng: \(lng)")
+            return CLLocationCoordinate2D.init(latitude: lat, longitude: lng);
+        } else {
+            let currentLocation = LocationManager.sharedInstance.location
+            return CLLocationCoordinate2D.init(latitude: (currentLocation?.coordinate.latitude)!, longitude: (currentLocation?.coordinate.longitude)!);
+            //return self.mapView.centerCoordinate
+        }
     }
     
     func mapView(_ mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
         print("map moving")
-        self.view.bringSubview(toFront: reloadView)
+        //self.view.bringSubview(toFront: reloadView)
         self.view.bringSubview(toFront: requestButton)
     }
 }
@@ -594,7 +603,8 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func refresh(_ sender: AnyObject) {
 //        nextPageURLString = nil // so it doesn't try to append the results
         NearbyAPIManager.sharedInstance.clearCache()
-        self.loadRequests(37.5789, longitude: -122.3451, radius: 1000)
+        let radius = getRadius()
+        self.loadRequests(37.5789, longitude: -122.3451, radius: radius)
     }
     
 }

@@ -1452,9 +1452,6 @@
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="Ff8-i2-KUC"/>
                                     <barButtonItem title="Redo Search In This Area" width="347" id="gUP-5f-AuX">
                                         <color key="tintColor" red="0.0" green="0.76949679849999997" blue="0.80083006619999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <connections>
-                                            <action selector="redoSearchButtonPressed:" destination="lIm-qp-KO4" id="bYz-Jm-86T"/>
-                                        </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="5tz-Vg-njf"/>
                                 </items>
@@ -1524,7 +1521,6 @@
                     </navigationItem>
                     <connections>
                         <outlet property="mapView" destination="Zpc-0m-XnW" id="AtT-DM-uua"/>
-                        <outlet property="reloadView" destination="HZ5-fp-xZX" id="OOz-EP-vjz"/>
                         <outlet property="requestButton" destination="kb9-8m-Go8" id="fcU-WI-urU"/>
                         <outlet property="tableView" destination="uky-Jy-2eq" id="8mG-f1-OKI"/>
                     </connections>
@@ -1542,7 +1538,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.97636479139999999" green="0.97653168440000004" blue="0.9763541818" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <view key="tableFooterView" opaque="NO" contentMode="scaleToFill" id="CyV-Ib-Z10">
-                            <rect key="frame" x="0.0" y="285.5" width="375" height="44"/>
+                            <rect key="frame" x="0.0" y="485.5" width="375" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="08N-zh-KtH">
@@ -1591,10 +1587,61 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
+                            <tableViewSection headerTitle="Search By" id="oTv-Mj-h2o">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="xbJ-6r-LQC">
+                                        <rect key="frame" x="0.0" y="155.5" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="xbJ-6r-LQC" id="duL-2M-ko0">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AM1-q7-dsU">
+                                                    <rect key="frame" x="15" y="0.0" width="375" height="44"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <state key="normal">
+                                                        <color key="titleColor" red="0.24606668949999999" green="0.27366775269999999" blue="0.32354259489999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="chooseLocation:" destination="cPJ-6L-XlM" eventType="touchUpInside" id="V3f-Pd-sbG"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection headerTitle="Distance" id="v1g-3b-lnt">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="rei-ly-Bxa">
+                                        <rect key="frame" x="0.0" y="255.5" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="rei-ly-Bxa" id="dSc-vY-b97">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IVC-GB-M84">
+                                                    <rect key="frame" x="15" y="0.0" width="375" height="44"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <state key="normal">
+                                                        <color key="titleColor" red="0.24606668949999999" green="0.27366775269999999" blue="0.32354259489999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="chooseLocation:" destination="cPJ-6L-XlM" eventType="touchUpInside" id="cqE-7P-YyZ"/>
+                                                        <action selector="chooseRadius:" destination="cPJ-6L-XlM" eventType="touchUpInside" id="i5Y-Hh-rHG"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
                             <tableViewSection headerTitle="" id="oXT-JB-YE4">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="eQX-Qt-l3h">
-                                        <rect key="frame" x="0.0" y="135.5" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="335.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="eQX-Qt-l3h" id="snQ-S6-a0j">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
@@ -1627,7 +1674,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="AzJ-EG-rcc">
-                                        <rect key="frame" x="0.0" y="179.5" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="379.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="AzJ-EG-rcc" id="7Yp-F4-suR">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
@@ -1660,7 +1707,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="aQg-hg-KqE">
-                                        <rect key="frame" x="0.0" y="223.5" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="423.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="aQg-hg-KqE" id="Hsc-Jq-l6y">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
@@ -1711,6 +1758,8 @@
                     <connections>
                         <outlet property="includeExpiredRequestSwitch" destination="zjA-sZ-MwC" id="LR7-Ht-riO"/>
                         <outlet property="includeMyRequestSwitch" destination="eho-Xm-iby" id="qlS-6E-nX7"/>
+                        <outlet property="locationButton" destination="AM1-q7-dsU" id="Gc1-5I-N6g"/>
+                        <outlet property="radiusButton" destination="IVC-GB-M84" id="nrf-ya-hep"/>
                         <outlet property="searchButton" destination="08N-zh-KtH" id="eiN-ZM-3ZC"/>
                         <outlet property="searchTextField" destination="bQF-Eq-YE7" id="Jnm-Ya-43L"/>
                         <outlet property="sortRequestByDateSwitch" destination="ZAp-i8-8K4" id="EBG-O6-5Sp"/>
