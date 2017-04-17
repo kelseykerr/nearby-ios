@@ -36,8 +36,8 @@ class SellerClosedStrategy: HistoryStateStrategy {
          cell.messageLabel.attributedText = attrText
          */
         
-        cell.historyStateLabel.backgroundColor = UIColor.lightGray
-        cell.historyStateLabel.text = "Closed"
+        cell.historyStateLabel.backgroundColor = UIColor.nbRed
+        cell.historyStateLabel.text = "CLOSED"
         
         cell.timeLabel.text = history.request?.getElapsedTimeAsString()
         

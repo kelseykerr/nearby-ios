@@ -147,6 +147,13 @@ extension NBTransaction {
         }
     }
     
+    var finalPriceInDollarFormat: String {
+        get {
+            let price = self.finalPrice ?? -9.99
+            return String(format: "$%.2f", price)
+        }
+    }
+    
 }
 
 // commented out so it will build

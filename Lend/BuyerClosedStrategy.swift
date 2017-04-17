@@ -17,7 +17,7 @@ class BuyerClosedStrategy: HistoryStateStrategy {
         
         let item = history.request?.itemName ?? "ITEM"
         
-        cell.messageLabel.text = "You have closed transaction for \(item)."
+        cell.messageLabel.text = "Requested a \(item)."
         /*
          let attrText = NSMutableAttributedString(string: "")
          let boldFont = UIFont.boldSystemFont(ofSize: 15)
@@ -35,8 +35,8 @@ class BuyerClosedStrategy: HistoryStateStrategy {
          cell.messageLabel.attributedText = attrText
          */
         
-        cell.historyStateLabel.backgroundColor = UIColor.lightGray
-        cell.historyStateLabel.text = "Closed"
+        cell.historyStateLabel.backgroundColor = UIColor.nbRed
+        cell.historyStateLabel.text = "CLOSED"
         
         cell.timeLabel.text = history.request?.getElapsedTimeAsString()
         

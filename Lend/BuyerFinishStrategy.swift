@@ -16,8 +16,18 @@ class BuyerFinishStrategy: HistoryStateStrategy {
         let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath) as! HistoryRequestTableViewCell
         
         let item = history.request?.itemName ?? "ITEM"
+        let borrowed = history.request?.rental
+        var text = ""
+        if (history.request?.rental)! {
+            text = "Borrowed a "
+        } else {
+            text = "Bought a "
+        }
+        text += "\(item) from " + (history.responses[0].seller?.firstName)!
+        let price = history.transaction?.finalPriceInDollarFormat ?? "0.00"
+        text += " for \(price)"
+        cell.messageLabel.text = text;
 
-        cell.messageLabel.text = "You have successfully completed transaction for \(item)."
 /*
         let attrText = NSMutableAttributedString(string: "")
         let boldFont = UIFont.boldSystemFont(ofSize: 15)
@@ -35,8 +45,8 @@ class BuyerFinishStrategy: HistoryStateStrategy {
         cell.messageLabel.attributedText = attrText
 */
  
-        cell.historyStateLabel.backgroundColor = UIColor.nbRed
-        cell.historyStateLabel.text = "Finish"
+        cell.historyStateLabel.backgroundColor = UIColor.nbBlue
+        cell.historyStateLabel.text = "FULFILLED"
         
         cell.timeLabel.text = history.request?.getElapsedTimeAsString()
         

@@ -24,7 +24,7 @@ class SellerBuyerConfirmStrategy: HistoryStateStrategy {
 //                cell.messageLabel.text = "Your offer for \(item) has been declined by \(name)."
 //            }
 //            else {
-                cell.messageLabel.text = "You are offering to \(rent) \(item) to \(name) for \(price)."
+                cell.messageLabel.text = "Offered a \(item) to \(name) for \(price)."
 //            }
 
             
@@ -57,7 +57,7 @@ class SellerBuyerConfirmStrategy: HistoryStateStrategy {
 */
             
             cell.historyStateLabel.backgroundColor = UIColor.nbYellow
-            cell.historyStateLabel.text = "Buyer Confirm"
+            cell.historyStateLabel.text = "PENDING"
             cell.timeLabel.text = history.request?.getElapsedTimeAsString()
             
             cell.userImageView.image = UIImage(named: "User-64")
@@ -77,8 +77,7 @@ class SellerBuyerConfirmStrategy: HistoryStateStrategy {
             }
             
             return cell
-        }
-        else {
+        } else {
             let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "ResponseCell", for: indexPath) as! HistoryResponseTableViewCell
             
                 let name: String = history.request?.user?.firstName ?? "NAME"

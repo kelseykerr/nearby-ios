@@ -19,7 +19,7 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
             let item = history.request?.itemName ?? "ITEM"
             let rent = (request?.rental)! ? "borrow" : "buy"
 
-            cell.messageLabel.text = "You want to \(rent) \(item)."
+            cell.messageLabel.text = "Requested a \(item)."
 /*
             let attrText = NSMutableAttributedString(string: "")
             let boldFont = UIFont.boldSystemFont(ofSize: 15)
@@ -38,7 +38,7 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
 */
             
             cell.historyStateLabel.backgroundColor = UIColor.nbGreen
-            cell.historyStateLabel.text = "open"
+            cell.historyStateLabel.text = "OPEN"
             
             cell.timeLabel.text = history.request?.getElapsedTimeAsString()
             
@@ -67,7 +67,7 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
             let price = history.responses[indexPath.row - 1].priceInDollarFormat
             let rent = (history.request?.rental)! ? "lend" : "sell"
 
-            cell.messageLabel.text = "\(sellerName) is offering to \(rent) it to you for \(price)."
+            cell.messageLabel.text = "\(sellerName) made an offer for \(price)."
 /*
             let attrText = NSMutableAttributedString(string: "")
             let boldFont = UIFont.boldSystemFont(ofSize: 15)
