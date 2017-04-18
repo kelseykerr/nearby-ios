@@ -549,6 +549,7 @@
 				TargetAttributes = {
 					AA0382851E985A0F006D9DD0 = {
 						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = 53PDQ4KE23;
 						ProvisioningStyle = Automatic;
 						TestTargetID = AA38307A1D5A75F600C125F6;
 					};
@@ -827,6 +828,7 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				DEVELOPMENT_TEAM = 53PDQ4KE23;
 				INFOPLIST_FILE = NearbyTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -846,6 +848,7 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				DEVELOPMENT_TEAM = 53PDQ4KE23;
 				INFOPLIST_FILE = NearbyTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -997,6 +1000,7 @@
 				AA03828E1E985A0F006D9DD0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		AA3830761D5A75F600C125F6 /* Build configuration list for PBXProject "Nearby" */ = {
 			isa = XCConfigurationList;
