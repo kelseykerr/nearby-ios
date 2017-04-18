@@ -57,6 +57,9 @@ class EditRequestTableViewController: UITableViewController {
         saveButton.layer.cornerRadius = saveButton.frame.size.height / 16
         saveButton.clipsToBounds = true
         
+        closeButton.layer.cornerRadius = closeButton.frame.size.height / 16
+        closeButton.clipsToBounds = true
+        
         if let request = request {
             loadFields(request: request)
         }

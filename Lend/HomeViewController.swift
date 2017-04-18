@@ -405,7 +405,7 @@ extension HomeViewController: MKMapViewDelegate {
             imageView.clipsToBounds = true
             view.leftCalloutAccessoryView = imageView
             
-            if let pictureURL = annotation.user?.pictureUrl {
+            if let pictureURL = annotation.user?.imageUrl {
                 NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
                     guard error == nil else {
                         print(error!)
@@ -530,7 +530,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         cell.userImageView.image = UIImage(named: "User-64")
         cell.setNeedsLayout()
         
-        if let pictureURL = request.user?.pictureUrl {
+        if let pictureURL = request.user?.imageUrl {
             NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
                 guard error == nil else {
                     print(error!)

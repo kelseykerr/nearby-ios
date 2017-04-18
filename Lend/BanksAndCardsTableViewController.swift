@@ -18,8 +18,6 @@ class BanksAndCardsTableViewController: UITableViewController {
     @IBOutlet weak var creditCardNumber: UILabel!
     @IBOutlet weak var ccExp: UILabel!
 
-    
-
     override func viewDidLoad() {
         super.viewDidLoad()
         loadPaymentInfo()
