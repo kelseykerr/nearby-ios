@@ -48,7 +48,7 @@ class SellerReturnStrategy: HistoryStateStrategy {
         cell.userImageView.image = UIImage(named: "User-64")
         cell.setNeedsLayout()
         
-        if let pictureURL = history.request?.user?.pictureUrl {
+        if let pictureURL = history.request?.user?.imageUrl {
             NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
                 guard error == nil else {
                     print(error!)

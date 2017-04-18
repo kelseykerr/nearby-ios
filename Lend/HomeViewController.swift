@@ -10,12 +10,13 @@ import UIKit
 import MapKit
 import Alamofire
 import SwiftyJSON
+import Ipify
 
 class HomeViewController: UIViewController, LoginViewDelegate {
 
     @IBOutlet var mapView: MKMapView!
     @IBOutlet var tableView: UITableView!
-    @IBOutlet var reloadView: UIToolbar!
+    //@IBOutlet var reloadView: UIToolbar!
     @IBOutlet var requestButton: UIButton!
     
     var requests = [NBRequest]()
@@ -24,6 +25,11 @@ class HomeViewController: UIViewController, LoginViewDelegate {
     var dateFormatter = DateFormatter()
 
     var searchFilter = SearchFilter()
+    let progressHUD = ProgressHUD(text: "Saving")
+    
+    var alertController: UIAlertController?
+    var alertTimer: Timer?
+    var remainingTime = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,9 +67,56 @@ class HomeViewController: UIViewController, LoginViewDelegate {
         }
         
         let currentLocation = LocationManager.sharedInstance.location
-        loadRequests((currentLocation?.coordinate.latitude)!, longitude: (currentLocation?.coordinate.longitude)!, radius: 1000)
+        let radius = getRadius()
+        loadRequests((currentLocation?.coordinate.latitude)!, longitude: (currentLocation?.coordinate.longitude)!, radius: radius)
         UserManager.sharedInstance.getUser(completionHandler: { user in
+            if (!user.acceptedTos()) {
+                let tosString = "Payment processing services for sellers on Nearby are provided by Stripe and are subject to the Stripe Connected Account Agreement, which includes the Stripe Terms of Service (collectively, the “Stripe Services Agreement”). By agreeing to these terms or continuing to operate as a user on Nearby, you agree to be bound by the Stripe Services Agreement, as the same may be modified by Stripe from time to time. As a condition of Nearby enabling payment processing services through Stripe, you agree to provide Nearby accurate and complete information about you and your business, and you authorize Nearby to share it and transaction information related to your use of the payment processing services provided by Stripe."
+                
+                let alert = UIAlertController(title: "Terms of Service", message: tosString, preferredStyle: UIAlertControllerStyle.alert)
+                alert.addAction(UIAlertAction(title: "Accept", style: UIAlertActionStyle.default, handler: { action in
+                    switch action.style {
+                    case .default:
+                        print("default")
+                        Ipify.getPublicIPAddress { result in
+                            switch result {
+                            case .success(let ip):
+                                print(ip)
+                                user.tosAcceptIp = ip
+                                user.tosAccepted = true
+                                self.acceptTOS(user: user)
+                            case .failure(let error):
+                                print(error.localizedDescription)
+                                user.tosAccepted = true
+                                user.tosAcceptIp = "0.0.0.0"
+                                self.acceptTOS(user: user)
+                            }
+                        }
+                    case .cancel:
+                        print("cancel")
+                    case .destructive:
+                        print("destructive")
+                    }
+                }))
+                self.present(alert, animated: true, completion: nil)
+            }
+            if (!user.hasAllRequiredFields()) {
+                self.showEditProfileView()
+            }
         })
+    }
+    
+    func acceptTOS(user:NBUser) -> () {
+        self.progressHUD.show()
+        
+        UserManager.sharedInstance.editUser(user: user) { error in
+            if let error = error {
+                let alert = Utils.createServerErrorAlert(error: error)
+                self.present(alert, animated: true, completion: nil)
+            }
+            self.progressHUD.hide()
+        }
+
     }
     
     func showOAuthLoginView() {
@@ -77,6 +130,16 @@ class HomeViewController: UIViewController, LoginViewDelegate {
         self.present(loginVC, animated: true, completion: nil)
     }
     
+    func showEditProfileView() {
+        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        guard let editProfileVC = storyboard.instantiateViewController(
+            withIdentifier: "ProfileTableViewController") as? ProfileTableViewController else {
+                assert(false, "Misnamed view controller")
+                return
+        }
+        self.navigationController?.pushViewController(editProfileVC, animated: true)
+    }
+    
     func didTapLoginButton() {
         self.dismiss(animated: false) {
 //            guard let authURL = GitHubAPIManager.sharedInstance.URLToStartOAuth2Login() else {
@@ -85,7 +148,8 @@ class HomeViewController: UIViewController, LoginViewDelegate {
 // TODO: show web page
             
             let currentLocation = LocationManager.sharedInstance.location
-            self.loadRequests((currentLocation?.coordinate.latitude)!, longitude: (currentLocation?.coordinate.longitude)!, radius: 1000)
+            let radius = self.getRadius()
+            self.loadRequests((currentLocation?.coordinate.latitude)!, longitude: (currentLocation?.coordinate.longitude)!, radius: radius)
             
             UserManager.sharedInstance.getUser(completionHandler: { user in
             })
@@ -99,7 +163,7 @@ class HomeViewController: UIViewController, LoginViewDelegate {
         let myLocation = CLLocation(latitude: latitude, longitude: longitude)
         let regionRadius: CLLocationDistance = radius
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(myLocation.coordinate, regionRadius * 2.0, regionRadius * 2.0)
-//        mapView.setRegion(coordinateRegion, animated: true)
+        mapView.setRegion(coordinateRegion, animated: true)
         
         let searchTerm = searchFilter.searchTerm
         let includeMine = searchFilter.includeMyRequest
@@ -208,12 +272,12 @@ class HomeViewController: UIViewController, LoginViewDelegate {
         else {
             sender.title = "List"
             self.view.bringSubview(toFront: mapView)
-            self.view.bringSubview(toFront: reloadView)
+            //self.view.bringSubview(toFront: reloadView)
             self.view.bringSubview(toFront: requestButton)
         }
     }
     
-    @IBAction func redoSearchButtonPressed(_ sender: UIBarButtonItem) {
+    /*@IBAction func redoSearchButtonPressed(_ sender: UIBarButtonItem) {
         let radius = self.getRadius()
         let center = self.getCenterCoordinate()
         
@@ -223,7 +287,7 @@ class HomeViewController: UIViewController, LoginViewDelegate {
         reloadRequests(center.latitude, longitude: center.longitude, radius: radius)
         self.view.bringSubview(toFront: mapView)
         self.view.bringSubview(toFront: requestButton)
-    }
+    }*/
     
     func loadRequests() {
         let radius = self.getRadius()
@@ -270,6 +334,41 @@ class HomeViewController: UIViewController, LoginViewDelegate {
 //            })
         }
     }
+    
+    func showAlertMsg(message: String, time: Int) {
+        guard (self.alertController == nil) else {
+            print("Alert already displayed")
+            return
+        }
+        
+        self.alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        
+        let cancelAction = UIAlertAction(title: "close", style: .cancel) { (action) in
+            print("Alert was cancelled")
+            self.alertController=nil;
+        }
+        
+        self.alertController!.addAction(cancelAction)
+        if (time > 0) {
+            self.alertTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.countDown), userInfo: nil, repeats: true)
+        }
+        
+        self.present(self.alertController!, animated: true, completion: nil)
+    }
+    
+    func countDown() {
+        
+        self.remainingTime -= 1
+        if (self.remainingTime < 0) {
+            self.alertTimer?.invalidate()
+            self.alertTimer = nil
+            self.alertController!.dismiss(animated: true, completion: {
+                self.alertController = nil
+            })
+        } else {
+        }
+    }
+
  
 }
 
@@ -342,23 +441,30 @@ extension HomeViewController: MKMapViewDelegate {
     }
     
     func getRadius() -> CLLocationDistance {
-        let center = self.getCenterCoordinate()
-        let centerLocation = CLLocation(latitude: center.latitude, longitude: center.longitude)
-        
-        let top = self.mapView.convert(CGPoint(x: self.mapView.frame.size.width / 2.0, y: 0), toCoordinateFrom: mapView)
-        let topLocation = CLLocation(latitude: top.latitude, longitude: top.longitude)
-        
-        let radius = centerLocation.distance(from: topLocation)
-        return radius
+        let meters = Converter.milesToMeters(searchFilter.searchRadius)
+        return CLLocationDistance(meters)
     }
     
     func getCenterCoordinate() -> CLLocationCoordinate2D {
-        return self.mapView.centerCoordinate
+        if (searchFilter.searchBy == "home location") {
+            var lat = 0.0
+            var lng = 0.0
+            UserManager.sharedInstance.getUser { fetchedUser in
+                lat = Double(fetchedUser.homeLatitude!)
+                lng = Double(fetchedUser.homeLongitude!)
+            }
+            print("home lat: \(lat) and home lng: \(lng)")
+            return CLLocationCoordinate2D.init(latitude: lat, longitude: lng);
+        } else {
+            let currentLocation = LocationManager.sharedInstance.location
+            return CLLocationCoordinate2D.init(latitude: (currentLocation?.coordinate.latitude)!, longitude: (currentLocation?.coordinate.longitude)!);
+            //return self.mapView.centerCoordinate
+        }
     }
     
     func mapView(_ mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
         print("map moving")
-        self.view.bringSubview(toFront: reloadView)
+        //self.view.bringSubview(toFront: reloadView)
         self.view.bringSubview(toFront: requestButton)
     }
 }
@@ -497,8 +603,10 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func refresh(_ sender: AnyObject) {
 //        nextPageURLString = nil // so it doesn't try to append the results
         NearbyAPIManager.sharedInstance.clearCache()
-        self.loadRequests(37.5789, longitude: -122.3451, radius: 1000)
+        let radius = getRadius()
+        self.loadRequests(37.5789, longitude: -122.3451, radius: radius)
     }
+    
 }
 
 extension HomeViewController: FilterTableViewDelegate {
@@ -527,18 +635,25 @@ extension HomeViewController: FilterTableViewDelegate {
     
 }
 
-extension HomeViewController: NewRequestTableViewDelegate, NewResponseTableViewDelegate, RequestDetailTableViewDelegate {
+extension HomeViewController: NewRequestTableViewDelegate, NewResponseTableViewDelegate, RequestDetailTableViewDelegate, EditRequestTableViewDelegate {
     
     @IBAction func requestButtonPressed(_ sender: UIButton) {
-        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-        guard let navVC = storyboard.instantiateViewController(
-            withIdentifier: "NewRequestNavigationController") as? UINavigationController else {
-                assert(false, "Misnamed view controller")
-                return
+        UserManager.sharedInstance.getUser { fetchedUser in
+            if (!fetchedUser.hasAllRequiredFields()) {
+                self.showAlertMsg(message: "You must finish filling out your profile before you can make requests", time: 0)
+
+            } else {
+                let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+                guard let navVC = storyboard.instantiateViewController(
+                    withIdentifier: "NewRequestNavigationController") as? UINavigationController else {
+                        assert(false, "Misnamed view controller")
+                        return
+                }
+                let newRequestVC = (navVC.childViewControllers[0] as! NewRequestTableViewController)
+                newRequestVC.delegate = self
+                self.present(navVC, animated: true, completion: nil)
+            }
         }
-        let newRequestVC = (navVC.childViewControllers[0] as! NewRequestTableViewController)
-        newRequestVC.delegate = self
-        self.present(navVC, animated: true, completion: nil)
     }
     
     //request

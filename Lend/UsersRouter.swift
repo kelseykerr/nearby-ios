@@ -20,6 +20,7 @@ enum UsersRouter: URLRequestConvertible {
     case getSelfHistory()
     case getUser(String)
     case editFcmToken(String)
+    case getPaymentInfo()
 //    case getPayment()
     //Would be nice to have users in an array
     case getAtPath(String)
@@ -32,7 +33,7 @@ enum UsersRouter: URLRequestConvertible {
     public func asURLRequest() throws -> URLRequest {
         var method: Alamofire.HTTPMethod {
             switch self {
-            case .getSelf, .getSelfRequests, .getSelfHistory, .getUser, .getAtPath:
+            case .getSelf, .getSelfRequests, .getSelfHistory, .getUser, .getAtPath, .getPaymentInfo:
                 return .get
             case .editSelf, .editFcmToken:
                 return .put
@@ -54,6 +55,8 @@ enum UsersRouter: URLRequestConvertible {
                 relativePath = "users/me/fcmToken/\(token)"
             case .getUser(let id):
                 relativePath = "users/\(id)"
+            case .getPaymentInfo:
+                relativePath = "users/me/payments"
             case .getAtPath(let path):
                 // already have the full URL, so just return it
                 return Foundation.URL(string: path)!
@@ -68,7 +71,7 @@ enum UsersRouter: URLRequestConvertible {
         
         let params: ([String: AnyObject]?) = {
             switch self {
-            case .getSelf, .getSelfRequests, .getSelfHistory, .getUser, .getAtPath:
+            case .getSelf, .getSelfRequests, .getSelfHistory, .getUser, .getAtPath, .getPaymentInfo:
                 return nil
             case .editSelf(let newItem):
                 return (newItem)
@@ -80,6 +83,8 @@ enum UsersRouter: URLRequestConvertible {
         var urlRequest = URLRequest(url: url)
         let tokenString = AccountManager.sharedInstance.getOAuthTokenString()
         urlRequest.setValue(tokenString, forHTTPHeaderField: "x-auth-token")
+        let authMethod = AccountManager.sharedInstance.getAuthMethod()
+        urlRequest.setValue(authMethod, forHTTPHeaderField: "x-auth-method")
         
         print(tokenString)
         urlRequest = try Alamofire.JSONEncoding.default.encode(urlRequest, with: params)

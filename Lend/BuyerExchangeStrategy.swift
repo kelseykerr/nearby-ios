@@ -18,7 +18,7 @@ class BuyerExchangeStrategy: HistoryStateStrategy {
         let sellerName = history.getResponseById(id: (history.transaction?.responseId)!)?.seller?.shortName ?? "NAME"
         let item = history.request?.itemName ?? "ITEM"
         
-        cell.messageLabel.text = "You are meeting \(sellerName) to exchange \(item)."
+        cell.messageLabel.text = "Borrowing a \(item) from \(sellerName)"
         
 /*
         let attrText = NSMutableAttributedString(string: "")
@@ -43,7 +43,7 @@ class BuyerExchangeStrategy: HistoryStateStrategy {
 */
         
         cell.historyStateLabel.backgroundColor = UIColor.nbGreen
-        cell.historyStateLabel.text = "Exchange"
+        cell.historyStateLabel.text = "Awaiting Exchange"
 
         cell.timeLabel.text = history.request?.getElapsedTimeAsString()
         
@@ -51,7 +51,7 @@ class BuyerExchangeStrategy: HistoryStateStrategy {
         cell.setNeedsLayout()
         
         let seller = history.getResponseById(id: (history.transaction?.responseId)!)?.seller
-        if let pictureURL = seller?.pictureUrl {
+        if let pictureURL = seller?.imageUrl {
             NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
                 guard error == nil else {
                     print(error!)

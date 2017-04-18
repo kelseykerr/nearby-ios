@@ -19,7 +19,7 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
             let item = history.request?.itemName ?? "ITEM"
             let rent = (request?.rental)! ? "borrow" : "buy"
 
-            cell.messageLabel.text = "You want to \(rent) \(item)."
+            cell.messageLabel.text = "Requested a \(item)."
 /*
             let attrText = NSMutableAttributedString(string: "")
             let boldFont = UIFont.boldSystemFont(ofSize: 15)
@@ -38,14 +38,14 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
 */
             
             cell.historyStateLabel.backgroundColor = UIColor.nbGreen
-            cell.historyStateLabel.text = "open"
+            cell.historyStateLabel.text = "OPEN"
             
             cell.timeLabel.text = history.request?.getElapsedTimeAsString()
             
             cell.userImageView.image = UIImage(named: "User-64")
             cell.setNeedsLayout()
             
-            if let pictureURL = history.request?.user?.pictureUrl {
+            if let pictureURL = history.request?.user?.imageUrl {
                 NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
                     guard error == nil else {
                         print(error!)
@@ -67,7 +67,7 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
             let price = history.responses[indexPath.row - 1].priceInDollarFormat
             let rent = (history.request?.rental)! ? "lend" : "sell"
 
-            cell.messageLabel.text = "\(sellerName) is offering to \(rent) it to you for \(price)."
+            cell.messageLabel.text = "\(sellerName) made an offer for \(price)."
 /*
             let attrText = NSMutableAttributedString(string: "")
             let boldFont = UIFont.boldSystemFont(ofSize: 15)
@@ -88,7 +88,7 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
             cell.userImageView.image = UIImage(named: "User-64")
             cell.setNeedsLayout()
             
-            if let pictureURL = history.responses[indexPath.row - 1].seller?.pictureUrl {
+            if let pictureURL = history.responses[indexPath.row - 1].seller?.imageUrl {
                 NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
                     guard error == nil else {
                         print(error!)
@@ -151,12 +151,12 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
         
         if indexPath.row == 0 {
             let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+   
             guard let requestDetailVC = storyboard.instantiateViewController(
-                withIdentifier: "RequestDetailTableViewController") as? RequestDetailTableViewController else {
+                withIdentifier: "EditRequestTableViewController") as? EditRequestTableViewController else {
                     assert(false, "Misnamed view controller")
                     return UIViewController()
             }
-            requestDetailVC.mode = .buyer
             requestDetailVC.request = history.request
             requestDetailVC.delegate = historyVC
             return requestDetailVC
@@ -186,7 +186,23 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
             }
             delete.backgroundColor = UIColor.nbRed
             
-            return [delete]
+            let edit = UITableViewRowAction(style: .normal, title: " Edit ") { action, index in
+                print("Edit request button pressed")
+                //go to edit request page
+                let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+                guard let requestDetailVC = storyboard.instantiateViewController(
+                    withIdentifier: "EditRequestTableViewController") as? EditRequestTableViewController else {
+                        assert(false, "Misnamed view controller")
+                        return
+                }
+                requestDetailVC.request = history.request
+                requestDetailVC.delegate = historyVC
+                historyVC.navigationController?.pushViewController(requestDetailVC, animated: true)
+            }
+            edit.backgroundColor = UIColor.nbTurquoise
+
+
+            return [delete, edit]
         }
         else {
             let accept = UITableViewRowAction(style: .normal, title: "Accept") { action, index in

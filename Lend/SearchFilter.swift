@@ -18,11 +18,17 @@ class SearchFilter {
     
     var sortRequestByDate: Bool
     
+    var searchBy: String
+    
+    var searchRadius: Double
+    
     init() {
         self.searchTerm = ""
         self.includeMyRequest = false
         self.includeExpiredRequest = false
         self.sortRequestByDate = false
+        self.searchBy = "current location"
+        self.searchRadius = 1
     }
     
 }

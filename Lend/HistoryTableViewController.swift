@@ -180,12 +180,13 @@ class HistoryTableViewController: UITableViewController {
     
 }
 
-extension HistoryTableViewController: RequestDetailTableViewDelegate, ResponseDetailTableViewDelegate, TransactionDetailTableViewDelegate {
+extension HistoryTableViewController: RequestDetailTableViewDelegate, ResponseDetailTableViewDelegate, TransactionDetailTableViewDelegate, EditRequestTableViewDelegate {
     
     //request
     
     func edited(_ request: NBRequest?) {
         print("HistoryTableViewController->edited")
+        requestEdited(request)
     }
     
     func closed(_ request: NBRequest?) {
