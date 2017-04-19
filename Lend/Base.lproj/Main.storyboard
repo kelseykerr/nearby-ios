@@ -2077,7 +2077,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.97636479139999999" green="0.97653168440000004" blue="0.9763541818" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <view key="tableFooterView" opaque="NO" contentMode="scaleToFill" id="ICG-0P-UHS">
-                            <rect key="frame" x="0.0" y="597" width="375" height="44"/>
+                            <rect key="frame" x="0.0" y="632" width="375" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0cR-JP-jV7">
@@ -2135,10 +2135,10 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="Price Type" id="78m-Ic-Na0">
+                            <tableViewSection headerTitle="Price Type" footerTitle="Per hour and per day options are not available in alpha and beta testing." id="78m-Ic-Na0">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="DPz-jz-cA4">
-                                        <rect key="frame" x="0.0" y="157" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="164" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="DPz-jz-cA4" id="HHa-Iu-s6W">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
@@ -2154,7 +2154,7 @@
                                                     <rect key="frame" x="15" y="0.0" width="301" height="43"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <state key="normal" title="Per Hour">
-                                                        <color key="titleColor" red="0.2470588235" green="0.27450980390000002" blue="0.32549019610000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="titleColor" red="0.51758825779999995" green="0.517680943" blue="0.51758241650000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </state>
                                                     <connections>
                                                         <action selector="perHourButtonPressed:" destination="gT3-80-CmQ" eventType="touchUpInside" id="HGT-mF-g8e"/>
@@ -2174,7 +2174,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="UXr-sz-aSu">
-                                        <rect key="frame" x="0.0" y="201" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="208" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="UXr-sz-aSu" id="VwV-DW-Dl8">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
@@ -2190,7 +2190,7 @@
                                                     <rect key="frame" x="15" y="0.0" width="301" height="44"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <state key="normal" title="Per Day">
-                                                        <color key="titleColor" red="0.2470588235" green="0.27450980390000002" blue="0.32549019610000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="titleColor" red="0.51758825779999995" green="0.517680943" blue="0.51758241650000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </state>
                                                     <connections>
                                                         <action selector="perDayButtonPressed:" destination="gT3-80-CmQ" eventType="touchUpInside" id="xSE-CN-6ML"/>
@@ -2210,7 +2210,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="Z3M-yz-9NX">
-                                        <rect key="frame" x="0.0" y="245" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="252" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Z3M-yz-9NX" id="BCe-rn-UsW">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
@@ -2250,7 +2250,7 @@
                             <tableViewSection headerTitle="Pickup" id="gAz-rI-3wM">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="5Ja-fb-b7b">
-                                        <rect key="frame" x="0.0" y="346" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="381" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5Ja-fb-b7b" id="Tmy-lR-Bzv">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
@@ -2284,7 +2284,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="Epi-OH-aei">
-                                        <rect key="frame" x="0.0" y="390" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="425" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Epi-OH-aei" id="feL-3b-MIl">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
@@ -2319,7 +2319,7 @@
                             <tableViewSection headerTitle="Return" id="uOw-8G-0oC">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="oGh-E2-0Hq">
-                                        <rect key="frame" x="0.0" y="491" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="526" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="oGh-E2-0Hq" id="Jo9-nE-I03">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
@@ -2353,7 +2353,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="P7B-ra-FP8">
-                                        <rect key="frame" x="0.0" y="535" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="570" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="P7B-ra-FP8" id="pLb-4C-Z19">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>

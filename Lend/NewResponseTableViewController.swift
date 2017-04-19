@@ -104,8 +104,9 @@ class NewResponseTableViewController: UITableViewController {
         super.viewDidLoad()
         
         self.hideKeyboardWhenTappedAround()
-        priceType = .per_hour
-            
+//        priceType = .per_hour
+        priceType = .flat
+        
         saveButton.layer.cornerRadius = saveButton.frame.size.height / 16
         saveButton.clipsToBounds = true
         
@@ -186,24 +187,19 @@ class NewResponseTableViewController: UITableViewController {
         response?.exchangeTime = Int64(pickupDatePicker.date.timeIntervalSince1970) * 1000
         response?.returnLocation = returnLocation
         response?.returnTime = Int64(returnDatePicker.date.timeIntervalSince1970) * 1000
-        response?.priceType = priceType
-        
-//        NBResponse.addResponse(response!) { error in
-//            if let error = error {
-//                print("There was an error")
-//            }
-//        }
+//        response?.priceType = priceType
+        response?.priceType = .flat
         
         delegate?.saved(response)
         self.dismiss(animated: true, completion: nil)
     }
     
     @IBAction func perHourButtonPressed(_ sender: UIButton) {
-        priceType = .per_hour
+//        priceType = .per_hour
     }
     
     @IBAction func perDayButtonPressed(_ sender: UIButton) {
-        priceType = .per_day
+//        priceType = .per_day
     }
     
     @IBAction func flatButtonPressed(_ sender: UIButton) {
