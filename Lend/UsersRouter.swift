@@ -12,7 +12,7 @@ import Alamofire
 // add fcmToken once I figure out what it is :-P
 enum UsersRouter: URLRequestConvertible {
     static let baseURLString = "https://alpha-server.thenearbyapp.com/api/"
-    //    static let baseURLString = "https://server.thenearbyapp.com/api/"
+//    static let baseURLString = "https://server.thenearbyapp.com/api/"
     
     case getSelf() // myself
     case getSelfRequests()
@@ -83,6 +83,7 @@ enum UsersRouter: URLRequestConvertible {
         var urlRequest = URLRequest(url: url)
         let tokenString = AccountManager.sharedInstance.getOAuthTokenString()
         urlRequest.setValue(tokenString, forHTTPHeaderField: "x-auth-token")
+        
         let authMethod = AccountManager.sharedInstance.getAuthMethod()
         urlRequest.setValue(authMethod, forHTTPHeaderField: "x-auth-method")
         

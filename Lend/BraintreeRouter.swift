@@ -14,7 +14,7 @@ import Alamofire
 //should be called stripe
 enum BraintreeRouter: URLRequestConvertible {
     static let baseURLString = "https://alpha-server.thenearbyapp.com/api/"
-    //    static let baseURLString = "https://server.thenearbyapp.com/api/"
+//    static let baseURLString = "https://server.thenearbyapp.com/api/"
     
     case getToken()
     case createCustomer([String: AnyObject])

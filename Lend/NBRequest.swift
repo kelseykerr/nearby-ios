@@ -164,6 +164,19 @@ extension NBRequest {
         }
     }
     
+    //If we ever make NBNotification model, move there
+    //clean this up later
+    static func fetchNotifications(_ latitude: Double, longitude: Double, completionHandler: @escaping (String) -> Void) {
+        
+        Alamofire.request(RequestsRouter.getNotifications(latitude, longitude)).validate(statusCode: 200..<300).responseJSON { response in
+            guard response.result.error == nil else {
+                print("There was an error, return")
+                return
+            }
+            let message = String(data: response.data!, encoding: String.Encoding.utf8) ?? "No Message"
+            completionHandler(message)
+        }
+    }
 }
 
 extension NBRequest {

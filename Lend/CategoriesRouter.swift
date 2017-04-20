@@ -11,7 +11,7 @@ import Alamofire
 
 enum CategoriesRouter: URLRequestConvertible {
     static let baseURLString = "https://alpha-server.thenearbyapp.com/api/"
-    //    static let baseURLString = "https://server.thenearbyapp.com/api/"
+//    static let baseURLString = "https://server.thenearbyapp.com/api/"
     
     case getCategories()
     case getCategory(String)

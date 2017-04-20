@@ -25,6 +25,7 @@ enum RequestsRouter: URLRequestConvertible {
     case getResponse(String, String)
     case createResponse(String, [String: AnyObject])
     case editResponse(String, String, [String: AnyObject])
+    case getNotifications(Double, Double)
     
     /// Returns a URL request or throws if an `Error` was encountered.
     ///
@@ -35,7 +36,7 @@ enum RequestsRouter: URLRequestConvertible {
         var method: Alamofire.HTTPMethod {
             switch self {
 //            case .getRequests, .getRequests2, .getRequest, .getAtPath, .getResponses, .getResponse:
-            case .getRequests, .getRequest, .getAtPath, .getResponses, .getResponse:
+            case .getRequests, .getRequest, .getAtPath, .getResponses, .getResponse, .getNotifications:
                 return .get
             case .createRequest, .createResponse:
                 return .post
@@ -72,6 +73,8 @@ enum RequestsRouter: URLRequestConvertible {
                 relativePath = "requests/\(requestId)/responses"
             case .editResponse(let requestId, let responseId, _):
                 relativePath = "requests/\(requestId)/responses/\(responseId)"
+            case .getNotifications(let latitude, let longitude):
+                relativePath = "requests/notifications?longitude=\(longitude)&latitude=\(latitude)"
             }
             
             // use NSURLComponents
@@ -85,7 +88,7 @@ enum RequestsRouter: URLRequestConvertible {
         
         let params: ([String: AnyObject]?) = {
             switch self {
-            case .getRequests, .getRequest, .getAtPath, .deleteRequest, .getResponses, .getResponse:
+            case .getRequests, .getRequest, .getAtPath, .deleteRequest, .getResponses, .getResponse, .getNotifications:
                 return nil
             case .createRequest(let newItem):
                 return (newItem)
@@ -102,7 +105,6 @@ enum RequestsRouter: URLRequestConvertible {
         let tokenString = AccountManager.sharedInstance.getOAuthTokenString()
         urlRequest.setValue(tokenString, forHTTPHeaderField: "x-auth-token")
         
-        
         let authMethod = AccountManager.sharedInstance.getAuthMethod()
         urlRequest.setValue(authMethod, forHTTPHeaderField: "x-auth-method")
         
@@ -110,15 +112,5 @@ enum RequestsRouter: URLRequestConvertible {
         urlRequest.httpMethod = method.rawValue
         
         return urlRequest
-        //        let URLRequest = NSMutableURLRequest(url: url)
-        //        let tokenString = AccountManager.sharedInstance.getOAuthTokenString()
-        //        URLRequest.setValue(tokenString, forHTTPHeaderField: "x-auth-token")
-        //
-        //        let encoding = Alamofire.JSONEncoding.default
-        //        let (encodingRequest, _) = encoding.encode(URLRequest, with: params)
-        //
-        //        encodingRequest.httpMethod = method.rawValue
-        //        
-        //        return encodingRequest
     }
 }

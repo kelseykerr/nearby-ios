@@ -68,6 +68,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
                                                name: .firInstanceIDTokenRefresh,
                                                object: nil)
         // [END add_token_refresh_observer]
+  
+//        application.setMinimumBackgroundFetchInterval(60*15) // every 15 min
         
         return true
     }
@@ -251,8 +253,52 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
     func applicationDidEnterBackground(_ application: UIApplication) {
         FIRMessaging.messaging().disconnect()
         print("Disconnected from FCM.")
+        
+        application.setMinimumBackgroundFetchInterval(60*15) // every 15 min
+//        application.setMinimumBackgroundFetchInterval(60*5) // every 5 min
     }
     // [END disconnect_from_fcm]
+    
+    
+    func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        
+        guard let location = LocationManager.sharedInstance.location else {
+            print("No location available")
+            return
+        }
+        let latitude = location.coordinate.latitude
+        let longitude = location.coordinate.longitude
+        
+        NBRequest.fetchNotifications(latitude, longitude: longitude) { message in
+            print("message: \(message)")
+            
+            if #available(iOS 10.0, *) {
+                let content = UNMutableNotificationContent()
+                content.title = NSString.localizedUserNotificationString(forKey: "Nearby:", arguments: nil)
+                content.body = NSString.localizedUserNotificationString(forKey: "message: \(message)", arguments: nil)
+                content.sound = UNNotificationSound.default()
+//                content.badge = UIApplication.shared.applicationIconBadgeNumber + 1;
+                content.categoryIdentifier = "com.iuxtainc.nearby"
+                // Deliver the notification in five seconds.
+                let trigger = UNTimeIntervalNotificationTrigger.init(timeInterval: 1.0, repeats: false)
+                let request = UNNotificationRequest.init(identifier: "OneSecond", content: content, trigger: trigger)
+                
+                // Schedule the notification.
+                let center = UNUserNotificationCenter.current()
+                center.add(request)
+                
+            }
+            else {
+                let localNotification = UILocalNotification()
+                localNotification.fireDate = Date().addingTimeInterval(1)
+                localNotification.alertBody = message
+                localNotification.soundName = UILocalNotificationDefaultSoundName
+                UIApplication.shared.scheduleLocalNotification(localNotification)
+            }
+            
+            completionHandler(UIBackgroundFetchResult.noData)
+        }
+    }
 }
 
 

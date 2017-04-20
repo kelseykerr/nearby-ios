@@ -11,7 +11,7 @@ import Alamofire
 
 enum StripeRouter: URLRequestConvertible {
     static let baseURLString = "https://alpha-server.thenearbyapp.com/api/"
-    //    static let baseURLString = "https://server.thenearbyapp.com/api/"
+//    static let baseURLString = "https://server.thenearbyapp.com/api/"
     
     case createBank([String: AnyObject])
     case createCreditcard([String: AnyObject])

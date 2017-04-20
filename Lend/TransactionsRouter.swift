@@ -13,7 +13,7 @@ import Alamofire
 // look into parameters sent back (put and post) so I can build without commenting them out
 enum TransactionsRouter: URLRequestConvertible {
     static let baseURLString = "https://alpha-server.thenearbyapp.com/api/"
-    //    static let baseURLString = "https://server.thenearbyapp.com/api/"
+//    static let baseURLString = "https://server.thenearbyapp.com/api/"
     
     case getTransaction(String)
 //    case deleteTransaction(String)
@@ -101,15 +101,5 @@ enum TransactionsRouter: URLRequestConvertible {
         urlRequest.httpMethod = method.rawValue
         
         return urlRequest
-//        let URLRequest = NSMutableURLRequest(url: url)
-//        let tokenString = AccountManager.sharedInstance.getOAuthTokenString()
-//        URLRequest.setValue(tokenString, forHTTPHeaderField: "x-auth-token")
-//        
-//        let encoding = Alamofire.JSONEncoding.default
-//        let (encodingRequest, _) = encoding.encode(URLRequest, with: params)
-//        
-//        encodingRequest.httpMethod = method.rawValue
-//        
-//        return encodingRequest
     }
 }
