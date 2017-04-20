@@ -21,6 +21,11 @@ class ProfileTableViewController: UITableViewController {
     @IBOutlet var stateTextField: UITextField!
     @IBOutlet var zipCodeTextField: UITextField!
     
+    @IBOutlet var requestNotificationEnabledSwitch: UISwitch!
+    @IBOutlet var currentLocationSwitch: UISwitch!
+    @IBOutlet var homeLocationSwitch: UISwitch!
+    @IBOutlet var radiusTextField: UITextField!
+    
     @IBOutlet var saveButton: UIButton!
     
     var user: NBUser?
@@ -55,6 +60,11 @@ class ProfileTableViewController: UITableViewController {
             self.cityTextField.text = fetchedUser.city ?? ""
             self.stateTextField.text = fetchedUser.state ?? ""
             self.zipCodeTextField.text = fetchedUser.zip ?? ""
+            
+            self.requestNotificationEnabledSwitch.isOn = fetchedUser.newRequestNotificationsEnabled ?? false
+            self.currentLocationSwitch.isOn = fetchedUser.currentLocationNotifications ?? false
+            self.homeLocationSwitch.isOn = fetchedUser.homeLocationNotifications ?? false
+            self.radiusTextField.text = String(format: "%.1f", fetchedUser.notificationRadius ?? 0.0)
         }
     }
     
@@ -74,6 +84,11 @@ class ProfileTableViewController: UITableViewController {
             user?.city = self.cityTextField.text
             user?.state = self.stateTextField.text
             user?.zip = self.zipCodeTextField.text
+            
+            user?.newRequestNotificationsEnabled = self.requestNotificationEnabledSwitch.isOn
+            user?.homeLocationNotifications = self.homeLocationSwitch.isOn
+            user?.currentLocationNotifications = self.currentLocationSwitch.isOn
+            user?.notificationRadius = Float(self.radiusTextField.text!) ?? 0.0
             
             progressHUD.show()
             
