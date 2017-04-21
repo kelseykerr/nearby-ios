@@ -168,7 +168,7 @@ class HomeViewController: UIViewController, LoginViewDelegate {
         let searchTerm = searchFilter.searchTerm
         let includeMine = searchFilter.includeMyRequest
         let expired = searchFilter.includeExpiredRequest
-        let sort = searchFilter.sortRequestByDate ? "newest": "distance"
+        let sort = searchFilter.sortBy
         
         NBRequest.fetchRequests(latitude, longitude: longitude, radius: Converter.metersToMiles(radius), expired: expired, includeMine: includeMine, searchTerm: searchTerm, sort: sort) { result in
 //            if self.refreshControl != nil && self.refreshControl!.refreshing {
@@ -220,7 +220,8 @@ class HomeViewController: UIViewController, LoginViewDelegate {
         let searchTerm = searchFilter.searchTerm
         let includeMine = searchFilter.includeMyRequest
         let expired = searchFilter.includeExpiredRequest
-        let sort = searchFilter.sortRequestByDate ? "distance": "newest"
+        let sort = searchFilter.sortBy;
+        //let sort = searchFilter.sortRequestByDate ? "distance": "newest"
         
         NBRequest.fetchRequests(latitude, longitude: longitude, radius: Converter.metersToMiles(radius), expired: expired, includeMine: includeMine, searchTerm: searchTerm, sort: sort) { result in
 //            if self.refreshControl != nil && self.refreshControl!.refreshing {

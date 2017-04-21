@@ -26,13 +26,14 @@ class FilterTableViewController: UITableViewController {
     
     @IBOutlet var includeMyRequestSwitch: UISwitch!
     @IBOutlet var includeExpiredRequestSwitch: UISwitch!
-    @IBOutlet var sortRequestByDateSwitch: UISwitch!
     @IBOutlet weak var locationButton: UIButton!
     @IBOutlet weak var radiusButton: UIButton!
+    @IBOutlet weak var sortButton: UIButton!
 
     
     let locationDropDown = DropDown()
     let radiusDropDown = DropDown()
+    let sortDropDown = DropDown()
     let textField = UITextField()
 
     
@@ -41,7 +42,8 @@ class FilterTableViewController: UITableViewController {
     lazy var dropDowns: [DropDown] = {
         return [
             self.locationDropDown,
-            self.radiusDropDown
+            self.radiusDropDown,
+            self.sortDropDown
         ]
     }()
     
@@ -51,6 +53,10 @@ class FilterTableViewController: UITableViewController {
     
     @IBAction func chooseRadius(_ sender: AnyObject) {
         radiusDropDown.show()
+    }
+    
+    @IBAction func chooseSort(_ sender: AnyObject) {
+        sortDropDown.show()
     }
     
     func setupDefaultDropDown() {
@@ -65,6 +71,7 @@ class FilterTableViewController: UITableViewController {
     func setupDropDowns() {
         setupLocationDropDown()
         setupRadiusDropDown()
+        setupSortDropDown()
     }
     
     func setupLocationDropDown() {
@@ -118,6 +125,20 @@ class FilterTableViewController: UITableViewController {
         }
     }
     
+    func setupSortDropDown() {
+        sortDropDown.anchorView = sortButton
+        sortDropDown.bottomOffset = CGPoint(x: 0, y: sortButton.bounds.height)
+        sortDropDown.dataSource = [
+            "newest",
+            "distance",
+            "best match"
+        ]
+        sortDropDown.selectionAction = { [unowned self] (index, item) in
+            self.sortButton.setTitle(item, for: .normal)
+        }
+
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -141,7 +162,7 @@ class FilterTableViewController: UITableViewController {
             searchTextField.text = filter.searchTerm
             includeMyRequestSwitch.setOn(filter.includeMyRequest, animated: false)
             includeExpiredRequestSwitch.setOn(filter.includeExpiredRequest, animated: false)
-            sortRequestByDateSwitch.setOn(filter.sortRequestByDate, animated: false)
+            sortButton.setTitle(filter.sortBy, for: .normal)
             locationButton.setTitle(filter.searchBy, for: .normal)
             let radiusString = switchRadiusDoubleToText(radius: filter.searchRadius)
             radiusButton.setTitle(radiusString, for: .normal)
@@ -206,8 +227,8 @@ class FilterTableViewController: UITableViewController {
             filter.searchTerm = searchTextField.text ?? ""
             filter.includeMyRequest = includeMyRequestSwitch.isOn
             filter.includeExpiredRequest = includeExpiredRequestSwitch.isOn
-            filter.sortRequestByDate = sortRequestByDateSwitch.isOn
             filter.searchBy = (locationButton.titleLabel?.text)!
+            filter.sortBy = (sortButton.titleLabel?.text)!
             let radiusDouble = switchRadiusTextToDouble(radiusText: (radiusButton.titleLabel?.text)!)
             filter.searchRadius = radiusDouble
         }
