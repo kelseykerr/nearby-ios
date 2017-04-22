@@ -80,6 +80,9 @@ class PaymentTableViewController: UITableViewController {
                             let alert = Utils.createServerErrorAlert(error: error)
                             self.present(alert, animated: true, completion: nil)
                         }
+                        UserManager.sharedInstance.fetchUser {user in
+                            print("updated user")
+                        }
                         self.progressHUD.hide()
                     }
                 }

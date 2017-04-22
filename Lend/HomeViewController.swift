@@ -336,7 +336,7 @@ class HomeViewController: UIViewController, LoginViewDelegate {
         }
     }
     
-    func showAlertMsg(message: String, time: Int) {
+    func showAlertMsg(message: String) {
         guard (self.alertController == nil) else {
             print("Alert already displayed")
             return
@@ -350,9 +350,9 @@ class HomeViewController: UIViewController, LoginViewDelegate {
         }
         
         self.alertController!.addAction(cancelAction)
-        if (time > 0) {
+        /*if (time > 0) {
             self.alertTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.countDown), userInfo: nil, repeats: true)
-        }
+        }*/
         
         self.present(self.alertController!, animated: true, completion: nil)
     }
@@ -588,12 +588,21 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
                         assert(false, "Misnamed view controller")
                         return
                 }
-                let responseVC = (navVC.childViewControllers[0] as! NewResponseTableViewController)
-                responseVC.delegate = self
-                responseVC.request = request
-                self.present(navVC, animated: true, completion: nil)
-                
-                self.tableView.isEditing = false
+                UserManager.sharedInstance.getUser { fetchedUser in
+                    if (!fetchedUser.hasAllRequiredFields()) {
+                        self.showAlertMsg(message: "You must finish filling out your profile before you can make offers")
+                        
+                    } else if (!fetchedUser.canRespond!) {
+                        self.showAlertMsg(message: "You must add bank account information before you can make offers")
+                    } else {
+                        let responseVC = (navVC.childViewControllers[0] as! NewResponseTableViewController)
+                        responseVC.delegate = self
+                        responseVC.request = request
+                        self.present(navVC, animated: true, completion: nil)
+                        
+                        self.tableView.isEditing = false
+                    }
+                }
             }
             respond.backgroundColor = UIColor.nbTurquoise
             
@@ -641,8 +650,10 @@ extension HomeViewController: NewRequestTableViewDelegate, NewResponseTableViewD
     @IBAction func requestButtonPressed(_ sender: UIButton) {
         UserManager.sharedInstance.getUser { fetchedUser in
             if (!fetchedUser.hasAllRequiredFields()) {
-                self.showAlertMsg(message: "You must finish filling out your profile before you can make requests", time: 0)
+                self.showAlertMsg(message: "You must finish filling out your profile before you can make requests")
 
+            } else if (!fetchedUser.canRequest!) {
+                self.showAlertMsg(message: "You must add payment info before you can make requests")
             } else {
                 let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
                 guard let navVC = storyboard.instantiateViewController(
