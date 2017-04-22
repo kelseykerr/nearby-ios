@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import MapKit
+import DropDown
 
 protocol NewRequestTableViewDelegate: class {
     
@@ -23,9 +25,66 @@ class NewRequestTableViewController: UITableViewController {
     @IBOutlet var saveButton: UIButton!
     @IBOutlet var rentImageView: UIImageView!
     @IBOutlet var buyImageView: UIImageView!
+    @IBOutlet var mapView: MKMapView!
+    @IBOutlet var requestLocationButton: UIButton!
+    
+    let requestLocationDropDown = DropDown()
+    
+    var currentMapView = "current location"
     
     weak var delegate: NewRequestTableViewDelegate?
     var request: NBRequest?
+    
+    lazy var dropDowns: [DropDown] = {
+        return [
+            self.requestLocationDropDown
+        ]
+    }()
+    
+    @IBAction func chooseLocation(_ sender: AnyObject) {
+        requestLocationDropDown.show()
+    }
+    
+    func setupDefaultDropDown() {
+        DropDown.setupDefaultAppearance()
+        
+        dropDowns.forEach {
+            $0.cellNib = UINib(nibName: "DropDownCell", bundle: Bundle(for: DropDownCell.self))
+            $0.customCellConfiguration = nil
+        }
+    }
+    
+    func setupDropDowns() {
+        setupRequestLocationDropDown()
+    }
+    
+    func setupRequestLocationDropDown() {
+        requestLocationDropDown.anchorView = requestLocationButton
+        
+        // By default, the dropdown will have its origin on the top left corner of its anchor view
+        // So it will come over the anchor view and hide it completely
+        // If you want to have the dropdown underneath your anchor view, you can do this:
+        requestLocationDropDown.bottomOffset = CGPoint(x: 0, y: requestLocationButton.bounds.height)
+        requestLocationDropDown.dataSource = [
+            "current location",
+            "home address"
+        ]
+        
+        self.requestLocationButton.setTitle("current location", for: .normal)
+        // Action triggered on selection
+        requestLocationDropDown.selectionAction = { [unowned self] (index, item) in
+            self.requestLocationButton.setTitle(item, for: .normal)
+            if (item == "current location" && self.currentMapView != item) {
+                self.currentMapView = item
+                self.setupMapCurrentLocation()
+            } else if (item == "home address" && self.currentMapView != item) {
+                self.currentMapView = item
+                self.setupMapHomeAddress()
+            }
+            
+        }
+    }
+
     
     var itemName: String? {
         get {
@@ -57,16 +116,20 @@ class NewRequestTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        setupDropDowns()
+
         saveButton.layer.cornerRadius = saveButton.frame.size.height / 16
         saveButton.clipsToBounds = true
         
         self.hideKeyboardWhenTappedAround()
         rental = true
-        
+
         if request != nil {
             loadFields(request: request!)
         }
+        self.mapView.delegate = self
+        self.view.bringSubview(toFront: mapView)
+        setupMapCurrentLocation()
     }
     
     func loadFields(request: NBRequest) {
@@ -81,13 +144,80 @@ class NewRequestTableViewController: UITableViewController {
         request.rental = rental
     }
     
+    func setupMapCurrentLocation() {
+        mapView.removeAnnotations(mapView.annotations)
+        let currentLocation = LocationManager.sharedInstance.location
+        let myLocation2D = CLLocationCoordinate2D.init(latitude: (currentLocation?.coordinate.latitude)!, longitude: (currentLocation?.coordinate.longitude)!)
+        print(myLocation2D)
+        let meters = Converter.milesToMeters(0.25)
+        let coordinateRegion = MKCoordinateRegionMakeWithDistance(myLocation2D, meters * 2.0, meters * 2.0)
+        mapView.setRegion(coordinateRegion, animated: true)
+        mapView.isZoomEnabled = false;
+        mapView.isScrollEnabled = false;
+        let identifier = "pin"
+        var view: MKPinAnnotationView
+        let annotation = MKPointAnnotation.init()
+        annotation.coordinate = myLocation2D
+        annotation.title = "request location"
+        if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+            as? MKPinAnnotationView { // 2
+            dequeuedView.annotation = annotation
+            view = dequeuedView
+        } else {
+            // 3
+            view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+            view.canShowCallout = true
+            view.calloutOffset = CGPoint(x: -5, y: 5)
+            
+            let button = UIButton(type: .detailDisclosure)
+            button.setImage(UIImage(named: "Forward-32"), for: UIControlState.normal)
+            view.rightCalloutAccessoryView = button
+            view.tintColor = UIColor.nbTurquoise
+        }
+        self.mapView.addAnnotation(annotation)
+    }
+    
+    func setupMapHomeAddress() {
+        mapView.removeAnnotations(mapView.annotations)
+        let lat = Double((UserManager.sharedInstance.user?.homeLatitude)!)
+        let lng = Double((UserManager.sharedInstance.user?.homeLongitude)!)
+        let myLocation2D = CLLocationCoordinate2D.init(latitude: lat, longitude: lng)
+        print(myLocation2D)
+        let meters = Converter.milesToMeters(0.25)
+        let coordinateRegion = MKCoordinateRegionMakeWithDistance(myLocation2D, meters * 2.0, meters * 2.0)
+        mapView.setRegion(coordinateRegion, animated: true)
+        mapView.isZoomEnabled = false;
+        mapView.isScrollEnabled = false;
+        let identifier = "pin"
+        var view: MKPinAnnotationView
+        let annotation = MKPointAnnotation.init()
+        annotation.coordinate = myLocation2D
+        annotation.title = "request location"
+        if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+            as? MKPinAnnotationView { // 2
+            dequeuedView.annotation = annotation
+            view = dequeuedView
+        } else {
+            // 3
+            view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+            view.canShowCallout = true
+            view.calloutOffset = CGPoint(x: -5, y: 5)
+            
+            let button = UIButton(type: .detailDisclosure)
+            button.setImage(UIImage(named: "Forward-32"), for: UIControlState.normal)
+            view.rightCalloutAccessoryView = button
+            view.tintColor = UIColor.nbTurquoise
+        }
+        self.mapView.addAnnotation(annotation)
+    }
+    
     @IBAction func saveButtonPressed(_ sender: UIButton) {
         var req = NBRequest()
         
         if request == nil {
-            let currentLocation = LocationManager.sharedInstance.location
-            req.latitude = currentLocation?.coordinate.latitude
-            req.longitude = currentLocation?.coordinate.longitude
+            let annotation = mapView.annotations[0]
+            req.latitude = annotation.coordinate.latitude
+            req.longitude = annotation.coordinate.longitude
         
             let postDate64: Int64 = Int64(Date().timeIntervalSince1970) * 1000
             req.postDate = postDate64
@@ -122,4 +252,44 @@ class NewRequestTableViewController: UITableViewController {
         rental = false
     }
     
+    @IBAction func handleTouchWithGestureRecognizer(gestureRecognizer:UIGestureRecognizer){
+        var touchPoint = gestureRecognizer.location(in: mapView)
+        var newCoordinates = mapView.convert(touchPoint, toCoordinateFrom: mapView)
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = newCoordinates
+        annotation.title = "request location"
+        mapView.removeAnnotations(mapView.annotations)
+        mapView.addAnnotation(annotation)
+    }
+    
+}
+
+extension NewRequestTableViewController: MKMapViewDelegate {
+    
+    func mapView(_ mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
+        print("map moving")
+        //self.view.bringSubview(toFront: requestButton)
+    }
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        var v : MKAnnotationView! = nil
+        let ident = "request location"
+        v = mapView.dequeueReusableAnnotationView(withIdentifier:ident)
+        if v == nil {
+            v = MKPinAnnotationView(annotation: annotation, reuseIdentifier: ident)
+        }
+        v.annotation = annotation
+        v.isDraggable = true
+        return v
+    }
+    
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, didChange newState: MKAnnotationViewDragState, fromOldState oldState: MKAnnotationViewDragState) {
+        switch newState {
+        case .starting:
+            view.dragState = .dragging
+        case .ending, .canceling:
+            view.dragState = .none
+        default: break
+        }
+    }
 }
