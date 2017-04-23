@@ -13,7 +13,7 @@ import FirebaseMessaging
 import Stripe
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     let gcmMessageIDKey = "gcm.message_id"
@@ -26,7 +26,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         var configureError: NSError?
         GGLContext.sharedInstance().configureWithError(&configureError)
         assert(configureError == nil, "Error configuring Google services: \(configureError)")
-        GIDSignIn.sharedInstance().delegate = self
         
         STPPaymentConfiguration.shared().publishableKey = "pk_test_XXhtxu1S44u1en0gH6ozoB7t"
         //"pk_test_6pRNASCoBOKtIshFeQd4XMUh"
@@ -96,35 +95,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
                                                      sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as! String!,
                                                      annotation: options[UIApplicationOpenURLOptionsKey.annotation])
         }
-    }
-    
-    
-    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!,
-                withError error: Error!) {
-        if (error == nil) {
-            let idToken = user.authentication.idToken // Safe to send to the server
-            AccountManager.sharedInstance.setGoogleAuth()
-            AccountManager.sharedInstance.setGoogleAuthToken(token: idToken!)
-            
-            if let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TabBarNavigationController") as? UIViewController {
-                if let window = self.window, let rootViewController = window.rootViewController {
-                    var currentController = rootViewController
-                    while let presentedController = currentController.presentedViewController {
-                        currentController = presentedController
-                    }
-                    currentController.present(controller, animated: true, completion: nil)
-                }
-            }
-
-        } else {
-            print("\(error.localizedDescription)")
-        }
-    }
-    
-    func signIn(signIn: GIDSignIn!, didDisconnectWithUser user:GIDGoogleUser!,
-                withError error: NSError!) {
-        // Perform any operations when the user disconnects from app here.
-        // ...
     }
     
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {

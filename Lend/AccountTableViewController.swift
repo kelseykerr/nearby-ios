@@ -135,9 +135,12 @@ class AccountTableViewController: UITableViewController, LoginViewDelegate {
     
     @IBAction func logoutButtonPressed(_ sender: UIButton) {
         if (AccountManager.sharedInstance.isGoogleAuth != nil && AccountManager.sharedInstance.isGoogleAuth) {
+            AccountManager.sharedInstance.setGoogleAuthToken(token: "")
+            UserManager.sharedInstance.removeUser()
             GIDSignIn.sharedInstance().signOut()
         } else {
             let manager = FBSDKLoginManager()
+            UserManager.sharedInstance.removeUser()
             manager.logOut()
         }
         showOAuthLoginView()

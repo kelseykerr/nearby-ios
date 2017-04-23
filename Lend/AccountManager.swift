@@ -45,6 +45,7 @@ class AccountManager {
             completionHandler(error as NSError?)
         }
     }
+
     
     func googleSignInSilently() {
         print("silently signing in with google")
