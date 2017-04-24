@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 class SellerExchangeStrategy: HistoryStateStrategy {
     
     func cell(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UITableViewCell {
@@ -51,8 +50,14 @@ class SellerExchangeStrategy: HistoryStateStrategy {
         cell.messageLabel.attributedText = attrText
 */
         
-        cell.historyStateLabel.backgroundColor = UIColor.nbGreen
-        cell.historyStateLabel.text = "Awaiting Exchange"
+        if (history.status == .seller_overrideExchange && !(history.transaction?.exchangeOverride?.declined)!) {
+            cell.historyStateLabel.backgroundColor = UIColor.nbYellow
+            cell.historyStateLabel.text = " Exchange Override Pending Approval "
+        } else {
+            cell.historyStateLabel.backgroundColor = UIColor.nbGreen
+            //swift takes off trailing white space, so we must use unicode char
+            cell.historyStateLabel.text = " Awaiting Exchange "
+        }
         
         cell.timeLabel.text = history.request?.getElapsedTimeAsString()
         

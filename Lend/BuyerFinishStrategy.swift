@@ -46,7 +46,7 @@ class BuyerFinishStrategy: HistoryStateStrategy {
 */
  
         cell.historyStateLabel.backgroundColor = UIColor.nbBlue
-        cell.historyStateLabel.text = "FULFILLED"
+        cell.historyStateLabel.text = " FULFILLED "
         
         cell.timeLabel.text = history.request?.getElapsedTimeAsString()
         

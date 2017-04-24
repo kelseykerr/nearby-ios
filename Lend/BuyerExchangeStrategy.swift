@@ -53,9 +53,14 @@ class BuyerExchangeStrategy: HistoryStateStrategy {
         cell.messageLabel.attributedText = attrText
 */
         
-        cell.historyStateLabel.backgroundColor = UIColor.nbGreen
-        cell.historyStateLabel.text = "Awaiting Exchange"
-
+        if (history.status == .buyer_overrideExchange && !(history.transaction?.exchangeOverride?.declined)!) {
+            cell.historyStateLabel.backgroundColor = UIColor.nbYellow
+            cell.historyStateLabel.text = " Exchange Override Pending Your Approval "
+            //TODO: popup a dialog asking user to confirm/decline override
+        } else {
+            cell.historyStateLabel.backgroundColor = UIColor.nbGreen
+            cell.historyStateLabel.text = " Awaiting Exchange "
+        }
         cell.timeLabel.text = history.request?.getElapsedTimeAsString()
         
         cell.userImageView.image = UIImage(named: "User-64")

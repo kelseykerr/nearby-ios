@@ -47,7 +47,7 @@ class BuyerPriceConfirmStrategy: HistoryStateStrategy {
          */
         
         cell.historyStateLabel.backgroundColor = UIColor.purple
-        cell.historyStateLabel.text = "Price Confirm"
+        cell.historyStateLabel.text = " PRICE CONFIRM "
         
         cell.timeLabel.text = history.request?.getElapsedTimeAsString()
         

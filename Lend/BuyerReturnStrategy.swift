@@ -52,7 +52,7 @@ class BuyerReturnStrategy: HistoryStateStrategy {
 */
         
         cell.historyStateLabel.backgroundColor = UIColor.nbBlue
-        cell.historyStateLabel.text = "Return"
+        cell.historyStateLabel.text = " RETURN "
         
         cell.timeLabel.text = history.request?.getElapsedTimeAsString()
         
