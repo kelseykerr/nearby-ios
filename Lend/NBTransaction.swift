@@ -214,6 +214,19 @@ extension NBTransaction {
         }
     }
     
+    static func putOverrideResponse(id: String, transaction: NBTransaction, completionHandler: @escaping(NSError?)-> Void) {
+        Alamofire.request(TransactionsRouter.putOverrideResponse(id,transaction.toJSON())).validate(statusCode: 200..<300).responseJSON { response in
+            var error: NSError? = nil
+            if response.result.error != nil {
+                let statusCode = response.response?.statusCode
+                let errorMessage = String(data: response.data!, encoding: String.Encoding.utf8)
+                error = NSError(domain: errorMessage!, code: statusCode!, userInfo: nil)
+            }
+            completionHandler(error)
+            
+        }
+    }
+    
 //    static func verifyTransactionOverride() {
 //        Alamofire.request(TransactionsRouter.putTransactionExchange(id))
 //            .responseArray { response in

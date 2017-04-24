@@ -51,8 +51,8 @@ class SellerReturnStrategy: HistoryStateStrategy {
         cell.messageLabel.attributedText = attrText
 */
 
-        cell.historyStateLabel.backgroundColor = UIColor.nbBlue
-        cell.historyStateLabel.text = " RETURN "
+        cell.historyStateLabel.backgroundColor = UIColor.nbYellow
+        cell.historyStateLabel.text = " awaiting return "
         
         cell.timeLabel.text = history.request?.getElapsedTimeAsString()
         
