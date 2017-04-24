@@ -161,11 +161,20 @@ extension NBHistory {
                 }
             }
             else if self.transaction?.getStatus() == .returns {
+                let returnOverride = self.transaction?.returnOverride
                 if self.isMyRequest() {
-                    return HistoryStatus.buyer_returns
+                    if returnOverride != nil && !(returnOverride?.declined)! && !(returnOverride?.sellerAccepted)! {
+                        return HistoryStatus.buyer_overrideReturn
+                    } else {
+                        return HistoryStatus.buyer_returns
+                    }
                 }
                 else {
-                    return HistoryStatus.seller_returns
+                    if returnOverride != nil && !(returnOverride?.declined)! && !(returnOverride?.sellerAccepted)! {
+                        return HistoryStatus.seller_overrideReturn
+                    } else {
+                        return HistoryStatus.seller_returns
+                    }
                 }
             }
             else if self.transaction?.getStatus() == .payment {

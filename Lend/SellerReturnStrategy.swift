@@ -17,7 +17,7 @@ class SellerReturnStrategy: HistoryStateStrategy {
         let name = history.request?.user?.shortName ?? "NAME"
         let item = history.request?.itemName ?? "ITEM"
         
-        cell.messageLabel.text = "You are meeting \(name) to receive \(item)."
+        cell.messageLabel.text = "Loaning a \(item) to \(name)"
         let line = CAShapeLayer()
         let linePath = UIBezierPath()
         let start = CGPoint.init(x: 5, y: 0)
@@ -50,9 +50,48 @@ class SellerReturnStrategy: HistoryStateStrategy {
         
         cell.messageLabel.attributedText = attrText
 */
-
-        cell.historyStateLabel.backgroundColor = UIColor.nbYellow
-        cell.historyStateLabel.text = " awaiting return "
+        if (history.status == .seller_overrideReturn) {
+            cell.historyStateLabel.backgroundColor = UIColor.nbYellow
+            cell.historyStateLabel.text = " Return Override Pending Your Approval "
+            let dateTimeStamp = NSDate(timeIntervalSince1970:Double((history.transaction?.returnOverride?.time)!)/1000)  //UTC time
+            let dateFormatter = DateFormatter()
+            dateFormatter.timeZone = NSTimeZone.local //Edit
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            dateFormatter.dateStyle = DateFormatter.Style.full
+            dateFormatter.timeStyle = DateFormatter.Style.short
+            let dateExchanged = dateFormatter.string(from: dateTimeStamp as Date)
+            let messageString = "Did you exchange the \(item) with \(name) on \(dateExchanged)"
+            let alert = UIAlertController(title: "Confirm Exchange", message: messageString, preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "yes", style: UIAlertActionStyle.default, handler: { action in
+                switch action.style {
+                case .default:
+                    print("default")
+                    history.transaction?.returnOverride?.sellerAccepted = true
+                    self.respondToOverride(t: history.transaction!, historyVC: historyVC)
+                case .cancel:
+                    print("cancel")
+                case .destructive:
+                    print("destructive")
+                }
+            }))
+            alert.addAction(UIAlertAction(title: "no", style: UIAlertActionStyle.default, handler: { action in
+                switch action.style {
+                case .default:
+                    print("default")
+                    history.transaction?.returnOverride?.sellerAccepted = false
+                    history.transaction?.returnOverride?.declined = true
+                    self.respondToOverride(t: history.transaction!, historyVC: historyVC)
+                case .cancel:
+                    print("cancel")
+                case .destructive:
+                    print("destructive")
+                }
+            }))
+            historyVC.present(alert, animated: true, completion: nil)
+        } else {
+            cell.historyStateLabel.backgroundColor = UIColor.nbYellow
+            cell.historyStateLabel.text = " AWAITING RETURN "
+        }
         
         cell.timeLabel.text = history.request?.getElapsedTimeAsString()
         
@@ -73,6 +112,17 @@ class SellerReturnStrategy: HistoryStateStrategy {
         }
         
         return cell
+    }
+    
+    func respondToOverride(t: NBTransaction, historyVC: HistoryTableViewController) {
+        NBTransaction.putOverrideResponse(id: t.id!, transaction: t) { error in
+            print(error)
+            if let error = error {
+                let alert = Utils.createServerErrorAlert(error: error)
+                historyVC.present(alert, animated: true, completion: nil)
+            }
+            historyVC.refresh(self)
+        }
     }
     
     func alertController(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UIAlertController {

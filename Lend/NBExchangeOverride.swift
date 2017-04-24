@@ -18,6 +18,9 @@ class NBExchangeOverride: ResponseJSONObjectSerializable {
     var declined: Bool?
     
     required init?(json: SwiftyJSON.JSON) {
+        if json == nil {
+            return nil
+        }
         self.time = json["time"].int64
         self.buyerAccepted = json["buyerAccepted"].bool
         self.sellerAccepted = json["sellerAccepted"].bool

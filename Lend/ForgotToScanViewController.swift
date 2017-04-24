@@ -30,9 +30,9 @@ class ForgotToScanViewController: UIViewController {
         let time = datePicker.date
         let timeInterval = time.timeIntervalSince1970
         var override = NBExchangeOverride(time: Int64(timeInterval * 1000))
-        transaction?.exchangeOverride = override
         var t = NBTransaction(test: false)
         t.exchangeOverride = override
+        t.returnOverride = override
         t.id = transaction?.id
         print(t.toJSON())
         NBTransaction.createExchangeOverride(id: t.id!, transaction: t) { error in
