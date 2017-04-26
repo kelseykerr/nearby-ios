@@ -40,14 +40,16 @@ class LoginViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDeleg
         
         GIDSignIn.sharedInstance().delegate = self
         GIDSignIn.sharedInstance().uiDelegate = self
-
+        
         
         // Automatically sign in the user.
         if (AccountManager.sharedInstance.isGoogleAuth != nil && AccountManager.sharedInstance.isGoogleAuth) {
             if (AccountManager.sharedInstance.googleAuthToken != "") {
-                print("automatically signing user in with google")
+                print("**attempting silent sign in with google")
                 GIDSignIn.sharedInstance().signInSilently()
             }
+        } else if (AccountManager.sharedInstance.getOAuthTokenString() != "") {
+            self.delegate?.didTapLoginButton()
         }
         // TODO(developer) Configure the sign-in button look/feel
         // ...
