@@ -48,9 +48,7 @@ class LoginViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDeleg
                 print("**attempting silent sign in with google")
                 GIDSignIn.sharedInstance().signInSilently()
             }
-        } else if (AccountManager.sharedInstance.getOAuthTokenString() != "") {
-            self.delegate?.didTapLoginButton()
-        }
+        } 
         // TODO(developer) Configure the sign-in button look/feel
         // ...
     }

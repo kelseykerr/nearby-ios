@@ -218,7 +218,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             AccountManager.sharedInstance.googleSignInSilently()
         } else {
             print("FB activating app")
-            print(FBSDKAccessToken.current())
             FBSDKAppEvents.activateApp()
         }
     }
