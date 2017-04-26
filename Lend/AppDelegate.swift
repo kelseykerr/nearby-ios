@@ -255,7 +255,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
                 // Schedule the notification.
                 let center = UNUserNotificationCenter.current()
-                center.add(request)
+/////                center.add(request)
                 
             }
             else {
@@ -263,7 +263,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 localNotification.fireDate = Date().addingTimeInterval(1)
                 localNotification.alertBody = message
                 localNotification.soundName = UILocalNotificationDefaultSoundName
-                UIApplication.shared.scheduleLocalNotification(localNotification)
+/////                UIApplication.shared.scheduleLocalNotification(localNotification)
             }
             
             completionHandler(UIBackgroundFetchResult.noData)
