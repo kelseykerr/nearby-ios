@@ -62,6 +62,8 @@ class DirectDepositTableViewController: UITableViewController {
             user?.bankRoutingNumber = "110000000"
             user?.fundDestination = "bank"
             
+            self.view.endEditing(true)
+            
 //            progressHUD.show()
             let loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
             loadingNotification.mode = MBProgressHUDMode.indeterminate

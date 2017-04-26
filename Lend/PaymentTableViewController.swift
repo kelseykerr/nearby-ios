@@ -58,6 +58,8 @@ class PaymentTableViewController: UITableViewController {
 //            user?.email = self.emailAddressTextField.text
 //            user?.phone = self.phoneNumberTextField.text
             
+            self.view.endEditing(true)
+            
 //            progressHUD.show()
             let loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
             loadingNotification.mode = MBProgressHUDMode.indeterminate
