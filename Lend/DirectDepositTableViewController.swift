@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MBProgressHUD
 
 class DirectDepositTableViewController: UITableViewController {
     
@@ -18,15 +19,15 @@ class DirectDepositTableViewController: UITableViewController {
     
     var user: NBUser?
     
-    let progressHUD = ProgressHUD(text: "Saving")
+//    let progressHUD = ProgressHUD(text: "Saving")
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.hideKeyboardWhenTappedAround()
         
-        self.view.addSubview(progressHUD)
-        progressHUD.hide()
+//        self.view.addSubview(progressHUD)
+//        progressHUD.hide()
         
         saveButton.layer.cornerRadius = saveButton.frame.size.height / 16
         saveButton.clipsToBounds = true
@@ -61,7 +62,10 @@ class DirectDepositTableViewController: UITableViewController {
             user?.bankRoutingNumber = "110000000"
             user?.fundDestination = "bank"
             
-            progressHUD.show()
+//            progressHUD.show()
+            let loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
+            loadingNotification.mode = MBProgressHUDMode.indeterminate
+            loadingNotification.labelText = "Saving"
             
             NBStripe.addBank(user!) { error in
                 if let error = error {
@@ -71,7 +75,8 @@ class DirectDepositTableViewController: UITableViewController {
                 UserManager.sharedInstance.fetchUser{user in
                     print("updated user")
                 }
-                self.progressHUD.hide()
+//                self.progressHUD.hide()
+                MBProgressHUD.hideAllHUDs(for: self.view, animated: true)
             }
         }
     }

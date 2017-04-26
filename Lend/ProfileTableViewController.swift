@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MBProgressHUD
 
 class ProfileTableViewController: UITableViewController {
 
@@ -30,15 +31,15 @@ class ProfileTableViewController: UITableViewController {
     
     var user: NBUser?
     
-    let progressHUD = ProgressHUD(text: "Saving")
+//    let progressHUD = ProgressHUD(text: "Saving")
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.hideKeyboardWhenTappedAround()
         
-        self.view.addSubview(progressHUD)
-        progressHUD.hide()
+//        self.view.addSubview(progressHUD)
+//        progressHUD.hide()
         
         saveButton.layer.cornerRadius = saveButton.frame.size.height / 16
         saveButton.clipsToBounds = true
@@ -90,14 +91,21 @@ class ProfileTableViewController: UITableViewController {
             user?.currentLocationNotifications = self.currentLocationSwitch.isOn
             user?.notificationRadius = Float(self.radiusTextField.text!) ?? 0.0
             
-            progressHUD.show()
+            self.view.endEditing(true)
+            
+//            progressHUD.show()
+            let loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
+            loadingNotification.mode = MBProgressHUDMode.indeterminate
+            loadingNotification.labelText = "Saving"
             
             UserManager.sharedInstance.editUser(user: user!) { error in
                 if let error = error {
                     let alert = Utils.createServerErrorAlert(error: error)
                     self.present(alert, animated: true, completion: nil)
                 }
-                self.progressHUD.hide()
+                
+//                self.progressHUD.hide()
+                MBProgressHUD.hideAllHUDs(for: self.view, animated: true)
             }
         }
     }

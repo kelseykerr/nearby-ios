@@ -8,6 +8,7 @@
 
 import UIKit
 import Stripe
+import MBProgressHUD
 
 class PaymentTableViewController: UITableViewController {
     
@@ -19,15 +20,15 @@ class PaymentTableViewController: UITableViewController {
     
     var user: NBUser?
     
-    let progressHUD = ProgressHUD(text: "Saving")
+//    let progressHUD = ProgressHUD(text: "Saving")
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.hideKeyboardWhenTappedAround()
 
-        self.view.addSubview(progressHUD)
-        progressHUD.hide()
+//        self.view.addSubview(progressHUD)
+//        progressHUD.hide()
         
         saveButton.layer.cornerRadius = saveButton.frame.size.height / 16
         saveButton.clipsToBounds = true
@@ -57,7 +58,10 @@ class PaymentTableViewController: UITableViewController {
 //            user?.email = self.emailAddressTextField.text
 //            user?.phone = self.phoneNumberTextField.text
             
-            progressHUD.show()
+//            progressHUD.show()
+            let loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
+            loadingNotification.mode = MBProgressHUDMode.indeterminate
+            loadingNotification.labelText = "Saving"
             
             //tmp
             // generate creditcard token
@@ -72,7 +76,8 @@ class PaymentTableViewController: UITableViewController {
                 if let error = error {
                     let alert = Utils.createErrorAlert(errorMessage: error.localizedDescription)
                     self.present(alert, animated: true, completion: nil)
-                    self.progressHUD.hide()
+//                self.progressHUD.hide()
+                    MBProgressHUD.hideAllHUDs(for: self.view, animated: true)
                 } else if let token = token {
                     self.user?.stripeCCToken = token.tokenId
                     NBStripe.addCreditcard(self.user!) { error in
@@ -83,7 +88,8 @@ class PaymentTableViewController: UITableViewController {
                         UserManager.sharedInstance.fetchUser {user in
                             print("updated user")
                         }
-                        self.progressHUD.hide()
+//                self.progressHUD.hide()
+                        MBProgressHUD.hideAllHUDs(for: self.view, animated: true)
                     }
                 }
             }

@@ -52,6 +52,7 @@ PODS:
   - KIF (3.5.1):
     - KIF/Core (= 3.5.1)
   - KIF/Core (3.5.1)
+  - MBProgressHUD (1.0.0)
   - Protobuf (3.2.0)
   - Stripe (10.0.0)
   - SwiftyJSON (3.1.0)
@@ -64,6 +65,7 @@ DEPENDENCIES:
   - Google/SignIn
   - Ipify
   - KIF
+  - MBProgressHUD
   - Stripe
   - SwiftyJSON (~> 3.0)
 
@@ -82,10 +84,11 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 6f8d8b28b7e345549ac471071608170b31cb4977
   Ipify: 1d96ce2b7ee8fd8ee41568c3fc39a45dac15d7ca
   KIF: 082eb65279e51c3092923802849eb796a04982ab
+  MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
   Protobuf: 745f59e122e5de98d4d7ef291e264a0eef80f58e
   Stripe: abf87fc01f74a2143bba1b1798dd2e4d71fd2cb3
   SwiftyJSON: 29b9f2a64f118c07e691667c2ba1efe536acfe0b
 
-PODFILE CHECKSUM: 834ebe6e778a93c9509dbfa99d4ceeafb02608a5
+PODFILE CHECKSUM: 29f54c3dad9de317e74b245ac1c14580df996df9
 
 COCOAPODS: 1.2.0

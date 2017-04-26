@@ -41,6 +41,14 @@ class ProgressHUD: UIVisualEffectView {
         super.didMoveToSuperview()
         
         if let superview = self.superview {
+//            let width = UIScreen.main.bounds.size.width / 2.3
+//            let height: CGFloat = 50.0
+//            self.frame = CGRect(x: UIScreen.main.bounds.size.width / 2 - width / 2,
+//                                y: UIScreen.main.bounds.height / 2 - height / 2,
+//                                width: width,
+//                                height: height)
+//            
+//            print("width: \(width) height: \(height)")
             let width = superview.frame.size.width / 2.3
             let height: CGFloat = 50.0
             self.frame = CGRect(x: superview.frame.size.width / 2 - width / 2,

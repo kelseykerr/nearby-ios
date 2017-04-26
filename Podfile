@@ -15,7 +15,7 @@ target 'Nearby' do
     pod 'Google/SignIn'
     pod 'Ipify'
     pod 'DropDown'
-
+    pod 'MBProgressHUD'
 end
 
 target 'NearbyTests' do
