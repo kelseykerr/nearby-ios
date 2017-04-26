@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MBProgressHUD
 
 class BanksAndCardsTableViewController: UITableViewController {
     var user: NBUser?
@@ -17,17 +18,34 @@ class BanksAndCardsTableViewController: UITableViewController {
 
     @IBOutlet weak var creditCardNumber: UILabel!
     @IBOutlet weak var ccExp: UILabel!
+    
+    var alertController: UIAlertController?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         loadPaymentInfo()
     }
 
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "BanksAndCardsToPaymentSegue" {
+            let paymentTableViewController = segue.destination as! PaymentTableViewController
+            paymentTableViewController.delegate = self
+        }
+        if segue.identifier == "BanksAndCardsToBankSegue" {
+            let directDepositTableViewController = segue.destination as! DirectDepositTableViewController
+            directDepositTableViewController.delegate = self
+        }
+    }
+
     func loadPaymentInfo() {
+        let loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
+        loadingNotification.mode = MBProgressHUDMode.indeterminate
+        loadingNotification.labelText = "Fetching..."
         NBPayment.fetchPaymentInfo { result in
-         
+            
             guard result.error == nil else {
                 print(result.error)
+                MBProgressHUD.hideAllHUDs(for: self.view, animated: true)
                 return
             }
             
@@ -56,10 +74,18 @@ class BanksAndCardsTableViewController: UITableViewController {
             } else {
                 self.creditCardNumber.text = "Please add a credit card!"
             }
-            
+            MBProgressHUD.hideAllHUDs(for: self.view, animated: true)
             self.tableView.reloadData()
         }
     }
 
+    
+}
+
+extension BanksAndCardsTableViewController: UpdatePaymentInfoDelegate, UpdateBankInfoDelegate {
+    func refreshStripeInfo() {
+        print("Updated bank or cc info, refreshing payments")
+        self.loadPaymentInfo()
+    }
     
 }
