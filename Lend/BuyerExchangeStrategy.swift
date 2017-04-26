@@ -19,6 +19,17 @@ class BuyerExchangeStrategy: HistoryStateStrategy {
         let item = history.request?.itemName ?? "ITEM"
         
         cell.messageLabel.text = "Borrowing a \(item) from \(sellerName)"
+        let line = CAShapeLayer()
+        let linePath = UIBezierPath()
+        let start = CGPoint.init(x: 5, y: 0)
+        let end = CGPoint.init(x:5, y:90)
+        linePath.move(to: start)
+        linePath.addLine(to: end)
+        line.path = linePath.cgPath
+        line.strokeColor = UIColor.nbYellow.cgColor
+        line.lineWidth = 7
+        line.lineJoin = kCALineJoinRound
+        cell.layer.addSublayer(line)
         
 /*
         let attrText = NSMutableAttributedString(string: "")
@@ -42,9 +53,48 @@ class BuyerExchangeStrategy: HistoryStateStrategy {
         cell.messageLabel.attributedText = attrText
 */
         
-        cell.historyStateLabel.backgroundColor = UIColor.nbGreen
-        cell.historyStateLabel.text = "Awaiting Exchange"
-
+        if (history.status == .buyer_overrideExchange && !(history.transaction?.exchangeOverride?.declined)!) {
+            cell.historyStateLabel.backgroundColor = UIColor.nbYellow
+            cell.historyStateLabel.text = " Exchange Override Pending Your Approval "
+            let dateTimeStamp = NSDate(timeIntervalSince1970:Double((history.transaction?.exchangeOverride?.time)!)/1000)  //UTC time
+            let dateFormatter = DateFormatter()
+            dateFormatter.timeZone = NSTimeZone.local //Edit
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            dateFormatter.dateStyle = DateFormatter.Style.full
+            dateFormatter.timeStyle = DateFormatter.Style.short
+            let dateExchanged = dateFormatter.string(from: dateTimeStamp as Date)
+            let messageString = "Did you exchange the \(item) with \(sellerName) on \(dateExchanged)"
+            let alert = UIAlertController(title: "Confirm Exchange", message: messageString, preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "yes", style: UIAlertActionStyle.default, handler: { action in
+                switch action.style {
+                case .default:
+                    print("default")
+                    history.transaction?.exchangeOverride?.buyerAccepted = true
+                    self.respondToOverride(t: history.transaction!, historyVC: historyVC)
+                case .cancel:
+                    print("cancel")
+                case .destructive:
+                    print("destructive")
+                }
+            }))
+            alert.addAction(UIAlertAction(title: "no", style: UIAlertActionStyle.default, handler: { action in
+                switch action.style {
+                case .default:
+                    print("default")
+                    history.transaction?.exchangeOverride?.buyerAccepted = false
+                    history.transaction?.exchangeOverride?.declined = true
+                    self.respondToOverride(t: history.transaction!, historyVC: historyVC)
+                case .cancel:
+                    print("cancel")
+                case .destructive:
+                    print("destructive")
+                }
+            }))
+            historyVC.present(alert, animated: true, completion: nil)
+        } else {
+            cell.historyStateLabel.backgroundColor = UIColor.nbGreen
+            cell.historyStateLabel.text = " Awaiting Exchange "
+        }
         cell.timeLabel.text = history.request?.getElapsedTimeAsString()
         
         cell.userImageView.image = UIImage(named: "User-64")
@@ -65,6 +115,17 @@ class BuyerExchangeStrategy: HistoryStateStrategy {
         }
         
         return cell
+    }
+    
+    func respondToOverride(t: NBTransaction, historyVC: HistoryTableViewController) {
+        NBTransaction.putOverrideResponse(id: t.id!, transaction: t) { error in
+            print(error)
+            if let error = error {
+                let alert = Utils.createServerErrorAlert(error: error)
+                historyVC.present(alert, animated: true, completion: nil)
+            }
+            historyVC.refresh(self)
+        }
     }
     
     func alertController(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UIAlertController {

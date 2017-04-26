@@ -143,6 +143,14 @@ class HistoryTableViewController: UITableViewController {
             }
             
             self.histories = fetchedHistories
+            if (fetchedHistories.count == 0) {
+                let noDataLabel: UILabel = UILabel(frame: CGRect(x: 0, y: 0, width: self.tableView.bounds.size.width, height: self.tableView.bounds.size.height))
+                noDataLabel.text = "no history to show"
+                noDataLabel.textColor = UIColor.black
+                noDataLabel.textAlignment = .center
+                self.tableView.backgroundView = noDataLabel
+                self.tableView.separatorStyle = .none
+            }
             
             self.tableView.reloadData()
         }

@@ -12,28 +12,33 @@ import SwiftyJSON
 
 class NBExchangeOverride: ResponseJSONObjectSerializable {
     
-    var time: String?
+    var time: Int64?
     var buyerAccepted: Bool?
     var sellerAccepted: Bool?
+    var declined: Bool?
     
     required init?(json: SwiftyJSON.JSON) {
-        self.time = json["time"].string
+        if json == nil {
+            return nil
+        }
+        self.time = json["time"].int64
         self.buyerAccepted = json["buyerAccepted"].bool
         self.sellerAccepted = json["sellerAccepted"].bool
+        self.declined = json["declined"].bool
     }
     
-    init(test: Bool) {
-        if test {
-            self.time = "time"
-            self.buyerAccepted = false
-            self.sellerAccepted = false
-        }
+    init(time: Int64) {
+        self.time = time
+        self.buyerAccepted = false
+        self.sellerAccepted = false
+        self.declined = false
     }
     
     func toString() -> String {
         return "time: \(time)" +
             " buyerAccepted: \(buyerAccepted)" +
-            " sellerAccepted: \(sellerAccepted)\n"
+            " sellerAccepted: \(sellerAccepted)" +
+            " declined: \(declined)\n"
     }
     
     func toJSON() -> [String: AnyObject] {
@@ -46,6 +51,9 @@ class NBExchangeOverride: ResponseJSONObjectSerializable {
         }
         if let sellerAccepted = sellerAccepted {
             json["sellerAccepted"] = sellerAccepted as AnyObject?
+        }
+        if let declined = declined {
+            json["declined"] = declined as AnyObject?
         }
         return json
     }

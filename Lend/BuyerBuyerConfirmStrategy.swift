@@ -19,7 +19,7 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
             let item = history.request?.itemName ?? "ITEM"
             let rent = (request?.rental)! ? "borrow" : "buy"
 
-            cell.messageLabel.text = "Requested a \(item)."
+            cell.messageLabel.text = " Requested a \(item)"
 /*
             let attrText = NSMutableAttributedString(string: "")
             let boldFont = UIFont.boldSystemFont(ofSize: 15)
@@ -38,7 +38,7 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
 */
             
             cell.historyStateLabel.backgroundColor = UIColor.nbGreen
-            cell.historyStateLabel.text = "OPEN"
+            cell.historyStateLabel.text = " OPEN "
             
             cell.timeLabel.text = history.request?.getElapsedTimeAsString()
             
@@ -186,7 +186,7 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
             }
             delete.backgroundColor = UIColor.nbRed
             
-            let edit = UITableViewRowAction(style: .normal, title: " Edit ") { action, index in
+            let edit = UITableViewRowAction(style: .normal, title: "Edit") { action, index in
                 print("Edit request button pressed")
                 //go to edit request page
                 let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)

@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 class SellerExchangeStrategy: HistoryStateStrategy {
     
     func cell(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UITableViewCell {
@@ -18,6 +17,17 @@ class SellerExchangeStrategy: HistoryStateStrategy {
         let item = history.request?.itemName ?? "ITEM"
         
         cell.messageLabel.text = "Loaning a \(item) to \(name)"
+        let line = CAShapeLayer()
+        let linePath = UIBezierPath()
+        let start = CGPoint.init(x: 5, y: 0)
+        let end = CGPoint.init(x:5, y:90)
+        linePath.move(to: start)
+        linePath.addLine(to: end)
+        line.path = linePath.cgPath
+        line.strokeColor = UIColor.nbYellow.cgColor
+        line.lineWidth = 7
+        line.lineJoin = kCALineJoinRound
+        cell.layer.addSublayer(line)
 
 /*
         let attrText = NSMutableAttributedString(string: "")
@@ -40,8 +50,14 @@ class SellerExchangeStrategy: HistoryStateStrategy {
         cell.messageLabel.attributedText = attrText
 */
         
-        cell.historyStateLabel.backgroundColor = UIColor.nbGreen
-        cell.historyStateLabel.text = "Awaiting Exchange"
+        if (history.status == .seller_overrideExchange && !(history.transaction?.exchangeOverride?.declined)!) {
+            cell.historyStateLabel.backgroundColor = UIColor.nbYellow
+            cell.historyStateLabel.text = " Exchange Override Pending Approval "
+        } else {
+            cell.historyStateLabel.backgroundColor = UIColor.nbGreen
+            //swift takes off trailing white space, so we must use unicode char
+            cell.historyStateLabel.text = " Awaiting Exchange "
+        }
         
         cell.timeLabel.text = history.request?.getElapsedTimeAsString()
         

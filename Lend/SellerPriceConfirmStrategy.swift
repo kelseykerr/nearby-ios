@@ -17,6 +17,17 @@ class SellerPriceConfirmStrategy: HistoryStateStrategy {
         let item = history.request?.itemName ?? "ITEM"
         
         cell.messageLabel.text = "Please confirm price for \(item)."
+        let line = CAShapeLayer()
+        let linePath = UIBezierPath()
+        let start = CGPoint.init(x: 5, y: 0)
+        let end = CGPoint.init(x:5, y:90)
+        linePath.move(to: start)
+        linePath.addLine(to: end)
+        line.path = linePath.cgPath
+        line.strokeColor = UIColor.nbYellow.cgColor
+        line.lineWidth = 7
+        line.lineJoin = kCALineJoinRound
+        cell.layer.addSublayer(line)
         /*
          let attrText = NSMutableAttributedString(string: "")
          let boldFont = UIFont.boldSystemFont(ofSize: 15)
@@ -35,7 +46,7 @@ class SellerPriceConfirmStrategy: HistoryStateStrategy {
          */
         
         cell.historyStateLabel.backgroundColor = UIColor.purple
-        cell.historyStateLabel.text = "Price Confirm"
+        cell.historyStateLabel.text = " PRICE CONFIRM "
         
         cell.timeLabel.text = history.request?.getElapsedTimeAsString()
         

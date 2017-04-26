@@ -57,7 +57,7 @@ class SellerBuyerConfirmStrategy: HistoryStateStrategy {
 */
             
             cell.historyStateLabel.backgroundColor = UIColor.nbYellow
-            cell.historyStateLabel.text = "PENDING"
+            cell.historyStateLabel.text = " PENDING "
             cell.timeLabel.text = history.request?.getElapsedTimeAsString()
             
             cell.userImageView.image = UIImage(named: "User-64")

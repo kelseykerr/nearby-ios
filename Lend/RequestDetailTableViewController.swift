@@ -38,6 +38,7 @@ class RequestDetailTableViewController: UITableViewController {
     weak var delegate: RequestDetailTableViewDelegate?
     var request: NBRequest?
     var mode: RequestDetailTableViewMode = .none
+    var alertController: UIAlertController?
     
     var itemName: String? {
         get {
@@ -82,6 +83,25 @@ class RequestDetailTableViewController: UITableViewController {
         }
     }
     
+    func showAlertMsg(message: String) {
+        guard (self.alertController == nil) else {
+            print("Alert already displayed")
+            return
+        }
+        
+        self.alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        
+        let cancelAction = UIAlertAction(title: "close", style: .cancel) { (action) in
+            print("Alert was cancelled")
+            self.alertController=nil;
+        }
+        
+        self.alertController!.addAction(cancelAction)
+        
+        self.present(self.alertController!, animated: true, completion: nil)
+    }
+
+    
     func loadFields(request: NBRequest) {
         itemName = request.itemName
         desc = request.desc
@@ -95,16 +115,25 @@ class RequestDetailTableViewController: UITableViewController {
             self.navigationController?.popViewController(animated: true)
         }
         else {
-            let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-            guard let navVC = storyboard.instantiateViewController(
-                withIdentifier: "NewResponseNavigationController") as? UINavigationController else {
-                    assert(false, "Misnamed view controller")
-                    return
+            UserManager.sharedInstance.getUser { fetchedUser in
+                if (!fetchedUser.hasAllRequiredFields()) {
+                    self.showAlertMsg(message: "You must finish filling out your profile before you can make offers")
+                    
+                } else if (!fetchedUser.canRespond!) {
+                    self.showAlertMsg(message: "You must add bank account information before you can make offers")
+                } else {
+                    let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+                    guard let navVC = storyboard.instantiateViewController(
+                        withIdentifier: "NewResponseNavigationController") as? UINavigationController else {
+                            assert(false, "Misnamed view controller")
+                            return
+                    }
+                    let responseVC = (navVC.childViewControllers[0] as! NewResponseTableViewController)
+                    responseVC.delegate = self
+                    responseVC.request = self.request
+                    self.present(navVC, animated: true, completion: nil)
+                }
             }
-            let responseVC = (navVC.childViewControllers[0] as! NewResponseTableViewController)
-            responseVC.delegate = self
-            responseVC.request = self.request
-            self.present(navVC, animated: true, completion: nil)
         }
     }
 }

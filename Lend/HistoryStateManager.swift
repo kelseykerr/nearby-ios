@@ -53,9 +53,9 @@ class HistoryStateManager {
             return buyerBuyerConfirmStrategy.cell(historyVC: historyVC, indexPath: indexPath, history: history)
         case .buyer_sellerConfirm:
             return buyerSellerConfirmStrategy.cell(historyVC: historyVC, indexPath: indexPath, history: history)
-        case .buyer_exchange:
+        case .buyer_exchange, .buyer_overrideExchange:
             return buyerExchangeStrategy.cell(historyVC: historyVC, indexPath: indexPath, history: history)
-        case .buyer_returns:
+        case .buyer_returns, .buyer_overrideReturn:
             return buyerReturnStrategy.cell(historyVC: historyVC, indexPath: indexPath, history: history)
         case .buyer_priceConfirm:
             return buyerPriceConfirmStrategy.cell(historyVC: historyVC, indexPath: indexPath, history: history)
@@ -67,9 +67,9 @@ class HistoryStateManager {
             return sellerBuyerConfirmStrategy.cell(historyVC: historyVC, indexPath: indexPath, history: history)
         case .seller_sellerConfirm:
             return sellerSellerConfirmStrategy.cell(historyVC: historyVC, indexPath: indexPath, history: history)
-        case .seller_exchange:
+        case .seller_exchange, .seller_overrideExchange:
             return sellerExchangeStrategy.cell(historyVC: historyVC, indexPath: indexPath, history: history)
-        case .seller_returns:
+        case .seller_returns, .seller_overrideReturn:
             return sellerReturnStrategy.cell(historyVC: historyVC, indexPath: indexPath, history: history)
         case .seller_priceConfirm:
             return sellerPriceConfirmStrategy.cell(historyVC: historyVC, indexPath: indexPath, history: history)
@@ -86,9 +86,9 @@ class HistoryStateManager {
             return buyerBuyerConfirmStrategy.alertController(historyVC: historyVC, indexPath: indexPath, history: history)
         case .buyer_sellerConfirm:
             return buyerSellerConfirmStrategy.alertController(historyVC: historyVC, indexPath: indexPath, history: history)
-        case .buyer_exchange:
+        case .buyer_exchange, .buyer_overrideExchange:
             return buyerExchangeStrategy.alertController(historyVC: historyVC, indexPath: indexPath, history: history)
-        case .buyer_returns:
+        case .buyer_returns, .buyer_overrideReturn:
             return buyerReturnStrategy.alertController(historyVC: historyVC, indexPath: indexPath, history: history)
         case .buyer_priceConfirm:
             return buyerPriceConfirmStrategy.alertController(historyVC: historyVC, indexPath: indexPath, history: history)
@@ -100,9 +100,9 @@ class HistoryStateManager {
             return sellerBuyerConfirmStrategy.alertController(historyVC: historyVC, indexPath: indexPath, history: history)
         case .seller_sellerConfirm:
             return sellerSellerConfirmStrategy.alertController(historyVC: historyVC, indexPath: indexPath, history: history)
-        case .seller_exchange:
+        case .seller_exchange, .seller_overrideExchange:
             return sellerExchangeStrategy.alertController(historyVC: historyVC, indexPath: indexPath, history: history)
-        case .seller_returns:
+        case .seller_returns, .seller_overrideReturn:
             return sellerReturnStrategy.alertController(historyVC: historyVC, indexPath: indexPath, history: history)
         case .seller_priceConfirm:
             return sellerPriceConfirmStrategy.alertController(historyVC: historyVC, indexPath: indexPath, history: history)
@@ -119,9 +119,9 @@ class HistoryStateManager {
             return buyerBuyerConfirmStrategy.detailViewController(historyVC: historyVC, indexPath: indexPath, history: history)
         case .buyer_sellerConfirm:
             return buyerSellerConfirmStrategy.detailViewController(historyVC: historyVC, indexPath: indexPath, history: history)
-        case .buyer_exchange:
+        case .buyer_exchange, .buyer_overrideExchange:
             return buyerExchangeStrategy.detailViewController(historyVC: historyVC, indexPath: indexPath, history: history)
-        case .buyer_returns:
+        case .buyer_returns, .buyer_overrideReturn:
             return buyerReturnStrategy.detailViewController(historyVC: historyVC, indexPath: indexPath, history: history)
         case .buyer_priceConfirm:
             return buyerPriceConfirmStrategy.detailViewController(historyVC: historyVC, indexPath: indexPath, history: history)
@@ -133,9 +133,9 @@ class HistoryStateManager {
             return sellerBuyerConfirmStrategy.detailViewController(historyVC: historyVC, indexPath: indexPath, history: history)
         case .seller_sellerConfirm:
             return sellerSellerConfirmStrategy.detailViewController(historyVC: historyVC, indexPath: indexPath, history: history)
-        case .seller_exchange:
+        case .seller_exchange, .seller_overrideExchange:
             return sellerExchangeStrategy.detailViewController(historyVC: historyVC, indexPath: indexPath, history: history)
-        case .seller_returns:
+        case .seller_returns, .seller_overrideReturn:
             return sellerReturnStrategy.detailViewController(historyVC: historyVC, indexPath: indexPath, history: history)
         case .seller_priceConfirm:
             return sellerPriceConfirmStrategy.detailViewController(historyVC: historyVC, indexPath: indexPath, history: history)
@@ -152,9 +152,9 @@ class HistoryStateManager {
             return buyerBuyerConfirmStrategy.rowAction(historyVC: historyVC, indexPath: indexPath, history: history)
         case .buyer_sellerConfirm:
             return buyerSellerConfirmStrategy.rowAction(historyVC: historyVC, indexPath: indexPath, history: history)
-        case .buyer_exchange:
+        case .buyer_exchange, .buyer_overrideExchange:
             return buyerExchangeStrategy.rowAction(historyVC: historyVC, indexPath: indexPath, history: history)
-        case .buyer_returns:
+        case .buyer_returns, .buyer_overrideReturn:
             return buyerReturnStrategy.rowAction(historyVC: historyVC, indexPath: indexPath, history: history)
         case .buyer_priceConfirm:
             return buyerPriceConfirmStrategy.rowAction(historyVC: historyVC, indexPath: indexPath, history: history)
@@ -166,9 +166,9 @@ class HistoryStateManager {
             return sellerBuyerConfirmStrategy.rowAction(historyVC: historyVC, indexPath: indexPath, history: history)
         case .seller_sellerConfirm:
             return sellerSellerConfirmStrategy.rowAction(historyVC: historyVC, indexPath: indexPath, history: history)
-        case .seller_exchange:
+        case .seller_exchange, .seller_overrideExchange:
             return sellerExchangeStrategy.rowAction(historyVC: historyVC, indexPath: indexPath, history: history)
-        case .seller_returns:
+        case .seller_returns, .seller_overrideReturn:
             return sellerReturnStrategy.rowAction(historyVC: historyVC, indexPath: indexPath, history: history)
         case .seller_priceConfirm:
             return sellerPriceConfirmStrategy.rowAction(historyVC: historyVC, indexPath: indexPath, history: history)
@@ -185,9 +185,9 @@ class HistoryStateManager {
             return buyerBuyerConfirmStrategy.canEditRowAt(historyVC: historyVC, indexPath: indexPath, history: history)
         case .buyer_sellerConfirm:
             return buyerSellerConfirmStrategy.canEditRowAt(historyVC: historyVC, indexPath: indexPath, history: history)
-        case .buyer_exchange:
+        case .buyer_exchange, .buyer_overrideExchange:
             return buyerExchangeStrategy.canEditRowAt(historyVC: historyVC, indexPath: indexPath, history: history)
-        case .buyer_returns:
+        case .buyer_returns, .buyer_overrideReturn:
             return buyerReturnStrategy.canEditRowAt(historyVC: historyVC, indexPath: indexPath, history: history)
         case .buyer_priceConfirm:
             return buyerPriceConfirmStrategy.canEditRowAt(historyVC: historyVC, indexPath: indexPath, history: history)
@@ -199,9 +199,9 @@ class HistoryStateManager {
             return sellerBuyerConfirmStrategy.canEditRowAt(historyVC: historyVC, indexPath: indexPath, history: history)
         case .seller_sellerConfirm:
             return sellerSellerConfirmStrategy.canEditRowAt(historyVC: historyVC, indexPath: indexPath, history: history)
-        case .seller_exchange:
+        case .seller_exchange, .seller_overrideExchange:
             return sellerExchangeStrategy.canEditRowAt(historyVC: historyVC, indexPath: indexPath, history: history)
-        case .seller_returns:
+        case .seller_returns, .seller_overrideReturn:
             return sellerReturnStrategy.canEditRowAt(historyVC: historyVC, indexPath: indexPath, history: history)
         case .seller_priceConfirm:
             return sellerPriceConfirmStrategy.canEditRowAt(historyVC: historyVC, indexPath: indexPath, history: history)

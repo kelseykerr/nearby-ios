@@ -16,7 +16,7 @@ class SearchFilter {
     
     var includeExpiredRequest: Bool
     
-    var sortRequestByDate: Bool
+    var sortBy: String
     
     var searchBy: String
     
@@ -26,7 +26,7 @@ class SearchFilter {
         self.searchTerm = ""
         self.includeMyRequest = false
         self.includeExpiredRequest = false
-        self.sortRequestByDate = false
+        self.sortBy = "newest"
         self.searchBy = "current location"
         self.searchRadius = 1
     }

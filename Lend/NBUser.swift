@@ -132,6 +132,8 @@ class NBUser: ResponseJSONObjectSerializable {
         self.stripeBankToken = json["stripeBankToken"].string
         
         self.userAgent = json["userAgent"].string
+        self.canRespond = json["canRespond"].bool ?? false
+        self.canRequest = json["canRequest"].bool ?? false
         
     }
     
@@ -303,7 +305,7 @@ extension NBUser {
     }
     
     func acceptedTos() -> Bool {
-        return !self.tosAccepted || self.tosAcceptIp == nil
+        return self.tosAccepted != nil && self.tosAccepted
     }
     
     func hasAllRequiredFields() -> Bool {

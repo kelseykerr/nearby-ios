@@ -20,6 +20,7 @@ class QRGeneratorViewController: UIViewController {
 
     @IBOutlet var qrImageView: UIImageView!
     @IBOutlet var qrCodeLabel: UILabel!
+    @IBOutlet var forgotBtn: UIButton!
     
     weak var delegate: QRGeneratorViewDelegate?
     var transaction: NBTransaction?
@@ -76,5 +77,17 @@ class QRGeneratorViewController: UIViewController {
     @IBAction func cancelButtonPressed(_ sender: UIBarButtonItem) {
         delegate?.generateCancelled()
         self.dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func forgotBtnPressed(_ sender: UIButton) {
+        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        guard let navVC = storyboard.instantiateViewController(
+            withIdentifier: "ForgotToScanNavigationController") as? UINavigationController else {
+                assert(false, "Misnamed view controller")
+                return
+        }
+        let forgotVC = (navVC.childViewControllers[0] as! ForgotToScanViewController)
+        forgotVC.transaction = transaction
+        self.present(navVC, animated: true, completion: nil)
     }
 }

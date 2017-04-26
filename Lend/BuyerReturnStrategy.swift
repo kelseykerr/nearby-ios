@@ -17,7 +17,18 @@ class BuyerReturnStrategy: HistoryStateStrategy {
         let sellerName = history.responses[indexPath.row].seller?.shortName ?? "NAME"
         let item = history.request?.itemName ?? "ITEM"
         
-        cell.messageLabel.text = "You are meeting \(sellerName) to return \(item)."
+        cell.messageLabel.text = "Borrowing a \(item) from \(sellerName)"
+        let line = CAShapeLayer()
+        let linePath = UIBezierPath()
+        let start = CGPoint.init(x: 5, y: 0)
+        let end = CGPoint.init(x:5, y:90)
+        linePath.move(to: start)
+        linePath.addLine(to: end)
+        line.path = linePath.cgPath
+        line.strokeColor = UIColor.nbYellow.cgColor
+        line.lineWidth = 7
+        line.lineJoin = kCALineJoinRound
+        cell.layer.addSublayer(line)
 /*
         let attrText = NSMutableAttributedString(string: "")
         let boldFont = UIFont.boldSystemFont(ofSize: 15)
@@ -40,8 +51,13 @@ class BuyerReturnStrategy: HistoryStateStrategy {
         cell.messageLabel.attributedText = attrText
 */
         
-        cell.historyStateLabel.backgroundColor = UIColor.nbBlue
-        cell.historyStateLabel.text = "Return"
+        if (history.status == .buyer_overrideReturn) {
+            cell.historyStateLabel.backgroundColor = UIColor.nbYellow
+            cell.historyStateLabel.text = " Return Override Pending Approval "
+        } else {
+            cell.historyStateLabel.backgroundColor = UIColor.nbYellow
+            cell.historyStateLabel.text = " AWAITING RETURN "
+        }
         
         cell.timeLabel.text = history.request?.getElapsedTimeAsString()
         

@@ -14,13 +14,17 @@ enum HistoryStatus {
     case buyer_buyerConfirm
     case buyer_sellerConfirm
     case buyer_exchange
+    case buyer_overrideExchange
     case buyer_returns
+    case buyer_overrideReturn
     case buyer_priceConfirm
     case buyer_finish
     case buyer_closed
     case seller_buyerConfirm
     case seller_sellerConfirm
     case seller_exchange
+    case seller_overrideReturn
+    case seller_overrideExchange
     case seller_returns
     case seller_priceConfirm
     case seller_finish
@@ -130,11 +134,22 @@ extension NBHistory {
                 }
             }
             else if self.transaction?.getStatus() == .exchange {
+                let exchangeOverride = self.transaction?.exchangeOverride
                 if self.isMyRequest() {
-                    return HistoryStatus.buyer_exchange
+                    //if there is an exchange override, and I haven't accepted or declined it, show the override for my approval
+                    if exchangeOverride != nil && !(exchangeOverride?.buyerAccepted)! && !(exchangeOverride?.declined)! {
+                        return HistoryStatus.buyer_overrideExchange
+                    } else {
+                        return HistoryStatus.buyer_exchange
+                    }
                 }
                 else {
-                    return HistoryStatus.seller_exchange
+                    //if there is an exchange override and the buyer hasn't accepted or declined it, display the pending status
+                    if exchangeOverride != nil && !(exchangeOverride?.buyerAccepted)! && !(exchangeOverride?.declined)! {
+                        return HistoryStatus.seller_overrideExchange
+                    } else {
+                        return HistoryStatus.seller_exchange
+                    }
                 }
             }
             else if self.transaction?.getStatus() == .returns && (self.request?.rental)! == false {
@@ -146,11 +161,20 @@ extension NBHistory {
                 }
             }
             else if self.transaction?.getStatus() == .returns {
+                let returnOverride = self.transaction?.returnOverride
                 if self.isMyRequest() {
-                    return HistoryStatus.buyer_returns
+                    if returnOverride != nil && !(returnOverride?.declined)! && !(returnOverride?.sellerAccepted)! {
+                        return HistoryStatus.buyer_overrideReturn
+                    } else {
+                        return HistoryStatus.buyer_returns
+                    }
                 }
                 else {
-                    return HistoryStatus.seller_returns
+                    if returnOverride != nil && !(returnOverride?.declined)! && !(returnOverride?.sellerAccepted)! {
+                        return HistoryStatus.seller_overrideReturn
+                    } else {
+                        return HistoryStatus.seller_returns
+                    }
                 }
             }
             else if self.transaction?.getStatus() == .payment {

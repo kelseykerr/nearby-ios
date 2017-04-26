@@ -20,7 +20,8 @@ enum TransactionsRouter: URLRequestConvertible {
     case getTransactionCode(String)
     case editTransactionCode(String, String)
     case editTransactionPrice(String, [String: AnyObject])
-//    case postTransactionExchange(String)
+    case submitExchangeOverride(String, [String: AnyObject])
+    case putOverrideResponse(String, [String: AnyObject])
 //    case putTransactionExchange(String)
 //    case putTransactionPrice(String)
     
@@ -37,8 +38,10 @@ enum TransactionsRouter: URLRequestConvertible {
 //            case .putTransactionCode, .putTransactionExchange, .putTransactionPrice:
             case .editTransactionCode, .editTransactionPrice:
                 return .put
-//            case .postTransactionExchange:
-//                return .post
+            case .submitExchangeOverride:
+                return .post
+            case .putOverrideResponse:
+                return .put
 //            case .deleteTransaction:
 //                return .delete
             }
@@ -57,10 +60,10 @@ enum TransactionsRouter: URLRequestConvertible {
                 relativePath = "transactions/\(id)/code/\(code)"
             case .editTransactionPrice(let id, _):
                 relativePath = "transactions/\(id)/price"
-//            case .postTransactionExchange(let id):
-//                relativePath = "transactions/\(id)/exchange"
-//            case .putTransactionExchange(let id):
-//                relativePath = "transactions/\(id)/exchange"
+            case .submitExchangeOverride(let id, _):
+                relativePath = "transactions/\(id)/exchange"
+            case .putOverrideResponse(let id, _):
+                relativePath = "transactions/\(id)/exchange"
 //            case .putTransactionPrice(let id):
 //                relativePath = "transactions/\(id)/price"
             }
@@ -83,10 +86,10 @@ enum TransactionsRouter: URLRequestConvertible {
                 return nil
             case .editTransactionPrice(_, let newItem):
                 return (newItem)
-//            case .postTransactionExchange:
-//                return ??? // return the param?
-//            case .deleteTransaction: // move this up with get?
-//                return nil
+            case .submitExchangeOverride(_, let newItem):
+                return (newItem)
+            case .putOverrideResponse(_, let newItem):
+                return (newItem)
             }
         }()
         

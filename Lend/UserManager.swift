@@ -58,6 +58,10 @@ class UserManager {
         }
     }
     
+    func removeUser() {
+        user = nil
+    }
+    
     func userAvailable() -> Bool {
         return user != nil
     }
