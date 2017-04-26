@@ -274,8 +274,9 @@ class HomeViewController: UIViewController, LoginViewDelegate {
             sender.title = "List"
             self.view.bringSubview(toFront: mapView)
             //self.view.bringSubview(toFront: reloadView)
-            self.view.bringSubview(toFront: requestButton)
+//            self.view.bringSubview(toFront: requestButton)
         }
+        self.view.bringSubview(toFront: requestButton)
     }
     
     /*@IBAction func redoSearchButtonPressed(_ sender: UIBarButtonItem) {
