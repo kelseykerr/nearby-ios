@@ -31,6 +31,10 @@ class ProfileTableViewController: UITableViewController {
     
     var user: NBUser?
     
+    let birthdatePicker = UIDatePicker()
+    
+    let dateFormatter = DateFormatter()
+    
 //    let progressHUD = ProgressHUD(text: "Saving")
     
     override func viewDidLoad() {
@@ -41,6 +45,12 @@ class ProfileTableViewController: UITableViewController {
 //        self.view.addSubview(progressHUD)
 //        progressHUD.hide()
         
+        createDatePickers()
+        
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+//        dateFormatter.dateStyle = .medium
+//        dateFormatter.timeStyle = .short
+
         saveButton.layer.cornerRadius = saveButton.frame.size.height / 16
         saveButton.clipsToBounds = true
         
@@ -67,6 +77,26 @@ class ProfileTableViewController: UITableViewController {
             self.homeLocationSwitch.isOn = fetchedUser.homeLocationNotifications ?? false
             self.radiusTextField.text = String(format: "%.1f", fetchedUser.notificationRadius ?? 0.0)
         }
+    }
+    
+    func createDatePickers() {
+        
+        birthdatePicker.datePickerMode = UIDatePickerMode.date
+        
+        let birthdateToolbar = UIToolbar()
+        birthdateToolbar.sizeToFit()
+        
+        let spaceBarItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let birthdateDoneButton = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: #selector(birthdateDoneButtonPressed))
+        birthdateToolbar.setItems([spaceBarItem, birthdateDoneButton], animated: false)
+        
+        dateOfBirthTextField.inputAccessoryView = birthdateToolbar
+        dateOfBirthTextField.inputView = birthdatePicker
+    }
+    
+    func birthdateDoneButtonPressed() {
+        dateOfBirthTextField.text = dateFormatter.string(from: birthdatePicker.date)
+        self.view.endEditing(true)
     }
     
     @IBAction func saveButtonPressed(_ sender: UIButton) {
