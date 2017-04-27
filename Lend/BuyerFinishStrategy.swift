@@ -31,8 +31,8 @@ class BuyerFinishStrategy: HistoryStateStrategy {
         //add white line so that transaction card doesn't place yellow line on scroll
         let line = CAShapeLayer()
         let linePath = UIBezierPath()
-        let start = CGPoint.init(x: 5, y: 0)
-        let end = CGPoint.init(x:5, y:100)
+        let start = CGPoint.init(x: 5, y: 1)
+        let end = CGPoint.init(x:5, y:99)
         linePath.move(to: start)
         linePath.addLine(to: end)
         line.path = linePath.cgPath

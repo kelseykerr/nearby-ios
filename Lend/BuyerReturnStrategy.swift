@@ -21,8 +21,8 @@ class BuyerReturnStrategy: HistoryStateStrategy {
         cell.messageLabel.text = "Borrowing a \(item) from \(sellerName)"
         let line = CAShapeLayer()
         let linePath = UIBezierPath()
-        let start = CGPoint.init(x: 5, y: 0)
-        let end = CGPoint.init(x:5, y:100)
+        let start = CGPoint.init(x: 5, y: 1)
+        let end = CGPoint.init(x:5, y:99)
         linePath.move(to: start)
         linePath.addLine(to: end)
         line.path = linePath.cgPath
@@ -30,27 +30,6 @@ class BuyerReturnStrategy: HistoryStateStrategy {
         line.lineWidth = 7
         line.lineJoin = kCALineJoinRound
         cell.layer.addSublayer(line)
-/*
-        let attrText = NSMutableAttributedString(string: "")
-        let boldFont = UIFont.boldSystemFont(ofSize: 15)
-        
-        let boldYou = NSMutableAttributedString(string: "You", attributes: [NSFontAttributeName: boldFont])
-        attrText.append(boldYou)
-        
-        attrText.append(NSMutableAttributedString(string: " are meeting "))
-        
-        let boldName = NSMutableAttributedString(string: name, attributes: [NSFontAttributeName: boldFont])
-        attrText.append(boldName)
-        
-        attrText.append(NSMutableAttributedString(string: " to return "))
-        
-        let boldItemName = NSMutableAttributedString(string: item, attributes: [NSFontAttributeName: boldFont])
-        attrText.append(boldItemName)
-        
-        attrText.append(NSMutableAttributedString(string: "."))
-        
-        cell.messageLabel.attributedText = attrText
-*/
         
         if (history.status == .buyer_overrideReturn) {
             cell.historyStateLabel.backgroundColor = UIColor.nbYellow
