@@ -14,27 +14,25 @@ class SellerClosedStrategy: HistoryStateStrategy {
     
     func cell(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UITableViewCell {
         let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath) as! HistoryRequestTableViewCell
-        
+        cell.exchangeTimeLabel.isHidden = true
+        cell.exchangeLocationLabel.isHidden = true
         let name = history.request?.user?.shortName ?? "NAME"
         let item = history.request?.itemName ?? "ITEM"
         
         cell.messageLabel.text = "\(name) has closed transaction for \(item)."
-        /*
-         let attrText = NSMutableAttributedString(string: "")
-         let boldFont = UIFont.boldSystemFont(ofSize: 15)
-         
-         let boldYou = NSMutableAttributedString(string: "You", attributes: [NSFontAttributeName: boldFont])
-         attrText.append(boldYou)
-         
-         attrText.append(NSMutableAttributedString(string: " have successfully completed transaction for "))
-         
-         let boldItemName = NSMutableAttributedString(string: item, attributes: [NSFontAttributeName: boldFont])
-         attrText.append(boldItemName)
-         
-         attrText.append(NSMutableAttributedString(string: "."))
-         
-         cell.messageLabel.attributedText = attrText
-         */
+        
+        //add white line so that transaction card doesn't place yellow line on scroll
+        let line = CAShapeLayer()
+        let linePath = UIBezierPath()
+        let start = CGPoint.init(x: 5, y: 0)
+        let end = CGPoint.init(x:5, y:100)
+        linePath.move(to: start)
+        linePath.addLine(to: end)
+        line.path = linePath.cgPath
+        line.strokeColor = UIColor.white.cgColor
+        line.lineWidth = 7
+        line.lineJoin = kCALineJoinRound
+        cell.layer.addSublayer(line)
         
         cell.historyStateLabel.backgroundColor = UIColor.nbRed
         cell.historyStateLabel.text = " CLOSED "

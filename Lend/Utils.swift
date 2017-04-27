@@ -10,6 +10,8 @@ import Foundation
 
 class Utils {
     
+    static let dateFormatter = DateFormatter()
+    
     static func is32Bit() -> Bool {
         return MemoryLayout<Int>.size == 4
     }
@@ -49,6 +51,15 @@ class Utils {
         let errorCode = error?.code
         let alert = createServerErrorAlert(errorCode: errorCode!, errorMessage: errorMessage)
         return alert
+    }
+    
+    static func dateIntToFormattedString(time: Int64) -> String {
+        dateFormatter.dateStyle = .medium
+        dateFormatter.timeStyle = .short
+        let epoch = (time ?? 0) / 1000
+        let date = Date(timeIntervalSince1970: TimeInterval(epoch))
+        let dateString = dateFormatter.string(from: date)
+        return dateString
     }
     
 }

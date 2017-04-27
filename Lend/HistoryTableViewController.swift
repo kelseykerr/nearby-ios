@@ -74,8 +74,13 @@ class HistoryTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         // move to strategy
+        let history = histories[indexPath.section]
         if indexPath.row == 0 {
-            return 80
+            if (history.transaction != nil && history.transaction?.id != nil && history.request?.status?.rawValue == "TRANSACTION_PENDING" && !(history.transaction?.canceled)!) {
+                return 100
+            } else {
+                return 80
+            }
         }
         else {
             return 60

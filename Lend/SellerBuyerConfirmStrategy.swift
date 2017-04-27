@@ -14,7 +14,8 @@ class SellerBuyerConfirmStrategy: HistoryStateStrategy {
     func cell(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UITableViewCell {
         if (indexPath as NSIndexPath).row == 0 {
             let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath) as! HistoryRequestTableViewCell
-            
+            cell.exchangeTimeLabel.isHidden = true
+            cell.exchangeLocationLabel.isHidden = true
             let name = history.request?.user?.shortName ?? "NAME"
             let item = history.request?.itemName ?? "ITEM"
             let rent = (history.request?.rental)! ? "lend" : "sell"
@@ -24,37 +25,21 @@ class SellerBuyerConfirmStrategy: HistoryStateStrategy {
 //                cell.messageLabel.text = "Your offer for \(item) has been declined by \(name)."
 //            }
 //            else {
-                cell.messageLabel.text = "Offered a \(item) to \(name) for \(price)."
+                cell.messageLabel.text = "Offered a \(item) to \(name) for \(price)"
 //            }
 
-            
-/*
-            let attrText = NSMutableAttributedString(string: "")
-            let boldFont = UIFont.boldSystemFont(ofSize: 15)
-            
-            let boldYou = NSMutableAttributedString(string: "You", attributes: [NSFontAttributeName: boldFont])
-            attrText.append(boldYou)
-            
-            attrText.append(NSMutableAttributedString(string: " are offering to \(rent) "))
-            
-            let boldItem = NSMutableAttributedString(string: item, attributes: [NSFontAttributeName: boldFont])
-            attrText.append(boldItem)
-            
-            attrText.append(NSMutableAttributedString(string: " to "))
-            
-            let boldName = NSMutableAttributedString(string: name, attributes: [NSFontAttributeName: boldFont])
-            attrText.append(boldName)
-            
-            attrText.append(NSMutableAttributedString(string: " for "))
-            
-            let boldPrice = NSMutableAttributedString(string: price, attributes: [NSFontAttributeName: boldFont])
-            attrText.append(boldPrice)
-            
-            attrText.append(NSMutableAttributedString(string: "."))
-            
-            cell.messageLabel.attributedText = attrText
-            cell.messageLabel.sizeToFit()
-*/
+            //add white line so that transaction card doesn't place yellow line on scroll
+            let line = CAShapeLayer()
+            let linePath = UIBezierPath()
+            let start = CGPoint.init(x: 5, y: 0)
+            let end = CGPoint.init(x:5, y:90)
+            linePath.move(to: start)
+            linePath.addLine(to: end)
+            line.path = linePath.cgPath
+            line.strokeColor = UIColor.white.cgColor
+            line.lineWidth = 7
+            line.lineJoin = kCALineJoinRound
+            cell.layer.addSublayer(line)
             
             cell.historyStateLabel.backgroundColor = UIColor.nbYellow
             cell.historyStateLabel.text = " PENDING "

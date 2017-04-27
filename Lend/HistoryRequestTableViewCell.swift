@@ -33,6 +33,8 @@ class HistoryRequestTableViewCell: UITableViewCell {
     @IBOutlet var messageLabel: UILabel!
     @IBOutlet var historyStateLabel: UILabel!
     @IBOutlet var timeLabel: UILabel!
+    @IBOutlet var exchangeTimeLabel: UILabel!
+    @IBOutlet var exchangeLocationLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

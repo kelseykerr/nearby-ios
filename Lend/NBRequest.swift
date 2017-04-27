@@ -11,10 +11,12 @@ import Alamofire
 import SwiftyJSON
 import MapKit
 
-enum RequestStatus: String {
+enum Status: String {
     case pending = "OPEN"
     case accepted = "FULFILLED"
     case closed = "CLOSED"
+    case transactionPending = "TRANSACTION_PENDING"
+    case processingPayment = "PROCESSING_PAYMENT"
 }
 
 class NBRequest: NSObject, NSCopying, ResponseJSONObjectSerializable {
@@ -30,7 +32,7 @@ class NBRequest: NSObject, NSCopying, ResponseJSONObjectSerializable {
     var desc: String?
     var id: String?
     var type: String?
-    var requestStatus: RequestStatus?
+    var status: Status?
     
     required init?(json: SwiftyJSON.JSON) {
         self.user = NBUser(json: json["user"])
@@ -44,9 +46,8 @@ class NBRequest: NSObject, NSCopying, ResponseJSONObjectSerializable {
         self.desc = json["description"].string
         self.id = json["id"].string
         self.type = json["type"].string
-//        self.status = json["status"].string
-        if let requestStatusString = json["requestStatus"].string {
-            self.requestStatus = RequestStatus(rawValue: requestStatusString)
+        if let statusString = json["status"].string {
+            self.status = Status(rawValue: statusString)
         }
     }
     
@@ -100,8 +101,8 @@ class NBRequest: NSObject, NSCopying, ResponseJSONObjectSerializable {
         if let type = type {
             json["type"] = type as AnyObject?
         }
-        if let requestStatus = requestStatus {
-            json["requestStatus"] = requestStatus.rawValue as AnyObject?
+        if let status = status {
+            json["status"] = status.rawValue as AnyObject?
         }
         return json
     }
