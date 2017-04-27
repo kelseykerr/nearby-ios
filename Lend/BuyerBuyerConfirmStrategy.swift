@@ -54,8 +54,7 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
             }
             
             return cell
-        }
-        else {
+        } else {
             let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "ResponseCell", for: indexPath) as! HistoryResponseTableViewCell
             
             let sellerName = history.responses[indexPath.row - 1].seller?.shortName ?? "NAME"
@@ -73,28 +72,12 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
                     cell.responseStateLabel.backgroundColor = UIColor.nbYellow
                     cell.responseStateLabel.text = " seller confirm "
                 } else {
-                    cell.responseStateLabel.backgroundColor = UIColor.nbYellow
-                    cell.responseStateLabel.text = " pending "
+                    cell.responseStateLabel.backgroundColor = UIColor.nbGreen
+                    cell.responseStateLabel.text = " open "
                 }
             }
+            cell.responseStateLabel.sizeToFit()
             cell.timeLabel.text = response.getElapsedTimeAsString()
-
-/*
-            let attrText = NSMutableAttributedString(string: "")
-            let boldFont = UIFont.boldSystemFont(ofSize: 15)
-            
-            let boldName = NSMutableAttributedString(string: name, attributes: [NSFontAttributeName: boldFont])
-            attrText.append(boldName)
-            
-            attrText.append(NSMutableAttributedString(string: " is offering to \(rent) it to you for "))
-            
-            let boldPrice = NSMutableAttributedString(string: price, attributes: [NSFontAttributeName: boldFont])
-            attrText.append(boldPrice)
-            
-            attrText.append(NSMutableAttributedString(string: "."))
-            
-            cell.messageLabel.attributedText = attrText
-*/
             
             cell.userImageView.image = UIImage(named: "User-64")
             cell.setNeedsLayout()

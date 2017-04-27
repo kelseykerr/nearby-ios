@@ -31,7 +31,7 @@ class SellerPriceConfirmStrategy: HistoryStateStrategy {
         cell.layer.addSublayer(line)
         
         cell.historyStateLabel.backgroundColor = UIColor.purple
-        cell.historyStateLabel.text = " PRICE CONFIRM "
+        cell.historyStateLabel.text = " CONFIRM PRICE! "
         
         cell.timeLabel.removeFromSuperview()
         

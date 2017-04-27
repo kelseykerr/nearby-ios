@@ -45,42 +45,37 @@ class TransactionDetailTableViewController: UITableViewController {
     
     var exchanged: Bool {
         get {
-            return exchangedLabel.text == "true"
+            return exchangedLabel.text == "yes"
         }
         set {
-            exchangedLabel.text = (newValue == true) ? "true" : "false"
+            exchangedLabel.text = (newValue == true) ? "yes" : "no"
         }
     }
     
     var returned: Bool {
         get {
-            return returnedLabel.text == "true"
+            return returnedLabel.text == "yes"
         }
         set {
-            returnedLabel.text = (newValue == true) ? "true" : "false"
+            returnedLabel.text = (newValue == true) ? "yes" : "no"
         }
     }
     
     var accepted: Bool {
         get {
-            return acceptedLabel.text == "true"
+            return acceptedLabel.text == "yes"
         }
         set {
-            acceptedLabel.text = (newValue == true) ? "true" : "false"
+            acceptedLabel.text = (newValue == true) ? "yes" : "no"
         }
     }
     
-    var price: Float {
+    var price: String {
         get {
-            return Float(priceLabel.text!)!
+            return priceLabel.text!
         }
         set {
-            if newValue >= 0 {
-                priceLabel.text = "\(newValue)"
-            }
-            else {
-                priceLabel.text = "no price"
-            }
+            priceLabel.text = "\(newValue)"
         }
     }
     
@@ -115,7 +110,13 @@ class TransactionDetailTableViewController: UITableViewController {
         exchanged = transaction.exchanged ?? false
         returned = transaction.returned ?? false
         accepted = transaction.sellerAccepted ?? false
-        price = transaction.finalPrice ?? -9.99
+        if (transaction.finalPrice != nil) {
+            let rawPrice = transaction.finalPrice ?? -9.99
+            price = String(format: "$%.2f", rawPrice)
+        } else {
+            let response = history?.getResponseById(id: (history?.transaction?.responseId)!)
+            price = (response?.priceInDollarFormat)!
+        }
     }
 
     @IBAction func exchangeButtonPressed(_ sender: UIButton) {

@@ -77,7 +77,14 @@ class HistoryTableViewController: UITableViewController {
         let history = histories[indexPath.section]
         if indexPath.row == 0 {
             if (history.transaction != nil && history.transaction?.id != nil && history.request?.status?.rawValue == "TRANSACTION_PENDING" && !(history.transaction?.canceled)!) {
-                return 100
+                var shouldBeBig = false
+                let response = history.getResponseById(id: (history.transaction?.responseId)!)
+                if (history.transaction?.exchanged)! {
+                    shouldBeBig = response?.returnTime != nil && response?.returnLocation != nil
+                } else {
+                    shouldBeBig = response?.exchangeLocation != nil && response?.exchangeTime != nil
+                }
+                return shouldBeBig ? 100 : 80
             } else {
                 return 80
             }
