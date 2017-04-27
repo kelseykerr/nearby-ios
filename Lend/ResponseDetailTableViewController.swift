@@ -30,12 +30,11 @@ enum ResponseDetailTableViewMode {
 
 class ResponseDetailTableViewController: UITableViewController {
     
-    @IBOutlet var priceLabel: UILabel!
-    @IBOutlet var priceTypeLabel: UILabel!
-    @IBOutlet var pickupLocationLabel: UILabel!
-    @IBOutlet var pickupTimeLabel: UILabel!
-    @IBOutlet var returnLocationLabel: UILabel!
-    @IBOutlet var returnTimeLabel: UILabel!
+    @IBOutlet var priceText: UITextField!
+    @IBOutlet var pickupLocationText: UITextField!
+    @IBOutlet var returnLocationText: UITextField!
+    @IBOutlet var returnTimeDateTextField: UITextField!
+    @IBOutlet var pickupTimeDateTextField: UITextField!
     
     @IBOutlet var acceptButton: UIButton!
     @IBOutlet var declineButton: UIButton!
@@ -45,31 +44,34 @@ class ResponseDetailTableViewController: UITableViewController {
     weak var delegate: ResponseDetailTableViewDelegate?
     var response: NBResponse?
     var mode: ResponseDetailTableViewMode = .none
-
+    
+    let pickupDatePicker = UIDatePicker()
+    let returnDatePicker = UIDatePicker()
+    
     var price: Float? {
         get {
-            let priceString = priceLabel.text
+            let priceString = priceText.text
             return Float(priceString!)
         }
         set {
             let price = newValue ?? -9.99
-            priceLabel.text = String(format: "%.2f", price)
+            priceText.text = String(format: "%.2f", price)
         }
     }
     
     var pickupLocation: String? {
         get {
-            return pickupLocationLabel.text
+            return pickupLocationText.text
         }
         set {
-            pickupLocationLabel.text = newValue
+            pickupLocationText.text = newValue
         }
     }
     
     var pickupTime: Int64? {
         get {
             //move to Utils
-            let dateString = pickupTimeLabel.text
+            let dateString = pickupTimeDateTextField.text
             let date = dateFormatter.date(from: dateString!)
             return Int64((date?.timeIntervalSince1970)!) * 1000
         }
@@ -78,22 +80,22 @@ class ResponseDetailTableViewController: UITableViewController {
             let epoch = (newValue ?? 0) / 1000
             let date = Date(timeIntervalSince1970: TimeInterval(epoch))
             let dateString = dateFormatter.string(from: date)
-            pickupTimeLabel.text = dateString
+            pickupTimeDateTextField.text = dateString
         }
     }
     
     var returnLocation: String? {
         get {
-            return returnLocationLabel.text
+            return returnLocationText.text
         }
         set {
-            returnLocationLabel.text = newValue
+            returnLocationText.text = newValue
         }
     }
     
     var returnTime: Int64? {
         get {
-            let dateString = returnTimeLabel.text
+            let dateString = returnTimeDateTextField.text
             let date = dateFormatter.date(from: dateString!)
             return Int64((date?.timeIntervalSince1970)!) * 1000
         }
@@ -101,11 +103,11 @@ class ResponseDetailTableViewController: UITableViewController {
             let epoch = (newValue ?? 0) / 1000
             let date = Date(timeIntervalSince1970: TimeInterval(epoch))
             let dateString = dateFormatter.string(from: date)
-            returnTimeLabel.text = dateString
+            returnTimeDateTextField.text = dateString
         }
     }
     
-    var priceType: PriceType {
+    /*var priceType: PriceType {
         get {
             let priceTypeString = priceTypeLabel.text!
             switch priceTypeString {
@@ -129,7 +131,7 @@ class ResponseDetailTableViewController: UITableViewController {
                 priceTypeLabel.text = PriceType.flat.rawValue
             }
         }
-    }
+    }*/
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -140,6 +142,8 @@ class ResponseDetailTableViewController: UITableViewController {
         declineButton.layer.cornerRadius = declineButton.frame.size.height / 16
         declineButton.clipsToBounds = true
         
+        createDatePickers()
+        
         dateFormatter.dateStyle = .medium
         dateFormatter.timeStyle = .short
         
@@ -147,10 +151,8 @@ class ResponseDetailTableViewController: UITableViewController {
             loadFields(response: response)
 
             if mode == .seller {
-                self.acceptButton.setTitle("Withdraw", for: UIControlState.normal)
-                self.acceptButton.backgroundColor = UIColor.nbRed
-                
-                self.declineButton.isHidden = true
+                self.acceptButton.setTitle("Update", for: UIControlState.normal)
+                self.declineButton.setTitle("Withdraw", for: UIControlState.normal)
             }
             else if mode == .none {
                 self.acceptButton.isHidden = true
@@ -159,9 +161,50 @@ class ResponseDetailTableViewController: UITableViewController {
         }
     }
     
+    func createDatePickers() {
+        let pickupToolbar = UIToolbar()
+        pickupToolbar.sizeToFit()
+        
+        let spaceBarItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let pickupDoneButton = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: #selector(pickupDoneButtonPressed))
+        pickupToolbar.setItems([spaceBarItem, pickupDoneButton], animated: false)
+        
+        pickupTimeDateTextField.inputAccessoryView = pickupToolbar
+        pickupTimeDateTextField.inputView = pickupDatePicker
+        if (response?.exchangeTime != nil && response?.exchangeTime != 0) {
+            let epoch = (response?.exchangeTime ?? 0) / 1000
+            let date = Date(timeIntervalSince1970: TimeInterval(epoch))
+            pickupDatePicker.setDate(date, animated: true)
+        }
+        
+        let returnToolbar = UIToolbar()
+        returnToolbar.sizeToFit()
+        
+        let returnDoneButton = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: #selector(returnDoneButtonPressed))
+        returnToolbar.setItems([spaceBarItem, returnDoneButton], animated: false)
+        
+        returnTimeDateTextField.inputAccessoryView = returnToolbar
+        returnTimeDateTextField.inputView = returnDatePicker
+        if (response?.returnTime != nil && response?.returnTime != 0) {
+            let epoch = (response?.returnTime ?? 0) / 1000
+            let date = Date(timeIntervalSince1970: TimeInterval(epoch))
+            returnDatePicker.setDate(date, animated: false)
+        }
+    }
+    
+    func pickupDoneButtonPressed() {
+        pickupTimeDateTextField.text = dateFormatter.string(from: pickupDatePicker.date)
+        self.view.endEditing(true)
+    }
+    
+    func returnDoneButtonPressed() {
+        returnTimeDateTextField.text = dateFormatter.string(from: returnDatePicker.date)
+        self.view.endEditing(true)
+        
+    }
+    
     func loadFields(response: NBResponse) {
         price = response.offerPrice
-        priceType = response.priceType!
         pickupLocation = response.exchangeLocation
         pickupTime = response.exchangeTime
         returnLocation = response.returnLocation
@@ -174,20 +217,30 @@ class ResponseDetailTableViewController: UITableViewController {
             
             delegate?.accepted(response)
             self.navigationController?.popViewController(animated: true)
-        }
-        else {
-            print("withdraw button pressed")
+        } else {
+            print("update button pressed")
+            response?.offerPrice = price
+            response?.exchangeLocation = pickupLocation
+            response?.exchangeTime = pickupTime
+            response?.returnLocation = returnLocation
+            response?.returnTime = returnTime
             
-            delegate?.withdrawn(response)
+            delegate?.edited(response)
             self.navigationController?.popViewController(animated: true)
         }
     }
     
     @IBAction func declineButtonPressed(_ sender: UIButton) {
-        print("accept button pressed")
-        
-        delegate?.declined(response)
-        self.navigationController?.popViewController(animated: true)
+        if mode == .seller {
+            print("withdraw button pressed")
+            delegate?.withdrawn(response)
+            self.navigationController?.popViewController(animated: true)
+        } else {
+            print("accept button pressed")
+            
+            delegate?.declined(response)
+            self.navigationController?.popViewController(animated: true)
+        }
     }
     
 }

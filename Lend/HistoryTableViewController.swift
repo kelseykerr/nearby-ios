@@ -221,6 +221,7 @@ extension HistoryTableViewController: RequestDetailTableViewDelegate, ResponseDe
     
     func edited(_ response: NBResponse?) {
         print("HistoryTableViewController->edited")
+        responseEdited(response)
     }
 
     // do we need this here???
