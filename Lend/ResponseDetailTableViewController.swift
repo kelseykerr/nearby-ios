@@ -154,6 +154,14 @@ class ResponseDetailTableViewController: UITableViewController {
                 self.acceptButton.setTitle("Update", for: UIControlState.normal)
                 self.declineButton.setTitle("Withdraw", for: UIControlState.normal)
             }
+            if mode == .buyer {
+                if (response.responseStatus?.rawValue == "CLOSED") {
+                    self.acceptButton.isHidden = true
+                    self.declineButton.isHidden = true
+                } else {
+                    self.acceptButton.setTitle("Accept/Update", for: UIControlState.normal)
+                }
+            }
             else if mode == .none {
                 self.acceptButton.isHidden = true
                 self.declineButton.isHidden = true
@@ -212,19 +220,17 @@ class ResponseDetailTableViewController: UITableViewController {
     }
 
     @IBAction func acceptButtonPressed(_ sender: UIButton) {
+        response?.offerPrice = price
+        response?.exchangeLocation = pickupLocation
+        response?.exchangeTime = pickupTime
+        response?.returnLocation = returnLocation
+        response?.returnTime = returnTime
         if mode == .buyer {
             print("accept button pressed")
-            
             delegate?.accepted(response)
             self.navigationController?.popViewController(animated: true)
         } else {
             print("update button pressed")
-            response?.offerPrice = price
-            response?.exchangeLocation = pickupLocation
-            response?.exchangeTime = pickupTime
-            response?.returnLocation = returnLocation
-            response?.returnTime = returnTime
-            
             delegate?.edited(response)
             self.navigationController?.popViewController(animated: true)
         }

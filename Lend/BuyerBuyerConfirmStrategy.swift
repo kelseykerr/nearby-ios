@@ -64,10 +64,28 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
             let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "ResponseCell", for: indexPath) as! HistoryResponseTableViewCell
             
             let sellerName = history.responses[indexPath.row - 1].seller?.shortName ?? "NAME"
-            let price = history.responses[indexPath.row - 1].priceInDollarFormat
+            let response = history.responses[indexPath.row - 1]
+            let price = response.priceInDollarFormat
             let rent = (history.request?.rental)! ? "lend" : "sell"
 
-            cell.messageLabel.text = "\(sellerName) made an offer for \(price)."
+            cell.messageLabel.text = "\(sellerName) made an offer for \(price)"
+            if (response.responseStatus?.rawValue == "CLOSED") {
+                cell.responseStateLabel.backgroundColor = UIColor.nbRed
+                cell.responseStateLabel.text = " closed "
+            } else if (response.responseStatus?.rawValue == "ACCEPTED") { //shouldn't happen...if it's accepted a transaction should be open
+                cell.responseStateLabel.backgroundColor = UIColor.nbGreen
+                cell.responseStateLabel.text = " accepted "
+            } else {
+                if (response.sellerStatus?.rawValue != "ACCEPTED") {
+                    cell.responseStateLabel.backgroundColor = UIColor.nbYellow
+                    cell.responseStateLabel.text = " seller confirm "
+                } else {
+                    cell.responseStateLabel.backgroundColor = UIColor.nbYellow
+                    cell.responseStateLabel.text = " pending "
+                }
+            }
+            cell.timeLabel.text = response.getElapsedTimeAsString()
+
 /*
             let attrText = NSMutableAttributedString(string: "")
             let boldFont = UIFont.boldSystemFont(ofSize: 15)
@@ -125,23 +143,27 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
         }
         else {
             let alertController = UIAlertController(title: "BuyerConfirmOffer Buyer", message: nil, preferredStyle: .actionSheet)
-        
-            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-            alertController.addAction(cancelAction)
-        
-            let acceptAction = UIAlertAction(title: "Accept", style: .default) { action in
-                let response = history.responses[(indexPath as NSIndexPath).row - 1]
-                response.buyerStatus = BuyerStatus(rawValue: "ACCEPTED")
+            let response = history.responses[(indexPath as NSIndexPath).row - 1]
+            //if the response has been closed, don't allow accept/decline actions
+            if (response.responseStatus?.rawValue != "CLOSED") {
+                print(response)
+                let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+                alertController.addAction(cancelAction)
                 
-                NBResponse.editResponse(response, completionHandler: { error in
-                    print("Accept an offer")
-                })
+                let acceptAction = UIAlertAction(title: "Accept", style: .default) { action in
+                    let response = history.responses[(indexPath as NSIndexPath).row - 1]
+                    response.buyerStatus = BuyerStatus(rawValue: "ACCEPTED")
+                    
+                    NBResponse.editResponse(response, completionHandler: { error in
+                        print("Accept an offer")
+                    })
+                }
+                alertController.addAction(acceptAction)
+                
+                let declineAction = UIAlertAction(title: "Decline", style: .default) { action in
+                }
+                alertController.addAction(declineAction)
             }
-            alertController.addAction(acceptAction)
-        
-            let declineAction = UIAlertAction(title: "Decline", style: .default) { action in
-            }
-            alertController.addAction(declineAction)
         
             return alertController
         }
@@ -205,27 +227,30 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
             return [delete, edit]
         }
         else {
-            let accept = UITableViewRowAction(style: .normal, title: "Accept") { action, index in
-                print("accept button tapped")
+            let response = history.responses[(indexPath as NSIndexPath).row - 1]
+            if (response.responseStatus?.rawValue != "CLOSED") {
+                let accept = UITableViewRowAction(style: .normal, title: "Accept") { action, index in
+                    print("accept button tapped")
+                    
+                    historyVC.accepted(response)
+                    
+                    historyVC.tableView.isEditing = false
+                }
+                accept.backgroundColor = UIColor.nbTurquoise
                 
-                let response = history.responses[(indexPath as NSIndexPath).row - 1]
-                historyVC.accepted(response)
+                let decline = UITableViewRowAction(style: .normal, title: "Decline") { action, index in
+                    print("decline button tapped")
+                    
+                    historyVC.declined(response)
+                    
+                    historyVC.tableView.isEditing = false
+                }
+                decline.backgroundColor = UIColor.nbRed
                 
-                historyVC.tableView.isEditing = false
+                return [decline, accept]
+            } else {
+                return []
             }
-            accept.backgroundColor = UIColor.nbTurquoise
-            
-            let decline = UITableViewRowAction(style: .normal, title: "Decline") { action, index in
-                print("decline button tapped")
-                
-                let response = history.responses[(indexPath as NSIndexPath).row - 1]
-                historyVC.declined(response)
-                
-                historyVC.tableView.isEditing = false
-            }
-            decline.backgroundColor = UIColor.nbRed
-            
-            return [decline, accept]
         }
     }
     

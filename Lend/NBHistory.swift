@@ -12,7 +12,7 @@ import SwiftyJSON
 
 enum HistoryStatus {
     case buyer_buyerConfirm
-    case buyer_sellerConfirm
+    //case buyer_sellerConfirm
     case buyer_exchange
     case buyer_overrideExchange
     case buyer_returns
@@ -118,7 +118,7 @@ extension NBHistory {
             else if self.transaction?.getStatus() == .start {
                 if responseAccepted() {
                     if self.isMyRequest() {
-                        return HistoryStatus.buyer_sellerConfirm
+                        return HistoryStatus.buyer_buyerConfirm
                     }
                     else {
                         return HistoryStatus.seller_sellerConfirm

@@ -151,6 +151,39 @@ class NBResponse: ResponseJSONObjectSerializable {
         return json
     }
     
+    func getElapsedTimeAsString() -> String {
+        let seconds = Int(getElapsedTime()!)
+        
+        if seconds < 60 { // less than a min
+            //            return "\(seconds) Secs Ago"
+            return "\(seconds)s"
+        }
+        else if seconds < 3600 { // less than an hour
+            //            return "\(seconds / 60) Mins Ago"
+            return "\(seconds / 60)m"
+        }
+        else if seconds < 60 * 60 * 24 { // less than a day
+            //            return "\(seconds / (60 * 60)) Hours Ago"
+            return "\(seconds / (60 * 60))h"
+        }
+        else {
+            //            return "\(seconds / (60 * 60 * 24)) Days Ago"
+            return "\(seconds / (60 * 60 * 24))d"
+        }
+        
+        return "Should not happen"
+    }
+    
+    func getElapsedTime() -> TimeInterval? {
+        if let postEpochString = self.responseTime {
+            let postEpoch = Double(postEpochString) / 1000
+            let postDate = Date(timeIntervalSince1970: postEpoch)
+            let elapsedSeconds = Date().timeIntervalSince(postDate)
+            return elapsedSeconds
+        }
+        return nil
+    }
+    
 }
 
 extension NBResponse {
