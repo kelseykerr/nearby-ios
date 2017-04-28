@@ -9,6 +9,11 @@
 import UIKit
 import MBProgressHUD
 
+protocol UpdateBankInfoDelegate {
+    
+    func refreshStripeInfo()
+}
+
 class DirectDepositTableViewController: UITableViewController {
     
 //    @IBOutlet var nameOnCardTextField: UITextField!
@@ -16,6 +21,10 @@ class DirectDepositTableViewController: UITableViewController {
 //    @IBOutlet var ccExpDateTextField: UITextField!
     
     @IBOutlet var saveButton: UIButton!
+    
+    var alertController: UIAlertController?
+    
+    var delegate: UpdateBankInfoDelegate?
     
     var user: NBUser?
     
@@ -58,6 +67,12 @@ class DirectDepositTableViewController: UITableViewController {
 //            user?.phone = self.phoneNumberTextField.text
             
             //tmp
+            if (!(user?.hasAllRequiredFields())!) {
+                self.showAlertMsg(message: "You must finish filling out your profile before you can add a bank account")
+                return
+                
+            }
+
             user?.bankAccountNumber = "000123456789"
             user?.bankRoutingNumber = "110000000"
             user?.fundDestination = "bank"
@@ -74,6 +89,7 @@ class DirectDepositTableViewController: UITableViewController {
                     let alert = Utils.createServerErrorAlert(error: error)
                     self.present(alert, animated: true, completion: nil)
                 }
+                self.delegate?.refreshStripeInfo()
                 UserManager.sharedInstance.fetchUser{user in
                     print("updated user")
                 }
@@ -81,6 +97,24 @@ class DirectDepositTableViewController: UITableViewController {
                 MBProgressHUD.hideAllHUDs(for: self.view, animated: true)
             }
         }
+    }
+    
+    func showAlertMsg(message: String) {
+        guard (self.alertController == nil) else {
+            print("Alert already displayed")
+            return
+        }
+        
+        self.alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        
+        let cancelAction = UIAlertAction(title: "close", style: .cancel) { (action) in
+            print("Alert was cancelled")
+            self.alertController=nil;
+        }
+        
+        self.alertController!.addAction(cancelAction)
+        
+        self.present(self.alertController!, animated: true, completion: nil)
     }
     
 }

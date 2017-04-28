@@ -74,8 +74,20 @@ class HistoryTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         // move to strategy
+        let history = histories[indexPath.section]
         if indexPath.row == 0 {
-            return 80
+            if (history.transaction != nil && history.transaction?.id != nil && history.request?.status?.rawValue == "TRANSACTION_PENDING" && !(history.transaction?.canceled)!) {
+                var shouldBeBig = false
+                let response = history.getResponseById(id: (history.transaction?.responseId)!)
+                if (history.transaction?.exchanged)! {
+                    shouldBeBig = response?.returnTime != nil && response?.returnLocation != nil
+                } else {
+                    shouldBeBig = response?.exchangeLocation != nil && response?.exchangeTime != nil
+                }
+                return shouldBeBig ? 100 : 80
+            } else {
+                return 80
+            }
         }
         else {
             return 60
@@ -221,6 +233,7 @@ extension HistoryTableViewController: RequestDetailTableViewDelegate, ResponseDe
     
     func edited(_ response: NBResponse?) {
         print("HistoryTableViewController->edited")
+        responseEdited(response)
     }
 
     // do we need this here???

@@ -10,6 +10,11 @@ import UIKit
 import Stripe
 import MBProgressHUD
 
+protocol UpdatePaymentInfoDelegate {
+    
+    func refreshStripeInfo()
+}
+
 class PaymentTableViewController: UITableViewController {
     
     @IBOutlet var nameOnCardTextField: UITextField!
@@ -18,7 +23,11 @@ class PaymentTableViewController: UITableViewController {
     
     @IBOutlet var saveButton: UIButton!
     
+    var alertController: UIAlertController?
+    
     var user: NBUser?
+    
+    var delegate: UpdatePaymentInfoDelegate?
     
 //    let progressHUD = ProgressHUD(text: "Saving")
     
@@ -57,7 +66,11 @@ class PaymentTableViewController: UITableViewController {
 //            user?.lastName = self.lastNameTextField.text
 //            user?.email = self.emailAddressTextField.text
 //            user?.phone = self.phoneNumberTextField.text
-            
+            if (!(user?.hasAllRequiredFields())!) {
+                self.showAlertMsg(message: "You must finish filling out your profile before you can add a credit card")
+                return
+                
+            }
             self.view.endEditing(true)
             
 //            progressHUD.show()
@@ -71,7 +84,7 @@ class PaymentTableViewController: UITableViewController {
             let cardParams = STPCardParams()
             cardParams.number = "4242424242424242"
             cardParams.expMonth = 10
-            cardParams.expYear = 2018
+            cardParams.expYear = 2022
             cardParams.cvc = "123"
             
             STPAPIClient.shared().createToken(withCard: cardParams) { (token, error) in
@@ -87,6 +100,7 @@ class PaymentTableViewController: UITableViewController {
                             let alert = Utils.createServerErrorAlert(error: error)
                             self.present(alert, animated: true, completion: nil)
                         }
+                        self.delegate?.refreshStripeInfo()
                         UserManager.sharedInstance.fetchUser {user in
                             print("updated user")
                         }
@@ -98,5 +112,24 @@ class PaymentTableViewController: UITableViewController {
 
         }
     }
+    
+    func showAlertMsg(message: String) {
+        guard (self.alertController == nil) else {
+            print("Alert already displayed")
+            return
+        }
+        
+        self.alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        
+        let cancelAction = UIAlertAction(title: "close", style: .cancel) { (action) in
+            print("Alert was cancelled")
+            self.alertController=nil;
+        }
+        
+        self.alertController!.addAction(cancelAction)
+        
+        self.present(self.alertController!, animated: true, completion: nil)
+    }
+
     
 }

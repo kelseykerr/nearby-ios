@@ -12,6 +12,8 @@ class HistoryResponseTableViewCell: UITableViewCell {
     
     @IBOutlet var userImageView: UIImageView!
     @IBOutlet var messageLabel: UILabel!
+    @IBOutlet var responseStateLabel: UILabel!
+    @IBOutlet var timeLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

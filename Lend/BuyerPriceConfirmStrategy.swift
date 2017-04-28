@@ -13,15 +13,16 @@ class BuyerPriceConfirmStrategy: HistoryStateStrategy {
     
     func cell(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UITableViewCell {
         let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath) as! HistoryRequestTableViewCell
-        
+        cell.exchangeTimeLabel.isHidden = true
+        cell.exchangeLocationLabel.isHidden = true
         let item = history.request?.itemName ?? "ITEM"
         
 //        cell.messageLabel.text = "You have successfully completed transaction for \(item)."
         cell.messageLabel.text = "Awaiting seller to confirm price for \(item)."
         let line = CAShapeLayer()
         let linePath = UIBezierPath()
-        let start = CGPoint.init(x: 5, y: 0)
-        let end = CGPoint.init(x:5, y:90)
+        let start = CGPoint.init(x: 5, y: 1)
+        let end = CGPoint.init(x:5, y:99)
         linePath.move(to: start)
         linePath.addLine(to: end)
         line.path = linePath.cgPath
@@ -47,7 +48,7 @@ class BuyerPriceConfirmStrategy: HistoryStateStrategy {
          */
         
         cell.historyStateLabel.backgroundColor = UIColor.purple
-        cell.historyStateLabel.text = " PRICE CONFIRM "
+        cell.historyStateLabel.text = " PROCESSING PAYMENT "
         
         cell.timeLabel.text = history.request?.getElapsedTimeAsString()
         

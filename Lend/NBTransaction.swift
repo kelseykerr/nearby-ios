@@ -37,6 +37,9 @@ class NBTransaction: ResponseJSONObjectSerializable {
     var sellerAccepted: Bool?
     var exchangeOverride: NBExchangeOverride?
     var returnOverride: NBExchangeOverride?
+    var canceled: Bool?
+    var canceler: String?
+    var canceledReason: String?
     
     required init?(json: SwiftyJSON.JSON) {
         self.id = json["id"].string
@@ -56,6 +59,9 @@ class NBTransaction: ResponseJSONObjectSerializable {
         self.sellerAccepted = json["sellerAccepted"].bool
         self.exchangeOverride = NBExchangeOverride(json: json["exchangeOverride"])
         self.returnOverride = NBExchangeOverride(json: json["returnOverride"])
+        self.canceled = json["canceled"].bool
+        self.canceler = json["cancelor"].string
+        self.canceledReason = json["canceledReason"].string
     }
     
     init(test: Bool) {
@@ -120,6 +126,15 @@ class NBTransaction: ResponseJSONObjectSerializable {
         }
         if let returnOverride = returnOverride {
             json["returnOverride"] = returnOverride.toJSON() as AnyObject?
+        }
+        if let canceled = canceled {
+            json["canceled"] = canceled as AnyObject?
+        }
+        if let canceler = canceler {
+            json["canceler"] = canceler as AnyObject?
+        }
+        if let canceledReason = canceledReason {
+            json["canceledReason"] = canceledReason as AnyObject?
         }
         
         return json

@@ -16,12 +16,13 @@ class SellerReturnStrategy: HistoryStateStrategy {
         
         let name = history.request?.user?.shortName ?? "NAME"
         let item = history.request?.itemName ?? "ITEM"
+        let response = history.responses[0]
         
         cell.messageLabel.text = "Loaning a \(item) to \(name)"
         let line = CAShapeLayer()
         let linePath = UIBezierPath()
-        let start = CGPoint.init(x: 5, y: 0)
-        let end = CGPoint.init(x:5, y:90)
+        let start = CGPoint.init(x: 5, y: 1)
+        let end = CGPoint.init(x:5, y:99)
         linePath.move(to: start)
         linePath.addLine(to: end)
         line.path = linePath.cgPath
@@ -29,27 +30,7 @@ class SellerReturnStrategy: HistoryStateStrategy {
         line.lineWidth = 7
         line.lineJoin = kCALineJoinRound
         cell.layer.addSublayer(line)
-/*
-        let attrText = NSMutableAttributedString(string: "")
-        let boldFont = UIFont.boldSystemFont(ofSize: 15)
         
-        let boldYou = NSMutableAttributedString(string: "You", attributes: [NSFontAttributeName: boldFont])
-        attrText.append(boldYou)
-        
-        attrText.append(NSMutableAttributedString(string: " are meeting "))
-        
-        let boldName = NSMutableAttributedString(string: name, attributes: [NSFontAttributeName: boldFont])
-        attrText.append(boldName)
-        
-        attrText.append(NSMutableAttributedString(string: " to exchange "))
-        
-        let boldItemName = NSMutableAttributedString(string: item, attributes: [NSFontAttributeName: boldFont])
-        attrText.append(boldItemName)
-        
-        attrText.append(NSMutableAttributedString(string: "."))
-        
-        cell.messageLabel.attributedText = attrText
-*/
         if (history.status == .seller_overrideReturn) {
             cell.historyStateLabel.backgroundColor = UIColor.nbYellow
             cell.historyStateLabel.text = " Return Override Pending Your Approval "
@@ -91,9 +72,36 @@ class SellerReturnStrategy: HistoryStateStrategy {
         } else {
             cell.historyStateLabel.backgroundColor = UIColor.nbYellow
             cell.historyStateLabel.text = " AWAITING RETURN "
+            
+            if (response.returnTime != nil && response.returnTime != 0) {
+                cell.exchangeTimeLabel.isHidden = false
+                let attrText = NSMutableAttributedString(string: "")
+                let boldFont = UIFont.boldSystemFont(ofSize: 14)
+                let smallFont = UIFont.systemFont(ofSize: 14)
+                let boldLabel = NSMutableAttributedString(string: "return time: ", attributes: [NSFontAttributeName: boldFont])
+                attrText.append(boldLabel)
+                let dateString = Utils.dateIntToFormattedString(time: response.returnTime!)
+                attrText.append(NSMutableAttributedString(string: dateString, attributes: [NSFontAttributeName: smallFont]))
+                cell.exchangeTimeLabel.attributedText = attrText
+            } else {
+                cell.exchangeTimeLabel.isHidden = true
+            }
+            
+            if (response.returnLocation != nil) {
+                cell.exchangeLocationLabel.isHidden = false
+                let attrText = NSMutableAttributedString(string: "")
+                let boldFont = UIFont.boldSystemFont(ofSize: 14)
+                let smallFont = UIFont.systemFont(ofSize: 14)
+                let boldLabel = NSMutableAttributedString(string: "return location: ", attributes: [NSFontAttributeName: boldFont])
+                attrText.append(boldLabel)
+                attrText.append(NSMutableAttributedString(string: response.returnLocation!, attributes: [NSFontAttributeName: smallFont]))
+                cell.exchangeLocationLabel.attributedText = attrText
+            } else {
+                cell.exchangeLocationLabel.isHidden = true
+            }
+            
         }
-        
-        cell.timeLabel.text = history.request?.getElapsedTimeAsString()
+        cell.timeLabel.removeFromSuperview()
         
         cell.userImageView.image = UIImage(named: "User-64")
         cell.setNeedsLayout()

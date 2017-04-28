@@ -486,7 +486,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         let want = request.isMyRequest() ? "want" : "wants"
         let rent = (request.rental)! ? "borrow" : "buy"
         let item = request.itemName ?? "ITEM"
-//        cell.messageLabel.text = "\(name) wants to \(rent) \(item)."
+//        cell.messageLabel.text = "\(name) wants to \(rent) a \(item)"
         
         let attrText = NSMutableAttributedString(string: "")
         let boldFont = UIFont.boldSystemFont(ofSize: 16)
