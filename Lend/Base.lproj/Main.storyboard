@@ -2867,7 +2867,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.97647058823529409" green="0.97647058823529409" blue="0.97647058823529409" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <view key="tableFooterView" contentMode="scaleToFill" id="Bel-zo-XTl">
-                            <rect key="frame" x="0.0" y="277.5" width="375" height="102"/>
+                            <rect key="frame" x="0.0" y="277.5" width="375" height="180"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YOJ-06-HZ3">
@@ -2895,16 +2895,35 @@
                                         <action selector="closeButtonPressed:" destination="SN9-hu-hvK" eventType="touchUpInside" id="5J8-Pb-5yK"/>
                                     </connections>
                                 </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="of4-99-g8L" userLabel="Message User">
+                                    <rect key="frame" x="15" y="116" width="345" height="44"/>
+                                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="44" id="7KD-sD-qtK"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                    <state key="normal" title="Message User">
+                                        <color key="titleColor" red="0.19761664970000001" green="0.74760397990000005" blue="0.82718408109999997" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="titleShadowColor" red="0.19761664970000001" green="0.74760397990000005" blue="0.82718408109999997" alpha="1" colorSpace="calibratedRGB"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="closeButtonPressed:" destination="SN9-hu-hvK" eventType="touchUpInside" id="chf-pm-oS9"/>
+                                        <action selector="messageUserButtonPressed:" destination="SN9-hu-hvK" eventType="touchUpInside" id="snG-si-oVt"/>
+                                    </connections>
+                                </button>
                             </subviews>
                             <color key="backgroundColor" red="0.97636479139999999" green="0.97653168440000004" blue="0.9763541818" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
-                                <constraint firstItem="Foc-og-Bg6" firstAttribute="top" secondItem="YOJ-06-HZ3" secondAttribute="bottom" constant="14" id="DDI-6H-Dfg"/>
-                                <constraint firstItem="Foc-og-Bg6" firstAttribute="trailing" secondItem="YOJ-06-HZ3" secondAttribute="trailing" constant="-1" id="JBa-oi-lFp"/>
-                                <constraint firstItem="Foc-og-Bg6" firstAttribute="leading" secondItem="YOJ-06-HZ3" secondAttribute="leading" constant="-1" id="YvG-C5-wSo"/>
+                                <constraint firstAttribute="bottom" secondItem="of4-99-g8L" secondAttribute="bottom" constant="20" id="4E7-vb-HXr"/>
+                                <constraint firstItem="Foc-og-Bg6" firstAttribute="leading" secondItem="Bel-zo-XTl" secondAttribute="leading" constant="15" id="9Hk-7c-C2F"/>
+                                <constraint firstItem="Foc-og-Bg6" firstAttribute="top" secondItem="YOJ-06-HZ3" secondAttribute="bottom" constant="14" id="Ohk-ff-W0i"/>
+                                <constraint firstItem="Foc-og-Bg6" firstAttribute="trailing" secondItem="of4-99-g8L" secondAttribute="trailing" id="PEK-WT-Y44"/>
                                 <constraint firstItem="YOJ-06-HZ3" firstAttribute="leading" secondItem="Bel-zo-XTl" secondAttribute="leading" constant="16" id="aXj-d9-Wb4"/>
                                 <constraint firstAttribute="trailing" secondItem="YOJ-06-HZ3" secondAttribute="trailing" constant="14" id="aYS-DL-Tyg"/>
+                                <constraint firstItem="Foc-og-Bg6" firstAttribute="centerX" secondItem="Bel-zo-XTl" secondAttribute="centerX" id="ePp-mN-Djn"/>
                                 <constraint firstItem="YOJ-06-HZ3" firstAttribute="top" secondItem="Bel-zo-XTl" secondAttribute="top" id="lJA-Xp-Do4"/>
-                                <constraint firstAttribute="bottom" secondItem="Foc-og-Bg6" secondAttribute="bottom" id="t1H-dm-x2p"/>
+                                <constraint firstItem="Foc-og-Bg6" firstAttribute="leading" secondItem="of4-99-g8L" secondAttribute="leading" id="uBo-An-knR"/>
+                                <constraint firstItem="of4-99-g8L" firstAttribute="top" secondItem="Foc-og-Bg6" secondAttribute="bottom" constant="14" id="y0O-67-Qt0"/>
                             </constraints>
                         </view>
                         <sections>
@@ -3060,6 +3079,7 @@
                         <outlet property="closeButton" destination="Foc-og-Bg6" id="qF1-bJ-WBl"/>
                         <outlet property="exchangeButton" destination="YOJ-06-HZ3" id="YxX-4g-IVD"/>
                         <outlet property="exchangedLabel" destination="nYA-4m-3N7" id="wFN-yY-qXG"/>
+                        <outlet property="messageUserButton" destination="of4-99-g8L" id="DuD-T1-s71"/>
                         <outlet property="priceLabel" destination="288-rJ-fdS" id="Hyy-yc-JsZ"/>
                         <outlet property="returnedLabel" destination="Sxd-63-sIe" id="edh-oh-IHH"/>
                     </connections>

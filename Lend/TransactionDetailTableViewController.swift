@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MessageUI
 
 protocol TransactionDetailTableViewDelegate: class {
     
@@ -29,10 +30,11 @@ enum TransactionDetailTableViewMode {
     case none
 }
 
-class TransactionDetailTableViewController: UITableViewController {
+class TransactionDetailTableViewController: UITableViewController, MFMessageComposeViewControllerDelegate {
 
     @IBOutlet var exchangeButton: UIButton!
     @IBOutlet var closeButton: UIButton!
+    @IBOutlet var messageUserButton: UIButton!
     
     @IBOutlet var exchangedLabel: UILabel!
     @IBOutlet var returnedLabel: UILabel!
@@ -88,6 +90,11 @@ class TransactionDetailTableViewController: UITableViewController {
         closeButton.layer.cornerRadius = closeButton.frame.size.height / 16
         closeButton.clipsToBounds = true
         
+        messageUserButton.layer.cornerRadius = messageUserButton.frame.size.height / 16
+        messageUserButton.layer.borderWidth = 1
+        messageUserButton.layer.borderColor = UIColor.nbTurquoise.cgColor
+        messageUserButton.clipsToBounds = true
+        
         if let transaction = history?.transaction {
             loadFields(transaction: transaction)
             
@@ -101,6 +108,9 @@ class TransactionDetailTableViewController: UITableViewController {
             else if mode == .none {
                 self.closeButton.isHidden = true
                 self.exchangeButton.isHidden = true
+            }
+            if (history?.request?.status == Status.closed || (transaction.canceled != nil && transaction.canceled!)) {
+                self.messageUserButton.isHidden = true
             }
         }
         
@@ -155,6 +165,28 @@ class TransactionDetailTableViewController: UITableViewController {
     @IBAction func closeButtonPressed(_ sender: UIButton) {
         // should I send transaction or request
 //        delegate.closed()
+    }
+    
+    @IBAction func messageUserButtonPressed(_ sender: UIButton) {
+        let isBuyer = UserManager.sharedInstance.user?.id == history?.request?.user?.id
+        let response = history?.getResponseById(id: (history?.transaction?.responseId)!)
+        let phone = isBuyer ? response?.seller?.phone : history?.request?.user?.phone
+        if (MFMessageComposeViewController.canSendText()) {
+            let controller = MFMessageComposeViewController()
+            controller.recipients = [phone!]
+            controller.messageComposeDelegate = self
+            self.present(controller, animated: true, completion: nil)
+        }
+        
+    }
+    
+    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
+        //... handle sms screen actions
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.navigationController?.isNavigationBarHidden = false
     }
     
 }
