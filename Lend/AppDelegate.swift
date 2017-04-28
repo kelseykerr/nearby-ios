@@ -73,16 +73,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
-    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
-        if(url.scheme!.hasPrefix("fb")) {
-            AccountManager.sharedInstance.setFbAuth()
-            return FBSDKApplicationDelegate.sharedInstance().application(app, open: url, sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as! String!, annotation: options[UIApplicationOpenURLOptionsKey.annotation])
-        } else {
-            AccountManager.sharedInstance.setGoogleAuth()
+    func application(_ application: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        let absoluteString = url.absoluteString
+        if absoluteString.hasPrefix("fb") { // facebook
+            return FBSDKApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as! String!, annotation: options[UIApplicationOpenURLOptionsKey.annotation])
+        }
+        else  { // google, make this else if
             return GIDSignIn.sharedInstance().handle(url, sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String, annotation: options[UIApplicationOpenURLOptionsKey.annotation])
         }
+        
+        return false
     }
     
+/*
     func application(application: UIApplication,
                      open url: URL,
                      options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
@@ -96,7 +99,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                                      annotation: options[UIApplicationOpenURLOptionsKey.annotation])
         }
     }
-    
+*/
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
         
         let googleDidHandle = GIDSignIn.sharedInstance().handle(url, sourceApplication: sourceApplication, annotation: annotation)
@@ -212,12 +215,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidBecomeActive(_ application: UIApplication) {
         connectToFcm()
         print("application did become active")
-        if (AccountManager.sharedInstance.isGoogleAuth != nil && AccountManager.sharedInstance.isGoogleAuth) {
-            AccountManager.sharedInstance.googleSignInSilently()
-        } else {
-            FBSDKAppEvents.activateApp()
-        }
+        NewAccountManager.sharedInstance.signInSilently()
     }
+    
     // [END connect_on_active]
     // [START disconnect_from_fcm]
     func applicationDidEnterBackground(_ application: UIApplication) {

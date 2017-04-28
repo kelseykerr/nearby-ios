@@ -76,7 +76,7 @@ enum BraintreeRouter: URLRequestConvertible {
         }()
         
         var urlRequest = URLRequest(url: url)
-        let tokenString = AccountManager.sharedInstance.getOAuthTokenString()
+        let tokenString = NewAccountManager.sharedInstance.getOAuthTokenString()
         urlRequest.setValue(tokenString, forHTTPHeaderField: "x-auth-token")
         
         urlRequest = try Alamofire.JSONEncoding.default.encode(urlRequest, with: params)

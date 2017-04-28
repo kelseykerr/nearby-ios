@@ -34,10 +34,6 @@ class HomeViewController: UIViewController, LoginViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // temp, logs out so we can test login
-        //        let manager = FBSDKLoginManager()
-        //        manager.logOut()
-        
         if LocationManager.sharedInstance.locationAvailable() {
             print(LocationManager.sharedInstance.location)
         }
@@ -61,7 +57,7 @@ class HomeViewController: UIViewController, LoginViewDelegate {
     
     
     func loadInitialData() {
-        if (!AccountManager.sharedInstance.hasOAuthToken()) {
+        if (!NewAccountManager.sharedInstance.hasOAuthToken()) {
             showOAuthLoginView()
             return
         }

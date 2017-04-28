@@ -57,10 +57,10 @@ enum StripeRouter: URLRequestConvertible {
         }()
         
         var urlRequest = URLRequest(url: url)
-        let tokenString = AccountManager.sharedInstance.getOAuthTokenString()
+        let tokenString = NewAccountManager.sharedInstance.getOAuthTokenString()
         urlRequest.setValue(tokenString, forHTTPHeaderField: "x-auth-token")
         
-        let authMethod = AccountManager.sharedInstance.getAuthMethod()
+        let authMethod = NewAccountManager.sharedInstance.getAuthMethod()
         urlRequest.setValue(authMethod, forHTTPHeaderField: "x-auth-method")
         
         urlRequest = try Alamofire.JSONEncoding.default.encode(urlRequest, with: params)

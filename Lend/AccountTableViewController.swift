@@ -49,7 +49,7 @@ class AccountTableViewController: UITableViewController, LoginViewDelegate {
     }
     
     func loadInitialData() {
-        if (!AccountManager.sharedInstance.hasOAuthToken()) {
+        if (!NewAccountManager.sharedInstance.hasOAuthToken()) {
             showOAuthLoginView()
             return
         }
@@ -134,15 +134,10 @@ class AccountTableViewController: UITableViewController, LoginViewDelegate {
     }
     
     @IBAction func logoutButtonPressed(_ sender: UIButton) {
-        if (AccountManager.sharedInstance.isGoogleAuth != nil && AccountManager.sharedInstance.isGoogleAuth) {
-            AccountManager.sharedInstance.setGoogleAuthToken(token: "")
-            UserManager.sharedInstance.removeUser()
-            GIDSignIn.sharedInstance().signOut()
-        } else {
-            let manager = FBSDKLoginManager()
-            UserManager.sharedInstance.removeUser()
-            manager.logOut()
+        NewAccountManager.sharedInstance.doLogout(self) { error in
+            // don't really need this?
         }
+        
         showOAuthLoginView()
     }
 }

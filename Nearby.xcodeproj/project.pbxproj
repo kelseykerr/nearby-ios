@@ -45,6 +45,7 @@
 		AA4310BE1D62392E00E00F45 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA4310BB1D62392E00E00F45 /* FBSDKShareKit.framework */; };
 		AA4310C31D62426C00E00F45 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA4310C21D62426C00E00F45 /* Bolts.framework */; };
 		AA4D91AE1E76433000D106FE /* ResponseDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4D91AD1E76433000D106FE /* ResponseDetailTableViewController.swift */; };
+		AA52E6CE1EB287DC00934C72 /* NewAccountManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA52E6CD1EB287DC00934C72 /* NewAccountManager.swift */; };
 		AA546A841DCA5CD3007E1E8F /* NBBraintree.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA546A831DCA5CD3007E1E8F /* NBBraintree.swift */; };
 		AA546A861DCA5F89007E1E8F /* BraintreeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA546A851DCA5F89007E1E8F /* BraintreeRouter.swift */; };
 		AA8B21E71D98EECD0026ED7D /* NBHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8B21E61D98EECD0026ED7D /* NBHistory.swift */; };
@@ -148,6 +149,7 @@
 		AA4310BF1D623E1100E00F45 /* Lend-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Lend-Bridging-Header.h"; sourceTree = "<group>"; };
 		AA4310C21D62426C00E00F45 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		AA4D91AD1E76433000D106FE /* ResponseDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseDetailTableViewController.swift; sourceTree = "<group>"; };
+		AA52E6CD1EB287DC00934C72 /* NewAccountManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewAccountManager.swift; sourceTree = "<group>"; };
 		AA546A831DCA5CD3007E1E8F /* NBBraintree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NBBraintree.swift; sourceTree = "<group>"; };
 		AA546A851DCA5F89007E1E8F /* BraintreeRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BraintreeRouter.swift; sourceTree = "<group>"; };
 		AA6928381E6FCED3009C022F /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -262,6 +264,8 @@
 		AA0F72A11D7549A80023DAA6 /* old */ = {
 			isa = PBXGroup;
 			children = (
+				AA0F72A71D77F9360023DAA6 /* AccountManager.swift */,
+				AA9746691E4E38B900C1FA17 /* ProgressHUD.swift */,
 				AA2EB2DD1E7675AB00646AF3 /* HistoryTransactionTableViewCell.swift */,
 				AA98F7381D9C69910083BB4B /* RequestTableViewCell.swift */,
 				AA97211D1D64DB580036E007 /* NBGeoJsonPoint.swift */,
@@ -275,7 +279,7 @@
 			children = (
 				AA2C474B1D6B4C150013F350 /* LocationManger.swift */,
 				AA0F72A41D77E7FD0023DAA6 /* CategoriesManager.swift */,
-				AA0F72A71D77F9360023DAA6 /* AccountManager.swift */,
+				AA52E6CD1EB287DC00934C72 /* NewAccountManager.swift */,
 				AAB7690B1E2B35EF0021F657 /* UserManager.swift */,
 			);
 			name = Managers;
@@ -418,7 +422,6 @@
 				AA90271C1DD6FC9800B5CA2B /* QRGeneratorViewController.swift */,
 				AA2F16BF1E4662200029AB47 /* QRScannerViewController.swift */,
 				AA4310B71D616DAB00E00F45 /* LoginViewController.swift */,
-				AA9746691E4E38B900C1FA17 /* ProgressHUD.swift */,
 				AA97466D1E56C10C00C1FA17 /* UIViewControllerExtension.swift */,
 				E61F58111EAD34C400EA60F0 /* ForgotToScanViewController.swift */,
 			);
@@ -742,6 +745,7 @@
 				AA8F27931E5AA24D003CDC22 /* HistoryRequestTableViewCell.swift in Sources */,
 				AAB7690E1E2B3CF80021F657 /* NBPayment.swift in Sources */,
 				AA2EB2DE1E7675AB00646AF3 /* HistoryTransactionTableViewCell.swift in Sources */,
+				AA52E6CE1EB287DC00934C72 /* NewAccountManager.swift in Sources */,
 				AAB769121E2B43380021F657 /* DirectDepositTableViewController.swift in Sources */,
 				AA2C47461D679BA50013F350 /* NewRequestTableViewController.swift in Sources */,
 				AA8F279A1E5AB5F4003CDC22 /* SellerBuyerConfirmStrategy.swift in Sources */,

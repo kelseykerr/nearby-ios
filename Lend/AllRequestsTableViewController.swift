@@ -26,7 +26,7 @@ class AllRequestsTableViewController: UITableViewController, LoginViewDelegate {
     
     
     func loadInitialData() {
-        if (!AccountManager.sharedInstance.hasOAuthToken()) {
+        if (!NewAccountManager.sharedInstance.hasOAuthToken()) {
             showOAuthLoginView()
             return
         }
