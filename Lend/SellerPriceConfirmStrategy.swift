@@ -16,8 +16,7 @@ class SellerPriceConfirmStrategy: HistoryStateStrategy {
         cell.exchangeTimeLabel.isHidden = true
         cell.exchangeLocationLabel.isHidden = true
         let item = history.request?.itemName ?? "ITEM"
-        
-        cell.messageLabel.text = "Please confirm price for \(item)."
+        cell.messageLabel.text = "Please confirm price for \(item)"
         let line = CAShapeLayer()
         let linePath = UIBezierPath()
         let start = CGPoint.init(x: 5, y: 1)
@@ -30,7 +29,7 @@ class SellerPriceConfirmStrategy: HistoryStateStrategy {
         line.lineJoin = kCALineJoinRound
         cell.layer.addSublayer(line)
         
-        cell.historyStateLabel.backgroundColor = UIColor.purple
+        cell.historyStateLabel.backgroundColor = UIColor.nbYellow
         cell.historyStateLabel.text = " CONFIRM PRICE! "
         
         cell.timeLabel.removeFromSuperview()
@@ -50,7 +49,19 @@ class SellerPriceConfirmStrategy: HistoryStateStrategy {
                 }
             })
         }
+        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        guard let navVC = storyboard.instantiateViewController(
+            withIdentifier: "ConfirmPriceNavigationController") as? UINavigationController else {
+                assert(false, "Misnamed view controller")
+                return cell
+        }
+        let confirmVC = (navVC.childViewControllers[0] as! ConfirmPriceTableViewController)
+        confirmVC.delegate = historyVC
+        confirmVC.history = history
+        historyVC.present(navVC, animated: true, completion: nil)
         
+        historyVC.tableView.isEditing = false
+
         return cell
     }
     
@@ -62,6 +73,7 @@ class SellerPriceConfirmStrategy: HistoryStateStrategy {
         
         return alertController
     }
+    
     
     func detailViewController(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UIViewController {
         
@@ -80,20 +92,20 @@ class SellerPriceConfirmStrategy: HistoryStateStrategy {
     func rowAction(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> [UITableViewRowAction]? {
         
         let confirm = UITableViewRowAction(style: .normal, title: "Confirm") { action, index in
-            
-            if let transaction = history.transaction {
-                NBTransaction.verifyTransactionPrice(id: transaction.id!, transaction: transaction) { error in
-                    print("price verified test")
-                    if let error = error {
-                        let alert = Utils.createServerErrorAlert(error: error)
-                        historyVC.present(alert, animated: true, completion: nil)
-                    }
-                }
+            let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+            guard let navVC = storyboard.instantiateViewController(
+                withIdentifier: "ConfirmPriceNavigationController") as? UINavigationController else {
+                    assert(false, "Misnamed view controller")
+                    return
             }
+            let confirmVC = (navVC.childViewControllers[0] as! ConfirmPriceTableViewController)
+            confirmVC.delegate = historyVC
+            confirmVC.history = history
+            historyVC.present(navVC, animated: true, completion: nil)
             
             historyVC.tableView.isEditing = false
         }
-        confirm.backgroundColor = UIColor.purple
+        confirm.backgroundColor = UIColor.nbBlue
         
         return [confirm]
     }

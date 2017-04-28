@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4279B300DB3AA0DD5522684E /* Pods_Nearby.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4BE07AAD7E7749E48DF11BF /* Pods_Nearby.framework */; };
+		4E82AF481EB39C1400C4EFD4 /* ConfirmPriceTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E82AF471EB39C1400C4EFD4 /* ConfirmPriceTableViewController.swift */; };
 		73F7CF868071072F78D6D1CB /* libPods-NearbyTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D418FAC02A6167DA6BE47114 /* libPods-NearbyTests.a */; };
 		AA0382891E985A0F006D9DD0 /* NearbyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0382881E985A0F006D9DD0 /* NearbyTests.swift */; };
 		AA0F72A31D7791C20023DAA6 /* CategorySelectionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0F72A21D7791C20023DAA6 /* CategorySelectionTableViewController.swift */; };
@@ -106,6 +107,7 @@
 
 /* Begin PBXFileReference section */
 		3F39B826BC3AE0F067446572 /* Pods-Nearby.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Nearby.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Nearby/Pods-Nearby.debug.xcconfig"; sourceTree = "<group>"; };
+		4E82AF471EB39C1400C4EFD4 /* ConfirmPriceTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmPriceTableViewController.swift; sourceTree = "<group>"; };
 		569611B4DD22FDE0552E9CEE /* Pods-NearbyTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NearbyTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NearbyTests/Pods-NearbyTests.debug.xcconfig"; sourceTree = "<group>"; };
 		6F95CC3ED8D95B99CFCAD3F0 /* Pods-NearbyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NearbyTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-NearbyTests/Pods-NearbyTests.release.xcconfig"; sourceTree = "<group>"; };
 		AA0382861E985A0F006D9DD0 /* NearbyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NearbyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -300,6 +302,7 @@
 			isa = PBXGroup;
 			children = (
 				AA2D885C1E8378970005D969 /* TransactionDetailTableViewController.swift */,
+				4E82AF471EB39C1400C4EFD4 /* ConfirmPriceTableViewController.swift */,
 			);
 			name = Transaction;
 			sourceTree = "<group>";
@@ -666,7 +669,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		6AA34EBD7EC59E713909C1A8 /* [CP] Embed Pods Frameworks */ = {
@@ -711,7 +714,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -769,6 +772,7 @@
 				AA2C47551D6D3FB60013F350 /* RequestDetailTableViewController.swift in Sources */,
 				AA4310B81D616DAB00E00F45 /* LoginViewController.swift in Sources */,
 				AAC3C8AC1D5A789800B8F2A9 /* HistoryTableViewController.swift in Sources */,
+				4E82AF481EB39C1400C4EFD4 /* ConfirmPriceTableViewController.swift in Sources */,
 				AA18DAAA1DCA724F00E2B973 /* FilterTableViewController.swift in Sources */,
 				AA3F64201D80B55C0021964B /* NewResponseTableViewController.swift in Sources */,
 				E61F58121EAD34C400EA60F0 /* ForgotToScanViewController.swift in Sources */,

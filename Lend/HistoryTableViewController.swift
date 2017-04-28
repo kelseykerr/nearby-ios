@@ -200,7 +200,7 @@ class HistoryTableViewController: UITableViewController {
     
 }
 
-extension HistoryTableViewController: RequestDetailTableViewDelegate, ResponseDetailTableViewDelegate, TransactionDetailTableViewDelegate, EditRequestTableViewDelegate {
+extension HistoryTableViewController: RequestDetailTableViewDelegate, ResponseDetailTableViewDelegate, TransactionDetailTableViewDelegate, EditRequestTableViewDelegate, ConfirmPriceTableViewDelegate {
     
     //request
     

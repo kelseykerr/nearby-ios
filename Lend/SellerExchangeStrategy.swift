@@ -52,7 +52,7 @@ class SellerExchangeStrategy: HistoryStateStrategy {
                 cell.exchangeTimeLabel.isHidden = true
             }
             
-            if (response.exchangeLocation != nil) {
+            if (response.exchangeLocation != nil && response.exchangeLocation != "") {
                 cell.exchangeLocationLabel.isHidden = false
                 let attrText = NSMutableAttributedString(string: "")
                 let boldFont = UIFont.boldSystemFont(ofSize: 14)
