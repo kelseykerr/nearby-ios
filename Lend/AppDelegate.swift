@@ -209,7 +209,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         print("APNs token retrieved: \(deviceToken)")
         
         // With swizzling disabled you must set the APNs token here.
-        // FIRInstanceID.instanceID().setAPNSToken(deviceToken, type: FIRInstanceIDAPNSTokenType.sandbox)
+//        FIRInstanceID.instanceID().setAPNSToken(deviceToken, type: FIRInstanceIDAPNSTokenType.sandbox)
+        
+//        FIRInstanceID.instanceID().setAPNSToken(deviceToken, type: FIRInstanceIDAPNSTokenType.prod)
     }
     
     // [START connect_on_active]
@@ -233,6 +235,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         
+/*
         guard let location = LocationManager.sharedInstance.location else {
             print("No location available")
             return
@@ -269,6 +272,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             completionHandler(UIBackgroundFetchResult.noData)
         }
+*/
+        completionHandler(UIBackgroundFetchResult.noData)
     }
 }
 
