@@ -151,7 +151,11 @@ class ResponseDetailTableViewController: UITableViewController {
             loadFields(response: response)
 
             if mode == .seller {
-                self.acceptButton.setTitle("Update", for: UIControlState.normal)
+                if (response.sellerStatus?.rawValue != "ACCEPTED") {
+                    self.acceptButton.setTitle("Accept/Update", for: UIControlState.normal)
+                } else {
+                    self.acceptButton.setTitle("Update", for: UIControlState.normal)
+                }
                 self.declineButton.setTitle("Withdraw", for: UIControlState.normal)
             }
             if mode == .buyer {
@@ -231,6 +235,7 @@ class ResponseDetailTableViewController: UITableViewController {
             self.navigationController?.popViewController(animated: true)
         } else {
             print("update button pressed")
+            response?.sellerStatus = SellerStatus.accepted
             delegate?.edited(response)
             self.navigationController?.popViewController(animated: true)
         }

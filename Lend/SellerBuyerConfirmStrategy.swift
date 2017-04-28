@@ -21,12 +21,7 @@ class SellerBuyerConfirmStrategy: HistoryStateStrategy {
             let rent = (history.request?.rental)! ? "lend" : "sell"
             let price = history.responses[0].priceInDollarFormat
             
-//            if history.responses[0].buyerStatus == .declined {
-//                cell.messageLabel.text = "Your offer for \(item) has been declined by \(name)."
-//            }
-//            else {
-                cell.messageLabel.text = "Offered a \(item) to \(name) for \(price)"
-//            }
+            cell.messageLabel.text = "Offered a \(item) to \(name) for \(price)"
 
             //add white line so that transaction card doesn't place yellow line on scroll
             let line = CAShapeLayer()

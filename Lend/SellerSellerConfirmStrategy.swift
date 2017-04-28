@@ -17,11 +17,13 @@ class SellerSellerConfirmStrategy: HistoryStateStrategy {
         cell.exchangeLocationLabel.isHidden = true
         let name = history.request?.user?.fullName ?? "NAME"
         let item = history.request?.itemName ?? "ITEM"
-        cell.messageLabel?.text = "\(name) has accepted your offer for \(item). Please confirm to proceed."
+        let price = history.responses[0].priceInDollarFormat
+        cell.messageLabel.text = "Offered a \(item) to \(name) for \(price)"
+
         
         cell.historyStateLabel.backgroundColor = UIColor.energy
         cell.historyStateLabel.textColor = UIColor.white
-        cell.historyStateLabel.text = " SELLER CONFIRM "
+        cell.historyStateLabel.text = " PENDING "
         cell.timeLabel.text = history.request?.getElapsedTimeAsString()
         
         //add white line so that transaction card doesn't place yellow line on scroll
@@ -77,6 +79,10 @@ class SellerSellerConfirmStrategy: HistoryStateStrategy {
                 assert(false, "Misnamed view controller")
                 return UIViewController()
         }
+        let response = history.responses[0]
+        responseDetailVC.mode = .seller
+        responseDetailVC.delegate = historyVC
+        responseDetailVC.response = response
         return responseDetailVC
     }
     
