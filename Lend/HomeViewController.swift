@@ -12,7 +12,7 @@ import Alamofire
 import SwiftyJSON
 import Ipify
 
-class HomeViewController: UIViewController, LoginViewDelegate {
+class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelegate {
 
     @IBOutlet var mapView: MKMapView!
     @IBOutlet var tableView: UITableView!
@@ -31,6 +31,8 @@ class HomeViewController: UIViewController, LoginViewDelegate {
     var alertTimer: Timer?
     var remainingTime = 0
     
+    lazy var searchBar = UISearchBar(frame: CGRect.zero)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -38,10 +40,13 @@ class HomeViewController: UIViewController, LoginViewDelegate {
             print(LocationManager.sharedInstance.location)
         }
         
-        let image = UIImage(named: "nearby_logo")
+        /*let image = UIImage(named: "nearby_logo")
         let imageView = UIImageView(image: image)
         
-        self.navigationItem.titleView = imageView
+        self.navigationItem.titleView = imageView*/
+        searchBar.placeholder = "Search"
+        searchBar.delegate = self
+        self.navigationItem.titleView = searchBar
         
         self.tableView.contentInset = UIEdgeInsetsMake(-26, 0, 0, 0)
         
@@ -53,6 +58,24 @@ class HomeViewController: UIViewController, LoginViewDelegate {
         self.view.bringSubview(toFront: requestButton)
 //        self.view.bringSubview(toFront: reloadView)
         loadInitialData()
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        print(searchBar.text)
+        searchFilter.searchTerm = searchBar.text!
+        loadRequests()
+        searchBar.endEditing(true)
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        print(searchText)
+        if (searchText == "") {
+            print("search cleared!!!")
+            searchFilter.searchTerm = searchBar.text!
+            searchBar.endEditing(true)
+            loadRequests()
+            searchBar.endEditing(true)
+        }
     }
     
     
@@ -155,7 +178,6 @@ class HomeViewController: UIViewController, LoginViewDelegate {
     func reloadRequests(_ latitude: Double, longitude: Double, radius: Double) {
         
         mapView.removeAnnotations(mapView.annotations)
-        
         let myLocation = CLLocation(latitude: latitude, longitude: longitude)
         let regionRadius: CLLocationDistance = radius
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(myLocation.coordinate, regionRadius * 2.0, regionRadius * 2.0)
@@ -196,7 +218,7 @@ class HomeViewController: UIViewController, LoginViewDelegate {
             for req in fetchedRequests {
                 print(req.toString())
             }
-            
+
             self.mapView.addAnnotations(fetchedRequests)
             self.requests = fetchedRequests
             
@@ -462,6 +484,7 @@ extension HomeViewController: MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
         print("map moving")
+        searchBar.endEditing(true)
         //self.view.bringSubview(toFront: reloadView)
         self.view.bringSubview(toFront: requestButton)
     }
