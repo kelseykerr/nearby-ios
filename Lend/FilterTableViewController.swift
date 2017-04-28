@@ -22,8 +22,6 @@ class FilterTableViewController: UITableViewController {
     
     var filter: SearchFilter?
     
-    @IBOutlet var searchTextField: UITextField!
-    
     @IBOutlet var includeMyRequestSwitch: UISwitch!
     @IBOutlet var includeExpiredRequestSwitch: UISwitch!
     @IBOutlet weak var locationButton: UIButton!
@@ -159,7 +157,6 @@ class FilterTableViewController: UITableViewController {
     
     func loadInitialData() {
         if let filter = filter {
-            searchTextField.text = filter.searchTerm
             includeMyRequestSwitch.setOn(filter.includeMyRequest, animated: false)
             includeExpiredRequestSwitch.setOn(filter.includeExpiredRequest, animated: false)
             sortButton.setTitle(filter.sortBy, for: .normal)
@@ -224,7 +221,6 @@ class FilterTableViewController: UITableViewController {
         print("FilterTableView::searchButtonPressed")
         
         if let filter = filter {
-            filter.searchTerm = searchTextField.text ?? ""
             filter.includeMyRequest = includeMyRequestSwitch.isOn
             filter.includeExpiredRequest = includeExpiredRequestSwitch.isOn
             filter.searchBy = (locationButton.titleLabel?.text)!
