@@ -54,7 +54,7 @@ class ResponseDetailTableViewController: UITableViewController {
             return Float(priceString!)
         }
         set {
-            let price = newValue ?? -9.99
+            let price = newValue ?? 0
             priceText.text = String(format: "%.2f", price)
         }
     }
@@ -72,12 +72,19 @@ class ResponseDetailTableViewController: UITableViewController {
         get {
             //move to Utils
             let dateString = pickupTimeDateTextField.text
+            if (dateString == nil || dateString == "") {
+                return nil
+            }
             let date = dateFormatter.date(from: dateString!)
             return Int64((date?.timeIntervalSince1970)!) * 1000
         }
         set {
             //move to Utils
-            let epoch = (newValue ?? 0) / 1000
+            if (newValue == nil) {
+                pickupTimeDateTextField.text = ""
+                return
+            }
+            let epoch = (newValue)! / 1000
             let date = Date(timeIntervalSince1970: TimeInterval(epoch))
             let dateString = dateFormatter.string(from: date)
             pickupTimeDateTextField.text = dateString
@@ -96,10 +103,17 @@ class ResponseDetailTableViewController: UITableViewController {
     var returnTime: Int64? {
         get {
             let dateString = returnTimeDateTextField.text
+            if (dateString == nil || dateString == "") {
+                return nil
+            }
             let date = dateFormatter.date(from: dateString!)
             return Int64((date?.timeIntervalSince1970)!) * 1000
         }
         set {
+            if (newValue == nil) {
+                returnTimeDateTextField.text = ""
+                return
+            }
             let epoch = (newValue ?? 0) / 1000
             let date = Date(timeIntervalSince1970: TimeInterval(epoch))
             let dateString = dateFormatter.string(from: date)
