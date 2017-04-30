@@ -145,7 +145,14 @@ class ProfileTableViewController: UITableViewController, UITextFieldDelegate {
             
             user?.address = self.streetAddressTextField.text
             user?.city = self.cityTextField.text
-            user?.state = self.stateTextField.text
+            var state = self.stateTextField.text
+            state = state?.replacingOccurrences(of: "\\s+$", with: "", options: .regularExpression)
+            print(state)
+            if (state == "D.C.") {
+                state = "DC"
+            }
+            
+            user?.state = state
             user?.zip = self.zipCodeTextField.text
             
             user?.newRequestNotificationsEnabled = self.requestNotificationEnabledSwitch.isOn
