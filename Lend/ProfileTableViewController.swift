@@ -147,7 +147,6 @@ class ProfileTableViewController: UITableViewController, UITextFieldDelegate {
             user?.city = self.cityTextField.text
             var state = self.stateTextField.text
             state = state?.replacingOccurrences(of: "\\s+$", with: "", options: .regularExpression)
-            print(state)
             if (state == "D.C.") {
                 state = "DC"
             }

@@ -11,6 +11,7 @@ import MapKit
 import Alamofire
 import SwiftyJSON
 import Ipify
+import MBProgressHUD
 
 class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelegate {
 
@@ -161,6 +162,13 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
                 return
         }
         self.navigationController?.pushViewController(editProfileVC, animated: true)
+    }
+    
+    func showHistoryView() {
+        let mainStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        let vc: UITabBarController = mainStoryboard.instantiateViewController(withIdentifier: "TabBarNavigationController") as! UITabBarController
+        vc.selectedIndex = 1
+        self.present(vc, animated: true, completion: nil)
     }
     
     func didTapLoginButton() {
@@ -710,6 +718,9 @@ extension HomeViewController: NewRequestTableViewDelegate, NewResponseTableViewD
     
     func requestSaved(_ request: NBRequest?) {
         print("HomeViewController->requestSaved")
+        let loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
+        loadingNotification.mode = MBProgressHUDMode.indeterminate
+        loadingNotification.labelText = "Saving"
         if let request = request {
             NBRequest.addRequest(request) { error in
                 print("Request added")
@@ -718,6 +729,8 @@ extension HomeViewController: NewRequestTableViewDelegate, NewResponseTableViewD
                     self.present(alert, animated: true, completion: nil)
                 }
                 self.loadRequests()
+                MBProgressHUD.hideAllHUDs(for: self.view, animated: true)
+                self.showHistoryView()
             }
         }
     }
