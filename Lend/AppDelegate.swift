@@ -11,13 +11,15 @@ import UserNotifications
 import Firebase
 import FirebaseMessaging
 import Stripe
+import BRYXBanner
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     let gcmMessageIDKey = "gcm.message_id"
-
+    var banner: Banner?
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
@@ -85,21 +87,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return false
     }
     
-/*
-    func application(application: UIApplication,
-                     open url: URL,
-                     options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
-        if(url.scheme!.hasPrefix("fb")) {
-            AccountManager.sharedInstance.setFbAuth()
-            return FBSDKApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as! String!, annotation: options[UIApplicationOpenURLOptionsKey.annotation])
-        } else {
-            AccountManager.sharedInstance.setGoogleAuth()
-            return GIDSignIn.sharedInstance().handle(url as URL!,
-                                                     sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as! String!,
-                                                     annotation: options[UIApplicationOpenURLOptionsKey.annotation])
-        }
-    }
-*/
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
         
         let googleDidHandle = GIDSignIn.sharedInstance().handle(url, sourceApplication: sourceApplication, annotation: annotation)
@@ -165,6 +152,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Print full message.
         print(userInfo)
+        
+        let title = userInfo["title"] as! String
+        let message = userInfo["message"] as! String
+        
+//        print("title: \(title) message: \(message)")
+        banner = Banner(title: title, subtitle: message, image: nil, backgroundColor: UIColor.nbGreen)
+        banner?.dismissesOnTap = true
+        banner?.show(duration: 3.0)
         
         completionHandler(UIBackgroundFetchResult.newData)
     }
@@ -318,5 +313,12 @@ extension AppDelegate : FIRMessagingDelegate {
     // Receive data message on iOS 10 devices while app is in the foreground.
     func applicationReceivedRemoteMessage(_ remoteMessage: FIRMessagingRemoteMessage) {
         print(remoteMessage.appData)
+        
+        let title = remoteMessage.appData["title"] as! String
+        let message = remoteMessage.appData["message"] as! String
+        
+        banner = Banner(title: title, subtitle: message, image: nil, backgroundColor:         UIColor.nbGreen)
+        banner?.dismissesOnTap = true
+        banner?.show(duration: 3.0)
     }
 }

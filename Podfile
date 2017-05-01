@@ -16,6 +16,7 @@ target 'Nearby' do
     pod 'Ipify'
     pod 'DropDown'
     pod 'MBProgressHUD'
+    pod 'BRYXBanner'
 end
 
 target 'NearbyTests' do
