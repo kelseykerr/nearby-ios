@@ -41,12 +41,15 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
             print(LocationManager.sharedInstance.location)
         }
         
-        /*let image = UIImage(named: "nearby_logo")
-        let imageView = UIImageView(image: image)
-        
-        self.navigationItem.titleView = imageView*/
         searchBar.placeholder = "Search"
         searchBar.delegate = self
+        
+        for subView in searchBar.subviews[0].subviews where subView is UITextField {
+            subView.tintColor = UIColor.gray
+        }
+        let textFieldInsideSearchBar = searchBar.value(forKey: "searchField") as? UITextField
+        textFieldInsideSearchBar?.textColor = UIColor.gray
+        
         self.navigationItem.titleView = searchBar
         
         self.tableView.contentInset = UIEdgeInsetsMake(-26, 0, 0, 0)
@@ -57,8 +60,6 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
         self.mapView.delegate = self
         self.view.bringSubview(toFront: mapView)
         self.view.bringSubview(toFront: requestButton)
-        validateProfile()
-//        self.view.bringSubview(toFront: reloadView)
         loadInitialData()
     }
     
@@ -122,10 +123,9 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
             showOAuthLoginView()
             return
         }
-        
+        validateProfile()
         let currentLocation = LocationManager.sharedInstance.location
         let radius = getRadius()
-        validateProfile()
         loadRequests((currentLocation?.coordinate.latitude)!, longitude: (currentLocation?.coordinate.longitude)!, radius: radius)
     }
     
@@ -288,13 +288,9 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
         }
     }
     
-//    func refresh(sender: AnyObject) {
-//        //        nextPageURLString = nil // so it doesn't try to append the results
-//        NearbyAPIManager.sharedInstance.clearCache()
-//        loadRequests()
-//    }
     
     @IBAction func listMapButtonPressed(_ sender: UIBarButtonItem) {
+        searchBar.endEditing(true)
         if sender.title == "List" {
             sender.title = "Map"
             self.view.bringSubview(toFront: tableView)
