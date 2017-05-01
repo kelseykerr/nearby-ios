@@ -57,12 +57,12 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
         self.mapView.delegate = self
         self.view.bringSubview(toFront: mapView)
         self.view.bringSubview(toFront: requestButton)
+        validateProfile()
 //        self.view.bringSubview(toFront: reloadView)
         loadInitialData()
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        print(searchBar.text)
         searchFilter.searchTerm = searchBar.text!
         loadRequests()
         searchBar.endEditing(true)
@@ -125,8 +125,8 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
         
         let currentLocation = LocationManager.sharedInstance.location
         let radius = getRadius()
-        loadRequests((currentLocation?.coordinate.latitude)!, longitude: (currentLocation?.coordinate.longitude)!, radius: radius)
         validateProfile()
+        loadRequests((currentLocation?.coordinate.latitude)!, longitude: (currentLocation?.coordinate.longitude)!, radius: radius)
     }
     
     func acceptTOS(user:NBUser) -> () {
