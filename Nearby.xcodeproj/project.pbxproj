@@ -48,7 +48,6 @@
 		AA52E6CE1EB287DC00934C72 /* NewAccountManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA52E6CD1EB287DC00934C72 /* NewAccountManager.swift */; };
 		AA546A841DCA5CD3007E1E8F /* NBBraintree.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA546A831DCA5CD3007E1E8F /* NBBraintree.swift */; };
 		AA546A861DCA5F89007E1E8F /* BraintreeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA546A851DCA5F89007E1E8F /* BraintreeRouter.swift */; };
-		AA753C781EB3FDC60055FA3C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AA753C771EB3FDC60055FA3C /* GoogleService-Info.plist */; };
 		AA8B21E71D98EECD0026ED7D /* NBHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8B21E61D98EECD0026ED7D /* NBHistory.swift */; };
 		AA8B21E91D9A363C0026ED7D /* NBTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8B21E81D9A363C0026ED7D /* NBTransaction.swift */; };
 		AA8B21EB1D9A4A220026ED7D /* NBExchangeOverride.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8B21EA1D9A4A220026ED7D /* NBExchangeOverride.swift */; };
@@ -91,6 +90,7 @@
 		AAC3C8B01D5A789800B8F2A9 /* NearbyAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC3C8AB1D5A789800B8F2A9 /* NearbyAPIManager.swift */; };
 		AAD278E71E150501003DCEE0 /* SearchFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAD278E61E150501003DCEE0 /* SearchFilter.swift */; };
 		E61F58121EAD34C400EA60F0 /* ForgotToScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61F58111EAD34C400EA60F0 /* ForgotToScanViewController.swift */; };
+		E61F58141EB79D2800EA60F0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E61F58131EB79D2800EA60F0 /* GoogleService-Info.plist */; };
 		E62E7F6E1E9AC7CA00AF16DB /* BanksAndCardsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E62E7F6D1E9AC7CA00AF16DB /* BanksAndCardsTableViewController.swift */; };
 		E63B18541EA05D79005983DF /* EditRequestTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E63B18531EA05D79005983DF /* EditRequestTableViewController.swift */; };
 /* End PBXBuildFile section */
@@ -154,7 +154,6 @@
 		AA546A831DCA5CD3007E1E8F /* NBBraintree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NBBraintree.swift; sourceTree = "<group>"; };
 		AA546A851DCA5F89007E1E8F /* BraintreeRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BraintreeRouter.swift; sourceTree = "<group>"; };
 		AA6928381E6FCED3009C022F /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		AA753C771EB3FDC60055FA3C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		AA8B21E61D98EECD0026ED7D /* NBHistory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NBHistory.swift; sourceTree = "<group>"; };
 		AA8B21E81D9A363C0026ED7D /* NBTransaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NBTransaction.swift; sourceTree = "<group>"; };
 		AA8B21EA1D9A4A220026ED7D /* NBExchangeOverride.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NBExchangeOverride.swift; sourceTree = "<group>"; };
@@ -200,6 +199,7 @@
 		C4BE07AAD7E7749E48DF11BF /* Pods_Nearby.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Nearby.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D418FAC02A6167DA6BE47114 /* libPods-NearbyTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NearbyTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E61F58111EAD34C400EA60F0 /* ForgotToScanViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgotToScanViewController.swift; sourceTree = "<group>"; };
+		E61F58131EB79D2800EA60F0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E62E7F6D1E9AC7CA00AF16DB /* BanksAndCardsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BanksAndCardsTableViewController.swift; sourceTree = "<group>"; };
 		E63B18531EA05D79005983DF /* EditRequestTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditRequestTableViewController.swift; sourceTree = "<group>"; };
 		F38B22B5A119CABAC0271EF4 /* Pods-Nearby.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Nearby.release.xcconfig"; path = "Pods/Target Support Files/Pods-Nearby/Pods-Nearby.release.xcconfig"; sourceTree = "<group>"; };
@@ -339,8 +339,8 @@
 				AAC3C8B31D5A78B900B8F2A9 /* Controllers */,
 				AAC3C8B21D5A78B600B8F2A9 /* Views */,
 				AA38307E1D5A75F600C125F6 /* AppDelegate.swift */,
+				E61F58131EB79D2800EA60F0 /* GoogleService-Info.plist */,
 				AA38308A1D5A75F600C125F6 /* Info.plist */,
-				AA753C771EB3FDC60055FA3C /* GoogleService-Info.plist */,
 				AA4310BF1D623E1100E00F45 /* Lend-Bridging-Header.h */,
 			);
 			path = Lend;
@@ -618,8 +618,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA3830891D5A75F600C125F6 /* LaunchScreen.storyboard in Resources */,
+				E61F58141EB79D2800EA60F0 /* GoogleService-Info.plist in Resources */,
 				AA3830861D5A75F600C125F6 /* Assets.xcassets in Resources */,
-				AA753C781EB3FDC60055FA3C /* GoogleService-Info.plist in Resources */,
 				AA3830841D5A75F600C125F6 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -669,7 +669,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		6AA34EBD7EC59E713909C1A8 /* [CP] Embed Pods Frameworks */ = {
@@ -714,7 +714,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */

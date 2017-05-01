@@ -57,12 +57,12 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
         self.mapView.delegate = self
         self.view.bringSubview(toFront: mapView)
         self.view.bringSubview(toFront: requestButton)
+        validateProfile()
 //        self.view.bringSubview(toFront: reloadView)
         loadInitialData()
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        print(searchBar.text)
         searchFilter.searchTerm = searchBar.text!
         loadRequests()
         searchBar.endEditing(true)
@@ -71,7 +71,6 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         print(searchText)
         if (searchText == "") {
-            print("search cleared!!!")
             searchFilter.searchTerm = searchBar.text!
             searchBar.endEditing(true)
             loadRequests()
@@ -126,8 +125,8 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
         
         let currentLocation = LocationManager.sharedInstance.location
         let radius = getRadius()
-        loadRequests((currentLocation?.coordinate.latitude)!, longitude: (currentLocation?.coordinate.longitude)!, radius: radius)
         validateProfile()
+        loadRequests((currentLocation?.coordinate.latitude)!, longitude: (currentLocation?.coordinate.longitude)!, radius: radius)
     }
     
     func acceptTOS(user:NBUser) -> () {
@@ -646,7 +645,8 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 //        nextPageURLString = nil // so it doesn't try to append the results
         NearbyAPIManager.sharedInstance.clearCache()
         let radius = getRadius()
-        self.loadRequests(37.5789, longitude: -122.3451, radius: radius)
+        let center = self.getCenterCoordinate()
+        self.loadRequests(center.latitude, longitude: center.longitude, radius: radius)
     }
     
 }
