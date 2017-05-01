@@ -71,7 +71,6 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         print(searchText)
         if (searchText == "") {
-            print("search cleared!!!")
             searchFilter.searchTerm = searchBar.text!
             searchBar.endEditing(true)
             loadRequests()
@@ -646,7 +645,8 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 //        nextPageURLString = nil // so it doesn't try to append the results
         NearbyAPIManager.sharedInstance.clearCache()
         let radius = getRadius()
-        self.loadRequests(37.5789, longitude: -122.3451, radius: radius)
+        let center = self.getCenterCoordinate()
+        self.loadRequests(center.latitude, longitude: center.longitude, radius: radius)
     }
     
 }
