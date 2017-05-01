@@ -64,7 +64,7 @@ class NewAccountManager: NSObject {
             print("Facebook Login")
             let loginManager = FBSDKLoginManager()
             
-            loginManager.logIn(withReadPermissions: ["public_profile"], from: fromVC) { (results, error) in
+            loginManager.logIn(withReadPermissions: ["public_profile", "email"], from: fromVC) { (results, error) in
                 completionHandler(error as NSError?)
             }
         case .google:
