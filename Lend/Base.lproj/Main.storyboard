@@ -2202,7 +2202,7 @@
                 <navigationController storyboardIdentifier="HomeViewNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="SX8-Nj-MTb" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Home" image="Home-32-4" id="aWU-Dg-xAg"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="cj4-NM-s02">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="cj4-NM-s02">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -3464,7 +3464,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="rJI-lK-4qC" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="trg-cH-HGj">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="trg-cH-HGj">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
