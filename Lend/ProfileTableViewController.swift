@@ -9,7 +9,7 @@
 import UIKit
 import MBProgressHUD
 
-class ProfileTableViewController: UITableViewController {
+class ProfileTableViewController: UITableViewController, UITextFieldDelegate {
 
     @IBOutlet var firstNameTextField: UITextField!
     @IBOutlet var lastNameTextField: UITextField!
@@ -39,7 +39,7 @@ class ProfileTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        phoneNumberTextField.delegate = self
         self.hideKeyboardWhenTappedAround()
         
 //        self.view.addSubview(progressHUD)
@@ -103,6 +103,38 @@ class ProfileTableViewController: UITableViewController {
         saveCells()
     }
     
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if textField == phoneNumberTextField {
+            let str = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+            return formattedPhoneNumber(replacementString: string, str: str)
+
+        }
+        return true
+    }
+    
+    func formattedPhoneNumber(replacementString: String?, str: String?) -> Bool {
+        let digits = NSCharacterSet.decimalDigits
+        for uni in (replacementString?.unicodeScalars)! {
+            if (uni == "-" && (str!.characters.count != 4 && str!.characters.count != 8)) {
+                return false
+            } else if (!digits.contains(uni) && uni != "-") {
+                return false
+            }
+          
+        }
+        if (replacementString == "") { //BackSpace
+            return true
+        } else if (str!.characters.count == 4) && replacementString != "-" {
+            phoneNumberTextField.text = (phoneNumberTextField.text! + "-")
+        } else if str!.characters.count == 8 && replacementString != "-" {
+            phoneNumberTextField.text = (phoneNumberTextField.text! + "-")
+        } else if (str!.characters.count > 12) {
+            return false
+        }
+        
+        return true
+    }
+    
     func saveCells() {
         if user != nil {
             user?.firstName = self.firstNameTextField.text
@@ -113,7 +145,13 @@ class ProfileTableViewController: UITableViewController {
             
             user?.address = self.streetAddressTextField.text
             user?.city = self.cityTextField.text
-            user?.state = self.stateTextField.text
+            var state = self.stateTextField.text
+            state = state?.replacingOccurrences(of: "\\s+$", with: "", options: .regularExpression)
+            if (state == "D.C.") {
+                state = "DC"
+            }
+            
+            user?.state = state
             user?.zip = self.zipCodeTextField.text
             
             user?.newRequestNotificationsEnabled = self.requestNotificationEnabledSwitch.isOn

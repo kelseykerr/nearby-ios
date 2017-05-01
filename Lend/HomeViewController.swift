@@ -11,6 +11,7 @@ import MapKit
 import Alamofire
 import SwiftyJSON
 import Ipify
+import MBProgressHUD
 
 class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelegate {
 
@@ -78,16 +79,7 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
         }
     }
     
-    
-    func loadInitialData() {
-        if (!NewAccountManager.sharedInstance.hasOAuthToken()) {
-            showOAuthLoginView()
-            return
-        }
-        
-        let currentLocation = LocationManager.sharedInstance.location
-        let radius = getRadius()
-        loadRequests((currentLocation?.coordinate.latitude)!, longitude: (currentLocation?.coordinate.longitude)!, radius: radius)
+    func validateProfile() {
         UserManager.sharedInstance.getUser(completionHandler: { user in
             if (!user.acceptedTos()) {
                 let tosString = "Payment processing services for sellers on Nearby are provided by Stripe and are subject to the Stripe Connected Account Agreement, which includes the Stripe Terms of Service (collectively, the “Stripe Services Agreement”). By agreeing to these terms or continuing to operate as a user on Nearby, you agree to be bound by the Stripe Services Agreement, as the same may be modified by Stripe from time to time. As a condition of Nearby enabling payment processing services through Stripe, you agree to provide Nearby accurate and complete information about you and your business, and you authorize Nearby to share it and transaction information related to your use of the payment processing services provided by Stripe."
@@ -125,6 +117,19 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
         })
     }
     
+    
+    func loadInitialData() {
+        if (!NewAccountManager.sharedInstance.hasOAuthToken()) {
+            showOAuthLoginView()
+            return
+        }
+        
+        let currentLocation = LocationManager.sharedInstance.location
+        let radius = getRadius()
+        loadRequests((currentLocation?.coordinate.latitude)!, longitude: (currentLocation?.coordinate.longitude)!, radius: radius)
+        validateProfile()
+    }
+    
     func acceptTOS(user:NBUser) -> () {
         self.progressHUD.show()
         
@@ -159,6 +164,13 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
         self.navigationController?.pushViewController(editProfileVC, animated: true)
     }
     
+    func showHistoryView() {
+        let mainStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        let vc: UITabBarController = mainStoryboard.instantiateViewController(withIdentifier: "TabBarNavigationController") as! UITabBarController
+        vc.selectedIndex = 1
+        self.present(vc, animated: true, completion: nil)
+    }
+    
     func didTapLoginButton() {
         self.dismiss(animated: false) {
 //            guard let authURL = GitHubAPIManager.sharedInstance.URLToStartOAuth2Login() else {
@@ -176,7 +188,7 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
     }
     
     func reloadRequests(_ latitude: Double, longitude: Double, radius: Double) {
-        
+        validateProfile()
         mapView.removeAnnotations(mapView.annotations)
         let myLocation = CLLocation(latitude: latitude, longitude: longitude)
         let regionRadius: CLLocationDistance = radius
@@ -706,6 +718,9 @@ extension HomeViewController: NewRequestTableViewDelegate, NewResponseTableViewD
     
     func requestSaved(_ request: NBRequest?) {
         print("HomeViewController->requestSaved")
+        let loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
+        loadingNotification.mode = MBProgressHUDMode.indeterminate
+        loadingNotification.labelText = "Saving"
         if let request = request {
             NBRequest.addRequest(request) { error in
                 print("Request added")
@@ -714,6 +729,8 @@ extension HomeViewController: NewRequestTableViewDelegate, NewResponseTableViewD
                     self.present(alert, animated: true, completion: nil)
                 }
                 self.loadRequests()
+                MBProgressHUD.hideAllHUDs(for: self.view, animated: true)
+                self.showHistoryView()
             }
         }
     }

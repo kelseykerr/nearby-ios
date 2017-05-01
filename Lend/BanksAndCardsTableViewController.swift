@@ -58,21 +58,20 @@ class BanksAndCardsTableViewController: UITableViewController {
             
             if (self.paymentInfo?.bankAccountLast4 != nil &&
                 self.paymentInfo?.routingNumber != nil) {
-                let bankString = "Account Number: " + (self.paymentInfo?.bankAccountLast4)!
-                self.accountNumber.text = bankString
-                self.routingNumber.text = "Routing Number: " + (self.paymentInfo?.routingNumber)!
+                self.accountNumber.text = (self.paymentInfo?.bankAccountLast4)!
+                self.routingNumber.text = (self.paymentInfo?.routingNumber)!
             } else {
-                self.accountNumber.text = "Please link your bank account!"
+                self.accountNumber.text = ""
+                self.routingNumber.text = ""
             }
             
             if (self.paymentInfo?.ccMaskedNumber != nil &&
                 self.paymentInfo?.ccExpDate != nil) {
-                let ccString = "Card Number: " + (self.paymentInfo?.ccMaskedNumber)!;
-                self.creditCardNumber.text = ccString
-                let ccExp = "Exp Date: " + (self.paymentInfo?.ccExpDate)!
-                self.ccExp.text = ccExp
+                self.creditCardNumber.text = (self.paymentInfo?.ccMaskedNumber)!
+                self.ccExp.text = (self.paymentInfo?.ccExpDate)!
             } else {
-                self.creditCardNumber.text = "Please add a credit card!"
+                self.creditCardNumber.text = ""
+                self.ccExp.text = ""
             }
             MBProgressHUD.hideAllHUDs(for: self.view, animated: true)
             self.tableView.reloadData()

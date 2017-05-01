@@ -15,7 +15,7 @@ protocol UpdatePaymentInfoDelegate {
     func refreshStripeInfo()
 }
 
-class PaymentTableViewController: UITableViewController {
+class PaymentTableViewController: UITableViewController, UITextFieldDelegate {
     
     @IBOutlet var nameOnCardTextField: UITextField!
     @IBOutlet var ccNumberTextField: UITextField!
@@ -35,7 +35,7 @@ class PaymentTableViewController: UITableViewController {
         super.viewDidLoad()
         
         self.hideKeyboardWhenTappedAround()
-
+        ccExpDateTextField.delegate = self
 //        self.view.addSubview(progressHUD)
 //        progressHUD.hide()
         
@@ -130,6 +130,40 @@ class PaymentTableViewController: UITableViewController {
         
         self.present(self.alertController!, animated: true, completion: nil)
     }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if textField == ccExpDateTextField {
+            let str = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+            return formattedExpDate(replacementString: string, str: str)
+            
+        }
+        return true
+    }
+    
+    func formattedExpDate(replacementString: String?, str: String?) -> Bool {
+        let digits = NSCharacterSet.decimalDigits
+        for uni in (replacementString?.unicodeScalars)! {
+            if (uni == "/" && str!.characters.count != 3) {
+                return false
+            } else if (!digits.contains(uni) && uni != "/") {
+                return false
+            }
+            
+        }
+        if (replacementString == "") { //BackSpace
+            return true
+        } else if (str!.characters.count == 1) && replacementString != "1" && replacementString != "0" {
+            ccExpDateTextField.text = (ccExpDateTextField.text! + "0")
+        } else if str!.characters.count == 3 && replacementString != "/" {
+            ccExpDateTextField.text = (ccExpDateTextField.text! + "/")
+        } else if (str!.characters.count > 5) {
+            return false
+        }
+        
+        return true
+    }
+
+
 
     
 }
