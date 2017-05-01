@@ -11,6 +11,7 @@ target 'Nearby' do
     pod 'SwiftyJSON', '~> 3.0'
     pod 'Firebase/Core'
     pod 'Firebase/Messaging'
+    pod 'Firebase/Crash'
     pod 'Stripe'
     pod 'Google/SignIn'
     pod 'Ipify'

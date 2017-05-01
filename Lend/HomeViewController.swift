@@ -37,6 +37,10 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
     override func viewDidLoad() {
         super.viewDidLoad()
         
+//        //test crash
+//        let test: UITextField? = nil
+//        print(test!.text)
+        
         if LocationManager.sharedInstance.locationAvailable() {
             print(LocationManager.sharedInstance.location)
         }

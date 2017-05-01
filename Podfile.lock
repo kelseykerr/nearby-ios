@@ -5,6 +5,9 @@ PODS:
   - Firebase/Core (3.14.0):
     - FirebaseAnalytics (= 3.7.0)
     - FirebaseCore (= 3.5.1)
+  - Firebase/Crash (3.14.0):
+    - Firebase/Core
+    - FirebaseCrash (= 1.1.6)
   - Firebase/Messaging (3.14.0):
     - Firebase/Core
     - FirebaseMessaging (= 1.2.2)
@@ -14,6 +17,12 @@ PODS:
     - GoogleToolboxForMac/NSData+zlib (~> 2.1)
   - FirebaseCore (3.5.1):
     - GoogleToolboxForMac/NSData+zlib (~> 2.1)
+  - FirebaseCrash (1.1.6):
+    - FirebaseAnalytics (~> 3.7)
+    - FirebaseInstanceID (~> 1.0)
+    - GoogleToolboxForMac/Logger (~> 2.1)
+    - GoogleToolboxForMac/NSData+zlib (~> 2.1)
+    - Protobuf (~> 3.1)
   - FirebaseInstanceID (1.0.9)
   - FirebaseMessaging (1.2.2):
     - FirebaseAnalytics (~> 3.7)
@@ -63,6 +72,7 @@ DEPENDENCIES:
   - BRYXBanner
   - DropDown
   - Firebase/Core
+  - Firebase/Crash
   - Firebase/Messaging
   - Google/SignIn
   - Ipify
@@ -78,6 +88,7 @@ SPEC CHECKSUMS:
   Firebase: 85a581fb04e44f63ae9f4fbc8d6dabf4a4c18653
   FirebaseAnalytics: 0d1b7d81d5021155be37702a94ba1ec16d45365d
   FirebaseCore: 225d40532489835a034b8f4e2c9c87fbf4f615a2
+  FirebaseCrash: db4c05d9c75baa050744d31b36357c8f1efba481
   FirebaseInstanceID: 2d0518b1378fe9d685ef40cbdd63d2fdc1125339
   FirebaseMessaging: df8267f378580a24174ce7861233aa11d5c90109
   Google: 813c467362eabc11385f5a5cc9ad0cb651a58f4e
@@ -92,6 +103,6 @@ SPEC CHECKSUMS:
   Stripe: abf87fc01f74a2143bba1b1798dd2e4d71fd2cb3
   SwiftyJSON: 29b9f2a64f118c07e691667c2ba1efe536acfe0b
 
-PODFILE CHECKSUM: 9e6e1798e2cb943111fcc26f351fb53d55311217
+PODFILE CHECKSUM: 0fb8e3617deb2b94df3c18620ee0ea46b945e31a
 
-COCOAPODS: 1.2.0
+COCOAPODS: 1.2.1
