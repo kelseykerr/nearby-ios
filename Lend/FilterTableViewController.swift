@@ -28,12 +28,10 @@ class FilterTableViewController: UITableViewController {
     @IBOutlet weak var radiusButton: UIButton!
     @IBOutlet weak var sortButton: UIButton!
 
-    
     let locationDropDown = DropDown()
     let radiusDropDown = DropDown()
     let sortDropDown = DropDown()
     let textField = UITextField()
-
     
     @IBOutlet var searchButton: UIButton!
     

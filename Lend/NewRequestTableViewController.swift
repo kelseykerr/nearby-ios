@@ -27,8 +27,10 @@ class NewRequestTableViewController: UITableViewController {
     @IBOutlet var buyImageView: UIImageView!
     @IBOutlet var mapView: MKMapView!
     @IBOutlet var requestLocationButton: UIButton!
+    @IBOutlet var rentalButton: UIButton!
     
     let requestLocationDropDown = DropDown()
+    let rentalDropDown = DropDown()
     
     var currentMapView = "current location"
     
@@ -37,9 +39,14 @@ class NewRequestTableViewController: UITableViewController {
     
     lazy var dropDowns: [DropDown] = {
         return [
-            self.requestLocationDropDown
+            self.requestLocationDropDown,
+            self.rentalDropDown
         ]
     }()
+    
+    @IBAction func chooseRental(_ sender: AnyObject) {
+        rentalDropDown.show()
+    }
     
     @IBAction func chooseLocation(_ sender: AnyObject) {
         requestLocationDropDown.show()
@@ -56,6 +63,7 @@ class NewRequestTableViewController: UITableViewController {
     
     func setupDropDowns() {
         setupRequestLocationDropDown()
+        setupRentalDropDown()
     }
     
     func setupRequestLocationDropDown() {
@@ -85,6 +93,27 @@ class NewRequestTableViewController: UITableViewController {
         }
     }
 
+    func setupRentalDropDown() {
+        rentalDropDown.anchorView = rentalButton
+        
+        rentalDropDown.bottomOffset = CGPoint(x: 0, y: rentalButton.bounds.height)
+        rentalDropDown.dataSource = [
+            "rent",
+            "buy"
+        ]
+        
+        self.rentalButton.setTitle("rent", for: .normal)
+        // Action triggered on selection
+        rentalDropDown.selectionAction = { [unowned self] (index, item) in
+            self.rentalButton.setTitle(item, for: .normal)
+            if item == "rent" {
+                self.rental = true
+            } else if item == "buy" {
+                self.rental = false
+            }
+            
+        }
+    }
     
     var itemName: String? {
         get {
@@ -104,15 +133,16 @@ class NewRequestTableViewController: UITableViewController {
         }
     }
     
-    var rental: Bool {
-        get {
-            return !self.rentImageView.isHidden
-        }
-        set {
-            self.rentImageView.isHidden = !newValue
-            self.buyImageView.isHidden = newValue
-        }
-    }
+    var rental = true
+//    var rental: Bool {
+//        get {
+//            return !self.rentImageView.isHidden
+//        }
+//        set {
+//            self.rentImageView.isHidden = !newValue
+//            self.buyImageView.isHidden = newValue
+//        }
+//    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -122,7 +152,7 @@ class NewRequestTableViewController: UITableViewController {
         saveButton.clipsToBounds = true
         
         self.hideKeyboardWhenTappedAround()
-        rental = true
+//        rental = true
 
         if request != nil {
             loadFields(request: request!)

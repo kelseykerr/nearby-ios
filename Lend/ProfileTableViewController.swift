@@ -35,21 +35,16 @@ class ProfileTableViewController: UITableViewController, UITextFieldDelegate {
     
     let dateFormatter = DateFormatter()
     
-//    let progressHUD = ProgressHUD(text: "Saving")
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        phoneNumberTextField.delegate = self
-        self.hideKeyboardWhenTappedAround()
         
-//        self.view.addSubview(progressHUD)
-//        progressHUD.hide()
+        phoneNumberTextField.delegate = self
+        
+        self.hideKeyboardWhenTappedAround()
         
         createDatePickers()
         
         dateFormatter.dateFormat = "yyyy-MM-dd"
-//        dateFormatter.dateStyle = .medium
-//        dateFormatter.timeStyle = .short
 
         saveButton.layer.cornerRadius = saveButton.frame.size.height / 16
         saveButton.clipsToBounds = true
@@ -80,8 +75,8 @@ class ProfileTableViewController: UITableViewController, UITextFieldDelegate {
     }
     
     func createDatePickers() {
-        
         birthdatePicker.datePickerMode = UIDatePickerMode.date
+//        birthdatePicker.maximumDate = Date()
         
         let birthdateToolbar = UIToolbar()
         birthdateToolbar.sizeToFit()
@@ -161,7 +156,6 @@ class ProfileTableViewController: UITableViewController, UITextFieldDelegate {
             
             self.view.endEditing(true)
             
-//            progressHUD.show()
             let loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
             loadingNotification.mode = MBProgressHUDMode.indeterminate
             loadingNotification.labelText = "Saving"
@@ -172,7 +166,6 @@ class ProfileTableViewController: UITableViewController, UITextFieldDelegate {
                     self.present(alert, animated: true, completion: nil)
                 }
                 
-//                self.progressHUD.hide()
                 MBProgressHUD.hideAllHUDs(for: self.view, animated: true)
             }
         }

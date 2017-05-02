@@ -150,6 +150,8 @@ class ResponseDetailTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.hideKeyboardWhenTappedAround()
+        
         acceptButton.layer.cornerRadius = acceptButton.frame.size.height / 16
         acceptButton.clipsToBounds = true
         
