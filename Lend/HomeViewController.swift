@@ -111,9 +111,6 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
                 }))
                 self.present(alert, animated: true, completion: nil)
             }
-            if (!user.hasAllRequiredFields()) {
-                self.showEditProfileView()
-            }
         })
     }
     
@@ -123,7 +120,6 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
             showOAuthLoginView()
             return
         }
-        validateProfile()
         let currentLocation = LocationManager.sharedInstance.location
         let radius = getRadius()
         loadRequests((currentLocation?.coordinate.latitude)!, longitude: (currentLocation?.coordinate.longitude)!, radius: radius)
@@ -132,12 +128,22 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
     func acceptTOS(user:NBUser) -> () {
         self.progressHUD.show()
         
-        UserManager.sharedInstance.editUser(user: user) { error in
-            if let error = error {
-                let alert = Utils.createServerErrorAlert(error: error)
-                self.present(alert, animated: true, completion: nil)
-            }
+        NBUser.editSelf(user) { result in
             self.progressHUD.hide()
+            guard result.error == nil else {
+                
+                let alert = Utils.createServerErrorAlert(error: result.error as! NSError)
+                self.present(alert, animated: true, completion: nil)
+                return
+            }
+            
+            guard let editedUser = result.value else {
+                print("no value was returned")
+                return
+            }
+            
+            UserManager.sharedInstance.user = editedUser
+            
         }
 
     }
@@ -182,12 +188,12 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
             self.loadRequests((currentLocation?.coordinate.latitude)!, longitude: (currentLocation?.coordinate.longitude)!, radius: radius)
             
             UserManager.sharedInstance.getUser(completionHandler: { user in
+                self.validateProfile()
             })
         }
     }
     
     func reloadRequests(_ latitude: Double, longitude: Double, radius: Double) {
-        validateProfile()
         mapView.removeAnnotations(mapView.annotations)
         let myLocation = CLLocation(latitude: latitude, longitude: longitude)
         let regionRadius: CLLocationDistance = radius

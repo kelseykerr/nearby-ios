@@ -50,12 +50,28 @@ class UserManager {
         }
     }
     
-    func editUser(user: NBUser, completionHandler: @escaping (NSError?) -> Void) {
-        self.user = user
+    func editUser(user: NBUser, completionHandler: @escaping (NBUser) -> Void) {
+        //self.user = user
         
-        NBUser.editSelf(user) { error in
+        /*NBUser.editSelf(user) { error in
             completionHandler(error)
+        }*/
+        NBUser.editSelf(user) { result in
+            guard result.error == nil else {
+                print(result.error)
+                return
+            }
+            
+            guard let editedUser = result.value else {
+                print("no value was returned")
+                return
+            }
+            
+            self.user = editedUser
+            
+            completionHandler(editedUser)
         }
+        
     }
     
     func removeUser() {
