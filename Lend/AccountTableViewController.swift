@@ -110,7 +110,7 @@ class AccountTableViewController: UITableViewController, LoginViewDelegate {
 
     func loadUser() {
         UserManager.sharedInstance.getUser { fetchedUser in
-
+            UserManager.sharedInstance.validateProfile(vc: self)
             if self.refreshControl != nil && self.refreshControl!.isRefreshing {
                 self.refreshControl?.endRefreshing()
             }

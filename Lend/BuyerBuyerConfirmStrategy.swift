@@ -197,7 +197,7 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
                 requestDetailVC.delegate = historyVC
                 historyVC.navigationController?.pushViewController(requestDetailVC, animated: true)
             }
-            edit.backgroundColor = UIColor.nbTurquoise
+            edit.backgroundColor = UIColor.nbBlue
 
 
             return [delete, edit]
@@ -212,7 +212,7 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
                     
                     historyVC.tableView.isEditing = false
                 }
-                accept.backgroundColor = UIColor.nbTurquoise
+                accept.backgroundColor = UIColor.nbBlue
                 
                 let decline = UITableViewRowAction(style: .normal, title: "Decline") { action, index in
                     print("decline button tapped")

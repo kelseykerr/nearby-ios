@@ -185,7 +185,7 @@ class SellerReturnStrategy: HistoryStateStrategy {
             
             historyVC.tableView.isEditing = false
         }
-        exchange.backgroundColor = UIColor.nbTurquoise
+        exchange.backgroundColor = UIColor.nbBlue
         
         return [exchange]
     }

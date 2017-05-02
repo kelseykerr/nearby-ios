@@ -333,8 +333,8 @@ extension NBUser {
         }
     }
     
-    static func editSelf(_ user: NBUser, completionHandler: @escaping (NSError?) -> Void) {
-        Alamofire.request(UsersRouter.editSelf(user.toJSON())).validate(statusCode: 200..<300).responseJSON { response in
+    static func editSelf(_ user: NBUser, completionHandler: @escaping (Result<NBUser>) -> Void) {
+        /*Alamofire.request(UsersRouter.editSelf(user.toJSON())).validate(statusCode: 200..<300).responseJSON { response in
             var error: NSError? = nil
             if response.result.error != nil {
                 let statusCode = response.response?.statusCode
@@ -342,6 +342,11 @@ extension NBUser {
                 error = NSError(domain: errorMessage!, code: statusCode!, userInfo: nil)
             }
             completionHandler(error)
+        }*/
+        
+        Alamofire.request(UsersRouter.editSelf(user.toJSON()))
+            .responseObject { response in
+                completionHandler(response.result)
         }
     }
     

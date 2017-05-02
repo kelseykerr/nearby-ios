@@ -159,15 +159,36 @@ class ProfileTableViewController: UITableViewController, UITextFieldDelegate {
             let loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
             loadingNotification.mode = MBProgressHUDMode.indeterminate
             loadingNotification.labelText = "Saving"
+
             
-            UserManager.sharedInstance.editUser(user: user!) { error in
-                if let error = error {
+            NBUser.editSelf(user!) { result in
+                MBProgressHUD.hideAllHUDs(for: self.view, animated: true)
+                guard result.error == nil else {
+                    let alert = Utils.createServerErrorAlert(error: result.error as! NSError)
+                    self.present(alert, animated: true, completion: nil)
+                    return
+                }
+                
+                guard let editedUser = result.value else {
+                    print("no value was returned")
+                    return
+                }
+                UserManager.sharedInstance.user = editedUser
+                self.user = editedUser
+                
+            }
+
+            
+            
+        
+            /*UserManager.sharedInstance.editUser(user: user!) { result in
+                guard result.error = nil else {
                     let alert = Utils.createServerErrorAlert(error: error)
                     self.present(alert, animated: true, completion: nil)
                 }
                 
                 MBProgressHUD.hideAllHUDs(for: self.view, animated: true)
-            }
+            }*/
         }
     }
 
