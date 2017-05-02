@@ -391,8 +391,8 @@ extension HomeViewController: MKMapViewDelegate {
                 view.tintColor = UIColor.lightGray
             }
             
-            view.pinTintColor = annotation.rental! ? UIColor.cinnabar : UIColor.pictonBlue
-            
+            //view.pinTintColor = annotation.rental! ? UIColor.cinnabar : UIColor.pictonBlue
+            view.pinTintColor = UIColor.nbBlue
             let image = UIImage(named: "User-64")
             let imageView = UIImageView(image: image)
             imageView.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
@@ -600,7 +600,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
                     }
                 }
             }
-            respond.backgroundColor = UIColor.nbTurquoise
+            respond.backgroundColor = UIColor.nbBlue
             
             return [respond]
         }

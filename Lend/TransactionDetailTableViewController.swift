@@ -92,7 +92,7 @@ class TransactionDetailTableViewController: UITableViewController, MFMessageComp
         
         messageUserButton.layer.cornerRadius = messageUserButton.frame.size.height / 16
         messageUserButton.layer.borderWidth = 1
-        messageUserButton.layer.borderColor = UIColor.nbTurquoise.cgColor
+        messageUserButton.layer.borderColor = UIColor.nbBlue.cgColor
         messageUserButton.clipsToBounds = true
         
         if let transaction = history?.transaction {

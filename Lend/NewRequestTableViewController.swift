@@ -202,7 +202,7 @@ class NewRequestTableViewController: UITableViewController {
             let button = UIButton(type: .detailDisclosure)
             button.setImage(UIImage(named: "Forward-32"), for: UIControlState.normal)
             view.rightCalloutAccessoryView = button
-            view.tintColor = UIColor.nbTurquoise
+            view.tintColor = UIColor.nbBlue
         }
         self.mapView.addAnnotation(annotation)
     }
@@ -236,7 +236,7 @@ class NewRequestTableViewController: UITableViewController {
             let button = UIButton(type: .detailDisclosure)
             button.setImage(UIImage(named: "Forward-32"), for: UIControlState.normal)
             view.rightCalloutAccessoryView = button
-            view.tintColor = UIColor.nbTurquoise
+            view.tintColor = UIColor.nbBlue
         }
         self.mapView.addAnnotation(annotation)
     }
