@@ -506,7 +506,7 @@
         <scene sceneID="zdl-dK-gNc">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Kr8-EV-Ab2" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="History" image="Clock-32-3" id="hM8-Wc-Nkp"/>
+                    <tabBarItem key="tabBarItem" title="History" image="Clock" id="hM8-Wc-Nkp"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="ikx-G3-ce5">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -2083,7 +2083,7 @@
         <scene sceneID="1T7-Ga-BTl">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Mmd-Tw-G6I" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Account" image="Gender Neutral User-32" id="Ats-LT-JLy"/>
+                    <tabBarItem key="tabBarItem" title="Account" image="Contacts" id="Ats-LT-JLy"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="tcM-Wl-cj5">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -2129,7 +2129,7 @@
         <scene sceneID="uR4-UZ-kLf">
             <objects>
                 <navigationController storyboardIdentifier="HomeViewNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="SX8-Nj-MTb" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Home" image="Home-32-4" id="aWU-Dg-xAg"/>
+                    <tabBarItem key="tabBarItem" title="Home" image="Home" id="aWU-Dg-xAg"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="cj4-NM-s02">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -3558,9 +3558,10 @@
     </scenes>
     <resources>
         <image name="Checkmark-16" width="16" height="16"/>
-        <image name="Clock-32-3" width="32" height="32"/>
+        <image name="Clock" width="32" height="32"/>
+        <image name="Contacts" width="32" height="32"/>
         <image name="Gender Neutral User-32" width="32" height="32"/>
-        <image name="Home-32-4" width="32" height="32"/>
+        <image name="Home" width="32" height="32"/>
         <image name="Library-64" width="64" height="64"/>
         <image name="User-64" width="64" height="64"/>
         <image name="nearby_splash_480x320" width="320" height="480"/>
