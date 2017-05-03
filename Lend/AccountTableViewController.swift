@@ -21,7 +21,7 @@ class AccountTableViewController: UITableViewController, LoginViewDelegate {
     @IBOutlet var addressLabel: UILabel!
     @IBOutlet var cityStateZipLabel: UILabel!
     @IBOutlet var userIdLabel: UILabel!
-    @IBOutlet var readyLabel: UILabel!
+//    @IBOutlet var readyLabel: UILabel!
 
     @IBOutlet var userImageView: UIImageView!
     @IBOutlet var versionLabel: UILabel!
@@ -32,8 +32,8 @@ class AccountTableViewController: UITableViewController, LoginViewDelegate {
         userImageView.layer.cornerRadius = userImageView.frame.size.width / 2
         userImageView.clipsToBounds = true
         
-        readyLabel.layer.cornerRadius = readyLabel.frame.size.height / 8
-        readyLabel.clipsToBounds = true
+//        readyLabel.layer.cornerRadius = readyLabel.frame.size.height / 8
+//        readyLabel.clipsToBounds = true
         
         let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
         let build = Bundle.main.infoDictionary?[kCFBundleVersionKey as String] as! String
@@ -92,9 +92,9 @@ class AccountTableViewController: UITableViewController, LoginViewDelegate {
         let zip = user?.zip ?? "<zip>"
 //        self.cityStateZipLabel.text = "\(city), \(state) \(zip)"
         
-        let ready = user?.canRequest
-        self.readyLabel.text = "Ready"
-        self.readyLabel.backgroundColor = UIColor.nbRed
+//        let ready = user?.canRequest
+//        self.readyLabel.text = "Ready"
+//        self.readyLabel.backgroundColor = UIColor.nbRed
         
 //        if let pictureUrl = user?.pictureUrl {
         if let pictureUrl = user?.imageUrl {
