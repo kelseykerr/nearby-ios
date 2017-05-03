@@ -23,7 +23,7 @@ class FilterTableViewController: UITableViewController {
     var filter: SearchFilter?
     
     @IBOutlet var includeMyRequestSwitch: UISwitch!
-    @IBOutlet var includeExpiredRequestSwitch: UISwitch!
+    //@IBOutlet var includeExpiredRequestSwitch: UISwitch!
     @IBOutlet weak var locationButton: UIButton!
     @IBOutlet weak var radiusButton: UIButton!
     @IBOutlet weak var sortButton: UIButton!
@@ -156,7 +156,7 @@ class FilterTableViewController: UITableViewController {
     func loadInitialData() {
         if let filter = filter {
             includeMyRequestSwitch.setOn(filter.includeMyRequest, animated: false)
-            includeExpiredRequestSwitch.setOn(filter.includeExpiredRequest, animated: false)
+            //includeExpiredRequestSwitch.setOn(filter.includeExpiredRequest, animated: false)
             sortButton.setTitle(filter.sortBy, for: .normal)
             locationButton.setTitle(filter.searchBy, for: .normal)
             let radiusString = switchRadiusDoubleToText(radius: filter.searchRadius)
@@ -207,10 +207,6 @@ class FilterTableViewController: UITableViewController {
 //        filter?.includeMyRequest = includeMyRequestSwitch.isOn
     }
     
-    @IBAction func includeExpiredRequestChanged(_ sender: UISwitch) {
-//        filter?.includeExpiredRequest = includeExpiredRequestSwitch.isOn
-    }
-    
     @IBAction func sortRequestByDateChanged(_ sender: UISwitch) {
 //        filter?.sortRequestByDate = sortRequestByDateSwitch.isOn
     }
@@ -220,7 +216,7 @@ class FilterTableViewController: UITableViewController {
         
         if let filter = filter {
             filter.includeMyRequest = includeMyRequestSwitch.isOn
-            filter.includeExpiredRequest = includeExpiredRequestSwitch.isOn
+            //filter.includeExpiredRequest = includeExpiredRequestSwitch.isOn
             filter.searchBy = (locationButton.titleLabel?.text)!
             filter.sortBy = (sortButton.titleLabel?.text)!
             let radiusDouble = switchRadiusTextToDouble(radiusText: (radiusButton.titleLabel?.text)!)

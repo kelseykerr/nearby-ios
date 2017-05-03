@@ -26,9 +26,9 @@ class NewResponseTableViewController: UITableViewController {
     @IBOutlet var returnTimeDatePicker: UIDatePicker!
     @IBOutlet var returnTimeDateTextField: UITextField!
 
-    @IBOutlet var perHourImageView: UIImageView!
+    /*@IBOutlet var perHourImageView: UIImageView!
     @IBOutlet var perDayImageView: UIImageView!
-    @IBOutlet var flatImageView: UIImageView!
+    @IBOutlet var flatImageView: UIImageView!*/
     
     @IBOutlet var saveButton: UIButton!
     
@@ -60,6 +60,7 @@ class NewResponseTableViewController: UITableViewController {
         }
     }
     
+    
 //    var pickupTime: String? {
 //        get {
 //            return pickupTimeDatePicker
@@ -83,7 +84,7 @@ class NewResponseTableViewController: UITableViewController {
     
     var priceType: PriceType {
         get {
-            if !self.perHourImageView.isHidden {
+            /*if !self.perHourImageView.isHidden {
                 return .per_hour
             }
             else if !self.perDayImageView.isHidden {
@@ -91,12 +92,13 @@ class NewResponseTableViewController: UITableViewController {
             }
             else {
                 return .flat
-            }
+            }*/
+            return .flat
         }
         set {
-            self.perHourImageView.isHidden = (newValue != .per_hour)
+            /*self.perHourImageView.isHidden = (newValue != .per_hour)
             self.perDayImageView.isHidden = (newValue != .per_day)
-            self.flatImageView.isHidden = (newValue != .flat)
+            self.flatImageView.isHidden = (newValue != .flat)*/
         }
     }
     
