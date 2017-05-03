@@ -34,6 +34,23 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
     
     lazy var searchBar = UISearchBar(frame: CGRect.zero)
     
+    var refreshControl: UIRefreshControl? {
+        get {
+            if #available(iOS 10.0, *) {
+                return self.tableView.refreshControl
+            } else {
+                return self.tableView.backgroundView as! UIRefreshControl
+            }
+        }
+        set {
+            if #available(iOS 10.0, *) {
+                self.tableView.refreshControl = newValue
+            } else {
+                self.tableView.backgroundView = newValue
+            }
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -61,6 +78,31 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
         self.view.bringSubview(toFront: mapView)
         self.view.bringSubview(toFront: requestButton)
         loadInitialData()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        if self.refreshControl == nil {
+            self.refreshControl = UIRefreshControl()
+            
+            let bounds =  CGRect(x: (refreshControl?.bounds.origin.x)!, y: -26.0, width: (refreshControl?.bounds.size.width)!, height: (refreshControl?.bounds.size.height)!)
+            self.refreshControl?.bounds = bounds
+            
+            self.refreshControl?.addTarget(self, action: #selector(refresh(_:)), for: UIControlEvents.valueChanged)
+        }
+        
+//        if #available(iOS 10.0, *) {
+//            if self.tableView.refreshControl == nil {
+//                self.tableView.refreshControl = UIRefreshControl()
+//                
+//                let bounds =  CGRect(x: (tableView.refreshControl?.bounds.origin.x)!, y: -26.0, width: (tableView.refreshControl?.bounds.size.width)!, height: (tableView.refreshControl?.bounds.size.height)!)
+//                self.tableView.refreshControl?.bounds = bounds
+//                
+//                self.tableView.refreshControl?.addTarget(self, action: #selector(refresh(_:)), for: UIControlEvents.valueChanged)
+//            }
+//        } else {
+//        }
+        
+        super.viewWillAppear(animated)
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -169,9 +211,9 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
         let sort = searchFilter.sortBy
         
         NBRequest.fetchRequests(latitude, longitude: longitude, radius: Converter.metersToMiles(radius), expired: expired, includeMine: includeMine, searchTerm: searchTerm, sort: sort) { result in
-//            if self.refreshControl != nil && self.refreshControl!.refreshing {
-//                self.refreshControl?.endRefreshing()
-//            }
+            if self.refreshControl != nil && self.refreshControl!.isRefreshing {
+                self.refreshControl?.endRefreshing()
+            }
             
             print(result)
             
@@ -222,9 +264,9 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
         //let sort = searchFilter.sortRequestByDate ? "distance": "newest"
         
         NBRequest.fetchRequests(latitude, longitude: longitude, radius: Converter.metersToMiles(radius), expired: expired, includeMine: includeMine, searchTerm: searchTerm, sort: sort) { result in
-//            if self.refreshControl != nil && self.refreshControl!.refreshing {
-//                self.refreshControl?.endRefreshing()
-//            }
+            if self.refreshControl != nil && self.refreshControl!.isRefreshing {
+                self.refreshControl?.endRefreshing()
+            }
             
             guard result.error == nil else {
                 print(result.error)
