@@ -8,6 +8,7 @@
 
 import UIKit
 import MBProgressHUD
+import DropDown
 
 class ProfileTableViewController: UITableViewController, UITextFieldDelegate {
 
@@ -26,10 +27,13 @@ class ProfileTableViewController: UITableViewController, UITextFieldDelegate {
     @IBOutlet var currentLocationSwitch: UISwitch!
     @IBOutlet var homeLocationSwitch: UISwitch!
     @IBOutlet var radiusTextField: UITextField!
+    @IBOutlet var radiusButton: UIButton!
     
     @IBOutlet var saveButton: UIButton!
     
     var user: NBUser?
+    
+    let dropDown = DropDown()
     
     let birthdatePicker = UIDatePicker()
     
@@ -43,9 +47,8 @@ class ProfileTableViewController: UITableViewController, UITextFieldDelegate {
         self.hideKeyboardWhenTappedAround()
         
         createDatePickers()
+        createDropDowns()
         
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-
         saveButton.layer.cornerRadius = saveButton.frame.size.height / 16
         saveButton.clipsToBounds = true
         
@@ -70,7 +73,8 @@ class ProfileTableViewController: UITableViewController, UITextFieldDelegate {
             self.requestNotificationEnabledSwitch.isOn = fetchedUser.newRequestNotificationsEnabled ?? false
             self.currentLocationSwitch.isOn = fetchedUser.currentLocationNotifications ?? false
             self.homeLocationSwitch.isOn = fetchedUser.homeLocationNotifications ?? false
-            self.radiusTextField.text = String(format: "%.1f", fetchedUser.notificationRadius ?? 0.0)
+//            self.radiusTextField.text = String(format: "%.1f", fetchedUser.notificationRadius ?? 0.0)
+            self.radiusButton.setTitle(String(format: "%.1f", fetchedUser.notificationRadius ?? 0.0), for: UIControlState.normal)
         }
     }
     
@@ -87,6 +91,22 @@ class ProfileTableViewController: UITableViewController, UITextFieldDelegate {
         
         dateOfBirthTextField.inputAccessoryView = birthdateToolbar
         dateOfBirthTextField.inputView = birthdatePicker
+        
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+    }
+    
+    func createDropDowns() {
+        dropDown.anchorView = radiusButton
+        dropDown.dataSource = ["0.1", "0.25", "0.5", "1.0", "5.0", "10.0"]
+        dropDown.bottomOffset = CGPoint(x: 0, y: radiusButton.bounds.height)
+        
+        self.radiusButton.setTitle("0.1", for: UIControlState.normal)
+        
+        dropDown.selectionAction = { [unowned self] (index: Int, item: String) in
+            print("Selected item: \(item) at index: \(index)")
+            self.dropDown.hide()
+            self.radiusButton.setTitle(item, for: UIControlState.normal)
+        }
     }
     
     func birthdateDoneButtonPressed() {
@@ -96,6 +116,10 @@ class ProfileTableViewController: UITableViewController, UITextFieldDelegate {
     
     @IBAction func saveButtonPressed(_ sender: UIButton) {
         saveCells()
+    }
+    
+    @IBAction func radiusButtonPressed(_ sender: UIButton) {
+        dropDown.show()
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
@@ -152,14 +176,14 @@ class ProfileTableViewController: UITableViewController, UITextFieldDelegate {
             user?.newRequestNotificationsEnabled = self.requestNotificationEnabledSwitch.isOn
             user?.homeLocationNotifications = self.homeLocationSwitch.isOn
             user?.currentLocationNotifications = self.currentLocationSwitch.isOn
-            user?.notificationRadius = Float(self.radiusTextField.text!) ?? 0.0
+//            user?.notificationRadius = Float(self.radiusTextField.text!) ?? 0.0
+            user?.notificationRadius = Float(self.radiusButton.title(for: UIControlState.normal)!) ?? 0.0
             
             self.view.endEditing(true)
             
             let loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
             loadingNotification.mode = MBProgressHUDMode.indeterminate
-            loadingNotification.labelText = "Saving"
-
+            loadingNotification.label.text = "Saving"
             
             NBUser.editSelf(user!) { result in
                 MBProgressHUD.hideAllHUDs(for: self.view, animated: true)
@@ -177,18 +201,6 @@ class ProfileTableViewController: UITableViewController, UITextFieldDelegate {
                 self.user = editedUser
                 
             }
-
-            
-            
-        
-            /*UserManager.sharedInstance.editUser(user: user!) { result in
-                guard result.error = nil else {
-                    let alert = Utils.createServerErrorAlert(error: error)
-                    self.present(alert, animated: true, completion: nil)
-                }
-                
-                MBProgressHUD.hideAllHUDs(for: self.view, animated: true)
-            }*/
         }
     }
 
