@@ -53,6 +53,8 @@ class NBResponse: ResponseJSONObjectSerializable {
     var responseStatus: ResponseStatus?
     var messages = [NBMessage]()
     var seller: NBUser?
+    var description: String?
+    var messagesEnabled: Bool?
     
     required init?(json: SwiftyJSON.JSON) {
         self.id = json["id"].string
@@ -67,6 +69,8 @@ class NBResponse: ResponseJSONObjectSerializable {
         self.returnLocation = json["returnLocation"].string
         self.exchangeTime = json["exchangeTime"].int64
         self.returnTime = json["returnTime"].int64
+        self.description = json["description"].string
+        self.messagesEnabled = json["messagesEnabled"].bool
         if let buyerStatusString = json["buyerStatus"].string {
             self.buyerStatus = BuyerStatus(rawValue: buyerStatusString)
         }
@@ -147,6 +151,12 @@ class NBResponse: ResponseJSONObjectSerializable {
         }
         if let responseStatus = responseStatus {
             json["responseStatus"] = responseStatus.rawValue as AnyObject?
+        }
+        if let description = description {
+            json["description"] = description as AnyObject?
+        }
+        if let messagesEnabled = messagesEnabled {
+            json["messagesEnabled"] = messagesEnabled as AnyObject?
         }
         return json
     }
