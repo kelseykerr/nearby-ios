@@ -155,7 +155,8 @@ class HistoryTableViewController: UITableViewController {
             }
             
             self.histories = fetchedHistories
-            if (fetchedHistories.count == 0) {
+            
+            if fetchedHistories.count == 0 {
                 let noDataLabel: UILabel = UILabel(frame: CGRect(x: 0, y: 0, width: self.tableView.bounds.size.width, height: self.tableView.bounds.size.height))
                 noDataLabel.text = "no history to show"
                 noDataLabel.textColor = UIColor.black
@@ -164,7 +165,16 @@ class HistoryTableViewController: UITableViewController {
                 self.tableView.separatorStyle = .none
             }
             
-            self.tableView.reloadData()
+            //this may not be the best way, but will prevent from crashing
+            if !UserManager.sharedInstance.userAvailable() {
+                UserManager.sharedInstance.fetchUser(completionHandler: { user in
+                    self.tableView.reloadData()
+                })
+            }
+            else {
+                self.tableView.reloadData()
+            }
+            
         }
     }
     

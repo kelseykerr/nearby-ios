@@ -126,6 +126,19 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
             showOAuthLoginView()
             return
         }
+        
+        // make this better, but loading user ASAP for other use
+        if !UserManager.sharedInstance.userAvailable() {
+//            let loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
+//            loadingNotification.mode = MBProgressHUDMode.indeterminate
+//            loadingNotification.label.text = "Loading..."
+//            loadingNotification.isUserInteractionEnabled = false
+            
+            UserManager.sharedInstance.fetchUser(completionHandler: { user in
+//                MBProgressHUD.hideAllHUDs(for: self.view, animated: true)
+            })
+        }
+        
         let currentLocation = LocationManager.sharedInstance.location
         let radius = getRadius()
         loadRequests((currentLocation?.coordinate.latitude)!, longitude: (currentLocation?.coordinate.longitude)!, radius: radius)
