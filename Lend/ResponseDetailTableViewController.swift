@@ -195,8 +195,15 @@ class ResponseDetailTableViewController: UITableViewController, MFMessageCompose
             if mode == .buyer {
                 descriptionTextView.isEditable = false
                 if (response.responseStatus?.rawValue == "CLOSED") {
+                    priceText.isUserInteractionEnabled = false
+                    pickupLocationText.isUserInteractionEnabled = false
+                    returnLocationText.isUserInteractionEnabled = false
+                    returnTimeDateTextField.isUserInteractionEnabled = false
+                    pickupTimeDateTextField.isUserInteractionEnabled = false
+                    
                     self.acceptButton.isHidden = true
                     self.declineButton.isHidden = true
+                    self.messageUserButton.isHidden = true
                 } else {
                     self.acceptButton.setTitle("Accept/Update", for: UIControlState.normal)
                 }
