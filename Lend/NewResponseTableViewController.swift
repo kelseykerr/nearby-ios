@@ -26,6 +26,7 @@ class NewResponseTableViewController: UITableViewController {
     @IBOutlet var returnTimeDatePicker: UIDatePicker!
     @IBOutlet var returnTimeDateTextField: UITextField!
     @IBOutlet var descriptionTextView: UITextView!
+    @IBOutlet var messagesEnabledSwitch: UISwitch!
 
     /*@IBOutlet var perHourImageView: UIImageView!
     @IBOutlet var perDayImageView: UIImageView!
@@ -202,6 +203,7 @@ class NewResponseTableViewController: UITableViewController {
         response?.exchangeTime = Int64(pickupDatePicker.date.timeIntervalSince1970) * 1000
         response?.returnLocation = returnLocation
         response?.returnTime = Int64(returnDatePicker.date.timeIntervalSince1970) * 1000
+        response?.messagesEnabled = messagesEnabledSwitch.isOn
 //        response?.priceType = priceType
         response?.priceType = .flat
         

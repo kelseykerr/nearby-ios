@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import MessageUI
 
 protocol ResponseDetailTableViewDelegate: class {
     
@@ -28,7 +29,7 @@ enum ResponseDetailTableViewMode {
     case none
 }
 
-class ResponseDetailTableViewController: UITableViewController {
+class ResponseDetailTableViewController: UITableViewController, MFMessageComposeViewControllerDelegate {
     
     @IBOutlet var priceText: UITextField!
     @IBOutlet var pickupLocationText: UITextField!
@@ -40,6 +41,7 @@ class ResponseDetailTableViewController: UITableViewController {
     
     @IBOutlet var acceptButton: UIButton!
     @IBOutlet var declineButton: UIButton!
+    @IBOutlet var messageUserButton: UIButton!
     
     let dateFormatter = DateFormatter()
     
@@ -168,6 +170,11 @@ class ResponseDetailTableViewController: UITableViewController {
         declineButton.layer.cornerRadius = declineButton.frame.size.height / 16
         declineButton.clipsToBounds = true
         
+        messageUserButton.layer.cornerRadius = messageUserButton.frame.size.height / 16
+        messageUserButton.layer.borderWidth = 1
+        messageUserButton.layer.borderColor = UIColor.nbBlue.cgColor
+        messageUserButton.clipsToBounds = true
+        
         createDatePickers()
         
         dateFormatter.dateStyle = .medium
@@ -177,6 +184,7 @@ class ResponseDetailTableViewController: UITableViewController {
             loadFields(response: response)
 
             if mode == .seller {
+                self.messageUserButton.isHidden = true
                 if (response.sellerStatus?.rawValue != "ACCEPTED") {
                     self.acceptButton.setTitle("Accept/Update", for: UIControlState.normal)
                 } else {
@@ -192,11 +200,15 @@ class ResponseDetailTableViewController: UITableViewController {
                 } else {
                     self.acceptButton.setTitle("Accept/Update", for: UIControlState.normal)
                 }
+                if (response.messagesEnabled == nil || !response.messagesEnabled!) {
+                    self.messageUserButton.isHidden = true
+                }
             }
             else if mode == .none {
                 descriptionTextView.isEditable = false
                 self.acceptButton.isHidden = true
                 self.declineButton.isHidden = true
+                self.messageUserButton.isHidden = true
             }
         }
     }
@@ -282,6 +294,25 @@ class ResponseDetailTableViewController: UITableViewController {
             delegate?.declined(response)
             self.navigationController?.popViewController(animated: true)
         }
+    }
+    
+    @IBAction func messageUserButtonPressed(_ sender: UIButton) {
+        let phone = response?.seller?.phone
+        if (MFMessageComposeViewController.canSendText()) {
+            let controller = MFMessageComposeViewController()
+            controller.recipients = [phone!]
+            controller.messageComposeDelegate = self
+            self.present(controller, animated: true, completion: nil)
+        }
+    }
+    
+    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
+        //... handle sms screen actions
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.navigationController?.isNavigationBarHidden = false
     }
     
 }
