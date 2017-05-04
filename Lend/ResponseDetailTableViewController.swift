@@ -35,6 +35,8 @@ class ResponseDetailTableViewController: UITableViewController {
     @IBOutlet var returnLocationText: UITextField!
     @IBOutlet var returnTimeDateTextField: UITextField!
     @IBOutlet var pickupTimeDateTextField: UITextField!
+    @IBOutlet var descriptionTextView: UITextView!
+
     
     @IBOutlet var acceptButton: UIButton!
     @IBOutlet var declineButton: UIButton!
@@ -56,6 +58,15 @@ class ResponseDetailTableViewController: UITableViewController {
         set {
             let price = newValue ?? 0
             priceText.text = String(format: "%.2f", price)
+        }
+    }
+    
+    var responseDescription: String? {
+        get {
+            return descriptionTextView.text
+        }
+        set {
+            descriptionTextView.text = newValue
         }
     }
     
@@ -151,7 +162,6 @@ class ResponseDetailTableViewController: UITableViewController {
         super.viewDidLoad()
         
         self.hideKeyboardWhenTappedAround()
-        
         acceptButton.layer.cornerRadius = acceptButton.frame.size.height / 16
         acceptButton.clipsToBounds = true
         
@@ -175,6 +185,7 @@ class ResponseDetailTableViewController: UITableViewController {
                 self.declineButton.setTitle("Withdraw", for: UIControlState.normal)
             }
             if mode == .buyer {
+                descriptionTextView.isEditable = false
                 if (response.responseStatus?.rawValue == "CLOSED") {
                     self.acceptButton.isHidden = true
                     self.declineButton.isHidden = true
@@ -183,6 +194,7 @@ class ResponseDetailTableViewController: UITableViewController {
                 }
             }
             else if mode == .none {
+                descriptionTextView.isEditable = false
                 self.acceptButton.isHidden = true
                 self.declineButton.isHidden = true
             }
@@ -237,6 +249,7 @@ class ResponseDetailTableViewController: UITableViewController {
         pickupTime = response.exchangeTime
         returnLocation = response.returnLocation
         returnTime = response.returnTime
+        responseDescription = response.description
     }
 
     @IBAction func acceptButtonPressed(_ sender: UIButton) {
@@ -251,6 +264,7 @@ class ResponseDetailTableViewController: UITableViewController {
             self.navigationController?.popViewController(animated: true)
         } else {
             print("update button pressed")
+            response?.description = responseDescription
             response?.sellerStatus = SellerStatus.accepted
             delegate?.edited(response)
             self.navigationController?.popViewController(animated: true)
