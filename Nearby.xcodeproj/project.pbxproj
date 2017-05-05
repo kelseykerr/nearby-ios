@@ -12,6 +12,7 @@
 		4E82AF481EB39C1400C4EFD4 /* ConfirmPriceTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E82AF471EB39C1400C4EFD4 /* ConfirmPriceTableViewController.swift */; };
 		73F7CF868071072F78D6D1CB /* libPods-NearbyTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D418FAC02A6167DA6BE47114 /* libPods-NearbyTests.a */; };
 		AA0382891E985A0F006D9DD0 /* NearbyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0382881E985A0F006D9DD0 /* NearbyTests.swift */; };
+		AA072DBD1EBCDA5B0039495C /* UserDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA072DBC1EBCDA5B0039495C /* UserDataManager.swift */; };
 		AA0F72A31D7791C20023DAA6 /* CategorySelectionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0F72A21D7791C20023DAA6 /* CategorySelectionTableViewController.swift */; };
 		AA0F72A51D77E7FD0023DAA6 /* CategoriesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0F72A41D77E7FD0023DAA6 /* CategoriesManager.swift */; };
 		AA0F72A81D77F9360023DAA6 /* AccountManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0F72A71D77F9360023DAA6 /* AccountManager.swift */; };
@@ -114,6 +115,7 @@
 		AA0382861E985A0F006D9DD0 /* NearbyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NearbyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA0382881E985A0F006D9DD0 /* NearbyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearbyTests.swift; sourceTree = "<group>"; };
 		AA03828A1E985A0F006D9DD0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AA072DBC1EBCDA5B0039495C /* UserDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDataManager.swift; sourceTree = "<group>"; };
 		AA0F72A21D7791C20023DAA6 /* CategorySelectionTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategorySelectionTableViewController.swift; sourceTree = "<group>"; };
 		AA0F72A41D77E7FD0023DAA6 /* CategoriesManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoriesManager.swift; sourceTree = "<group>"; };
 		AA0F72A71D77F9360023DAA6 /* AccountManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountManager.swift; sourceTree = "<group>"; };
@@ -263,6 +265,16 @@
 			path = NearbyTests;
 			sourceTree = "<group>";
 		};
+		AA072DBE1EBCDD3F0039495C /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				AA2EB2DF1E767E3700646AF3 /* UIColorExtension.swift */,
+				AA97466D1E56C10C00C1FA17 /* UIViewControllerExtension.swift */,
+				AA9B97AF1E7FAB3400EE055F /* UIStoryboardExtension.swift */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
 		AA0F72A11D7549A80023DAA6 /* old */ = {
 			isa = PBXGroup;
 			children = (
@@ -283,6 +295,7 @@
 				AA0F72A41D77E7FD0023DAA6 /* CategoriesManager.swift */,
 				AA52E6CD1EB287DC00934C72 /* NewAccountManager.swift */,
 				AAB7690B1E2B35EF0021F657 /* UserManager.swift */,
+				AA072DBC1EBCDA5B0039495C /* UserDataManager.swift */,
 			);
 			name = Managers;
 			sourceTree = "<group>";
@@ -292,8 +305,6 @@
 			children = (
 				AA2C47501D6B759D0013F350 /* Converter.swift */,
 				AA97466B1E54540C00C1FA17 /* Utils.swift */,
-				AA2EB2DF1E767E3700646AF3 /* UIColorExtension.swift */,
-				AA9B97AF1E7FAB3400EE055F /* UIStoryboardExtension.swift */,
 			);
 			name = Other;
 			sourceTree = "<group>";
@@ -333,6 +344,7 @@
 			children = (
 				AA0F72A11D7549A80023DAA6 /* old */,
 				AA2C474F1D6B75600013F350 /* Other */,
+				AA072DBE1EBCDD3F0039495C /* Extensions */,
 				AA0F72A61D77F11A0023DAA6 /* Managers */,
 				AAC3C8B51D5A794800B8F2A9 /* Networking */,
 				AAC3C8B41D5A78BC00B8F2A9 /* Models */,
@@ -425,7 +437,6 @@
 				AA90271C1DD6FC9800B5CA2B /* QRGeneratorViewController.swift */,
 				AA2F16BF1E4662200029AB47 /* QRScannerViewController.swift */,
 				AA4310B71D616DAB00E00F45 /* LoginViewController.swift */,
-				AA97466D1E56C10C00C1FA17 /* UIViewControllerExtension.swift */,
 				E61F58111EAD34C400EA60F0 /* ForgotToScanViewController.swift */,
 			);
 			name = Other;
@@ -779,6 +790,7 @@
 				AA98F7391D9C69910083BB4B /* RequestTableViewCell.swift in Sources */,
 				AA2C474A1D6AA8720013F350 /* HomeViewController.swift in Sources */,
 				AA546A861DCA5F89007E1E8F /* BraintreeRouter.swift in Sources */,
+				AA072DBD1EBCDA5B0039495C /* UserDataManager.swift in Sources */,
 				AA546A841DCA5CD3007E1E8F /* NBBraintree.swift in Sources */,
 				AA2D885F1E852AC30005D969 /* BuyerClosedStrategy.swift in Sources */,
 				AA97466C1E54540C00C1FA17 /* Utils.swift in Sources */,

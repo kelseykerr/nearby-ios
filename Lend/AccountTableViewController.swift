@@ -26,6 +26,8 @@ class AccountTableViewController: UITableViewController, LoginViewDelegate {
     @IBOutlet var userImageView: UIImageView!
     @IBOutlet var versionLabel: UILabel!
     
+    var cleared = true
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -39,13 +41,32 @@ class AccountTableViewController: UITableViewController, LoginViewDelegate {
         let build = Bundle.main.infoDictionary?[kCFBundleVersionKey as String] as! String
         
         self.versionLabel.text = "©2016-17 Iuxta, Inc. v\(version) (\(build))"
-            
-        loadInitialData()
+        
+        if cleared {
+            loadInitialData()
+            cleared = false
+        }
         
         //likely not where this should be
         let token = FIRInstanceID.instanceID().token()!
         NBUser.editFcmToken(token) { error in
         }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if cleared {
+            loadInitialData()
+            cleared = false
+        }
+    }
+    
+    override func clear() {
+        print("Account View Cleared")
+        user = nil
+        self.nameLabel.text = "Full Name"
+        cleared = true
     }
     
     func loadInitialData() {
@@ -139,5 +160,7 @@ class AccountTableViewController: UITableViewController, LoginViewDelegate {
         }
         
         showOAuthLoginView()
+        
+        UserDataManager.sharedInstace.clear()
     }
 }

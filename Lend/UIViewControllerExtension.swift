@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension UIViewController {
+extension UIViewController: Clearable {
 
     func hideKeyboardWhenTappedAround() {
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
@@ -19,4 +19,7 @@ extension UIViewController {
         view.endEditing(true)
     }
 
+    func clear() {
+        // do nothing, override if necessary
+    }
 }

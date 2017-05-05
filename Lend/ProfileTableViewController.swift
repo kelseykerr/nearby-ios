@@ -100,7 +100,7 @@ class ProfileTableViewController: UITableViewController, UITextFieldDelegate {
         dropDown.dataSource = ["0.1", "0.25", "0.5", "1.0", "5.0", "10.0"]
         dropDown.bottomOffset = CGPoint(x: 0, y: radiusButton.bounds.height)
         
-        self.radiusButton.setTitle("0.1", for: UIControlState.normal)
+        self.radiusButton.setTitle("10.0", for: UIControlState.normal)
         
         dropDown.selectionAction = { [unowned self] (index: Int, item: String) in
             print("Selected item: \(item) at index: \(index)")

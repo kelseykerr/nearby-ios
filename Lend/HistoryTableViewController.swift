@@ -16,13 +16,20 @@ class HistoryTableViewController: UITableViewController {
     var histories = [NBHistory]()
     var nextPageURLString: String?
     var isLoading = false
+    var cleared = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        UserDataManager.sharedInstace.addClearable(self)
+        
         self.tableView.contentInset = UIEdgeInsetsMake(-26, 0, 0, 0)
         
-        loadHistories()
+        //may not need this?
+        if cleared {
+            loadHistories()
+            cleared = false
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -35,7 +42,23 @@ class HistoryTableViewController: UITableViewController {
             self.refreshControl?.addTarget(self, action: #selector(refresh(_:)), for: UIControlEvents.valueChanged)
         }
         
+        if cleared {
+            loadHistories()
+            cleared = false
+        }
+        
         super.viewWillAppear(animated)
+    }
+    
+//    override func viewDidUnload() {
+//        UserDataManager.sharedInstace.removeClearable(self)
+//    }
+    
+    override func clear() {
+        print("History View Cleared")
+        histories = []
+        self.tableView.reloadData()
+        cleared = true
     }
     
     // MARK - Table View

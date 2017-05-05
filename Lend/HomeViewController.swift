@@ -34,6 +34,8 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
     
     lazy var searchBar = UISearchBar(frame: CGRect.zero)
     
+    var cleared = true
+    
     var refreshControl: UIRefreshControl? {
         get {
             if #available(iOS 10.0, *) {
@@ -53,6 +55,8 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        UserDataManager.sharedInstace.addClearable(self)
         
         if LocationManager.sharedInstance.locationAvailable() {
             print(LocationManager.sharedInstance.location)
@@ -77,7 +81,11 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
         self.mapView.delegate = self
         self.view.bringSubview(toFront: mapView)
         self.view.bringSubview(toFront: requestButton)
-        loadInitialData()
+        
+        if cleared {
+            loadInitialData()
+            cleared = false
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -88,6 +96,11 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
             self.refreshControl?.bounds = bounds
             
             self.refreshControl?.addTarget(self, action: #selector(refresh(_:)), for: UIControlEvents.valueChanged)
+        }
+        
+        if cleared {
+            loadInitialData()
+            cleared = false
         }
         
 //        if #available(iOS 10.0, *) {
@@ -103,6 +116,17 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
 //        }
         
         super.viewWillAppear(animated)
+    }
+    
+//    override func viewDidUnload() {
+//        UserDataManager.sharedInstace.removeClearable(self)
+//    }
+    
+    override func clear() {
+        print("Home View Cleared")
+        requests = []
+        self.tableView.reloadData()
+        cleared = true
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {

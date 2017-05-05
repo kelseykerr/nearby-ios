@@ -28,7 +28,7 @@ class SearchFilter {
         self.includeExpiredRequest = false
         self.sortBy = "newest"
         self.searchBy = "current location"
-        self.searchRadius = 1
+        self.searchRadius = 10.0
     }
     
 }
