@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import MessageUI
 
 protocol ResponseDetailTableViewDelegate: class {
     
@@ -28,16 +29,19 @@ enum ResponseDetailTableViewMode {
     case none
 }
 
-class ResponseDetailTableViewController: UITableViewController {
+class ResponseDetailTableViewController: UITableViewController, MFMessageComposeViewControllerDelegate {
     
     @IBOutlet var priceText: UITextField!
     @IBOutlet var pickupLocationText: UITextField!
     @IBOutlet var returnLocationText: UITextField!
     @IBOutlet var returnTimeDateTextField: UITextField!
     @IBOutlet var pickupTimeDateTextField: UITextField!
+    @IBOutlet var descriptionTextView: UITextView!
+
     
     @IBOutlet var acceptButton: UIButton!
     @IBOutlet var declineButton: UIButton!
+    @IBOutlet var messageUserButton: UIButton!
     
     let dateFormatter = DateFormatter()
     
@@ -56,6 +60,15 @@ class ResponseDetailTableViewController: UITableViewController {
         set {
             let price = newValue ?? 0
             priceText.text = String(format: "%.2f", price)
+        }
+    }
+    
+    var responseDescription: String? {
+        get {
+            return descriptionTextView.text
+        }
+        set {
+            descriptionTextView.text = newValue
         }
     }
     
@@ -151,12 +164,16 @@ class ResponseDetailTableViewController: UITableViewController {
         super.viewDidLoad()
         
         self.hideKeyboardWhenTappedAround()
-        
         acceptButton.layer.cornerRadius = acceptButton.frame.size.height / 16
         acceptButton.clipsToBounds = true
         
         declineButton.layer.cornerRadius = declineButton.frame.size.height / 16
         declineButton.clipsToBounds = true
+        
+        messageUserButton.layer.cornerRadius = messageUserButton.frame.size.height / 16
+        messageUserButton.layer.borderWidth = 1
+        messageUserButton.layer.borderColor = UIColor.nbBlue.cgColor
+        messageUserButton.clipsToBounds = true
         
         createDatePickers()
         
@@ -167,6 +184,7 @@ class ResponseDetailTableViewController: UITableViewController {
             loadFields(response: response)
 
             if mode == .seller {
+                self.messageUserButton.isHidden = true
                 if (response.sellerStatus?.rawValue != "ACCEPTED") {
                     self.acceptButton.setTitle("Accept/Update", for: UIControlState.normal)
                 } else {
@@ -175,16 +193,29 @@ class ResponseDetailTableViewController: UITableViewController {
                 self.declineButton.setTitle("Withdraw", for: UIControlState.normal)
             }
             if mode == .buyer {
+                descriptionTextView.isEditable = false
                 if (response.responseStatus?.rawValue == "CLOSED") {
+                    priceText.isUserInteractionEnabled = false
+                    pickupLocationText.isUserInteractionEnabled = false
+                    returnLocationText.isUserInteractionEnabled = false
+                    returnTimeDateTextField.isUserInteractionEnabled = false
+                    pickupTimeDateTextField.isUserInteractionEnabled = false
+                    
                     self.acceptButton.isHidden = true
                     self.declineButton.isHidden = true
+                    self.messageUserButton.isHidden = true
                 } else {
                     self.acceptButton.setTitle("Accept/Update", for: UIControlState.normal)
                 }
+                if (response.messagesEnabled == nil || !response.messagesEnabled!) {
+                    self.messageUserButton.isHidden = true
+                }
             }
             else if mode == .none {
+                descriptionTextView.isEditable = false
                 self.acceptButton.isHidden = true
                 self.declineButton.isHidden = true
+                self.messageUserButton.isHidden = true
             }
         }
     }
@@ -237,6 +268,7 @@ class ResponseDetailTableViewController: UITableViewController {
         pickupTime = response.exchangeTime
         returnLocation = response.returnLocation
         returnTime = response.returnTime
+        responseDescription = response.description
     }
 
     @IBAction func acceptButtonPressed(_ sender: UIButton) {
@@ -251,6 +283,7 @@ class ResponseDetailTableViewController: UITableViewController {
             self.navigationController?.popViewController(animated: true)
         } else {
             print("update button pressed")
+            response?.description = responseDescription
             response?.sellerStatus = SellerStatus.accepted
             delegate?.edited(response)
             self.navigationController?.popViewController(animated: true)
@@ -268,6 +301,25 @@ class ResponseDetailTableViewController: UITableViewController {
             delegate?.declined(response)
             self.navigationController?.popViewController(animated: true)
         }
+    }
+    
+    @IBAction func messageUserButtonPressed(_ sender: UIButton) {
+        let phone = response?.seller?.phone
+        if (MFMessageComposeViewController.canSendText()) {
+            let controller = MFMessageComposeViewController()
+            controller.recipients = [phone!]
+            controller.messageComposeDelegate = self
+            self.present(controller, animated: true, completion: nil)
+        }
+    }
+    
+    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
+        //... handle sms screen actions
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.navigationController?.isNavigationBarHidden = false
     }
     
 }

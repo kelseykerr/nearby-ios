@@ -25,6 +25,8 @@ class NewResponseTableViewController: UITableViewController {
     @IBOutlet var returnLocationTextField: UITextField!
     @IBOutlet var returnTimeDatePicker: UIDatePicker!
     @IBOutlet var returnTimeDateTextField: UITextField!
+    @IBOutlet var descriptionTextView: UITextView!
+    @IBOutlet var messagesEnabledSwitch: UISwitch!
 
     /*@IBOutlet var perHourImageView: UIImageView!
     @IBOutlet var perDayImageView: UIImageView!
@@ -48,6 +50,15 @@ class NewResponseTableViewController: UITableViewController {
         }
         set {
             priceTextField.text = "\(newValue)"
+        }
+    }
+    
+    var responseDescription: String? {
+        get {
+            return descriptionTextView.text
+        }
+        set {
+            descriptionTextView.text = newValue
         }
     }
     
@@ -158,12 +169,14 @@ class NewResponseTableViewController: UITableViewController {
         price = response.offerPrice
         pickupLocation = response.exchangeLocation
         returnLocation = response.returnLocation
+        responseDescription = response.description
     }
     
     func saveFields(response: NBResponse) {
         response.offerPrice = price
         response.exchangeLocation = pickupLocation
         response.returnLocation = returnLocation
+        response.description = responseDescription
     }
     
     @IBAction func cancelButtonPressed(_ sender: UIBarButtonItem) {
@@ -183,12 +196,14 @@ class NewResponseTableViewController: UITableViewController {
         saveFields(response: response!)
         
         response?.offerPrice = price
+        response?.description = responseDescription
         response?.requestId = request?.id
         response?.sellerId = UserManager.sharedInstance.user?.userId
         response?.exchangeLocation = pickupLocation
         response?.exchangeTime = Int64(pickupDatePicker.date.timeIntervalSince1970) * 1000
         response?.returnLocation = returnLocation
         response?.returnTime = Int64(returnDatePicker.date.timeIntervalSince1970) * 1000
+        response?.messagesEnabled = messagesEnabledSwitch.isOn
 //        response?.priceType = priceType
         response?.priceType = .flat
         
