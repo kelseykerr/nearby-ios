@@ -190,6 +190,9 @@ class HistoryTableViewController: UITableViewController {
                 noDataLabel.textAlignment = .center
                 self.tableView.backgroundView = noDataLabel
                 self.tableView.separatorStyle = .none
+            } else {
+                self.tableView.backgroundView = nil;
+
             }
             
             //this may not be the best way, but will prevent from crashing
