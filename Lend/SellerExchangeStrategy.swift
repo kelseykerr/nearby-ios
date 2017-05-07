@@ -36,7 +36,6 @@ class SellerExchangeStrategy: HistoryStateStrategy {
             cell.historyStateLabel.text = " Exchange Override Pending Approval "
         } else {
             cell.historyStateLabel.backgroundColor = UIColor.nbGreen
-            //swift takes off trailing white space, so we must use unicode char
             cell.historyStateLabel.text = " Awaiting Exchange "
             if (response.exchangeTime != nil && response.exchangeTime != 0) {
                 cell.exchangeTimeLabel.isHidden = false

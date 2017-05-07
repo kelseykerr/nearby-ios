@@ -1718,9 +1718,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" rotateEnabled="NO" showsUserLocation="YES" showsPointsOfInterest="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zpc-0m-XnW">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" rotateEnabled="NO" showsUserLocation="YES" showsPointsOfInterest="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zpc-0m-XnW">
                                 <rect key="frame" x="0.0" y="64" width="375" height="554"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </mapView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="80" sectionHeaderHeight="1" sectionFooterHeight="9" translatesAutoresizingMaskIntoConstraints="NO" id="uky-Jy-2eq">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
@@ -1728,10 +1727,10 @@
                                 <color key="separatorColor" red="0.8862745098" green="0.88235294119999996" blue="0.87450980389999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="RequestCell" rowHeight="80" id="E8O-bd-iGr" customClass="HomeTableViewCell" customModule="Nearby" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="55.5" width="375" height="80"/>
+                                        <rect key="frame" x="0.0" y="56" width="375" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="E8O-bd-iGr" id="lfn-vB-hoQ">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="79.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="80"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="User-64" translatesAutoresizingMaskIntoConstraints="NO" id="ls2-9b-CTK">
@@ -1793,18 +1792,20 @@
                                     <outlet property="delegate" destination="lIm-qp-KO4" id="YcF-Dx-eOD"/>
                                 </connections>
                             </tableView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HZ5-fp-xZX">
-                                <rect key="frame" x="0.0" y="574" width="375" height="44"/>
-                                <items>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="Ff8-i2-KUC"/>
-                                    <barButtonItem title="Redo Search In This Area" width="347" id="gUP-5f-AuX">
-                                        <color key="tintColor" red="0.0" green="0.76949679849999997" blue="0.80083006619999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="5tz-Vg-njf"/>
-                                </items>
-                            </toolbar>
+                            <label verifyAmbiguity="off" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="200" placeholderIntrinsicHeight="25" text="no requests found" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="200" translatesAutoresizingMaskIntoConstraints="NO" id="Ljk-Ya-ttC">
+                                <rect key="frame" x="90" y="323" width="200" height="35"/>
+                                <color key="backgroundColor" red="0.0" green="0.89019607840000003" blue="0.92941176469999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="35" id="YYS-Nr-wMO"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="25" id="bzp-pE-jfA"/>
+                                    <constraint firstAttribute="width" constant="200" id="fKx-ho-Now"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kb9-8m-Go8">
-                                <rect key="frame" x="297" y="496" width="62" height="62"/>
+                                <rect key="frame" x="297" y="526" width="62" height="62"/>
                                 <color key="backgroundColor" red="0.0" green="0.8901960784313725" blue="0.92941176470588238" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="62" id="4jD-OZ-CUF"/>
@@ -1834,18 +1835,34 @@
                                     <action selector="requestButtonPressed:" destination="lIm-qp-KO4" eventType="touchUpInside" id="12c-01-lCb"/>
                                 </connections>
                             </button>
+                            <label verifyAmbiguity="off" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" layoutMarginsFollowReadableWidth="YES" text="Nearby is not yet available here" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="300" translatesAutoresizingMaskIntoConstraints="NO" id="yt3-A0-vxS" userLabel="not available">
+                                <rect key="frame" x="40" y="450" width="300" height="35"/>
+                                <color key="backgroundColor" red="0.0" green="0.89019607840000003" blue="0.92941176469999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="300" id="1JJ-jK-KSK"/>
+                                    <constraint firstAttribute="height" constant="35" id="6Ts-0A-r60"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="HZ5-fp-xZX" secondAttribute="trailing" id="15A-Mk-Mxf"/>
+                            <constraint firstItem="uky-Jy-2eq" firstAttribute="trailing" secondItem="Zpc-0m-XnW" secondAttribute="trailing" id="0g2-TN-HOX"/>
+                            <constraint firstItem="Ljk-Ya-ttC" firstAttribute="top" secondItem="6ol-AP-CL7" secondAttribute="bottom" constant="259" id="4GH-Yy-czx"/>
                             <constraint firstItem="uky-Jy-2eq" firstAttribute="bottom" secondItem="Ggc-3q-ykF" secondAttribute="top" id="DV6-95-6Xn"/>
                             <constraint firstItem="kb9-8m-Go8" firstAttribute="trailing" secondItem="FMz-Zy-R9c" secondAttribute="trailingMargin" id="HSg-9H-z7O"/>
-                            <constraint firstItem="HZ5-fp-xZX" firstAttribute="top" secondItem="kb9-8m-Go8" secondAttribute="bottom" constant="16" id="KNu-sJ-oVE"/>
-                            <constraint firstItem="HZ5-fp-xZX" firstAttribute="bottom" secondItem="Ggc-3q-ykF" secondAttribute="top" id="KsM-Jq-JMd"/>
-                            <constraint firstItem="uky-Jy-2eq" firstAttribute="leading" secondItem="HZ5-fp-xZX" secondAttribute="leading" id="PEE-Iw-r2T"/>
+                            <constraint firstItem="Zpc-0m-XnW" firstAttribute="top" secondItem="6ol-AP-CL7" secondAttribute="bottom" id="ODn-3Z-j0F"/>
+                            <constraint firstItem="uky-Jy-2eq" firstAttribute="bottom" secondItem="Zpc-0m-XnW" secondAttribute="bottom" id="PwF-Q7-ubp"/>
+                            <constraint firstItem="uky-Jy-2eq" firstAttribute="leading" secondItem="Zpc-0m-XnW" secondAttribute="leading" id="Rsr-jB-lxM"/>
                             <constraint firstItem="uky-Jy-2eq" firstAttribute="top" secondItem="FMz-Zy-R9c" secondAttribute="top" id="Xpb-Ev-4hX"/>
-                            <constraint firstItem="uky-Jy-2eq" firstAttribute="trailing" secondItem="HZ5-fp-xZX" secondAttribute="trailing" id="alh-Vx-3JW"/>
-                            <constraint firstItem="HZ5-fp-xZX" firstAttribute="leading" secondItem="FMz-Zy-R9c" secondAttribute="leading" id="vin-2Z-gBC"/>
+                            <constraint firstAttribute="trailing" secondItem="uky-Jy-2eq" secondAttribute="trailing" id="agY-98-LOd"/>
+                            <constraint firstItem="Ljk-Ya-ttC" firstAttribute="leading" secondItem="FMz-Zy-R9c" secondAttribute="leadingMargin" constant="74" id="bMq-G4-MOU"/>
+                            <constraint firstItem="Ljk-Ya-ttC" firstAttribute="centerX" secondItem="yt3-A0-vxS" secondAttribute="centerX" id="mWM-5V-FYB"/>
+                            <constraint firstItem="uky-Jy-2eq" firstAttribute="leading" secondItem="FMz-Zy-R9c" secondAttribute="leading" id="nQA-cx-cRG"/>
+                            <constraint firstItem="yt3-A0-vxS" firstAttribute="top" secondItem="Ljk-Ya-ttC" secondAttribute="bottom" constant="92" id="oNs-If-zm8"/>
+                            <constraint firstItem="Ggc-3q-ykF" firstAttribute="top" secondItem="kb9-8m-Go8" secondAttribute="bottom" constant="30" id="yAe-eo-sHm"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Lte-Z2-2vf">
@@ -1864,6 +1881,8 @@
                     </navigationItem>
                     <connections>
                         <outlet property="mapView" destination="Zpc-0m-XnW" id="AtT-DM-uua"/>
+                        <outlet property="noResultsText" destination="Ljk-Ya-ttC" id="tCX-cO-Dwy"/>
+                        <outlet property="notAvailableText" destination="yt3-A0-vxS" id="Yf3-0g-Sre"/>
                         <outlet property="requestButton" destination="kb9-8m-Go8" id="fcU-WI-urU"/>
                         <outlet property="tableView" destination="uky-Jy-2eq" id="8mG-f1-OKI"/>
                     </connections>
