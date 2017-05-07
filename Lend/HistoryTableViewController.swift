@@ -18,6 +18,8 @@ class HistoryTableViewController: UITableViewController {
     var isLoading = false
     var cleared = true
     
+    var historyFilter = HistoryFilter()
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -162,7 +164,9 @@ class HistoryTableViewController: UITableViewController {
     }
     
     func loadHistories() {
-        NBHistory.fetchSelfHistories { result in
+        var filter = self.historyFilter
+        NBHistory.fetchHistories(includeTransaction: filter.includeTransaction, includeRequest: filter.includeRequest, includeOffer: filter.includeOffer, includeOpen: filter.includeOpen, includeClosed: filter.includeClosed) { result in
+//        NBHistory.fetchSelfHistories { result in
             if self.refreshControl != nil && self.refreshControl!.isRefreshing {
                 self.refreshControl?.endRefreshing()
             }
@@ -353,3 +357,28 @@ extension HistoryTableViewController: QRScannerViewDelegate {
     
 }
 
+extension HistoryTableViewController: HistoryFilterTableViewDelegate {
+    
+    @IBAction func filterButtonPressed(_ sender: UIBarButtonItem) {
+        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        guard let navVC = storyboard.instantiateViewController(withIdentifier: "HistoryFilterNavigationController") as? UINavigationController else {
+            assert(false, "Misnamed view controller")
+            return
+        }
+        let filterVC = (navVC.childViewControllers[0] as! HistoryFilterTableViewController)
+        filterVC.delegate = self
+        filterVC.filter = self.historyFilter
+        self.present(navVC, animated: true, completion: nil)
+    }
+    
+    func filtered(filter: HistoryFilter) {
+        self.historyFilter = filter
+        print("filtered")
+        loadHistories()
+    }
+    
+    func filterCancelled() {
+        print("filter cancelled")
+    }
+    
+}

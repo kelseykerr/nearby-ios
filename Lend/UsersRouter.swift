@@ -18,6 +18,7 @@ enum UsersRouter: URLRequestConvertible {
     case getSelfRequests()
     case editSelf([String: AnyObject])
     case getSelfHistory()
+    case getHistory(Bool, Bool, Bool, Bool, Bool)
     case getUser(String)
     case editFcmToken(String)
     case getPaymentInfo()
@@ -33,7 +34,7 @@ enum UsersRouter: URLRequestConvertible {
     public func asURLRequest() throws -> URLRequest {
         var method: Alamofire.HTTPMethod {
             switch self {
-            case .getSelf, .getSelfRequests, .getSelfHistory, .getUser, .getAtPath, .getPaymentInfo:
+            case .getSelf, .getSelfRequests, .getSelfHistory, .getUser, .getAtPath, .getPaymentInfo, .getHistory:
                 return .get
             case .editSelf, .editFcmToken:
                 return .put
@@ -49,6 +50,38 @@ enum UsersRouter: URLRequestConvertible {
                 relativePath = "users/me/requests"
             case .getSelfHistory:
                 relativePath = "users/me/history"
+            case .getHistory(let includeTransaction, let includeRequest, let includeOffer, let includeOpen, let includeClosed):
+                var paramStrings: [String] = []
+                
+                if includeTransaction {
+                    paramStrings.append("types=transactions")
+                }
+                if includeRequest {
+                    paramStrings.append("types=resquests")
+                }
+                if includeOffer {
+                    paramStrings.append("types=offers")
+                }
+                
+                if includeOpen {
+                    paramStrings.append("status=open")
+                }
+                if includeClosed {
+                    paramStrings.append("status=closed")
+                }
+                
+                var additionalRelativeString: String = ""
+                for (i, paramString) in paramStrings.enumerated() {
+                    if i == 0 {
+                        additionalRelativeString = "?\(paramString)"
+                    }
+                    else {
+                        additionalRelativeString = "\(additionalRelativeString)&\(paramString)"
+                    }
+                }
+                
+                relativePath = "users/me/history\(additionalRelativeString)"
+                
             case .editSelf:
                 relativePath = "users/me"
             case .editFcmToken(let token):
@@ -62,16 +95,23 @@ enum UsersRouter: URLRequestConvertible {
                 return Foundation.URL(string: path)!
             }
             
-            var URL = Foundation.URL(string: UsersRouter.baseURLString)!
+            // use NSURLComponents
+            var URL = Foundation.URL(string: RequestsRouter.baseURLString)!
             if let relativePath = relativePath {
-                URL = URL.appendingPathComponent(relativePath)
+                let escapedAddress = relativePath.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed) as String?
+                URL = Foundation.URL(string: RequestsRouter.baseURLString + escapedAddress!)!
             }
             return URL
+//            var URL = Foundation.URL(string: UsersRouter.baseURLString)!
+//            if let relativePath = relativePath {
+//                URL = URL.appendingPathComponent(relativePath)
+//            }
+//            return URL
         }()
         
         let params: ([String: AnyObject]?) = {
             switch self {
-            case .getSelf, .getSelfRequests, .getSelfHistory, .getUser, .getAtPath, .getPaymentInfo:
+            case .getSelf, .getSelfRequests, .getSelfHistory, .getUser, .getAtPath, .getPaymentInfo, .getHistory:
                 return nil
             case .editSelf(let newItem):
                 return (newItem)

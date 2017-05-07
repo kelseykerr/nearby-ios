@@ -13,6 +13,8 @@
 		73F7CF868071072F78D6D1CB /* libPods-NearbyTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D418FAC02A6167DA6BE47114 /* libPods-NearbyTests.a */; };
 		AA0382891E985A0F006D9DD0 /* NearbyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0382881E985A0F006D9DD0 /* NearbyTests.swift */; };
 		AA072DBD1EBCDA5B0039495C /* UserDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA072DBC1EBCDA5B0039495C /* UserDataManager.swift */; };
+		AA072DC01EBE50DC0039495C /* HistoryFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA072DBF1EBE50DC0039495C /* HistoryFilter.swift */; };
+		AA072DC41EBE51300039495C /* HistoryFilterTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA072DC31EBE51300039495C /* HistoryFilterTableViewController.swift */; };
 		AA0F72A31D7791C20023DAA6 /* CategorySelectionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0F72A21D7791C20023DAA6 /* CategorySelectionTableViewController.swift */; };
 		AA0F72A51D77E7FD0023DAA6 /* CategoriesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0F72A41D77E7FD0023DAA6 /* CategoriesManager.swift */; };
 		AA0F72A81D77F9360023DAA6 /* AccountManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0F72A71D77F9360023DAA6 /* AccountManager.swift */; };
@@ -116,6 +118,8 @@
 		AA0382881E985A0F006D9DD0 /* NearbyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearbyTests.swift; sourceTree = "<group>"; };
 		AA03828A1E985A0F006D9DD0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AA072DBC1EBCDA5B0039495C /* UserDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDataManager.swift; sourceTree = "<group>"; };
+		AA072DBF1EBE50DC0039495C /* HistoryFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryFilter.swift; sourceTree = "<group>"; };
+		AA072DC31EBE51300039495C /* HistoryFilterTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryFilterTableViewController.swift; sourceTree = "<group>"; };
 		AA0F72A21D7791C20023DAA6 /* CategorySelectionTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategorySelectionTableViewController.swift; sourceTree = "<group>"; };
 		AA0F72A41D77E7FD0023DAA6 /* CategoriesManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoriesManager.swift; sourceTree = "<group>"; };
 		AA0F72A71D77F9360023DAA6 /* AccountManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountManager.swift; sourceTree = "<group>"; };
@@ -278,6 +282,7 @@
 		AA0F72A11D7549A80023DAA6 /* old */ = {
 			isa = PBXGroup;
 			children = (
+				AA546A851DCA5F89007E1E8F /* BraintreeRouter.swift */,
 				AA0F72A71D77F9360023DAA6 /* AccountManager.swift */,
 				AA9746691E4E38B900C1FA17 /* ProgressHUD.swift */,
 				AA2EB2DD1E7675AB00646AF3 /* HistoryTransactionTableViewCell.swift */,
@@ -415,6 +420,8 @@
 				AAC3C8A71D5A789800B8F2A9 /* HistoryTableViewController.swift */,
 				AA8F27921E5AA24D003CDC22 /* HistoryRequestTableViewCell.swift */,
 				AAB769091E285C1C0021F657 /* HistoryResponseTableViewCell.swift */,
+				AA072DC31EBE51300039495C /* HistoryFilterTableViewController.swift */,
+				AA072DBF1EBE50DC0039495C /* HistoryFilter.swift */,
 			);
 			name = History;
 			sourceTree = "<group>";
@@ -512,7 +519,6 @@
 				AA9721251D65637E0036E007 /* UsersRouter.swift */,
 				AA2C47521D6D0B0B0013F350 /* CategoriesRouter.swift */,
 				AA8B21EC1D9A50D50026ED7D /* TransactionsRouter.swift */,
-				AA546A851DCA5F89007E1E8F /* BraintreeRouter.swift */,
 				AA3E34001E78E9A800B92943 /* StripeRouter.swift */,
 				AAC3C8AB1D5A789800B8F2A9 /* NearbyAPIManager.swift */,
 			);
@@ -812,6 +818,7 @@
 				AA9721221D651C460036E007 /* RequestsRouter.swift in Sources */,
 				AA8B21E71D98EECD0026ED7D /* NBHistory.swift in Sources */,
 				AA38307F1D5A75F600C125F6 /* AppDelegate.swift in Sources */,
+				AA072DC01EBE50DC0039495C /* HistoryFilter.swift in Sources */,
 				AA8F27A21E5ABCCC003CDC22 /* BuyerBuyerConfirmStrategy.swift in Sources */,
 				AA3E34031E79015000B92943 /* NBStripe.swift in Sources */,
 				AA8F27A81E5ABE04003CDC22 /* BuyerExchangeStrategy.swift in Sources */,
@@ -821,6 +828,7 @@
 				AA3F641C1D7B80740021964B /* NBResponse.swift in Sources */,
 				AA8B21EB1D9A4A220026ED7D /* NBExchangeOverride.swift in Sources */,
 				AA0F72A31D7791C20023DAA6 /* CategorySelectionTableViewController.swift in Sources */,
+				AA072DC41EBE51300039495C /* HistoryFilterTableViewController.swift in Sources */,
 				AA2D885D1E8378970005D969 /* TransactionDetailTableViewController.swift in Sources */,
 				AA2D88611E852AF80005D969 /* SellerClosedStrategy.swift in Sources */,
 				AA3E34011E78E9A800B92943 /* StripeRouter.swift in Sources */,

@@ -217,4 +217,12 @@ extension NBHistory {
         }
     }
     
+    static func fetchHistories(includeTransaction: Bool, includeRequest: Bool, includeOffer: Bool, includeOpen: Bool, includeClosed: Bool, completionHandler: @escaping (Result<[NBHistory]>) -> Void) {
+        print(UsersRouter.getHistory(includeTransaction, includeRequest, includeOffer, includeOpen, includeClosed).urlRequest)
+        Alamofire.request(UsersRouter.getHistory(includeTransaction, includeRequest, includeOffer, includeOpen, includeClosed))
+            .responseArray { response in
+                completionHandler(response.result)
+        }
+    }
+    
 }

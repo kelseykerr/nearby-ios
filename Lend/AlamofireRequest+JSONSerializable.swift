@@ -46,8 +46,6 @@ extension Alamofire.DataRequest {
             case .success(let value):
                 let json = SwiftyJSON.JSON(value)
                 
-print(json)
-                
                 if let errorMessage = json["message"].string {
 //                    let error = Alamofire.Error.errorWithCode(.dataSerializationFailed, failureReason: errorMessage)
 //                    let error = BackendError.dataSerialization(error: error!)
@@ -81,10 +79,6 @@ print(json)
             
             let JSONResponseSerializer = DataRequest.jsonResponseSerializer(options: .allowFragments)
             
-            print(request)
-            print(response)
-            print(responseData)
-            print(error)
             let result = JSONResponseSerializer.serializeResponse(request, response,
                 responseData, error)
             
@@ -93,8 +87,6 @@ print(json)
                 return .failure(error)
             case .success(let value):
                 let json = SwiftyJSON.JSON(value)
-                
-print(json)
                 
                 if let errorMessage = json["message"].string {
 //                    let error = Alamofire.Error.errorWithCode(.dataSerializationFailed, failureReason: errorMessage)
