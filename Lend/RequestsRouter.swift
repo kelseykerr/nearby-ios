@@ -10,7 +10,8 @@ import Foundation
 import Alamofire
 
 enum RequestsRouter: URLRequestConvertible {
-    
+    //static let baseURLString = "http://192.168.0.173:8080/api/"
+
     static let baseURLString = "https://alpha-server.thenearbyapp.com/api/"
 //    static let baseURLString = "https://server.thenearbyapp.com/api/"
 

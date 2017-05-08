@@ -13,12 +13,16 @@ import SwiftyJSON
 import Ipify
 import MBProgressHUD
 
+
 class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelegate {
 
     @IBOutlet var mapView: MKMapView!
     @IBOutlet var tableView: UITableView!
     //@IBOutlet var reloadView: UIToolbar!
     @IBOutlet var requestButton: UIButton!
+    @IBOutlet var noResultsView: UIView!
+    @IBOutlet var noResultsText: UILabel!
+    @IBOutlet var notAvailableText: UILabel!
     
     var requests = [NBRequest]()
     var nextPageURLString: String?
@@ -81,7 +85,12 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
         self.mapView.delegate = self
         self.view.bringSubview(toFront: mapView)
         self.view.bringSubview(toFront: requestButton)
-        
+        self.view.bringSubview(toFront: noResultsText)
+        self.view.bringSubview(toFront: notAvailableText)
+        self.noResultsText.center = self.view.center
+        self.notAvailableText.center = self.view.center
+
+
         if cleared {
             loadInitialData()
             cleared = false
@@ -254,24 +263,22 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
             
             print(result)
             
+             //TODO: This doesn't work...we areen't ever getting server errors here, the method that uses the responseArray needs to be updated
             guard result.error == nil else {
-                print(result.error)
+                //TODO: if error == 403, display the not available message on the screen
+                print(result.error!)
                 return
             }
-            
+            self.notAvailableText.isHidden = true;
             guard let fetchedRequests = result.value else {
                 print("no requests fetched")
                 return
             }
             if (fetchedRequests.count == 0) {
-                let noDataLabel: UILabel = UILabel(frame: CGRect(x: 0, y: 0, width: self.tableView.bounds.size.width, height: self.tableView.bounds.size.height))
-                noDataLabel.text = "No Requests Found"
-                noDataLabel.textColor = UIColor.black
-                noDataLabel.textAlignment = .center
-                self.tableView.backgroundView = noDataLabel
-                self.tableView.separatorStyle = .none
+                self.noResultsText.isHidden = false;
+                self.noResultsText.center = self.view.center
             } else {
-                self.tableView.backgroundView = nil
+                self.noResultsText.isHidden = true;
             }
             
             for req in fetchedRequests {
@@ -288,7 +295,8 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
     func loadRequests(_ latitude: Double, longitude: Double, radius: Double) {
         
         mapView.removeAnnotations(mapView.annotations)
-        
+        noResultsText.isHidden = true;
+        notAvailableText.isHidden = true;
         let myLocation = CLLocation(latitude: latitude, longitude: longitude)
         let regionRadius: CLLocationDistance = radius
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(myLocation.coordinate, regionRadius * 2.0, regionRadius * 2.0)
@@ -305,8 +313,10 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
                 self.refreshControl?.endRefreshing()
             }
             
+            //TODO: This doesn't work...we areen't ever getting server errors here, the method that uses the responseArray needs to be updated
             guard result.error == nil else {
-                print(result.error)
+                //TODO: if error == 403, display the not available message on the screen
+                print(result.error!)
                 return
             }
             
@@ -314,15 +324,12 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
                 print("no requests fetched")
                 return
             }
+            self.notAvailableText.isHidden = true;
             if (fetchedRequests.count == 0) {
-                let noDataLabel: UILabel = UILabel(frame: CGRect(x: 0, y: 0, width: self.tableView.bounds.size.width, height: self.tableView.bounds.size.height))
-                noDataLabel.text = "No Requests Found"
-                noDataLabel.textColor = UIColor.black
-                noDataLabel.textAlignment = .center
-                self.tableView.backgroundView = noDataLabel
-                self.tableView.separatorStyle = .none
+                self.noResultsText.isHidden = false;
+                self.noResultsText.center = self.view.center
             } else {
-                self.tableView.backgroundView = nil
+                self.noResultsText.isHidden = true;
             }
             
             for req in fetchedRequests {
@@ -346,10 +353,13 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
         else {
             sender.title = "List"
             self.view.bringSubview(toFront: mapView)
-            //self.view.bringSubview(toFront: reloadView)
-//            self.view.bringSubview(toFront: requestButton)
         }
         self.view.bringSubview(toFront: requestButton)
+        self.view.bringSubview(toFront: noResultsText)
+        self.noResultsText.center = self.view.center
+        self.view.bringSubview(toFront: notAvailableText)
+        self.notAvailableText.center = self.view.center
+
     }
     
     /*@IBAction func redoSearchButtonPressed(_ sender: UIBarButtonItem) {
