@@ -179,6 +179,44 @@ class NewResponseTableViewController: UITableViewController {
         response.description = responseDescription
     }
     
+    //magic numbers are bad
+    //really should be checking rental againt some enum? and maybe check if nil in the model itself
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == 3 && !(request?.rental)! {
+            return nil
+        }
+        else {
+            return super.tableView(tableView, titleForHeaderInSection: section)
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if section == 3 && !(request?.rental)! {
+            return 0.1
+        }
+        else {
+            return super.tableView(tableView, heightForHeaderInSection: section)
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        if section == 3 && !(request?.rental)! {
+            return 0.1
+        }
+        else {
+            return super.tableView(tableView, heightForFooterInSection: section)
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if section == 3 && !(request?.rental)! {
+            return 0
+        }
+        else {
+            return super.tableView(tableView, numberOfRowsInSection: section)
+        }
+    }
+    
     @IBAction func cancelButtonPressed(_ sender: UIBarButtonItem) {
         print("response cancelled")
         delegate?.cancelled()

@@ -270,6 +270,42 @@ class ResponseDetailTableViewController: UITableViewController, MFMessageCompose
         returnTime = response.returnTime
         responseDescription = response.description
     }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == 3 && response?.returnLocation == nil {
+            return nil
+        }
+        else {
+            return super.tableView(tableView, titleForHeaderInSection: section)
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if section == 3 && response?.returnLocation == nil {
+            return 0.1
+        }
+        else {
+            return super.tableView(tableView, heightForHeaderInSection: section)
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        if section == 3 && response?.returnLocation == nil {
+            return 0.1
+        }
+        else {
+            return super.tableView(tableView, heightForFooterInSection: section)
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if section == 3 && response?.returnLocation == nil {
+            return 0
+        }
+        else {
+            return super.tableView(tableView, numberOfRowsInSection: section)
+        }
+    }
 
     @IBAction func acceptButtonPressed(_ sender: UIButton) {
         response?.offerPrice = price
