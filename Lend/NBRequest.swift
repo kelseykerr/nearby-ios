@@ -110,18 +110,11 @@ class NBRequest: NSObject, NSCopying, ResponseJSONObjectSerializable {
 }
 
 extension NBRequest {
-    
-//    static func fetchRequests(_ latitude: Double, longitude: Double, radius: Double, completionHandler: @escaping (Result<[NBRequest]>) -> Void) {
-//        Alamofire.request(RequestsRouter.getRequests(latitude, longitude, radius))
-//            .responseArray { response in
-//                completionHandler(response.result)
-//        }
-//    }
-    
+        
     static func fetchRequests(_ latitude: Double, longitude: Double, radius: Double, expired: Bool, includeMine: Bool, searchTerm: String, sort: String, completionHandler: @escaping (Result<[NBRequest]>) -> Void) {
-        Alamofire.request(RequestsRouter.getRequests(latitude, longitude, radius, expired, includeMine, searchTerm, sort))
-            .responseArray { response in
-                completionHandler(response.result)
+        Alamofire.request(RequestsRouter.getRequests(latitude, longitude, radius, expired, includeMine, searchTerm, sort)).validate(statusCode: 200..<300).responseJSON { response in
+            let result = self.requestArrayFromResponse(response: response)
+            completionHandler(result)
         }
     }
     
@@ -178,6 +171,29 @@ extension NBRequest {
             completionHandler(message)
         }
     }
+    
+    static func requestArrayFromResponse(response: DataResponse<Any>) -> Result<[NBRequest]> {
+        guard response.result.error == nil else {
+            print(response.result.error!)
+            return .failure(NearbyAPIManagerError.network(error: response.result.error!))
+        }
+        
+        guard let jsonArray = response.result.value as? [[String: Any]] else {
+            print("didn't get array of requests object as JSON from API")
+            return .failure(NearbyAPIManagerError.objectSerialization(reason:
+                "Did not get JSON dictionary in response"))
+        }
+        let json = SwiftyJSON.JSON(jsonArray)
+        
+        var objects = [NBRequest]()
+        for (_, item) in json {
+            if let object = NBRequest(json: item) {
+                objects.append(object)
+            }
+        }
+        return .success(objects)
+    }
+    
 }
 
 extension NBRequest {

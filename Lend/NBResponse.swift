@@ -215,9 +215,9 @@ extension NBResponse {
     }
     
     static func fetchResponses(_ requestId: String, completionHandler: @escaping (Result<[NBResponse]>) -> Void) {
-        Alamofire.request(RequestsRouter.getResponses(requestId))
-            .responseArray { response in
-                completionHandler(response.result)
+        Alamofire.request(RequestsRouter.getResponses(requestId)).validate(statusCode: 200..<300).responseJSON { response in
+            let result = self.responseArrayFromResponse(response: response)
+            completionHandler(result)
         }
     }
     
@@ -244,6 +244,28 @@ extension NBResponse {
             }
             completionHandler(error)
         }
+    }
+    
+    static func responseArrayFromResponse(response: DataResponse<Any>) -> Result<[NBResponse]> {
+        guard response.result.error == nil else {
+            print(response.result.error!)
+            return .failure(NearbyAPIManagerError.network(error: response.result.error!))
+        }
+        
+        guard let jsonArray = response.result.value as? [[String: Any]] else {
+            print("didn't get array of responses object as JSON from API")
+            return .failure(NearbyAPIManagerError.objectSerialization(reason:
+                "Did not get JSON dictionary in response"))
+        }
+        let json = SwiftyJSON.JSON(jsonArray)
+        
+        var objects = [NBResponse]()
+        for (_, item) in json {
+            if let object = NBResponse(json: item) {
+                objects.append(object)
+            }
+        }
+        return .success(objects)
     }
     
 }

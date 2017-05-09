@@ -192,8 +192,8 @@ extension NBTransaction {
     static func fetchTransactionCode(id: String, completionHandler: @escaping (Result<String>) -> Void) {
         Alamofire.request(TransactionsRouter.getTransactionCode(id))
             .responseString { response in
-                print("response:")
-                print(response.result)
+//                print("response:")
+//                print(response.result)
                 completionHandler(response.result)
         }
     }

@@ -211,18 +211,39 @@ extension NBHistory {
 extension NBHistory {
     
     static func fetchSelfHistories(_ completionHandler: @escaping (Result<[NBHistory]>) -> Void) {
-        Alamofire.request(UsersRouter.getSelfHistory())
-            .responseArray { response in
-                completionHandler(response.result)
+        Alamofire.request(UsersRouter.getSelfHistory()).validate(statusCode: 200..<300).responseJSON { response in
+            let result = self.historyArrayFromResponse(response: response)
+            completionHandler(result)
         }
     }
     
     static func fetchHistories(includeTransaction: Bool, includeRequest: Bool, includeOffer: Bool, includeOpen: Bool, includeClosed: Bool, completionHandler: @escaping (Result<[NBHistory]>) -> Void) {
-        print(UsersRouter.getHistory(includeTransaction, includeRequest, includeOffer, includeOpen, includeClosed).urlRequest)
-        Alamofire.request(UsersRouter.getHistory(includeTransaction, includeRequest, includeOffer, includeOpen, includeClosed))
-            .responseArray { response in
-                completionHandler(response.result)
+        Alamofire.request(UsersRouter.getHistory(includeTransaction, includeRequest, includeOffer, includeOpen, includeClosed)).validate(statusCode: 200..<300).responseJSON { response in
+            let result = self.historyArrayFromResponse(response: response)
+            completionHandler(result)
         }
+    }
+    
+    static func historyArrayFromResponse(response: DataResponse<Any>) -> Result<[NBHistory]> {
+        guard response.result.error == nil else {
+            print(response.result.error!)
+            return .failure(NearbyAPIManagerError.network(error: response.result.error!))
+        }
+        
+        guard let jsonArray = response.result.value as? [[String: Any]] else {
+            print("didn't get array of histories object as JSON from API")
+            return .failure(NearbyAPIManagerError.objectSerialization(reason:
+                "Did not get JSON dictionary in response"))
+        }
+        let json = SwiftyJSON.JSON(jsonArray)
+        
+        var objects = [NBHistory]()
+        for (_, item) in json {
+            if let object = NBHistory(json: item) {
+                objects.append(object)
+            }
+        }
+        return .success(objects)
     }
     
 }

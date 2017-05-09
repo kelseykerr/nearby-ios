@@ -282,6 +282,7 @@
 		AA0F72A11D7549A80023DAA6 /* old */ = {
 			isa = PBXGroup;
 			children = (
+				AA546A831DCA5CD3007E1E8F /* NBBraintree.swift */,
 				AA546A851DCA5F89007E1E8F /* BraintreeRouter.swift */,
 				AA0F72A71D77F9360023DAA6 /* AccountManager.swift */,
 				AA9746691E4E38B900C1FA17 /* ProgressHUD.swift */,
@@ -497,7 +498,6 @@
 			isa = PBXGroup;
 			children = (
 				AA9721161D64D7410036E007 /* NBUser.swift */,
-				AA546A831DCA5CD3007E1E8F /* NBBraintree.swift */,
 				AA3E34021E79015000B92943 /* NBStripe.swift */,
 				AA97211A1D64DA710036E007 /* NBCategory.swift */,
 				AA97211F1D64E0A50036E007 /* NBRequest.swift */,

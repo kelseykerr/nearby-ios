@@ -11,6 +11,14 @@ import Alamofire
 import SwiftyJSON
 
 
+enum NearbyAPIManagerError: Error {
+    case network(error: Error)
+    case apiProvidedError(reason: String)
+    case authCouldNot(reason: String)
+    case authLost(reason: String)
+    case objectSerialization(reason: String)
+}
+
 class NearbyAPIManager {
     
     static let sharedInstance = NearbyAPIManager()
