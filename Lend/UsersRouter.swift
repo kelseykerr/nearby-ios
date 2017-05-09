@@ -57,7 +57,7 @@ enum UsersRouter: URLRequestConvertible {
                     paramStrings.append("types=transactions")
                 }
                 if includeRequest {
-                    paramStrings.append("types=resquests")
+                    paramStrings.append("types=requests")
                 }
                 if includeOffer {
                     paramStrings.append("types=offers")
