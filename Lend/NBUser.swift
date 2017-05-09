@@ -319,39 +319,63 @@ extension NBUser {
 
 extension NBUser {
     
-    static func fetchSelf(_ completionHandler: @escaping (Result<NBUser>) -> Void) {
+    static func fetchSelf(_ completionHandler: @escaping (Result<NBUser>, NSError?) -> Void) {
         Alamofire.request(UsersRouter.getSelf())
             .validate(statusCode: 200..<300)
             .responseJSON { response in
+                var error: NSError? = nil
+                if response.result.error != nil {
+                    let statusCode = response.response?.statusCode
+                    let errorMessage = String(data: response.data!, encoding: String.Encoding.utf8)
+                    error = NSError(domain: errorMessage!, code: statusCode!, userInfo: nil)
+                }
                 let result = self.userObjectFromResponse(response: response)
-                completionHandler(result)
+                completionHandler(result, error)
         }
     }
     
-    static func fetchSelfRequests(_ completionHandler: @escaping (Result<[NBRequest]>) -> Void) {
+    static func fetchSelfRequests(_ completionHandler: @escaping (Result<[NBRequest]>, NSError?) -> Void) {
         Alamofire.request(UsersRouter.getSelfRequests())
             .validate(statusCode: 200..<300)
             .responseJSON { response in
+                var error: NSError? = nil
+                if response.result.error != nil {
+                    let statusCode = response.response?.statusCode
+                    let errorMessage = String(data: response.data!, encoding: String.Encoding.utf8)
+                    error = NSError(domain: errorMessage!, code: statusCode!, userInfo: nil)
+                }
                 let result = self.requestArrayFromResponse(response: response)
-                completionHandler(result)
+                completionHandler(result, error)
         }
     }
     
-    static func editSelf(_ user: NBUser, completionHandler: @escaping (Result<NBUser>) -> Void) {
+    static func editSelf(_ user: NBUser, completionHandler: @escaping (Result<NBUser>, NSError?) -> Void) {
         Alamofire.request(UsersRouter.editSelf(user.toJSON()))
             .validate(statusCode: 200..<300)
             .responseJSON { response in
+                var error: NSError? = nil
+                if response.result.error != nil {
+                    let statusCode = response.response?.statusCode
+                    let errorMessage = String(data: response.data!, encoding: String.Encoding.utf8)
+                    error = NSError(domain: errorMessage!, code: statusCode!, userInfo: nil)
+                }
                 let result = self.userObjectFromResponse(response: response)
-                completionHandler(result)
+                completionHandler(result, error)
         }
     }
     
-    static func fetchUser(_ id: String, completionHandler: @escaping (Result<NBUser>) -> Void) {
+    static func fetchUser(_ id: String, completionHandler: @escaping (Result<NBUser>, NSError?) -> Void) {
         Alamofire.request(UsersRouter.getUser(id))
             .validate(statusCode: 200..<300)
             .responseJSON { response in
+                var error: NSError? = nil
+                if response.result.error != nil {
+                    let statusCode = response.response?.statusCode
+                    let errorMessage = String(data: response.data!, encoding: String.Encoding.utf8)
+                    error = NSError(domain: errorMessage!, code: statusCode!, userInfo: nil)
+                }
                 let result = self.userObjectFromResponse(response: response)
-                completionHandler(result)
+                completionHandler(result, error)
         }
     }
     

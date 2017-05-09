@@ -180,10 +180,10 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
     func acceptTOS(user:NBUser) -> () {
         self.progressHUD.show()
         
-        NBUser.editSelf(user) { result in
+        NBUser.editSelf(user) { (result, error) in
             self.progressHUD.hide()
-            guard result.error == nil else {
-                let alert = Utils.createServerErrorAlert(error: result.error! as NSError)
+            guard error == nil else {
+                let alert = Utils.createServerErrorAlert(error: error! as NSError)
                 self.present(alert, animated: true, completion: nil)
                 return
             }

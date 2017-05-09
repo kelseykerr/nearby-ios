@@ -11,7 +11,6 @@ import Alamofire
 
 // add fcmToken once I figure out what it is :-P
 enum UsersRouter: URLRequestConvertible {
-    // static let baseURLString = "http://192.168.0.173:8080/api/"
       static let baseURLString = "https://alpha-server.thenearbyapp.com/api/"
 //    static let baseURLString = "https://server.thenearbyapp.com/api/"
     
@@ -103,11 +102,6 @@ enum UsersRouter: URLRequestConvertible {
                 URL = Foundation.URL(string: RequestsRouter.baseURLString + escapedAddress!)!
             }
             return URL
-//            var URL = Foundation.URL(string: UsersRouter.baseURLString)!
-//            if let relativePath = relativePath {
-//                URL = URL.appendingPathComponent(relativePath)
-//            }
-//            return URL
         }()
         
         let params: ([String: AnyObject]?) = {

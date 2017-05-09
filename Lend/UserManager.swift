@@ -24,9 +24,9 @@ class UserManager {
     }
 
     func fetchUser(completionHandler: @escaping (NBUser) -> Void) {
-        NBUser.fetchSelf { result in
-            guard result.error == nil else {
-                print(result.error)
+        NBUser.fetchSelf { (result, error) in
+            guard error == nil else {
+                print(error)
                 return
             }
             
@@ -58,9 +58,9 @@ class UserManager {
         /*NBUser.editSelf(user) { error in
             completionHandler(error)
         }*/
-        NBUser.editSelf(user) { result in
-            guard result.error == nil else {
-                print(result.error)
+        NBUser.editSelf(user) { (result, error) in
+            guard error == nil else {
+                print(error)
                 return
             }
             
@@ -85,9 +85,9 @@ class UserManager {
     }
     
     func acceptTOS(user:NBUser, vc: UIViewController) -> () {
-        NBUser.editSelf(user) { result in
-            guard result.error == nil else {
-                let alert = Utils.createServerErrorAlert(error: result.error! as NSError)
+        NBUser.editSelf(user) { (result, error) in
+            guard error == nil else {
+                let alert = Utils.createServerErrorAlert(error: error! as NSError)
                 vc.present(alert, animated: true, completion: nil)
                 return
             }

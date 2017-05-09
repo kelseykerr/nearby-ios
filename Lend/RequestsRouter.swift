@@ -10,12 +10,9 @@ import Foundation
 import Alamofire
 
 enum RequestsRouter: URLRequestConvertible {
-    //static let baseURLString = "http://192.168.0.173:8080/api/"
-
     static let baseURLString = "https://alpha-server.thenearbyapp.com/api/"
 //    static let baseURLString = "https://server.thenearbyapp.com/api/"
 
-//    case getRequests(Double, Double, Double)
     case getRequests(Double, Double, Double, Bool, Bool, String, String) // latitude, longitude, radius, expired, includeMine, searchTerm, sort
     case getRequest(String)
     case createRequest([String: AnyObject])
@@ -36,7 +33,6 @@ enum RequestsRouter: URLRequestConvertible {
     public func asURLRequest() throws -> URLRequest {
         var method: Alamofire.HTTPMethod {
             switch self {
-//            case .getRequests, .getRequests2, .getRequest, .getAtPath, .getResponses, .getResponse:
             case .getRequests, .getRequest, .getAtPath, .getResponses, .getResponse, .getNotifications:
                 return .get
             case .createRequest, .createResponse:
@@ -51,8 +47,6 @@ enum RequestsRouter: URLRequestConvertible {
         let url: URL = {
             let relativePath: String?
             switch self {
-//            case .getRequests(let latitude, let longitude, let radius):
-//                relativePath = "requests?longitude=\(longitude)&latitude=\(latitude)&radius=\(radius)"
             case .getRequests(let latitude, let longitude, let radius, let expired, let includeMine, let searchTerm, let sort):
                 relativePath = "requests?longitude=\(longitude)&latitude=\(latitude)&radius=\(radius)&expired=\(expired)&includeMine=\(includeMine)&searchTerm=\(searchTerm)&sort=\(sort)"
             case .getRequest(let id):
