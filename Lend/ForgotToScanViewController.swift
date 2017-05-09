@@ -29,8 +29,8 @@ class ForgotToScanViewController: UIViewController {
     @IBAction func saveButtonPressed(_ sender: UIButton) {
         let time = datePicker.date
         let timeInterval = time.timeIntervalSince1970
-        var override = NBExchangeOverride(time: Int64(timeInterval * 1000))
-        var t = NBTransaction(test: false)
+        let override = NBExchangeOverride(time: Int64(timeInterval * 1000))
+        let t = NBTransaction(test: false)
         t.exchangeOverride = override
         t.returnOverride = override
         t.id = transaction?.id

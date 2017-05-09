@@ -142,19 +142,19 @@ class NBUser: ResponseJSONObjectSerializable {
     }
 
     func toString() -> String {
-        return "firstName: \(self.firstName)" +
-               " lastName: \(self.lastName)" +
-               " paymentMethodNonce: \(self.paymentMethodNonce)" +
-               " userId: \(self.userId)" +
-               " fullName: \(self.fullName)" +
-               " id: \(self.id)" +
-               " email: \(self.email)" +
-               " phone: \(self.phone)" +
-               " address: \(self.address)" +
-               " addressLine2: \(self.addressLine2)" +
-               " city: \(self.city)" +
-               " state: \(self.state)" +
-               " zip: \(self.zip)\n"
+        return "firstName: \(String(describing: self.firstName))" +
+               " lastName: \(String(describing: self.lastName))" +
+               " paymentMethodNonce: \(String(describing: self.paymentMethodNonce))" +
+               " userId: \(String(describing: self.userId))" +
+               " fullName: \(String(describing: self.fullName))" +
+               " id: \(String(describing: self.id))" +
+               " email: \(String(describing: self.email))" +
+               " phone: \(String(describing: self.phone))" +
+               " address: \(String(describing: self.address))" +
+               " addressLine2: \(String(describing: self.addressLine2))" +
+               " city: \(String(describing: self.city))" +
+               " state: \(String(describing: self.state))" +
+               " zip: \(String(describing: self.zip))\n"
     }
     
     func toJSON() -> [String: AnyObject] {
@@ -305,7 +305,7 @@ extension NBUser {
     }
     
     func acceptedTos() -> Bool {
-        return self.tosAccepted != nil && self.tosAccepted
+        return self.tosAccepted
     }
     
     func hasAllRequiredFields() -> Bool {

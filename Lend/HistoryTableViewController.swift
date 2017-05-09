@@ -164,15 +164,15 @@ class HistoryTableViewController: UITableViewController {
     }
     
     func loadHistories() {
-        var filter = self.historyFilter
-        NBHistory.fetchHistories(includeTransaction: filter.includeTransaction, includeRequest: filter.includeRequest, includeOffer: filter.includeOffer, includeOpen: filter.includeOpen, includeClosed: filter.includeClosed) { result in
-//        NBHistory.fetchSelfHistories { result in
+        let filter = self.historyFilter
+        NBHistory.fetchHistories(includeTransaction: filter.includeTransaction, includeRequest: filter.includeRequest, includeOffer: filter.includeOffer, includeOpen: filter.includeOpen, includeClosed: filter.includeClosed) { (result, error) in
+
             if self.refreshControl != nil && self.refreshControl!.isRefreshing {
                 self.refreshControl?.endRefreshing()
             }
             
-            guard result.error == nil else {
-                print(result.error)
+            guard error == nil else {
+                print(error)
                 return
             }
             

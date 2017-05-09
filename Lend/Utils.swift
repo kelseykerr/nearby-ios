@@ -56,7 +56,7 @@ class Utils {
     static func dateIntToFormattedString(time: Int64) -> String {
         dateFormatter.dateStyle = .medium
         dateFormatter.timeStyle = .short
-        let epoch = (time ?? 0) / 1000
+        let epoch = (time) / 1000
         let date = Date(timeIntervalSince1970: TimeInterval(epoch))
         let dateString = dateFormatter.string(from: date)
         return dateString

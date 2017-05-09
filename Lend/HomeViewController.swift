@@ -256,7 +256,7 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
         let expired = searchFilter.includeExpiredRequest
         let sort = searchFilter.sortBy
         
-        NBRequest.fetchRequests(latitude, longitude: longitude, radius: Converter.metersToMiles(radius), expired: expired, includeMine: includeMine, searchTerm: searchTerm, sort: sort) { result in
+        NBRequest.fetchRequests(latitude, longitude: longitude, radius: Converter.metersToMiles(radius), expired: expired, includeMine: includeMine, searchTerm: searchTerm, sort: sort) { (result, error) in
             if self.refreshControl != nil && self.refreshControl!.isRefreshing {
                 self.refreshControl?.endRefreshing()
             }
@@ -264,9 +264,9 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
             print(result)
             
              //TODO: This doesn't work...we areen't ever getting server errors here, the method that uses the responseArray needs to be updated
-            guard result.error == nil else {
+            guard error == nil else {
                 //TODO: if error == 403, display the not available message on the screen
-                print(result.error!)
+                print(error)
                 return
             }
             self.notAvailableText.isHidden = true;
@@ -308,15 +308,15 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
         let sort = searchFilter.sortBy;
         //let sort = searchFilter.sortRequestByDate ? "distance": "newest"
         
-        NBRequest.fetchRequests(latitude, longitude: longitude, radius: Converter.metersToMiles(radius), expired: expired, includeMine: includeMine, searchTerm: searchTerm, sort: sort) { result in
+        NBRequest.fetchRequests(latitude, longitude: longitude, radius: Converter.metersToMiles(radius), expired: expired, includeMine: includeMine, searchTerm: searchTerm, sort: sort) { (result, error) in
             if self.refreshControl != nil && self.refreshControl!.isRefreshing {
                 self.refreshControl?.endRefreshing()
             }
             
             //TODO: This doesn't work...we areen't ever getting server errors here, the method that uses the responseArray needs to be updated
-            guard result.error == nil else {
+            guard error == nil else {
                 //TODO: if error == 403, display the not available message on the screen
-                print(result.error!)
+                print(error)
                 return
             }
             
@@ -774,7 +774,7 @@ extension HomeViewController: NewRequestTableViewDelegate, NewResponseTableViewD
         print("HomeViewController->requestSaved")
         let loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
         loadingNotification.mode = MBProgressHUDMode.indeterminate
-        loadingNotification.labelText = "Saving"
+        loadingNotification.label.text = "Saving"
         if let request = request {
             NBRequest.addRequest(request) { error in
                 print("Request added")

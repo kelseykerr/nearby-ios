@@ -81,7 +81,7 @@ class NBResponse: ResponseJSONObjectSerializable {
         if let responseStatusString = json["responseStatus"].string {
             self.responseStatus = ResponseStatus(rawValue: responseStatusString)
         }
-        for (index, messageJson) in json["messages"] {
+        for (_, messageJson) in json["messages"] {
 //            print("\(index) mess: \(messageJson)")
             //instantiate, check if nil, then append
             messages.append(NBMessage(json: messageJson)!)
@@ -165,23 +165,17 @@ class NBResponse: ResponseJSONObjectSerializable {
         let seconds = Int(getElapsedTime()!)
         
         if seconds < 60 { // less than a min
-            //            return "\(seconds) Secs Ago"
             return "\(seconds)s"
         }
         else if seconds < 3600 { // less than an hour
-            //            return "\(seconds / 60) Mins Ago"
             return "\(seconds / 60)m"
         }
         else if seconds < 60 * 60 * 24 { // less than a day
-            //            return "\(seconds / (60 * 60)) Hours Ago"
             return "\(seconds / (60 * 60))h"
         }
         else {
-            //            return "\(seconds / (60 * 60 * 24)) Days Ago"
             return "\(seconds / (60 * 60 * 24))d"
         }
-        
-        return "Should not happen"
     }
     
     func getElapsedTime() -> TimeInterval? {
@@ -207,21 +201,33 @@ extension NBResponse {
 
 extension NBResponse {
     
-    static func fetchResponse(_ requestId: String, responseId: String, completionHandler: @escaping (Result<NBResponse>) -> Void) {
+    static func fetchResponse(_ requestId: String, responseId: String, completionHandler: @escaping (Result<NBResponse>, NSError?) -> Void) {
         Alamofire.request(RequestsRouter.getResponse(requestId, responseId))
             .validate(statusCode: 200..<300)
             .responseJSON { response in
+                var error: NSError? = nil
+                if response.result.error != nil {
+                    let statusCode = response.response?.statusCode
+                    let errorMessage = String(data: response.data!, encoding: String.Encoding.utf8)
+                    error = NSError(domain: errorMessage!, code: statusCode!, userInfo: nil)
+                }
                 let result = self.responseObjectFromResponse(response: response)
-                completionHandler(result)
+                completionHandler(result, error)
         }
     }
     
-    static func fetchResponses(_ requestId: String, completionHandler: @escaping (Result<[NBResponse]>) -> Void) {
+    static func fetchResponses(_ requestId: String, completionHandler: @escaping (Result<[NBResponse]>, NSError?) -> Void) {
         Alamofire.request(RequestsRouter.getResponses(requestId))
             .validate(statusCode: 200..<300)
             .responseJSON { response in
+                var error: NSError? = nil
+                if response.result.error != nil {
+                    let statusCode = response.response?.statusCode
+                    let errorMessage = String(data: response.data!, encoding: String.Encoding.utf8)
+                    error = NSError(domain: errorMessage!, code: statusCode!, userInfo: nil)
+                }
                 let result = self.responseArrayFromResponse(response: response)
-                completionHandler(result)
+                completionHandler(result, error)
         }
     }
     

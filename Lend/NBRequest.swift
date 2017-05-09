@@ -111,21 +111,33 @@ class NBRequest: NSObject, NSCopying, ResponseJSONObjectSerializable {
 
 extension NBRequest {
         
-    static func fetchRequests(_ latitude: Double, longitude: Double, radius: Double, expired: Bool, includeMine: Bool, searchTerm: String, sort: String, completionHandler: @escaping (Result<[NBRequest]>) -> Void) {
+    static func fetchRequests(_ latitude: Double, longitude: Double, radius: Double, expired: Bool, includeMine: Bool, searchTerm: String, sort: String, completionHandler: @escaping (Result<[NBRequest]>, NSError?) -> Void) {
         Alamofire.request(RequestsRouter.getRequests(latitude, longitude, radius, expired, includeMine, searchTerm, sort))
             .validate(statusCode: 200..<300)
             .responseJSON { response in
+                var error: NSError? = nil
+                if response.result.error != nil {
+                    let statusCode = response.response?.statusCode
+                    let errorMessage = String(data: response.data!, encoding: String.Encoding.utf8)
+                    error = NSError(domain: errorMessage!, code: statusCode!, userInfo: nil)
+                }
                 let result = self.requestArrayFromResponse(response: response)
-                completionHandler(result)
+                completionHandler(result, error)
         }
     }
     
-    static func fetchRequest(_ id: String, completionHandler: @escaping (Result<NBRequest>) -> Void) {
+    static func fetchRequest(_ id: String, completionHandler: @escaping (Result<NBRequest>, NSError?) -> Void) {
         Alamofire.request(RequestsRouter.getRequest(id))
             .validate(statusCode: 200..<300)
             .responseJSON { response in
+                var error: NSError? = nil
+                if response.result.error != nil {
+                    let statusCode = response.response?.statusCode
+                    let errorMessage = String(data: response.data!, encoding: String.Encoding.utf8)
+                    error = NSError(domain: errorMessage!, code: statusCode!, userInfo: nil)
+                }
                 let result = self.requestObjectFromResponse(response: response)
-                completionHandler(result)
+                completionHandler(result, error)
         }
     }
     
@@ -274,23 +286,17 @@ extension NBRequest {
         let seconds = Int(getElapsedTime()!)
         
         if seconds < 60 { // less than a min
-//            return "\(seconds) Secs Ago"
             return "\(seconds)s"
         }
         else if seconds < 3600 { // less than an hour
-//            return "\(seconds / 60) Mins Ago"
             return "\(seconds / 60)m"
         }
         else if seconds < 60 * 60 * 24 { // less than a day
-//            return "\(seconds / (60 * 60)) Hours Ago"
             return "\(seconds / (60 * 60))h"
         }
         else {
-//            return "\(seconds / (60 * 60 * 24)) Days Ago"
             return "\(seconds / (60 * 60 * 24))d"
         }
-
-        return "Should not happen"
     }
     
     func isMyRequest() -> Bool {

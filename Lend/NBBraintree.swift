@@ -26,7 +26,7 @@ class NBBraintree: ResponseJSONObjectSerializable {
     }
     
     func toString() -> String {
-        return " id: \(id)\n"
+        return " id: \(String(describing: id))\n"
     }
     
     func toJSON() -> [String: AnyObject] {

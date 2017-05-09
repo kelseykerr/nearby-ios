@@ -283,8 +283,8 @@ class NewRequestTableViewController: UITableViewController {
     }
     
     @IBAction func handleTouchWithGestureRecognizer(gestureRecognizer:UIGestureRecognizer){
-        var touchPoint = gestureRecognizer.location(in: mapView)
-        var newCoordinates = mapView.convert(touchPoint, toCoordinateFrom: mapView)
+        let touchPoint = gestureRecognizer.location(in: mapView)
+        let newCoordinates = mapView.convert(touchPoint, toCoordinateFrom: mapView)
         let annotation = MKPointAnnotation()
         annotation.coordinate = newCoordinates
         annotation.title = "request location"

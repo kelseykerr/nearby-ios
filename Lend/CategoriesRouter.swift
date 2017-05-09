@@ -69,7 +69,7 @@ enum CategoriesRouter: URLRequestConvertible {
         let tokenString = NewAccountManager.sharedInstance.getOAuthTokenString()
         urlRequest.setValue(tokenString, forHTTPHeaderField: "x-auth-token")
         
-        var authMethod = NewAccountManager.sharedInstance.getAuthMethod()
+        let authMethod = NewAccountManager.sharedInstance.getAuthMethod()
         urlRequest.setValue(authMethod, forHTTPHeaderField: "x-auth-method")
         
         urlRequest = try Alamofire.JSONEncoding.default.encode(urlRequest, with: params)

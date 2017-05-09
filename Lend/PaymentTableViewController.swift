@@ -76,7 +76,7 @@ class PaymentTableViewController: UITableViewController, UITextFieldDelegate {
 //            progressHUD.show()
             let loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
             loadingNotification.mode = MBProgressHUDMode.indeterminate
-            loadingNotification.labelText = "Saving"
+            loadingNotification.label.text = "Saving"
             
             //tmp
             // generate creditcard token

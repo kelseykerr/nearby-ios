@@ -31,13 +31,13 @@ class NBPayment: ResponseJSONObjectSerializable {
     }
     
     func toString() -> String {
-        return "ccMaskedNumber: \(ccMaskedNumber)" +
-            " ccExpDate: \(ccExpDate)" +
-            " destination: \(destination)" +
-            " bankAccountLast4: \(bankAccountLast4)" +
-            " routingNumber: \(routingNumber)" +
-            " email: \(email)" +
-            " phone: \(phone)\n"
+        return "ccMaskedNumber: \(String(describing: ccMaskedNumber))" +
+            " ccExpDate: \(String(describing: ccExpDate))" +
+            " destination: \(String(describing: destination))" +
+            " bankAccountLast4: \(String(describing: bankAccountLast4))" +
+            " routingNumber: \(String(describing: routingNumber))" +
+            " email: \(String(describing: email))" +
+            " phone: \(String(describing: phone))\n"
     }
     
     func toJSON() -> [String: AnyObject] {
@@ -70,12 +70,18 @@ class NBPayment: ResponseJSONObjectSerializable {
 
 extension NBPayment {
     
-    static func fetchPaymentInfo(completionHandler: @escaping (Result<NBPayment>) -> Void) {
+    static func fetchPaymentInfo(completionHandler: @escaping (Result<NBPayment>, NSError?) -> Void) {
         Alamofire.request(UsersRouter.getPaymentInfo())
             .validate(statusCode: 200..<300)
             .responseJSON { response in
+                var error: NSError? = nil
+                if response.result.error != nil {
+                    let statusCode = response.response?.statusCode
+                    let errorMessage = String(data: response.data!, encoding: String.Encoding.utf8)
+                    error = NSError(domain: errorMessage!, code: statusCode!, userInfo: nil)
+                }
                 let result = self.paymentObjectFromResponse(response: response)
-                completionHandler(result)
+                completionHandler(result, error)
         }
     }
     

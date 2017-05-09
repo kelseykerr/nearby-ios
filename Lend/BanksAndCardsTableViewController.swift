@@ -40,12 +40,12 @@ class BanksAndCardsTableViewController: UITableViewController {
     func loadPaymentInfo() {
         let loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
         loadingNotification.mode = MBProgressHUDMode.indeterminate
-        loadingNotification.labelText = "Fetching..."
-        NBPayment.fetchPaymentInfo { result in
+        loadingNotification.label.text = "Fetching..."
+        NBPayment.fetchPaymentInfo { (result, error) in
             
-            guard result.error == nil else {
-                print(result.error)
-                MBProgressHUD.hideAllHUDs(for: self.view, animated: true)
+            MBProgressHUD.hideAllHUDs(for: self.view, animated: true)
+            guard error == nil else {
+                print(error)
                 return
             }
             
@@ -73,7 +73,7 @@ class BanksAndCardsTableViewController: UITableViewController {
                 self.creditCardNumber.text = ""
                 self.ccExp.text = ""
             }
-            MBProgressHUD.hideAllHUDs(for: self.view, animated: true)
+
             self.tableView.reloadData()
         }
     }

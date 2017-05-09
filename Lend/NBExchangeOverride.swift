@@ -35,10 +35,10 @@ class NBExchangeOverride: ResponseJSONObjectSerializable {
     }
     
     func toString() -> String {
-        return "time: \(time)" +
-            " buyerAccepted: \(buyerAccepted)" +
-            " sellerAccepted: \(sellerAccepted)" +
-            " declined: \(declined)\n"
+        return "time: \(String(describing: time))" +
+            " buyerAccepted: \(String(describing: buyerAccepted))" +
+            " sellerAccepted: \(String(describing: sellerAccepted))" +
+            " declined: \(String(describing: declined))\n"
     }
     
     func toJSON() -> [String: AnyObject] {

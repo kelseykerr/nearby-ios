@@ -108,9 +108,9 @@ class AccountTableViewController: UITableViewController, LoginViewDelegate {
     func loadCells() {
         self.nameLabel.text = user?.fullName ?? "<name>"
 //        self.addressLabel.text = user?.address ?? "<addess>"
-        let city = user?.city ?? "<city>"
-        let state = user?.state ?? "<state>"
-        let zip = user?.zip ?? "<zip>"
+//        let city = user?.city ?? "<city>"
+//        let state = user?.state ?? "<state>"
+//        let zip = user?.zip ?? "<zip>"
 //        self.cityStateZipLabel.text = "\(city), \(state) \(zip)"
         
 //        let ready = user?.canRequest

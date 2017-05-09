@@ -82,7 +82,7 @@ class DirectDepositTableViewController: UITableViewController {
 //            progressHUD.show()
             let loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
             loadingNotification.mode = MBProgressHUDMode.indeterminate
-            loadingNotification.labelText = "Saving"
+            loadingNotification.label.text = "Saving"
             
             NBStripe.addBank(user!) { error in
                 if let error = error {

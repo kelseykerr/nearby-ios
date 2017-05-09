@@ -71,7 +71,7 @@ class NBTransaction: ResponseJSONObjectSerializable {
     }
     
     func toString() -> String {
-        return "transaction id: \(id)\n"
+        return "transaction id: \(String(describing: id))\n"
     }
     
     func toJSON() -> [String: AnyObject] {

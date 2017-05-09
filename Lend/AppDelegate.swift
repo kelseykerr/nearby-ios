@@ -83,8 +83,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         else  { // google, make this else if
             return GIDSignIn.sharedInstance().handle(url, sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String, annotation: options[UIApplicationOpenURLOptionsKey.annotation])
         }
-        
-        return false
     }
     
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {

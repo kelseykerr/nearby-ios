@@ -58,7 +58,7 @@ class NBHistory: ResponseJSONObjectSerializable {
     
     func toString() -> String {
         return "history" +
-        " transaction: \(self.transaction?.toString())"
+        " transaction: \(String(describing: self.transaction?.toString()))"
     }
     
     func toJSON() -> [String: AnyObject] {
@@ -210,17 +210,33 @@ extension NBHistory {
 
 extension NBHistory {
     
-    static func fetchSelfHistories(_ completionHandler: @escaping (Result<[NBHistory]>) -> Void) {
-        Alamofire.request(UsersRouter.getSelfHistory()).validate(statusCode: 200..<300).responseJSON { response in
-            let result = self.historyArrayFromResponse(response: response)
-            completionHandler(result)
+    static func fetchSelfHistories(_ completionHandler: @escaping (Result<[NBHistory]>, NSError?) -> Void) {
+        Alamofire.request(UsersRouter.getSelfHistory())
+            .validate(statusCode: 200..<300)
+            .responseJSON { response in
+                var error: NSError? = nil
+                if response.result.error != nil {
+                    let statusCode = response.response?.statusCode
+                    let errorMessage = String(data: response.data!, encoding: String.Encoding.utf8)
+                    error = NSError(domain: errorMessage!, code: statusCode!, userInfo: nil)
+                }
+                let result = self.historyArrayFromResponse(response: response)
+                completionHandler(result, error)
         }
     }
     
-    static func fetchHistories(includeTransaction: Bool, includeRequest: Bool, includeOffer: Bool, includeOpen: Bool, includeClosed: Bool, completionHandler: @escaping (Result<[NBHistory]>) -> Void) {
-        Alamofire.request(UsersRouter.getHistory(includeTransaction, includeRequest, includeOffer, includeOpen, includeClosed)).validate(statusCode: 200..<300).responseJSON { response in
-            let result = self.historyArrayFromResponse(response: response)
-            completionHandler(result)
+    static func fetchHistories(includeTransaction: Bool, includeRequest: Bool, includeOffer: Bool, includeOpen: Bool, includeClosed: Bool, completionHandler: @escaping (Result<[NBHistory]>, NSError?) -> Void) {
+        Alamofire.request(UsersRouter.getHistory(includeTransaction, includeRequest, includeOffer, includeOpen, includeClosed))
+            .validate(statusCode: 200..<300)
+            .responseJSON { response in
+                var error: NSError? = nil
+                if response.result.error != nil {
+                    let statusCode = response.response?.statusCode
+                    let errorMessage = String(data: response.data!, encoding: String.Encoding.utf8)
+                    error = NSError(domain: errorMessage!, code: statusCode!, userInfo: nil)
+                }
+                let result = self.historyArrayFromResponse(response: response)
+                completionHandler(result, error)
         }
     }
     
