@@ -23,6 +23,7 @@ class HistoryFilterTableViewController: UITableViewController {
     @IBOutlet weak var includeOfferSwitch: UISwitch!
     @IBOutlet weak var includeOpenSwitch: UISwitch!
     @IBOutlet weak var includeClosedSwitch: UISwitch!
+    @IBOutlet weak var searchButton: UIButton!
     
     weak var delegate: HistoryFilterTableViewDelegate?
     
@@ -30,6 +31,9 @@ class HistoryFilterTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        searchButton.layer.cornerRadius = searchButton.frame.size.height / 16
+        searchButton.clipsToBounds = true
         
         loadInitialData()
     }
