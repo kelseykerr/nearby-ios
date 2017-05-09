@@ -209,41 +209,67 @@ extension NBResponse {
     
     static func fetchResponse(_ requestId: String, responseId: String, completionHandler: @escaping (Result<NBResponse>) -> Void) {
         Alamofire.request(RequestsRouter.getResponse(requestId, responseId))
-            .responseObject { response in
-                completionHandler(response.result)
+            .validate(statusCode: 200..<300)
+            .responseJSON { response in
+                let result = self.responseObjectFromResponse(response: response)
+                completionHandler(result)
         }
     }
     
     static func fetchResponses(_ requestId: String, completionHandler: @escaping (Result<[NBResponse]>) -> Void) {
-        Alamofire.request(RequestsRouter.getResponses(requestId)).validate(statusCode: 200..<300).responseJSON { response in
-            let result = self.responseArrayFromResponse(response: response)
-            completionHandler(result)
+        Alamofire.request(RequestsRouter.getResponses(requestId))
+            .validate(statusCode: 200..<300)
+            .responseJSON { response in
+                let result = self.responseArrayFromResponse(response: response)
+                completionHandler(result)
         }
     }
     
     static func editResponse(_ response: NBResponse, completionHandler: @escaping (NSError?) -> Void) {
-        Alamofire.request(RequestsRouter.editResponse(response.requestId!, response.id!, response.toJSON())).validate(statusCode: 200..<300).responseJSON { response in
-            var error: NSError? = nil
-            if response.result.error != nil {
-                let statusCode = response.response?.statusCode
-                let errorMessage = String(data: response.data!, encoding: String.Encoding.utf8)
-                error = NSError(domain: errorMessage!, code: statusCode!, userInfo: nil)
-            }
-            completionHandler(error)
+        Alamofire.request(RequestsRouter.editResponse(response.requestId!, response.id!, response.toJSON()))
+            .validate(statusCode: 200..<300)
+            .responseJSON { response in
+                var error: NSError? = nil
+                if response.result.error != nil {
+                    let statusCode = response.response?.statusCode
+                    let errorMessage = String(data: response.data!, encoding: String.Encoding.utf8)
+                    error = NSError(domain: errorMessage!, code: statusCode!, userInfo: nil)
+                }
+                completionHandler(error)
         }
     }
     
     static func addResponse(_ response: NBResponse, completionHandler: @escaping (NSError?) -> Void) {
-        print(SwiftyJSON.JSON(response.toJSON()))
-        Alamofire.request(RequestsRouter.createResponse(response.requestId!, response.toJSON())).validate(statusCode: 200..<300).responseJSON { response in
-            var error: NSError? = nil
-            if response.result.error != nil {
-                let statusCode = response.response?.statusCode
-                let errorMessage = String(data: response.data!, encoding: String.Encoding.utf8)
-                error = NSError(domain: errorMessage!, code: statusCode!, userInfo: nil)
-            }
-            completionHandler(error)
+        Alamofire.request(RequestsRouter.createResponse(response.requestId!, response.toJSON()))
+            .validate(statusCode: 200..<300)
+            .responseJSON { response in
+                var error: NSError? = nil
+                if response.result.error != nil {
+                    let statusCode = response.response?.statusCode
+                    let errorMessage = String(data: response.data!, encoding: String.Encoding.utf8)
+                    error = NSError(domain: errorMessage!, code: statusCode!, userInfo: nil)
+                }
+                completionHandler(error)
         }
+    }
+    
+    static func responseObjectFromResponse(response: DataResponse<Any>) -> Result<NBResponse> {
+        guard response.result.error == nil else {
+            print(response.result.error!)
+            return .failure(NearbyAPIManagerError.network(error: response.result.error!))
+        }
+        
+        guard let jsonObject = response.result.value as? [String: Any] else {
+            print("didn't get response object as JSON from API")
+            return .failure(NearbyAPIManagerError.objectSerialization(reason:
+                "Did not get JSON dictionary in response"))
+        }
+        let json = SwiftyJSON.JSON(jsonObject)
+        
+        guard let object = NBResponse(json: json) else {
+            return .failure(NearbyAPIManagerError.objectSerialization(reason: "Object could not be created from JSON"))
+        }
+        return .success(object)
     }
     
     static func responseArrayFromResponse(response: DataResponse<Any>) -> Result<[NBResponse]> {

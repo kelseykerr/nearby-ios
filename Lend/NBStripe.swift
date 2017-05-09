@@ -43,26 +43,30 @@ class NBStripe: ResponseJSONObjectSerializable {
 extension NBStripe {
     
     static func addBank(_ user: NBUser, completionHandler: @escaping (NSError?) -> Void) {
-        Alamofire.request(StripeRouter.createBank(user.toJSON())).validate(statusCode: 200..<300).responseJSON { response in
-            var error: NSError? = nil
-            if response.result.error != nil {
-                let statusCode = response.response?.statusCode
-                let errorMessage = String(data: response.data!, encoding: String.Encoding.utf8)
-                error = NSError(domain: errorMessage!, code: statusCode!, userInfo: nil)
-            }
-            completionHandler(error)
+        Alamofire.request(StripeRouter.createBank(user.toJSON()))
+            .validate(statusCode: 200..<300)
+            .responseJSON { response in
+                var error: NSError? = nil
+                if response.result.error != nil {
+                    let statusCode = response.response?.statusCode
+                    let errorMessage = String(data: response.data!, encoding: String.Encoding.utf8)
+                    error = NSError(domain: errorMessage!, code: statusCode!, userInfo: nil)
+                }
+                completionHandler(error)
         }
     }
     
     static func addCreditcard(_ user: NBUser, completionHandler: @escaping (NSError?) -> Void) {
-        Alamofire.request(StripeRouter.createCreditcard(user.toJSON())).validate(statusCode: 200..<300).responseJSON { response in
-            var error: NSError? = nil
-            if response.result.error != nil {
-                let statusCode = response.response?.statusCode
-                let errorMessage = String(data: response.data!, encoding: String.Encoding.utf8)
-                error = NSError(domain: errorMessage!, code: statusCode!, userInfo: nil)
-            }
-            completionHandler(error)
+        Alamofire.request(StripeRouter.createCreditcard(user.toJSON()))
+            .validate(statusCode: 200..<300)
+            .responseJSON { response in
+                var error: NSError? = nil
+                if response.result.error != nil {
+                    let statusCode = response.response?.statusCode
+                    let errorMessage = String(data: response.data!, encoding: String.Encoding.utf8)
+                    error = NSError(domain: errorMessage!, code: statusCode!, userInfo: nil)
+                }
+                completionHandler(error)
         }
     }
     

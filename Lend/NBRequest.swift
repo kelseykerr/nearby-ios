@@ -112,16 +112,20 @@ class NBRequest: NSObject, NSCopying, ResponseJSONObjectSerializable {
 extension NBRequest {
         
     static func fetchRequests(_ latitude: Double, longitude: Double, radius: Double, expired: Bool, includeMine: Bool, searchTerm: String, sort: String, completionHandler: @escaping (Result<[NBRequest]>) -> Void) {
-        Alamofire.request(RequestsRouter.getRequests(latitude, longitude, radius, expired, includeMine, searchTerm, sort)).validate(statusCode: 200..<300).responseJSON { response in
-            let result = self.requestArrayFromResponse(response: response)
-            completionHandler(result)
+        Alamofire.request(RequestsRouter.getRequests(latitude, longitude, radius, expired, includeMine, searchTerm, sort))
+            .validate(statusCode: 200..<300)
+            .responseJSON { response in
+                let result = self.requestArrayFromResponse(response: response)
+                completionHandler(result)
         }
     }
     
     static func fetchRequest(_ id: String, completionHandler: @escaping (Result<NBRequest>) -> Void) {
         Alamofire.request(RequestsRouter.getRequest(id))
-            .responseObject { response in
-                completionHandler(response.result)
+            .validate(statusCode: 200..<300)
+            .responseJSON { response in
+                let result = self.requestObjectFromResponse(response: response)
+                completionHandler(result)
         }
     }
     
@@ -135,41 +139,65 @@ extension NBRequest {
 
     //response should have the request with new id
     static func addRequest(_ req: NBRequest, completionHandler: @escaping (NSError?) -> Void) {
-        Alamofire.request(RequestsRouter.createRequest(req.toJSON())).validate(statusCode: 200..<300).responseJSON { response in
-            var error: NSError? = nil
-            if response.result.error != nil {
-                let statusCode = response.response?.statusCode
-                let errorMessage = String(data: response.data!, encoding: String.Encoding.utf8)
-                error = NSError(domain: errorMessage!, code: statusCode!, userInfo: nil)
-            }
-            completionHandler(error)
+        Alamofire.request(RequestsRouter.createRequest(req.toJSON()))
+            .validate(statusCode: 200..<300)
+            .responseJSON { response in
+                var error: NSError? = nil
+                if response.result.error != nil {
+                    let statusCode = response.response?.statusCode
+                    let errorMessage = String(data: response.data!, encoding: String.Encoding.utf8)
+                    error = NSError(domain: errorMessage!, code: statusCode!, userInfo: nil)
+                }
+                completionHandler(error)
         }
     }
     
     static func editRequest(_ req: NBRequest, completionHandler: @escaping (NSError?) -> Void) {
-        Alamofire.request(RequestsRouter.editRequest(req.id!, req.toJSON())).validate(statusCode: 200..<300).responseJSON { response in
-            var error: NSError? = nil
-            if response.result.error != nil {
-                let statusCode = response.response?.statusCode
-                let errorMessage = String(data: response.data!, encoding: String.Encoding.utf8) ?? "No Error Message"
-                error = NSError(domain: errorMessage, code: statusCode!, userInfo: nil)
-            }
-            completionHandler(error)
+        Alamofire.request(RequestsRouter.editRequest(req.id!, req.toJSON()))
+            .validate(statusCode: 200..<300)
+            .responseJSON { response in
+                var error: NSError? = nil
+                if response.result.error != nil {
+                    let statusCode = response.response?.statusCode
+                    let errorMessage = String(data: response.data!, encoding: String.Encoding.utf8) ?? "No Error Message"
+                    error = NSError(domain: errorMessage, code: statusCode!, userInfo: nil)
+                }
+                completionHandler(error)
         }
     }
     
     //If we ever make NBNotification model, move there
     //clean this up later
     static func fetchNotifications(_ latitude: Double, longitude: Double, completionHandler: @escaping (String) -> Void) {
-        
-        Alamofire.request(RequestsRouter.getNotifications(latitude, longitude)).validate(statusCode: 200..<300).responseJSON { response in
-            guard response.result.error == nil else {
-                print("There was an error, return")
-                return
-            }
-            let message = String(data: response.data!, encoding: String.Encoding.utf8) ?? "No Message"
-            completionHandler(message)
+        Alamofire.request(RequestsRouter.getNotifications(latitude, longitude))
+            .validate(statusCode: 200..<300)
+            .responseJSON { response in
+                guard response.result.error == nil else {
+                    print("There was an error, return")
+                    return
+                }
+                let message = String(data: response.data!, encoding: String.Encoding.utf8) ?? "No Message"
+                completionHandler(message)
         }
+    }
+    
+    static func requestObjectFromResponse(response: DataResponse<Any>) -> Result<NBRequest> {
+        guard response.result.error == nil else {
+            print(response.result.error!)
+            return .failure(NearbyAPIManagerError.network(error: response.result.error!))
+        }
+        
+        guard let jsonObject = response.result.value as? [String: Any] else {
+            print("didn't get request object as JSON from API")
+            return .failure(NearbyAPIManagerError.objectSerialization(reason:
+                "Did not get JSON dictionary in response"))
+        }
+        let json = SwiftyJSON.JSON(jsonObject)
+        
+        guard let object = NBRequest(json: json) else {
+            return .failure(NearbyAPIManagerError.objectSerialization(reason: "Object could not be created from JSON"))
+        }
+        return .success(object)
     }
     
     static func requestArrayFromResponse(response: DataResponse<Any>) -> Result<[NBRequest]> {

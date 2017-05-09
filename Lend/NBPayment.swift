@@ -72,10 +72,30 @@ extension NBPayment {
     
     static func fetchPaymentInfo(completionHandler: @escaping (Result<NBPayment>) -> Void) {
         Alamofire.request(UsersRouter.getPaymentInfo())
-            .responseObject { paymentInfo in
-                completionHandler(paymentInfo.result)
+            .validate(statusCode: 200..<300)
+            .responseJSON { response in
+                let result = self.paymentObjectFromResponse(response: response)
+                completionHandler(result)
         }
-
+    }
+    
+    static func paymentObjectFromResponse(response: DataResponse<Any>) -> Result<NBPayment> {
+        guard response.result.error == nil else {
+            print(response.result.error!)
+            return .failure(NearbyAPIManagerError.network(error: response.result.error!))
+        }
+        
+        guard let jsonObject = response.result.value as? [String: Any] else {
+            print("didn't get payment object as JSON from API")
+            return .failure(NearbyAPIManagerError.objectSerialization(reason:
+                "Did not get JSON dictionary in response"))
+        }
+        let json = SwiftyJSON.JSON(jsonObject)
+        
+        guard let object = NBPayment(json: json) else {
+            return .failure(NearbyAPIManagerError.objectSerialization(reason: "Object could not be created from JSON"))
+        }
+        return .success(object)
     }
     
 }

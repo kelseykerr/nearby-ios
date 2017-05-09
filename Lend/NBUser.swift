@@ -321,39 +321,37 @@ extension NBUser {
     
     static func fetchSelf(_ completionHandler: @escaping (Result<NBUser>) -> Void) {
         Alamofire.request(UsersRouter.getSelf())
-            .responseObject { response in
-                completionHandler(response.result)
+            .validate(statusCode: 200..<300)
+            .responseJSON { response in
+                let result = self.userObjectFromResponse(response: response)
+                completionHandler(result)
         }
     }
     
     static func fetchSelfRequests(_ completionHandler: @escaping (Result<[NBRequest]>) -> Void) {
-        Alamofire.request(UsersRouter.getSelfRequests()).validate(statusCode: 200..<300).responseJSON { response in
-            let result = self.requestArrayFromResponse(response: response)
-            completionHandler(result)
+        Alamofire.request(UsersRouter.getSelfRequests())
+            .validate(statusCode: 200..<300)
+            .responseJSON { response in
+                let result = self.requestArrayFromResponse(response: response)
+                completionHandler(result)
         }
     }
     
     static func editSelf(_ user: NBUser, completionHandler: @escaping (Result<NBUser>) -> Void) {
-        /*Alamofire.request(UsersRouter.editSelf(user.toJSON())).validate(statusCode: 200..<300).responseJSON { response in
-            var error: NSError? = nil
-            if response.result.error != nil {
-                let statusCode = response.response?.statusCode
-                let errorMessage = String(data: response.data!, encoding: String.Encoding.utf8)
-                error = NSError(domain: errorMessage!, code: statusCode!, userInfo: nil)
-            }
-            completionHandler(error)
-        }*/
-        
         Alamofire.request(UsersRouter.editSelf(user.toJSON()))
-            .responseObject { response in
-                completionHandler(response.result)
+            .validate(statusCode: 200..<300)
+            .responseJSON { response in
+                let result = self.userObjectFromResponse(response: response)
+                completionHandler(result)
         }
     }
     
     static func fetchUser(_ id: String, completionHandler: @escaping (Result<NBUser>) -> Void) {
         Alamofire.request(UsersRouter.getUser(id))
-            .responseObject { response in
-                completionHandler(response.result)
+            .validate(statusCode: 200..<300)
+            .responseJSON { response in
+                let result = self.userObjectFromResponse(response: response)
+                completionHandler(result)
         }
     }
     
@@ -363,6 +361,25 @@ extension NBUser {
         }
     }
 
+    static func userObjectFromResponse(response: DataResponse<Any>) -> Result<NBUser> {
+        guard response.result.error == nil else {
+            print(response.result.error!)
+            return .failure(NearbyAPIManagerError.network(error: response.result.error!))
+        }
+        
+        guard let jsonObject = response.result.value as? [String: Any] else {
+            print("didn't get user object as JSON from API")
+            return .failure(NearbyAPIManagerError.objectSerialization(reason:
+                "Did not get JSON dictionary in response"))
+        }
+        let json = SwiftyJSON.JSON(jsonObject)
+        
+        guard let object = NBUser(json: json) else {
+            return .failure(NearbyAPIManagerError.objectSerialization(reason: "Object could not be created from JSON"))
+        }
+        return .success(object)
+    }
+    
     static func requestArrayFromResponse(response: DataResponse<Any>) -> Result<[NBRequest]> {
         guard response.result.error == nil else {
             print(response.result.error!)
