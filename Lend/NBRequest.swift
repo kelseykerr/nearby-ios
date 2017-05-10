@@ -325,7 +325,7 @@ extension NBRequest: MKAnnotation {
     // never returns nil
     var subtitle: String? {
         get {
-            return self.user?.fullName ?? "No description"
+            return self.user?.shortName ?? "No description"
         }
     }
     

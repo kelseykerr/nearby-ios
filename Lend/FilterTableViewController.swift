@@ -82,7 +82,7 @@ class FilterTableViewController: UITableViewController {
                 // You can also use localizationKeysDataSource instead. Check the docs.
                 self.locationDropDown.dataSource = [
                     "current location",
-                    "home location"
+                    "home address"
                 ]
             } else {
                 // You can also use localizationKeysDataSource instead. Check the docs.
