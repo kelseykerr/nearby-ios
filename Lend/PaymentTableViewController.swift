@@ -20,6 +20,7 @@ class PaymentTableViewController: UITableViewController, UITextFieldDelegate {
     @IBOutlet var nameOnCardTextField: UITextField!
     @IBOutlet var ccNumberTextField: UITextField!
     @IBOutlet var ccExpDateTextField: UITextField!
+    @IBOutlet var cvcTextField: UITextField!
     
     @IBOutlet var saveButton: UIButton!
     
@@ -36,6 +37,7 @@ class PaymentTableViewController: UITableViewController, UITextFieldDelegate {
         
         self.hideKeyboardWhenTappedAround()
         ccExpDateTextField.delegate = self
+        cvcTextField.delegate = self
 //        self.view.addSubview(progressHUD)
 //        progressHUD.hide()
         
@@ -62,10 +64,6 @@ class PaymentTableViewController: UITableViewController, UITextFieldDelegate {
     
     func saveCells() {
         if user != nil {
-//            user?.firstName = self.firstNameTextField.text
-//            user?.lastName = self.lastNameTextField.text
-//            user?.email = self.emailAddressTextField.text
-//            user?.phone = self.phoneNumberTextField.text
             if (!(user?.hasAllRequiredFields())!) {
                 self.showAlertMsg(message: "You must finish filling out your profile before you can add a credit card")
                 return
@@ -82,10 +80,18 @@ class PaymentTableViewController: UITableViewController, UITextFieldDelegate {
             // generate creditcard token
             // set that value to user object
             let cardParams = STPCardParams()
-            cardParams.number = "4242424242424242"
-            cardParams.expMonth = 10
-            cardParams.expYear = 2022
-            cardParams.cvc = "123"
+            //cardParams.number = "4242424242424242"
+            cardParams.number = ccNumberTextField.text
+            if ccExpDateTextField.text != nil && (ccExpDateTextField.text?.characters.count)! > 0 {
+                let index1 = ccExpDateTextField.text?.index((ccExpDateTextField.text?.endIndex)!, offsetBy: -3)
+                let month = ccExpDateTextField.text?.substring(to: index1!)
+                cardParams.expMonth = UInt(month!)!
+                let index2 = ccExpDateTextField.text?.index((ccExpDateTextField.text?.endIndex)!, offsetBy: -2)
+                let year = ccExpDateTextField.text?.substring(from: index2!)
+                let expYear = 2000 + UInt(year!)!
+                cardParams.expYear = expYear
+            }
+            cardParams.cvc = cvcTextField.text
             
             STPAPIClient.shared().createToken(withCard: cardParams) { (token, error) in
                 if let error = error {
@@ -136,6 +142,9 @@ class PaymentTableViewController: UITableViewController, UITextFieldDelegate {
             let str = (textField.text! as NSString).replacingCharacters(in: range, with: string)
             return formattedExpDate(replacementString: string, str: str)
             
+        } else if textField == cvcTextField {
+            let str = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+            return maxCVC(replacementString: string, str: str)
         }
         return true
     }
@@ -157,6 +166,17 @@ class PaymentTableViewController: UITableViewController, UITextFieldDelegate {
         } else if str!.characters.count == 3 && replacementString != "/" {
             ccExpDateTextField.text = (ccExpDateTextField.text! + "/")
         } else if (str!.characters.count > 5) {
+            return false
+        }
+        
+        return true
+    }
+    
+    func maxCVC(replacementString: String?, str: String?) -> Bool {
+        let digits = NSCharacterSet.decimalDigits
+        if (replacementString == "") { //BackSpace
+            return true
+        } else if (str!.characters.count > 3) {
             return false
         }
         

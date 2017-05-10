@@ -16,9 +16,9 @@ protocol UpdateBankInfoDelegate {
 
 class DirectDepositTableViewController: UITableViewController {
     
-//    @IBOutlet var nameOnCardTextField: UITextField!
-//    @IBOutlet var ccNumberTextField: UITextField!
-//    @IBOutlet var ccExpDateTextField: UITextField!
+    @IBOutlet var nameTextField: UITextField!
+    @IBOutlet var accountNumberTextField: UITextField!
+    @IBOutlet var routingNumberTextField: UITextField!
     
     @IBOutlet var saveButton: UIButton!
     
@@ -49,9 +49,6 @@ class DirectDepositTableViewController: UITableViewController {
     
     func loadCells() {
         if user != nil {
-//            self.nameOnCardTextField.text = user?.firstName ?? ""
-//            self.ccNumberTextField.text = user?.lastName ?? ""
-//            self.ccExpDateTextField.text = user?.email ?? ""
         }
     }
     
@@ -61,20 +58,17 @@ class DirectDepositTableViewController: UITableViewController {
     
     func saveCells() {
         if user != nil {
-//            user?.firstName = self.firstNameTextField.text
-//            user?.lastName = self.lastNameTextField.text
-//            user?.email = self.emailAddressTextField.text
-//            user?.phone = self.phoneNumberTextField.text
             
-            //tmp
             if (!(user?.hasAllRequiredFields())!) {
                 self.showAlertMsg(message: "You must finish filling out your profile before you can add a bank account")
                 return
                 
             }
 
-            user?.bankAccountNumber = "000123456789"
-            user?.bankRoutingNumber = "110000000"
+            //user?.bankAccountNumber = "000123456789"
+            user?.bankAccountNumber = accountNumberTextField.text
+            //user?.bankRoutingNumber = "110000000"
+            user?.bankRoutingNumber = routingNumberTextField.text
             user?.fundDestination = "bank"
             
             self.view.endEditing(true)
