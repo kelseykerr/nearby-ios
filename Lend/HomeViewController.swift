@@ -45,7 +45,7 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
             if #available(iOS 10.0, *) {
                 return self.tableView.refreshControl
             } else {
-                return self.tableView.backgroundView as! UIRefreshControl
+                return self.tableView.backgroundView as? UIRefreshControl
             }
         }
         set {
@@ -112,21 +112,9 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
             cleared = false
         }
         
-//        if #available(iOS 10.0, *) {
-//            if self.tableView.refreshControl == nil {
-//                self.tableView.refreshControl = UIRefreshControl()
-//                
-//                let bounds =  CGRect(x: (tableView.refreshControl?.bounds.origin.x)!, y: -26.0, width: (tableView.refreshControl?.bounds.size.width)!, height: (tableView.refreshControl?.bounds.size.height)!)
-//                self.tableView.refreshControl?.bounds = bounds
-//                
-//                self.tableView.refreshControl?.addTarget(self, action: #selector(refresh(_:)), for: UIControlEvents.valueChanged)
-//            }
-//        } else {
-//        }
-        
         super.viewWillAppear(animated)
     }
-    
+        
 //    override func viewDidUnload() {
 //        UserDataManager.sharedInstace.removeClearable(self)
 //    }
