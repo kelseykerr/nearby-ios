@@ -114,7 +114,7 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
         
         super.viewWillAppear(animated)
     }
-        
+    
 //    override func viewDidUnload() {
 //        UserDataManager.sharedInstace.removeClearable(self)
 //    }
