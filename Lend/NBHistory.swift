@@ -47,7 +47,7 @@ class NBHistory: ResponseJSONObjectSerializable {
 //        }
 
         for (index, responseJson) in json["responses"] {
-            print("\(index) resp: \(responseJson)")
+//            print("\(index) resp: \(responseJson)")
             //instantiate, check if nil, then append
             responses.append(NBResponse(json: responseJson)!)
         }
