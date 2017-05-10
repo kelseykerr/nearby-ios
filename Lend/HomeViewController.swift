@@ -263,10 +263,16 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
             
             print(result)
             
-             //TODO: This doesn't work...we areen't ever getting server errors here, the method that uses the responseArray needs to be updated
             guard error == nil else {
-                //TODO: if error == 403, display the not available message on the screen
+                //if error == 403, display the not available message on the screen
                 print(error)
+                self.requests = []
+                self.tableView.reloadData()
+                if (error?.code == 403) {
+                    self.noResultsText.isHidden = true
+                    self.notAvailableText.isHidden = false
+                    self.notAvailableText.center = self.view.center
+                }
                 return
             }
             self.notAvailableText.isHidden = true;
@@ -531,7 +537,7 @@ extension HomeViewController: MKMapViewDelegate {
     }
     
     func getCenterCoordinate() -> CLLocationCoordinate2D {
-        if (searchFilter.searchBy == "home location") {
+        if (searchFilter.searchBy == "home address") {
             var lat = 0.0
             var lng = 0.0
             UserManager.sharedInstance.getUser { fetchedUser in
