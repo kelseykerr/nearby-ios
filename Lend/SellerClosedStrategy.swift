@@ -16,7 +16,7 @@ class SellerClosedStrategy: HistoryStateStrategy {
         let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath) as! HistoryRequestTableViewCell
         cell.exchangeTimeLabel.isHidden = true
         cell.exchangeLocationLabel.isHidden = true
-        let name = history.request?.user?.shortName ?? "NAME"
+        let name = history.request?.user?.firstName ?? "NAME"
         let item = history.request?.itemName ?? "ITEM"
         
         cell.messageLabel.text = "\(name) has closed transaction for \(item)."

@@ -15,12 +15,11 @@ class SellerSellerConfirmStrategy: HistoryStateStrategy {
         let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath) as! HistoryRequestTableViewCell
         cell.exchangeTimeLabel.isHidden = true
         cell.exchangeLocationLabel.isHidden = true
-        let name = history.request?.user?.shortName ?? "NAME"
+        let name = history.request?.user?.firstName ?? "NAME"
         let item = history.request?.itemName ?? "ITEM"
         let price = history.responses[0].priceInDollarFormat
         cell.messageLabel.text = "Offered a \(item) to \(name) for \(price)"
 
-        
         cell.historyStateLabel.backgroundColor = UIColor.energy
         cell.historyStateLabel.textColor = UIColor.white
         cell.historyStateLabel.text = " PENDING YOUR APPROVAL "
@@ -87,12 +86,13 @@ class SellerSellerConfirmStrategy: HistoryStateStrategy {
     }
     
     func rowAction(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> [UITableViewRowAction]? {
-        let detail = UITableViewRowAction(style: .normal, title: "Detail") { action, index in
+        /*let detail = UITableViewRowAction(style: .normal, title: "Detail") { action, index in
             print("detail button tapped")
         }
         detail.backgroundColor = UIColor.lightGray
         
-        return [detail]
+        return [detail]*/
+        return []
     }
 
     func canEditRowAt(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> Bool {

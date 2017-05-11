@@ -15,7 +15,7 @@ class BuyerReturnStrategy: HistoryStateStrategy {
         let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath) as! HistoryRequestTableViewCell
         
         let response = history.responses[indexPath.row]
-        let sellerName = response.seller?.shortName ?? "NAME"
+        let sellerName = response.seller?.firstName ?? "NAME"
         let item = history.request?.itemName ?? "ITEM"
         
         cell.messageLabel.text = "Borrowing a \(item) from \(sellerName)"

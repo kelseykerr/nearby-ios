@@ -57,7 +57,7 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
         } else {
             let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "ResponseCell", for: indexPath) as! HistoryResponseTableViewCell
             
-            let sellerName = history.responses[indexPath.row - 1].seller?.shortName ?? "NAME"
+            let sellerName = history.responses[indexPath.row - 1].seller?.firstName ?? "NAME"
             let response = history.responses[indexPath.row - 1]
             let price = response.priceInDollarFormat
             cell.messageLabel.text = "\(sellerName) made an offer for \(price)"
