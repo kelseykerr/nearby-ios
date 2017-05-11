@@ -229,7 +229,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         
-/*
         guard let location = LocationManager.sharedInstance.location else {
             print("No location available")
             return
@@ -240,33 +239,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NBRequest.fetchNotifications(latitude, longitude: longitude) { message in
             print("message: \(message)")
             
-            if #available(iOS 10.0, *) {
-                let content = UNMutableNotificationContent()
-                content.title = NSString.localizedUserNotificationString(forKey: "Nearby:", arguments: nil)
-                content.body = NSString.localizedUserNotificationString(forKey: "message: \(message)", arguments: nil)
-                content.sound = UNNotificationSound.default()
-//                content.badge = UIApplication.shared.applicationIconBadgeNumber + 1;
-                content.categoryIdentifier = "com.iuxtainc.nearby"
-                // Deliver the notification in five seconds.
-                let trigger = UNTimeIntervalNotificationTrigger.init(timeInterval: 1.0, repeats: false)
-                let request = UNNotificationRequest.init(identifier: "OneSecond", content: content, trigger: trigger)
-                
-                // Schedule the notification.
-                let center = UNUserNotificationCenter.current()
-/////                center.add(request)
-                
-            }
-            else {
-                let localNotification = UILocalNotification()
-                localNotification.fireDate = Date().addingTimeInterval(1)
-                localNotification.alertBody = message
-                localNotification.soundName = UILocalNotificationDefaultSoundName
-/////                UIApplication.shared.scheduleLocalNotification(localNotification)
-            }
+            if message != "No Message" {
+                if #available(iOS 10.0, *) {
+                    let content = UNMutableNotificationContent()
+                    content.title = NSString.localizedUserNotificationString(forKey: "Nearby:", arguments: nil)
+                    content.body = NSString.localizedUserNotificationString(forKey: message, arguments: nil)
+                    content.sound = UNNotificationSound.default()
+//                    content.badge = UIApplication.shared.applicationIconBadgeNumber + 1;
+                    content.categoryIdentifier = "com.iuxtainc.nearby"
+                    // Deliver the notification in five seconds.
+                    let trigger = UNTimeIntervalNotificationTrigger.init(timeInterval: 1.0, repeats: false)
+                    let request = UNNotificationRequest.init(identifier: "OneSecond", content: content, trigger: trigger)
+                    
+                    // Schedule the notification.
+                    let center = UNUserNotificationCenter.current()
+                    center.add(request)
+                }
+                else {
+                    let localNotification = UILocalNotification()
+                    localNotification.fireDate = Date().addingTimeInterval(1)
+                    localNotification.alertBody = message
+                    localNotification.soundName = UILocalNotificationDefaultSoundName
+                    UIApplication.shared.scheduleLocalNotification(localNotification)
+                }
             
-            completionHandler(UIBackgroundFetchResult.noData)
+                completionHandler(UIBackgroundFetchResult.noData)
+            }
         }
-*/
         completionHandler(UIBackgroundFetchResult.noData)
     }
 }
