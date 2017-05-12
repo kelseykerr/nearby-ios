@@ -70,7 +70,7 @@ class ConfirmPriceTableViewController:  UITableViewController {
             showError()
             return
         } else {
-            history?.transaction?.finalPrice = price
+            history?.transaction?.priceOverride = price
             delegate?.confirmed(history?.transaction)
             self.navigationController?.popViewController(animated: true)
             self.dismiss(animated: true, completion: nil)

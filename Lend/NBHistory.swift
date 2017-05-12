@@ -159,10 +159,17 @@ extension NBHistory {
             }
             else if self.transaction?.getStatus() == .returns && (self.request?.rental)! == false {
                 if self.isMyRequest() {
-                    return HistoryStatus.buyer_finish
-                }
-                else {
-                    return HistoryStatus.seller_finish
+                    if self.transaction?.finalPrice == nil {
+                        return HistoryStatus.buyer_priceConfirm
+                    } else {
+                        return HistoryStatus.buyer_finish
+                    }
+                } else {
+                    if self.transaction?.finalPrice == nil {
+                        return HistoryStatus.seller_priceConfirm
+                    } else {
+                        return HistoryStatus.seller_finish
+                    }
                 }
             }
             else if self.transaction?.getStatus() == .returns {
