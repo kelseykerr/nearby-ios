@@ -15,11 +15,12 @@ class BuyerExchangeStrategy: HistoryStateStrategy {
 
         let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath) as! HistoryRequestTableViewCell
         
+        let action = (history.request?.rental)! ? "Buying" : "Borrowing";
         let response = history.getResponseById(id: (history.transaction?.responseId)!)
         let sellerName = response?.seller?.firstName ?? "NAME"
         let item = history.request?.itemName ?? "ITEM"
         
-        cell.messageLabel.text = "Borrowing a \(item) from \(sellerName)"
+        cell.messageLabel.text = "\(action) a \(item) from \(sellerName)"
         let line = CAShapeLayer()
         let linePath = UIBezierPath()
         let start = CGPoint.init(x: 5, y: 1)
