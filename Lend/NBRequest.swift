@@ -118,8 +118,8 @@ extension NBRequest {
                 var error: NSError? = nil
                 if response.result.error != nil {
                     let statusCode = response.response?.statusCode ?? 999
-                    let errorMessage = String(data: response.data!, encoding: String.Encoding.utf8)
-                    error = NSError(domain: errorMessage!, code: statusCode, userInfo: nil)
+                    let errorMessage = String(data: response.data!, encoding: String.Encoding.utf8) ?? "No Error Message"
+                    error = NSError(domain: errorMessage, code: statusCode, userInfo: nil)
                 }
                 let result = self.requestArrayFromResponse(response: response)
                 completionHandler(result, error)
@@ -132,9 +132,9 @@ extension NBRequest {
             .responseJSON { response in
                 var error: NSError? = nil
                 if response.result.error != nil {
-                    let statusCode = response.response?.statusCode
-                    let errorMessage = String(data: response.data!, encoding: String.Encoding.utf8)
-                    error = NSError(domain: errorMessage!, code: statusCode!, userInfo: nil)
+                    let statusCode = response.response?.statusCode ?? 999
+                    let errorMessage = String(data: response.data!, encoding: String.Encoding.utf8) ?? "No Error Message"
+                    error = NSError(domain: errorMessage, code: statusCode, userInfo: nil)
                 }
                 let result = self.requestObjectFromResponse(response: response)
                 completionHandler(result, error)
@@ -157,8 +157,8 @@ extension NBRequest {
                 var error: NSError? = nil
                 if response.result.error != nil {
                     let statusCode = response.response?.statusCode
-                    let errorMessage = String(data: response.data!, encoding: String.Encoding.utf8)
-                    error = NSError(domain: errorMessage!, code: statusCode!, userInfo: nil)
+                    let errorMessage = String(data: response.data!, encoding: String.Encoding.utf8) ?? "No Error Message"
+                    error = NSError(domain: errorMessage, code: statusCode!, userInfo: nil)
                 }
                 completionHandler(error)
         }
@@ -170,9 +170,9 @@ extension NBRequest {
             .responseJSON { response in
                 var error: NSError? = nil
                 if response.result.error != nil {
-                    let statusCode = response.response?.statusCode
+                    let statusCode = response.response?.statusCode ?? 999
                     let errorMessage = String(data: response.data!, encoding: String.Encoding.utf8) ?? "No Error Message"
-                    error = NSError(domain: errorMessage, code: statusCode!, userInfo: nil)
+                    error = NSError(domain: errorMessage, code: statusCode, userInfo: nil)
                 }
                 completionHandler(error)
         }
