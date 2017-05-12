@@ -119,8 +119,9 @@ extension NBHistory {
                 if responseAccepted() {
                     if self.isMyRequest() {
                         return HistoryStatus.buyer_buyerConfirm
-                    }
-                    else {
+                    } else if (self.request?.status?.rawValue == "CLOSED") {
+                        return HistoryStatus.seller_closed
+                    } else {
                         return HistoryStatus.seller_sellerConfirm
                     }
                 }
@@ -129,6 +130,10 @@ extension NBHistory {
                         return HistoryStatus.buyer_buyerConfirm
                     }
                     else {
+                        if (self.responses[0].responseStatus?.rawValue == "CLOSED") {
+                            return HistoryStatus.seller_closed
+
+                        }
                         return HistoryStatus.seller_buyerConfirm
                     }
                 }
