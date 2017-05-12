@@ -63,17 +63,17 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
             cell.messageLabel.text = "\(sellerName) made an offer for \(price)"
             if (response.responseStatus?.rawValue == "CLOSED") {
                 cell.responseStateLabel.backgroundColor = UIColor.nbRed
-                cell.responseStateLabel.text = " closed "
+                cell.responseStateLabel.text = " CLOSED "
             } else if (response.responseStatus?.rawValue == "ACCEPTED") { //shouldn't happen...if it's accepted a transaction should be open
                 cell.responseStateLabel.backgroundColor = UIColor.nbGreen
-                cell.responseStateLabel.text = " accepted "
+                cell.responseStateLabel.text = " ACCEPTED "
             } else {
                 if (response.sellerStatus?.rawValue != "ACCEPTED") {
                     cell.responseStateLabel.backgroundColor = UIColor.nbYellow
-                    cell.responseStateLabel.text = " seller confirm "
+                    cell.responseStateLabel.text = " SELLER CONFIRM "
                 } else {
                     cell.responseStateLabel.backgroundColor = UIColor.nbGreen
-                    cell.responseStateLabel.text = " open "
+                    cell.responseStateLabel.text = " OPEN "
                 }
             }
             cell.responseStateLabel.sizeToFit()

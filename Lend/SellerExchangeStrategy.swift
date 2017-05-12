@@ -33,10 +33,10 @@ class SellerExchangeStrategy: HistoryStateStrategy {
         
         if (history.status == .seller_overrideExchange && !(history.transaction?.exchangeOverride?.declined)!) {
             cell.historyStateLabel.backgroundColor = UIColor.nbYellow
-            cell.historyStateLabel.text = " Exchange Override Pending Approval "
+            cell.historyStateLabel.text = " EXCHANGE OVERRIDE PENDING APPROVAL "
         } else {
             cell.historyStateLabel.backgroundColor = UIColor.nbGreen
-            cell.historyStateLabel.text = " Awaiting Exchange "
+            cell.historyStateLabel.text = " AWAITING EXCHANGE "
             if (response.exchangeTime != nil && response.exchangeTime != 0) {
                 cell.exchangeTimeLabel.isHidden = false
                 let attrText = NSMutableAttributedString(string: "")

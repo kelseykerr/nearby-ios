@@ -76,7 +76,7 @@ class BuyerExchangeStrategy: HistoryStateStrategy {
             historyVC.present(alert, animated: true, completion: nil)
         } else {
             cell.historyStateLabel.backgroundColor = UIColor.nbGreen
-            cell.historyStateLabel.text = " Awaiting Exchange "
+            cell.historyStateLabel.text = " AWAITING EXCHANGE "
             if (response?.exchangeTime != nil && response?.exchangeTime != 0) {
                 cell.exchangeTimeLabel.isHidden = false
                 let attrText = NSMutableAttributedString(string: "")
