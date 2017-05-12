@@ -32,6 +32,7 @@ class RequestDetailTableViewController: UITableViewController {
 
     @IBOutlet var itemNameLabel: UILabel!
     @IBOutlet var descriptionTextView: UITextView!
+    @IBOutlet var rentLabel: UILabel!
     
     @IBOutlet var saveButton: UIButton!
     
@@ -55,6 +56,15 @@ class RequestDetailTableViewController: UITableViewController {
         }
         set {
             descriptionTextView.text = newValue
+        }
+    }
+    
+    var rent: Bool {
+        get {
+            return rentLabel.text == "rent"
+        }
+        set {
+            rentLabel.text = (newValue) ? "rent" : "buy"
         }
     }
     
@@ -105,6 +115,7 @@ class RequestDetailTableViewController: UITableViewController {
     func loadFields(request: NBRequest) {
         itemName = request.itemName
         desc = request.desc
+        rent = request.rental ?? false
     }
     
     @IBAction func respondButtonPressed(_ sender: UIButton) {
