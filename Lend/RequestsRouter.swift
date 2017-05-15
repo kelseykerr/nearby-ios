@@ -10,8 +10,7 @@ import Foundation
 import Alamofire
 
 enum RequestsRouter: URLRequestConvertible {
-    //static let baseURLString = "https://alpha-server.thenearbyapp.com/api/"
-    static let baseURLString = "https://server.thenearbyapp.com/api/"
+    static let baseURLString = NBConstants.baseURLString
 
     case getRequests(Double, Double, Double, Bool, Bool, String, String) // latitude, longitude, radius, expired, includeMine, searchTerm, sort
     case getRequest(String)

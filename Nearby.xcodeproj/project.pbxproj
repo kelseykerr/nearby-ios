@@ -83,6 +83,7 @@
 		AA97466E1E56C10C00C1FA17 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA97466D1E56C10C00C1FA17 /* UIViewControllerExtension.swift */; };
 		AA98F7391D9C69910083BB4B /* RequestTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA98F7381D9C69910083BB4B /* RequestTableViewCell.swift */; };
 		AA9B97B01E7FAB3400EE055F /* UIStoryboardExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9B97AF1E7FAB3400EE055F /* UIStoryboardExtension.swift */; };
+		AAA7F82A1EC98CE7006CEBB6 /* NBConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA7F8291EC98CE7006CEBB6 /* NBConstants.swift */; };
 		AAB7690A1E285C1C0021F657 /* HistoryResponseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB769091E285C1C0021F657 /* HistoryResponseTableViewCell.swift */; };
 		AAB7690C1E2B35EF0021F657 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB7690B1E2B35EF0021F657 /* UserManager.swift */; };
 		AAB7690E1E2B3CF80021F657 /* NBPayment.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB7690D1E2B3CF80021F657 /* NBPayment.swift */; };
@@ -192,6 +193,7 @@
 		AA97466D1E56C10C00C1FA17 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
 		AA98F7381D9C69910083BB4B /* RequestTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestTableViewCell.swift; sourceTree = "<group>"; };
 		AA9B97AF1E7FAB3400EE055F /* UIStoryboardExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIStoryboardExtension.swift; sourceTree = "<group>"; };
+		AAA7F8291EC98CE7006CEBB6 /* NBConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NBConstants.swift; sourceTree = "<group>"; };
 		AAB769091E285C1C0021F657 /* HistoryResponseTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryResponseTableViewCell.swift; sourceTree = "<group>"; };
 		AAB7690B1E2B35EF0021F657 /* UserManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		AAB7690D1E2B3CF80021F657 /* NBPayment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NBPayment.swift; sourceTree = "<group>"; };
@@ -311,6 +313,7 @@
 			children = (
 				AA2C47501D6B759D0013F350 /* Converter.swift */,
 				AA97466B1E54540C00C1FA17 /* Utils.swift */,
+				AAA7F8291EC98CE7006CEBB6 /* NBConstants.swift */,
 			);
 			name = Other;
 			sourceTree = "<group>";
@@ -782,6 +785,7 @@
 				AA2EB2DE1E7675AB00646AF3 /* HistoryTransactionTableViewCell.swift in Sources */,
 				AA52E6CE1EB287DC00934C72 /* NewAccountManager.swift in Sources */,
 				AAB769121E2B43380021F657 /* DirectDepositTableViewController.swift in Sources */,
+				AAA7F82A1EC98CE7006CEBB6 /* NBConstants.swift in Sources */,
 				AA2C47461D679BA50013F350 /* NewRequestTableViewController.swift in Sources */,
 				AA8F279A1E5AB5F4003CDC22 /* SellerBuyerConfirmStrategy.swift in Sources */,
 				AA9B97B01E7FAB3400EE055F /* UIStoryboardExtension.swift in Sources */,
