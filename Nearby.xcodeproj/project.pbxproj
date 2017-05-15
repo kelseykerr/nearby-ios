@@ -84,6 +84,8 @@
 		AA9B97B01E7FAB3400EE055F /* UIStoryboardExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9B97AF1E7FAB3400EE055F /* UIStoryboardExtension.swift */; };
 		AAA7F82A1EC98CE7006CEBB6 /* NBConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA7F8291EC98CE7006CEBB6 /* NBConstants.swift */; };
 		AAA7F82E1EC994D2006CEBB6 /* HistoryTransactionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA7F82D1EC994D2006CEBB6 /* HistoryTransactionTableViewCell.swift */; };
+		AAA7F8301ECA30C7006CEBB6 /* NBFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA7F82F1ECA30C7006CEBB6 /* NBFlag.swift */; };
+		AAA7F8331ECA39B1006CEBB6 /* FlagTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA7F8321ECA39B1006CEBB6 /* FlagTableViewController.swift */; };
 		AAB7690A1E285C1C0021F657 /* HistoryResponseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB769091E285C1C0021F657 /* HistoryResponseTableViewCell.swift */; };
 		AAB7690C1E2B35EF0021F657 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB7690B1E2B35EF0021F657 /* UserManager.swift */; };
 		AAB7690E1E2B3CF80021F657 /* NBPayment.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB7690D1E2B3CF80021F657 /* NBPayment.swift */; };
@@ -194,6 +196,8 @@
 		AA9B97AF1E7FAB3400EE055F /* UIStoryboardExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIStoryboardExtension.swift; sourceTree = "<group>"; };
 		AAA7F8291EC98CE7006CEBB6 /* NBConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NBConstants.swift; sourceTree = "<group>"; };
 		AAA7F82D1EC994D2006CEBB6 /* HistoryTransactionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryTransactionTableViewCell.swift; sourceTree = "<group>"; };
+		AAA7F82F1ECA30C7006CEBB6 /* NBFlag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NBFlag.swift; sourceTree = "<group>"; };
+		AAA7F8321ECA39B1006CEBB6 /* FlagTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlagTableViewController.swift; sourceTree = "<group>"; };
 		AAB769091E285C1C0021F657 /* HistoryResponseTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryResponseTableViewCell.swift; sourceTree = "<group>"; };
 		AAB7690B1E2B35EF0021F657 /* UserManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		AAB7690D1E2B3CF80021F657 /* NBPayment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NBPayment.swift; sourceTree = "<group>"; };
@@ -449,6 +453,7 @@
 				AA2F16BF1E4662200029AB47 /* QRScannerViewController.swift */,
 				AA4310B71D616DAB00E00F45 /* LoginViewController.swift */,
 				E61F58111EAD34C400EA60F0 /* ForgotToScanViewController.swift */,
+				AAA7F8321ECA39B1006CEBB6 /* FlagTableViewController.swift */,
 			);
 			name = Other;
 			sourceTree = "<group>";
@@ -510,6 +515,7 @@
 				AA8B21E81D9A363C0026ED7D /* NBTransaction.swift */,
 				AA8B21EA1D9A4A220026ED7D /* NBExchangeOverride.swift */,
 				AAB7690D1E2B3CF80021F657 /* NBPayment.swift */,
+				AAA7F82F1ECA30C7006CEBB6 /* NBFlag.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -816,6 +822,7 @@
 				AA9027231DD7D53400B5CA2B /* ProfileTableViewController.swift in Sources */,
 				AAB769101E2B41A80021F657 /* PaymentTableViewController.swift in Sources */,
 				AA8F27981E5AB547003CDC22 /* SellerFinishStrategy.swift in Sources */,
+				AAA7F8301ECA30C7006CEBB6 /* NBFlag.swift in Sources */,
 				AA97466E1E56C10C00C1FA17 /* UIViewControllerExtension.swift in Sources */,
 				AA97211E1D64DB580036E007 /* NBGeoJsonPoint.swift in Sources */,
 				AA9721221D651C460036E007 /* RequestsRouter.swift in Sources */,
@@ -846,6 +853,7 @@
 				AA31BC1E1E85DAFF00738696 /* BuyerPriceConfirmStrategy.swift in Sources */,
 				AAC3C8B01D5A789800B8F2A9 /* NearbyAPIManager.swift in Sources */,
 				AA97211B1D64DA710036E007 /* NBCategory.swift in Sources */,
+				AAA7F8331ECA39B1006CEBB6 /* FlagTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

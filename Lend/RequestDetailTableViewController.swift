@@ -18,7 +18,7 @@ protocol RequestDetailTableViewDelegate: class {
     
     //response
 
-    func offered(_ request: NBResponse?)
+    func offered(_ response: NBResponse?)
     
 }
 
@@ -35,6 +35,7 @@ class RequestDetailTableViewController: UITableViewController {
     @IBOutlet var rentLabel: UILabel!
     
     @IBOutlet var saveButton: UIButton!
+    @IBOutlet var flagButton: UIButton!
     
     weak var delegate: RequestDetailTableViewDelegate?
     var request: NBRequest?
@@ -79,6 +80,9 @@ class RequestDetailTableViewController: UITableViewController {
         
         saveButton.layer.cornerRadius = saveButton.frame.size.height / 16
         saveButton.clipsToBounds = true
+        
+        flagButton.layer.cornerRadius = flagButton.frame.size.height / 16
+        flagButton.clipsToBounds = true
         
         if let request = request {
             loadFields(request: request)
@@ -147,6 +151,20 @@ class RequestDetailTableViewController: UITableViewController {
             }
         }
     }
+    
+    @IBAction func flagButtonPressed(_ sender: UIButton) {
+        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        guard let navVC = storyboard.instantiateViewController(
+            withIdentifier: "FlagNavigationController") as? UINavigationController else {
+                assert(false, "Misnamed view controller")
+                return
+        }
+        let flagVC = (navVC.childViewControllers[0] as! FlagTableViewController)
+//        flagVC.delegate = self
+        flagVC.request = self.request
+        self.present(navVC, animated: true, completion: nil)
+    }
+    
 }
 
 extension RequestDetailTableViewController: NewRequestTableViewDelegate {

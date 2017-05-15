@@ -685,7 +685,23 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             }
             respond.backgroundColor = UIColor.nbBlue
             
-            return [respond]
+            let flag = UITableViewRowAction(style: .normal, title: "Flag") { action, index in
+                let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+                guard let navVC = storyboard.instantiateViewController(
+                    withIdentifier: "FlagNavigationController") as? UINavigationController else {
+                        assert(false, "Misnamed view controller")
+                        return
+                }
+                let flagVC = (navVC.childViewControllers[0] as! FlagTableViewController)
+//                flagVC.delegate = self
+                flagVC.request = request
+                self.present(navVC, animated: true, completion: nil)
+                
+                self.tableView.isEditing = false
+            }
+            flag.backgroundColor = UIColor.nbRed
+            
+            return [flag, respond]
         }
     }
     
