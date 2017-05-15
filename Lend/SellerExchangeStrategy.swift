@@ -11,7 +11,7 @@ import Foundation
 class SellerExchangeStrategy: HistoryStateStrategy {
     
     func cell(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UITableViewCell {
-        let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath) as! HistoryRequestTableViewCell
+        let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "TransactionCell", for: indexPath) as! HistoryTransactionTableViewCell
         
         let name = history.request?.user?.firstName ?? "NAME"
         let item = history.request?.itemName ?? "ITEM"
@@ -34,9 +34,11 @@ class SellerExchangeStrategy: HistoryStateStrategy {
         if (history.status == .seller_overrideExchange && !(history.transaction?.exchangeOverride?.declined)!) {
             cell.historyStateLabel.backgroundColor = UIColor.nbYellow
             cell.historyStateLabel.text = " EXCHANGE OVERRIDE PENDING APPROVAL "
+            cell.historyStateLabel.sizeToFit()
         } else {
             cell.historyStateLabel.backgroundColor = UIColor.nbGreen
             cell.historyStateLabel.text = " AWAITING EXCHANGE "
+            cell.historyStateLabel.sizeToFit()
             if (response.exchangeTime != nil && response.exchangeTime != 0) {
                 cell.exchangeTimeLabel.isHidden = false
                 let attrText = NSMutableAttributedString(string: "")
@@ -76,7 +78,7 @@ class SellerExchangeStrategy: HistoryStateStrategy {
                     print(error!)
                     return
                 }
-                if let cellToUpdate = historyVC.tableView?.cellForRow(at: indexPath) as! HistoryRequestTableViewCell? {
+                if let cellToUpdate = historyVC.tableView?.cellForRow(at: indexPath) as! HistoryTransactionTableViewCell? {
                     cellToUpdate.userImageView?.image = image
                     cellToUpdate.setNeedsLayout()
                 }

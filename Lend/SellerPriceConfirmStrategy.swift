@@ -13,10 +13,12 @@ class SellerPriceConfirmStrategy: HistoryStateStrategy {
     
     func cell(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UITableViewCell {
         let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath) as! HistoryRequestTableViewCell
-        cell.exchangeTimeLabel.isHidden = true
-        cell.exchangeLocationLabel.isHidden = true
+//        cell.exchangeTimeLabel.isHidden = true
+//        cell.exchangeLocationLabel.isHidden = true
         let item = history.request?.itemName ?? "ITEM"
         cell.messageLabel.text = "Please confirm price for \(item)"
+        cell.messageLabel.sizeToFit()
+        
         let line = CAShapeLayer()
         let linePath = UIBezierPath()
         let start = CGPoint.init(x: 5, y: 1)
@@ -31,6 +33,7 @@ class SellerPriceConfirmStrategy: HistoryStateStrategy {
         
         cell.historyStateLabel.backgroundColor = UIColor.nbYellow
         cell.historyStateLabel.text = " CONFIRM PRICE! "
+        cell.historyStateLabel.sizeToFit()
         
         cell.timeLabel.removeFromSuperview()
         

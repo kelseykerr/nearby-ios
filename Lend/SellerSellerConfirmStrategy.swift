@@ -13,16 +13,18 @@ class SellerSellerConfirmStrategy: HistoryStateStrategy {
     
     func cell(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UITableViewCell {
         let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath) as! HistoryRequestTableViewCell
-        cell.exchangeTimeLabel.isHidden = true
-        cell.exchangeLocationLabel.isHidden = true
+//        cell.exchangeTimeLabel.isHidden = true
+//        cell.exchangeLocationLabel.isHidden = true
         let name = history.request?.user?.firstName ?? "NAME"
         let item = history.request?.itemName ?? "ITEM"
         let price = history.responses[0].priceInDollarFormat
         cell.messageLabel.text = "Offered a \(item) to \(name) for \(price)"
+        cell.messageLabel.sizeToFit()
 
         cell.historyStateLabel.backgroundColor = UIColor.energy
         cell.historyStateLabel.textColor = UIColor.white
         cell.historyStateLabel.text = " PENDING YOUR APPROVAL "
+        cell.historyStateLabel.sizeToFit()
         cell.timeLabel.text = history.request?.getElapsedTimeAsString()
         
         //add white line so that transaction card doesn't place yellow line on scroll

@@ -14,11 +14,13 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
     func cell(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UITableViewCell {
         if (indexPath as NSIndexPath).row == 0 {
             let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath) as! HistoryRequestTableViewCell
-            cell.exchangeTimeLabel.isHidden = true
-            cell.exchangeLocationLabel.isHidden = true
+//            cell.exchangeTimeLabel.isHidden = true
+//            cell.exchangeLocationLabel.isHidden = true
             let request = history.request
             let item = history.request?.itemName ?? "ITEM"
             cell.messageLabel.text = "Requested a \(item)"
+            cell.messageLabel.sizeToFit()
+            
             //add white line so that transaction card doesn't place yellow line on scroll
             let line = CAShapeLayer()
             let linePath = UIBezierPath()
@@ -34,6 +36,7 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
             
             cell.historyStateLabel.backgroundColor = UIColor.nbGreen
             cell.historyStateLabel.text = " OPEN "
+            cell.historyStateLabel.sizeToFit()
             
             cell.timeLabel.text = history.request?.getElapsedTimeAsString()
             

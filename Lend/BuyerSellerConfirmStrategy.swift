@@ -13,10 +13,11 @@ class BuyerSellerConfirmStrategy: HistoryStateStrategy {
     
     func cell(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UITableViewCell {
         let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath) as! HistoryRequestTableViewCell
-        cell.exchangeTimeLabel.isHidden = true
-        cell.exchangeLocationLabel.isHidden = true
+//        cell.exchangeTimeLabel.isHidden = true
+//        cell.exchangeLocationLabel.isHidden = true
         let item = history.request?.itemName ?? "ITEM"
         cell.messageLabel?.text = "Awaiting seller to confirm your offer for \(item)."
+        cell.messageLabel.sizeToFit()
         
         //add white line so that transaction card doesn't place yellow line on scroll
         let line = CAShapeLayer()
@@ -34,6 +35,7 @@ class BuyerSellerConfirmStrategy: HistoryStateStrategy {
         cell.historyStateLabel.backgroundColor = UIColor.energy
         cell.historyStateLabel.textColor = UIColor.white
         cell.historyStateLabel.text = " SELLER CONFIRM "
+        cell.historyStateLabel.sizeToFit()
         cell.timeLabel.text = history.request?.getElapsedTimeAsString()
         
         return cell

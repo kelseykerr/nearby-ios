@@ -14,8 +14,8 @@ class BuyerFinishStrategy: HistoryStateStrategy {
     
     func cell(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UITableViewCell {
         let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath) as! HistoryRequestTableViewCell
-        cell.exchangeTimeLabel.isHidden = true
-        cell.exchangeLocationLabel.isHidden = true
+//        cell.exchangeTimeLabel.isHidden = true
+//        cell.exchangeLocationLabel.isHidden = true
         let item = history.request?.itemName ?? "ITEM"
         var text = ""
         if (history.request?.rental)! {
@@ -27,6 +27,7 @@ class BuyerFinishStrategy: HistoryStateStrategy {
         let price = history.transaction?.finalPriceInDollarFormat ?? "0.00"
         text += " for \(price)"
         cell.messageLabel.text = text;
+        cell.messageLabel.sizeToFit()
         
         //add white line so that transaction card doesn't place yellow line on scroll
         let line = CAShapeLayer()
@@ -43,7 +44,8 @@ class BuyerFinishStrategy: HistoryStateStrategy {
  
         cell.historyStateLabel.backgroundColor = UIColor.nbBlue
         cell.historyStateLabel.text = " FULFILLED "
-        
+        cell.historyStateLabel.sizeToFit()
+
         cell.timeLabel.text = history.request?.getElapsedTimeAsString()
         
         cell.userImageView.image = UIImage(named: "User-64")

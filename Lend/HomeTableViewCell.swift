@@ -14,7 +14,6 @@ class HomeTableViewCell: UITableViewCell {
     @IBOutlet var messageLabel: UILabel!
     @IBOutlet var timeLabel: UILabel!
     @IBOutlet var distanceLabel: UILabel!
-    @IBOutlet var messageLabel2: UILabel!
     
     var time: String {
         get {
@@ -43,12 +42,6 @@ class HomeTableViewCell: UITableViewCell {
         
         distanceLabel.layer.cornerRadius = distanceLabel.frame.size.height / 2
         distanceLabel.clipsToBounds = true
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
 
 }

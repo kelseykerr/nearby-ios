@@ -12,7 +12,7 @@ import Foundation
 class SellerReturnStrategy: HistoryStateStrategy {
     
     func cell(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UITableViewCell {
-        let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath) as! HistoryRequestTableViewCell
+        let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "TransactionCell", for: indexPath) as! HistoryTransactionTableViewCell
         
         let name = history.request?.user?.firstName ?? "NAME"
         let item = history.request?.itemName ?? "ITEM"
@@ -34,6 +34,7 @@ class SellerReturnStrategy: HistoryStateStrategy {
         if (history.status == .seller_overrideReturn) {
             cell.historyStateLabel.backgroundColor = UIColor.nbYellow
             cell.historyStateLabel.text = " Return Override Pending Your Approval "
+            cell.historyStateLabel.sizeToFit()
             let dateTimeStamp = NSDate(timeIntervalSince1970:Double((history.transaction?.returnOverride?.time)!)/1000)  //UTC time
             let dateFormatter = DateFormatter()
             dateFormatter.timeZone = NSTimeZone.local //Edit
@@ -72,6 +73,7 @@ class SellerReturnStrategy: HistoryStateStrategy {
         } else {
             cell.historyStateLabel.backgroundColor = UIColor.nbYellow
             cell.historyStateLabel.text = " AWAITING RETURN "
+            cell.historyStateLabel.sizeToFit()
             
             if (response.returnTime != nil && response.returnTime != 0) {
                 cell.exchangeTimeLabel.isHidden = false
@@ -112,7 +114,7 @@ class SellerReturnStrategy: HistoryStateStrategy {
                     print(error!)
                     return
                 }
-                if let cellToUpdate = historyVC.tableView?.cellForRow(at: indexPath) as! HistoryRequestTableViewCell? {
+                if let cellToUpdate = historyVC.tableView?.cellForRow(at: indexPath) as! HistoryTransactionTableViewCell? {
                     cellToUpdate.userImageView?.image = image
                     cellToUpdate.setNeedsLayout()
                 }

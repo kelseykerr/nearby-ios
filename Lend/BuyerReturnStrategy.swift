@@ -12,7 +12,7 @@ import Foundation
 class BuyerReturnStrategy: HistoryStateStrategy {
     
     func cell(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UITableViewCell {
-        let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath) as! HistoryRequestTableViewCell
+        let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "TransactionCell", for: indexPath) as! HistoryTransactionTableViewCell
         
         let response = history.responses[indexPath.row]
         let sellerName = response.seller?.firstName ?? "NAME"
@@ -34,9 +34,11 @@ class BuyerReturnStrategy: HistoryStateStrategy {
         if (history.status == .buyer_overrideReturn) {
             cell.historyStateLabel.backgroundColor = UIColor.nbYellow
             cell.historyStateLabel.text = " Return Override Pending Approval "
+            cell.historyStateLabel.sizeToFit()
         } else {
             cell.historyStateLabel.backgroundColor = UIColor.nbYellow
             cell.historyStateLabel.text = " AWAITING RETURN "
+            cell.historyStateLabel.sizeToFit()
             if (response.returnTime != nil && response.returnTime != 0) {
                 cell.exchangeTimeLabel.isHidden = false
                 let attrText = NSMutableAttributedString(string: "")
@@ -80,7 +82,7 @@ class BuyerReturnStrategy: HistoryStateStrategy {
                     print(error!)
                     return
                 }
-                if let cellToUpdate = historyVC.tableView?.cellForRow(at: indexPath) as! HistoryRequestTableViewCell? {
+                if let cellToUpdate = historyVC.tableView?.cellForRow(at: indexPath) as! HistoryTransactionTableViewCell? {
                     cellToUpdate.userImageView?.image = image
                     cellToUpdate.setNeedsLayout()
                 }

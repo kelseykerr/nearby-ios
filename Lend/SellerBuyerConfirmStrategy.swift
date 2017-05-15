@@ -14,14 +14,15 @@ class SellerBuyerConfirmStrategy: HistoryStateStrategy {
     func cell(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UITableViewCell {
         if (indexPath as NSIndexPath).row == 0 {
             let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath) as! HistoryRequestTableViewCell
-            cell.exchangeTimeLabel.isHidden = true
-            cell.exchangeLocationLabel.isHidden = true
+//            cell.exchangeTimeLabel.isHidden = true
+//            cell.exchangeLocationLabel.isHidden = true
             let name = history.request?.user?.firstName ?? "NAME"
             let item = history.request?.itemName ?? "ITEM"
             let rent = (history.request?.rental)! ? "lend" : "sell"
             let price = history.responses[0].priceInDollarFormat
             
             cell.messageLabel.text = "Offered a \(item) to \(name) for \(price)"
+            cell.messageLabel.sizeToFit()
 
             //add white line so that transaction card doesn't place yellow line on scroll
             let line = CAShapeLayer()
@@ -38,6 +39,7 @@ class SellerBuyerConfirmStrategy: HistoryStateStrategy {
             
             cell.historyStateLabel.backgroundColor = UIColor.nbYellow
             cell.historyStateLabel.text = " PENDING "
+            cell.historyStateLabel.sizeToFit()
             cell.timeLabel.text = history.request?.getElapsedTimeAsString()
             
             cell.userImageView.image = UIImage(named: "User-64")

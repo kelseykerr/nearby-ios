@@ -14,8 +14,8 @@ class BuyerClosedStrategy: HistoryStateStrategy {
     
     func cell(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UITableViewCell {
         let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath) as! HistoryRequestTableViewCell
-        cell.exchangeTimeLabel.isHidden = true
-        cell.exchangeLocationLabel.isHidden = true
+//        cell.exchangeTimeLabel.isHidden = true
+//        cell.exchangeLocationLabel.isHidden = true
         let item = history.request?.itemName ?? "ITEM"
         let line = CAShapeLayer()
         let linePath = UIBezierPath()
@@ -29,10 +29,12 @@ class BuyerClosedStrategy: HistoryStateStrategy {
         line.lineJoin = kCALineJoinRound
         cell.layer.addSublayer(line)
         cell.messageLabel.text = "Requested a \(item)"
+        cell.messageLabel.sizeToFit()
         
         cell.historyStateLabel.backgroundColor = UIColor.nbRed
         cell.historyStateLabel.text = " CLOSED "
-        
+        cell.historyStateLabel.sizeToFit()
+
         cell.timeLabel.text = history.request?.getElapsedTimeAsString()
         
         cell.userImageView.image = UIImage(named: "User-64")

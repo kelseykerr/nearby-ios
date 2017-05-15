@@ -13,7 +13,7 @@ class BuyerExchangeStrategy: HistoryStateStrategy {
     
     func cell(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UITableViewCell {
 
-        let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath) as! HistoryRequestTableViewCell
+        let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "TransactionCell", for: indexPath) as! HistoryTransactionTableViewCell
         
         let action = (history.request?.rental)! ? "Buying" : "Borrowing";
         let response = history.getResponseById(id: (history.transaction?.responseId)!)
@@ -37,6 +37,7 @@ class BuyerExchangeStrategy: HistoryStateStrategy {
         if (history.status == .buyer_overrideExchange && !(history.transaction?.exchangeOverride?.declined)!) {
             cell.historyStateLabel.backgroundColor = UIColor.nbYellow
             cell.historyStateLabel.text = " Exchange Override Pending Your Approval "
+            cell.historyStateLabel.sizeToFit()
             let dateTimeStamp = NSDate(timeIntervalSince1970:Double((history.transaction?.exchangeOverride?.time)!)/1000)  //UTC time
             let dateFormatter = DateFormatter()
             dateFormatter.timeZone = NSTimeZone.local //Edit
@@ -77,6 +78,7 @@ class BuyerExchangeStrategy: HistoryStateStrategy {
         } else {
             cell.historyStateLabel.backgroundColor = UIColor.nbGreen
             cell.historyStateLabel.text = " AWAITING EXCHANGE "
+            cell.historyStateLabel.sizeToFit()
             if (response?.exchangeTime != nil && response?.exchangeTime != 0) {
                 cell.exchangeTimeLabel.isHidden = false
                 let attrText = NSMutableAttributedString(string: "")
@@ -116,7 +118,7 @@ class BuyerExchangeStrategy: HistoryStateStrategy {
                     print(error!)
                     return
                 }
-                if let cellToUpdate = historyVC.tableView?.cellForRow(at: indexPath) as! HistoryRequestTableViewCell? {
+                if let cellToUpdate = historyVC.tableView?.cellForRow(at: indexPath) as! HistoryTransactionTableViewCell? {
                     cellToUpdate.userImageView?.image = image
                     cellToUpdate.setNeedsLayout()
                 }

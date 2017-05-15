@@ -29,7 +29,6 @@
 		AA2D885D1E8378970005D969 /* TransactionDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2D885C1E8378970005D969 /* TransactionDetailTableViewController.swift */; };
 		AA2D885F1E852AC30005D969 /* BuyerClosedStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2D885E1E852AC30005D969 /* BuyerClosedStrategy.swift */; };
 		AA2D88611E852AF80005D969 /* SellerClosedStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2D88601E852AF80005D969 /* SellerClosedStrategy.swift */; };
-		AA2EB2DE1E7675AB00646AF3 /* HistoryTransactionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2EB2DD1E7675AB00646AF3 /* HistoryTransactionTableViewCell.swift */; };
 		AA2EB2E01E767E3700646AF3 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2EB2DF1E767E3700646AF3 /* UIColorExtension.swift */; };
 		AA2F16C01E4662210029AB47 /* QRScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2F16BF1E4662200029AB47 /* QRScannerViewController.swift */; };
 		AA31BC1E1E85DAFF00738696 /* BuyerPriceConfirmStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA31BC1D1E85DAFF00738696 /* BuyerPriceConfirmStrategy.swift */; };
@@ -84,6 +83,7 @@
 		AA98F7391D9C69910083BB4B /* RequestTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA98F7381D9C69910083BB4B /* RequestTableViewCell.swift */; };
 		AA9B97B01E7FAB3400EE055F /* UIStoryboardExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9B97AF1E7FAB3400EE055F /* UIStoryboardExtension.swift */; };
 		AAA7F82A1EC98CE7006CEBB6 /* NBConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA7F8291EC98CE7006CEBB6 /* NBConstants.swift */; };
+		AAA7F82E1EC994D2006CEBB6 /* HistoryTransactionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA7F82D1EC994D2006CEBB6 /* HistoryTransactionTableViewCell.swift */; };
 		AAB7690A1E285C1C0021F657 /* HistoryResponseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB769091E285C1C0021F657 /* HistoryResponseTableViewCell.swift */; };
 		AAB7690C1E2B35EF0021F657 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB7690B1E2B35EF0021F657 /* UserManager.swift */; };
 		AAB7690E1E2B3CF80021F657 /* NBPayment.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB7690D1E2B3CF80021F657 /* NBPayment.swift */; };
@@ -135,7 +135,6 @@
 		AA2D885C1E8378970005D969 /* TransactionDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionDetailTableViewController.swift; sourceTree = "<group>"; };
 		AA2D885E1E852AC30005D969 /* BuyerClosedStrategy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuyerClosedStrategy.swift; sourceTree = "<group>"; };
 		AA2D88601E852AF80005D969 /* SellerClosedStrategy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SellerClosedStrategy.swift; sourceTree = "<group>"; };
-		AA2EB2DD1E7675AB00646AF3 /* HistoryTransactionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryTransactionTableViewCell.swift; sourceTree = "<group>"; };
 		AA2EB2DF1E767E3700646AF3 /* UIColorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 		AA2F16BF1E4662200029AB47 /* QRScannerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRScannerViewController.swift; sourceTree = "<group>"; };
 		AA31BC1D1E85DAFF00738696 /* BuyerPriceConfirmStrategy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuyerPriceConfirmStrategy.swift; sourceTree = "<group>"; };
@@ -194,6 +193,7 @@
 		AA98F7381D9C69910083BB4B /* RequestTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestTableViewCell.swift; sourceTree = "<group>"; };
 		AA9B97AF1E7FAB3400EE055F /* UIStoryboardExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIStoryboardExtension.swift; sourceTree = "<group>"; };
 		AAA7F8291EC98CE7006CEBB6 /* NBConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NBConstants.swift; sourceTree = "<group>"; };
+		AAA7F82D1EC994D2006CEBB6 /* HistoryTransactionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryTransactionTableViewCell.swift; sourceTree = "<group>"; };
 		AAB769091E285C1C0021F657 /* HistoryResponseTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryResponseTableViewCell.swift; sourceTree = "<group>"; };
 		AAB7690B1E2B35EF0021F657 /* UserManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		AAB7690D1E2B3CF80021F657 /* NBPayment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NBPayment.swift; sourceTree = "<group>"; };
@@ -288,7 +288,6 @@
 				AA546A851DCA5F89007E1E8F /* BraintreeRouter.swift */,
 				AA0F72A71D77F9360023DAA6 /* AccountManager.swift */,
 				AA9746691E4E38B900C1FA17 /* ProgressHUD.swift */,
-				AA2EB2DD1E7675AB00646AF3 /* HistoryTransactionTableViewCell.swift */,
 				AA98F7381D9C69910083BB4B /* RequestTableViewCell.swift */,
 				AA97211D1D64DB580036E007 /* NBGeoJsonPoint.swift */,
 				AA2C47471D6824F00013F350 /* AllRequestsTableViewController.swift */,
@@ -424,6 +423,7 @@
 				AAC3C8A71D5A789800B8F2A9 /* HistoryTableViewController.swift */,
 				AA8F27921E5AA24D003CDC22 /* HistoryRequestTableViewCell.swift */,
 				AAB769091E285C1C0021F657 /* HistoryResponseTableViewCell.swift */,
+				AAA7F82D1EC994D2006CEBB6 /* HistoryTransactionTableViewCell.swift */,
 				AA072DC31EBE51300039495C /* HistoryFilterTableViewController.swift */,
 				AA072DBF1EBE50DC0039495C /* HistoryFilter.swift */,
 			);
@@ -782,7 +782,6 @@
 				AABAD2C71DFCB2C600F87CA2 /* HomeTableViewCell.swift in Sources */,
 				AA8F27931E5AA24D003CDC22 /* HistoryRequestTableViewCell.swift in Sources */,
 				AAB7690E1E2B3CF80021F657 /* NBPayment.swift in Sources */,
-				AA2EB2DE1E7675AB00646AF3 /* HistoryTransactionTableViewCell.swift in Sources */,
 				AA52E6CE1EB287DC00934C72 /* NewAccountManager.swift in Sources */,
 				AAB769121E2B43380021F657 /* DirectDepositTableViewController.swift in Sources */,
 				AAA7F82A1EC98CE7006CEBB6 /* NBConstants.swift in Sources */,
@@ -830,6 +829,7 @@
 				E63B18541EA05D79005983DF /* EditRequestTableViewController.swift in Sources */,
 				AA90271D1DD6FC9800B5CA2B /* QRGeneratorViewController.swift in Sources */,
 				AA3F641C1D7B80740021964B /* NBResponse.swift in Sources */,
+				AAA7F82E1EC994D2006CEBB6 /* HistoryTransactionTableViewCell.swift in Sources */,
 				AA8B21EB1D9A4A220026ED7D /* NBExchangeOverride.swift in Sources */,
 				AA0F72A31D7791C20023DAA6 /* CategorySelectionTableViewController.swift in Sources */,
 				AA072DC41EBE51300039495C /* HistoryFilterTableViewController.swift in Sources */,
