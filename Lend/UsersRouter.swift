@@ -9,7 +9,6 @@
 import Foundation
 import Alamofire
 
-// add fcmToken once I figure out what it is :-P
 enum UsersRouter: URLRequestConvertible {
     static let baseURLString = NBConstants.baseURLString
     
@@ -24,6 +23,7 @@ enum UsersRouter: URLRequestConvertible {
 //    case getPayment()
     //Would be nice to have users in an array
     case getAtPath(String)
+    case blockUser(String, [String: AnyObject])
     
     /// Returns a URL request or throws if an `Error` was encountered.
     ///
@@ -37,6 +37,8 @@ enum UsersRouter: URLRequestConvertible {
                 return .get
             case .editSelf, .editFcmToken:
                 return .put
+            case .blockUser:
+                return .post
             }
         }
         
@@ -89,6 +91,8 @@ enum UsersRouter: URLRequestConvertible {
                 relativePath = "users/\(id)"
             case .getPaymentInfo:
                 relativePath = "users/me/payments"
+            case .blockUser(let id, let _):
+                relativePath = "users/\(id)/flags"
             case .getAtPath(let path):
                 // already have the full URL, so just return it
                 return Foundation.URL(string: path)!
@@ -108,6 +112,8 @@ enum UsersRouter: URLRequestConvertible {
             case .getSelf, .getSelfRequests, .getSelfHistory, .getUser, .getAtPath, .getPaymentInfo, .getHistory:
                 return nil
             case .editSelf(let newItem):
+                return (newItem)
+            case .blockUser(let _, let newItem):
                 return (newItem)
             case .editFcmToken:
                 return nil

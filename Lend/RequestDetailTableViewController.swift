@@ -161,7 +161,9 @@ class RequestDetailTableViewController: UITableViewController {
         }
         let flagVC = (navVC.childViewControllers[0] as! FlagTableViewController)
 //        flagVC.delegate = self
-        flagVC.request = self.request
+//        flagVC.request = self.request
+        let requestId = request?.id
+        flagVC.mode = .request(requestId!)
         self.present(navVC, animated: true, completion: nil)
     }
     

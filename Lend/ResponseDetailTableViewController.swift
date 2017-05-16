@@ -42,6 +42,7 @@ class ResponseDetailTableViewController: UITableViewController, MFMessageCompose
     @IBOutlet var acceptButton: UIButton!
     @IBOutlet var declineButton: UIButton!
     @IBOutlet var messageUserButton: UIButton!
+    @IBOutlet var flagButton: UIButton!
     
     let dateFormatter = DateFormatter()
     
@@ -174,6 +175,9 @@ class ResponseDetailTableViewController: UITableViewController, MFMessageCompose
         messageUserButton.layer.borderWidth = 1
         messageUserButton.layer.borderColor = UIColor.nbBlue.cgColor
         messageUserButton.clipsToBounds = true
+        
+        flagButton.layer.cornerRadius = flagButton.frame.size.height / 16
+        flagButton.clipsToBounds = true
         
         createDatePickers()
         
@@ -352,6 +356,20 @@ class ResponseDetailTableViewController: UITableViewController, MFMessageCompose
     func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
         //... handle sms screen actions
         self.dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func flagButtonPressed(_ sender: UIButton) {
+        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        guard let navVC = storyboard.instantiateViewController(
+            withIdentifier: "FlagNavigationController") as? UINavigationController else {
+                assert(false, "Misnamed view controller")
+                return
+        }
+        let flagVC = (navVC.childViewControllers[0] as! FlagTableViewController)
+        let requestId = response?.requestId
+        let responseId = response?.id
+        flagVC.mode = .response(requestId!, responseId!)
+        self.present(navVC, animated: true, completion: nil)
     }
     
     override func viewWillDisappear(_ animated: Bool) {

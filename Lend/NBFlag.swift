@@ -12,28 +12,28 @@ import SwiftyJSON
 
 class NBFlag: ResponseJSONObjectSerializable {
     
-    var requestId: String?
+    var id: String?
     var reporterNotes: String?
     
     required init?(json: SwiftyJSON.JSON) {
-        self.requestId = json["requestId"].string
+        self.id = json["id"].string
         self.reporterNotes = json["reporterNotes"].string
     }
     
-    init(requestId: String, reporterNotes: String?) {
-        self.requestId = requestId
+    init(id: String, reporterNotes: String?) {
+        self.id = id
         self.reporterNotes = reporterNotes
     }
     
     func toString() -> String {
-        return "requestId: \(String(describing: requestId))" +
+        return "id: \(String(describing: id))" +
         " reporterNotes: \(String(describing: reporterNotes))\n"
     }
     
     func toJSON() -> [String: AnyObject] {
         var json = [String: AnyObject]()
-        if let requestId = requestId {
-            json["requestId"] = requestId as AnyObject?
+        if let id = id {
+            json["id"] = id as AnyObject?
         }
         if let reporterNotes = reporterNotes {
             json["reporterNotes"] = reporterNotes as AnyObject?
@@ -45,8 +45,20 @@ class NBFlag: ResponseJSONObjectSerializable {
 
 extension NBFlag {
     
-    static func flag(flag: NBFlag, completionHandler: @escaping (NSError?) -> Void) {
-        Alamofire.request(RequestsRouter.flag(flag.requestId!, flag.toJSON()))
+    static func flagRequest(requestId: String, flag: NBFlag, completionHandler: @escaping (NSError?) -> Void) {
+        NBFlag.flag(flag: flag, urlRequestConvertible: RequestsRouter.flagRequest(requestId, flag.toJSON()), completionHandler: completionHandler)
+    }
+    
+    static func flagResponse(requestId: String, responseId: String, flag: NBFlag, completionHandler: @escaping (NSError?) -> Void) {
+        NBFlag.flag(flag: flag, urlRequestConvertible: RequestsRouter.flagResponse(requestId, responseId, flag.toJSON()), completionHandler: completionHandler)
+    }
+    
+    static func blockUser(userId: String, flag: NBFlag, completionHandler: @escaping (NSError?) -> Void) {
+        NBFlag.flag(flag: flag, urlRequestConvertible: UsersRouter.blockUser(userId, flag.toJSON()), completionHandler: completionHandler)
+    }
+    
+    static func flag(flag: NBFlag, urlRequestConvertible: URLRequestConvertible, completionHandler: @escaping (NSError?) -> Void) {
+        Alamofire.request(urlRequestConvertible)
             .validate(statusCode: 200..<300)
             .responseJSON { response in
                 var error: NSError? = nil

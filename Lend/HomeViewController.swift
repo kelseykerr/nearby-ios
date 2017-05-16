@@ -685,7 +685,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             }
             respond.backgroundColor = UIColor.nbBlue
             
-            let flag = UITableViewRowAction(style: .normal, title: "Flag") { action, index in
+            let flagRequest = UITableViewRowAction(style: .normal, title: "Flag") { action, index in
                 let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
                 guard let navVC = storyboard.instantiateViewController(
                     withIdentifier: "FlagNavigationController") as? UINavigationController else {
@@ -694,14 +694,32 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
                 }
                 let flagVC = (navVC.childViewControllers[0] as! FlagTableViewController)
 //                flagVC.delegate = self
-                flagVC.request = request
+//                flagVC.request = request
+                let requestId = request.id
+                flagVC.mode = .request(requestId!)
                 self.present(navVC, animated: true, completion: nil)
                 
                 self.tableView.isEditing = false
             }
-            flag.backgroundColor = UIColor.nbRed
+            flagRequest.backgroundColor = UIColor.nbRed
             
-            return [flag, respond]
+            let blockUser = UITableViewRowAction(style: .normal, title: "Block") { action, index in
+                let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+                guard let navVC = storyboard.instantiateViewController(
+                    withIdentifier: "FlagNavigationController") as? UINavigationController else {
+                        assert(false, "Misnamed view controller")
+                        return
+                }
+                let flagVC = (navVC.childViewControllers[0] as! FlagTableViewController)
+                let userId = request.user?.id
+                flagVC.mode = .user(userId!)
+                self.present(navVC, animated: true, completion: nil)
+                
+                self.tableView.isEditing = false
+            }
+            blockUser.backgroundColor = UIColor.orange
+            
+            return [blockUser, flagRequest, respond]
         }
     }
     

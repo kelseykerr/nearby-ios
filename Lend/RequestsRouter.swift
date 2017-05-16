@@ -23,7 +23,8 @@ enum RequestsRouter: URLRequestConvertible {
     case createResponse(String, [String: AnyObject])
     case editResponse(String, String, [String: AnyObject])
     case getNotifications(Double, Double)
-    case flag(String, [String: AnyObject])
+    case flagRequest(String, [String: AnyObject])
+    case flagResponse(String, String, [String: AnyObject])
     
     /// Returns a URL request or throws if an `Error` was encountered.
     ///
@@ -35,7 +36,7 @@ enum RequestsRouter: URLRequestConvertible {
             switch self {
             case .getRequests, .getRequest, .getAtPath, .getResponses, .getResponse, .getNotifications:
                 return .get
-            case .createRequest, .createResponse, .flag:
+            case .createRequest, .createResponse, .flagRequest, .flagResponse:
                 return .post
             case .deleteRequest:
                 return .delete
@@ -70,8 +71,10 @@ enum RequestsRouter: URLRequestConvertible {
                 relativePath = "requests/\(requestId)/responses/\(responseId)"
             case .getNotifications(let latitude, let longitude):
                 relativePath = "requests/notifications?longitude=\(longitude)&latitude=\(latitude)"
-            case .flag(let id, let _):
+            case .flagRequest(let id, let _):
                 relativePath = "requests/\(id)/flags"
+            case .flagResponse(let requestId, let responseId, let _):
+                relativePath = "requests/\(requestId)/responses/\(responseId)/flags"
             }
             
             // use NSURLComponents
@@ -95,7 +98,9 @@ enum RequestsRouter: URLRequestConvertible {
                 return (newItem)
             case .editResponse(_, _, let newItem):
                 return (newItem)
-            case .flag(_, let newItem):
+            case .flagRequest(_, let newItem):
+                return (newItem)
+            case .flagResponse(_, _, let newItem):
                 return (newItem)
             }
         }()
