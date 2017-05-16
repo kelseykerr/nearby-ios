@@ -29,6 +29,7 @@ class BuyerClosedStrategy: HistoryStateStrategy {
         line.lineJoin = kCALineJoinRound
         cell.layer.addSublayer(line)
         cell.messageLabel.text = "Requested a \(item)"
+        cell.messageLabel.frame.size = CGSize(width: 288, height: 20) // reset
         cell.messageLabel.sizeToFit()
         
         cell.historyStateLabel.backgroundColor = UIColor.nbRed

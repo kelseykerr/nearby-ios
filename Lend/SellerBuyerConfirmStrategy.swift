@@ -22,6 +22,7 @@ class SellerBuyerConfirmStrategy: HistoryStateStrategy {
             let price = history.responses[0].priceInDollarFormat
             
             cell.messageLabel.text = "Offered a \(item) to \(name) for \(price)"
+            cell.messageLabel.frame.size = CGSize(width: 288, height: 20) // reset
             cell.messageLabel.sizeToFit()
 
             //add white line so that transaction card doesn't place yellow line on scroll

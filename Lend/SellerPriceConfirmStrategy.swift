@@ -17,6 +17,7 @@ class SellerPriceConfirmStrategy: HistoryStateStrategy {
 //        cell.exchangeLocationLabel.isHidden = true
         let item = history.request?.itemName ?? "ITEM"
         cell.messageLabel.text = "Please confirm price for \(item)"
+        cell.messageLabel.frame.size = CGSize(width: 288, height: 20) // reset
         cell.messageLabel.sizeToFit()
         
         let line = CAShapeLayer()

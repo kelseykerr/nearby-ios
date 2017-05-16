@@ -19,6 +19,7 @@ class BuyerPriceConfirmStrategy: HistoryStateStrategy {
         
 //        cell.messageLabel.text = "You have successfully completed transaction for \(item)."
         cell.messageLabel.text = "Awaiting seller to confirm price for \(item)."
+        cell.messageLabel.frame.size = CGSize(width: 288, height: 20) // reset
         cell.messageLabel.sizeToFit()
         
         let line = CAShapeLayer()

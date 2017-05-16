@@ -19,6 +19,7 @@ class SellerSellerConfirmStrategy: HistoryStateStrategy {
         let item = history.request?.itemName ?? "ITEM"
         let price = history.responses[0].priceInDollarFormat
         cell.messageLabel.text = "Offered a \(item) to \(name) for \(price)"
+        cell.messageLabel.frame.size = CGSize(width: 288, height: 20) // reset
         cell.messageLabel.sizeToFit()
 
         cell.historyStateLabel.backgroundColor = UIColor.energy

@@ -20,6 +20,7 @@ class SellerClosedStrategy: HistoryStateStrategy {
         let item = history.request?.itemName ?? "ITEM"
         
         cell.messageLabel.text = "\(name) has closed transaction for \(item)."
+        cell.messageLabel.frame.size = CGSize(width: 288, height: 20) // reset
         cell.messageLabel.sizeToFit()
         
         //add white line so that transaction card doesn't place yellow line on scroll

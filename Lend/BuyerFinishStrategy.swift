@@ -27,6 +27,7 @@ class BuyerFinishStrategy: HistoryStateStrategy {
         let price = history.transaction?.finalPriceInDollarFormat ?? "0.00"
         text += " for \(price)"
         cell.messageLabel.text = text;
+        cell.messageLabel.frame.size = CGSize(width: 288, height: 20) // reset
         cell.messageLabel.sizeToFit()
         
         //add white line so that transaction card doesn't place yellow line on scroll
