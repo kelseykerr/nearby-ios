@@ -61,7 +61,11 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
         super.viewDidLoad()
         
         UserDataManager.sharedInstace.addClearable(self)
-        
+        UserManager.sharedInstance.getUser(completionHandler: { user in
+            print("VALIDATE PROFILE***")
+            print(user.tosAccepted)
+            UserManager.sharedInstance.validateProfile(vc: self)
+        })
         if LocationManager.sharedInstance.locationAvailable() {
             print(LocationManager.sharedInstance.location)
         }
