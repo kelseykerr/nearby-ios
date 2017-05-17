@@ -20,24 +20,11 @@ class BuyerExchangeStrategy: HistoryStateStrategy {
         let sellerName = response?.seller?.firstName ?? "NAME"
         let item = history.request?.itemName ?? "ITEM"
         
-        cell.messageLabel.text = "\(action) a \(item) from \(sellerName)"
-        let line = CAShapeLayer()
-        let linePath = UIBezierPath()
-        let start = CGPoint.init(x: 5, y: 1)
-        let end = CGPoint.init(x:5, y:99)
-        linePath.move(to: start)
-        linePath.addLine(to: end)
-        line.path = linePath.cgPath
-        line.strokeColor = UIColor.nbYellow.cgColor
-        line.lineWidth = 7
-        line.lineJoin = kCALineJoinRound
-        cell.layer.addSublayer(line)
-        
+        cell.message = "\(action) a \(item) from \(sellerName)"
         
         if (history.status == .buyer_overrideExchange && !(history.transaction?.exchangeOverride?.declined)!) {
-            cell.historyStateLabel.backgroundColor = UIColor.nbYellow
-            cell.historyStateLabel.text = " Exchange Override Pending Your Approval "
-            cell.historyStateLabel.sizeToFit()
+            cell.stateColor = UIColor.nbYellow
+            cell.state = "Exchange Override Pending Your Approval"
             let dateTimeStamp = NSDate(timeIntervalSince1970:Double((history.transaction?.exchangeOverride?.time)!)/1000)  //UTC time
             let dateFormatter = DateFormatter()
             dateFormatter.timeZone = NSTimeZone.local //Edit
@@ -76,9 +63,8 @@ class BuyerExchangeStrategy: HistoryStateStrategy {
             cell.exchangeLocationLabel.isHidden = true
             historyVC.present(alert, animated: true, completion: nil)
         } else {
-            cell.historyStateLabel.backgroundColor = UIColor.nbGreen
-            cell.historyStateLabel.text = " AWAITING EXCHANGE "
-            cell.historyStateLabel.sizeToFit()
+            cell.stateColor = UIColor.nbGreen
+            cell.state = "AWAITING EXCHANGE"
             if (response?.exchangeTime != nil && response?.exchangeTime != 0) {
                 cell.exchangeTimeLabel.isHidden = false
                 let attrText = NSMutableAttributedString(string: "")
@@ -106,10 +92,9 @@ class BuyerExchangeStrategy: HistoryStateStrategy {
                 cell.exchangeLocationLabel.isHidden = true
             }
         }
-        cell.timeLabel.text = history.request?.getElapsedTimeAsString()
+        cell.time = history.request?.getElapsedTimeAsString()
         
-        cell.userImageView.image = UIImage(named: "User-64")
-        cell.setNeedsLayout()
+        cell.userImage = UIImage(named: "User-64")
         
         let seller = history.getResponseById(id: (history.transaction?.responseId)!)?.seller
         if let pictureURL = seller?.imageUrl {
@@ -119,8 +104,7 @@ class BuyerExchangeStrategy: HistoryStateStrategy {
                     return
                 }
                 if let cellToUpdate = historyVC.tableView?.cellForRow(at: indexPath) as! HistoryTransactionTableViewCell? {
-                    cellToUpdate.userImageView?.image = image
-                    cellToUpdate.setNeedsLayout()
+                    cellToUpdate.userImage = image
                 }
             })
         }

@@ -8,24 +8,6 @@
 
 import UIKit
 
-//class InsetLabel: UILabel {
-//    let topInset = CGFloat(0)
-//    let bottomInset = CGFloat(0)
-//    let leftInset = CGFloat(20)
-//    let rightInset = CGFloat(20)
-//
-//    override func drawText(in rect: CGRect) {
-//        let insets: UIEdgeInsets = UIEdgeInsets(top: topInset, left: leftInset, bottom: bottomInset, right: rightInset)
-//        super.drawText(in: UIEdgeInsetsInsetRect(rect, insets))
-//    }
-//
-//    override public var intrinsicContentSize: CGSize {
-//        var intrinsicSuperViewContentSize = super.intrinsicContentSize
-//        intrinsicSuperViewContentSize.height += topInset + bottomInset
-//        intrinsicSuperViewContentSize.width += leftInset + rightInset
-//        return intrinsicSuperViewContentSize
-//    }
-//}
 
 class HistoryTransactionTableViewCell: UITableViewCell {
     
@@ -35,6 +17,71 @@ class HistoryTransactionTableViewCell: UITableViewCell {
     @IBOutlet var timeLabel: UILabel!
     @IBOutlet var exchangeTimeLabel: UILabel!
     @IBOutlet var exchangeLocationLabel: UILabel!
+    
+    var userImage: UIImage? {
+        get {
+            return userImageView.image
+        }
+        set {
+            userImageView.image = newValue
+            setNeedsLayout()
+        }
+    }
+    
+    var message: String? {
+        get {
+            return messageLabel.text
+        }
+        set {
+            messageLabel.text = newValue
+            messageLabel.frame.size = CGSize(width: 288, height: 20) // reset, this need to be dynamic
+            messageLabel.sizeToFit()
+        }
+    }
+    
+    var attributedMessage: NSAttributedString? {
+        get {
+            return messageLabel.attributedText
+        }
+        set {
+            messageLabel.attributedText = newValue
+            messageLabel.frame.size = CGSize(width: 288, height: 20) // reset, this need to be dynamic
+            messageLabel.sizeToFit()
+        }
+    }
+    
+    var state: String? {
+        get {
+            return historyStateLabel.text
+        }
+        set {
+            if let newValue = newValue {
+                historyStateLabel.text = " \(newValue) ".uppercased()
+            }
+            else {
+                historyStateLabel.text = " NO STATE "
+            }
+            historyStateLabel.sizeToFit()
+        }
+    }
+    
+    var stateColor: UIColor? {
+        get {
+            return historyStateLabel.backgroundColor
+        }
+        set {
+            historyStateLabel.backgroundColor = newValue
+        }
+    }
+    
+    var time: String? {
+        get {
+            return timeLabel.text
+        }
+        set {
+            timeLabel.text = newValue
+        }
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()

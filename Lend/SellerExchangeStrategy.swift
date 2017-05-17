@@ -16,29 +16,16 @@ class SellerExchangeStrategy: HistoryStateStrategy {
         let name = history.request?.user?.firstName ?? "NAME"
         let item = history.request?.itemName ?? "ITEM"
         
-        cell.messageLabel.text = "Loaning a \(item) to \(name)"
-        let line = CAShapeLayer()
-        let linePath = UIBezierPath()
-        let start = CGPoint.init(x: 5, y: 1)
-        let end = CGPoint.init(x:5, y:99)
-        linePath.move(to: start)
-        linePath.addLine(to: end)
-        line.path = linePath.cgPath
-        line.strokeColor = UIColor.nbYellow.cgColor
-        line.lineWidth = 7
-        line.lineJoin = kCALineJoinRound
-        cell.layer.addSublayer(line)
+        cell.message = "Loaning a \(item) to \(name)"
         
         let response = history.responses[0]
         
         if (history.status == .seller_overrideExchange && !(history.transaction?.exchangeOverride?.declined)!) {
-            cell.historyStateLabel.backgroundColor = UIColor.nbYellow
-            cell.historyStateLabel.text = " EXCHANGE OVERRIDE PENDING APPROVAL "
-            cell.historyStateLabel.sizeToFit()
+            cell.stateColor = UIColor.nbYellow
+            cell.state = "EXCHANGE OVERRIDE PENDING APPROVAL"
         } else {
-            cell.historyStateLabel.backgroundColor = UIColor.nbGreen
-            cell.historyStateLabel.text = " AWAITING EXCHANGE "
-            cell.historyStateLabel.sizeToFit()
+            cell.stateColor = UIColor.nbGreen
+            cell.state = "AWAITING EXCHANGE"
             if (response.exchangeTime != nil && response.exchangeTime != 0) {
                 cell.exchangeTimeLabel.isHidden = false
                 let attrText = NSMutableAttributedString(string: "")
@@ -67,10 +54,10 @@ class SellerExchangeStrategy: HistoryStateStrategy {
             }
         }
         
-        cell.timeLabel.removeFromSuperview()
+//        cell.timeLabel.removeFromSuperview()
+        cell.time = ""
         
-        cell.userImageView.image = UIImage(named: "User-64")
-        cell.setNeedsLayout()
+        cell.userImage = UIImage(named: "User-64")
         
         if let pictureURL = history.request?.user?.imageUrl {
             NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
@@ -79,8 +66,7 @@ class SellerExchangeStrategy: HistoryStateStrategy {
                     return
                 }
                 if let cellToUpdate = historyVC.tableView?.cellForRow(at: indexPath) as! HistoryTransactionTableViewCell? {
-                    cellToUpdate.userImageView?.image = image
-                    cellToUpdate.setNeedsLayout()
+                    cellToUpdate.userImage = image
                 }
             })
         }

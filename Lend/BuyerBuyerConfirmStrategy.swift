@@ -14,35 +14,17 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
     func cell(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UITableViewCell {
         if (indexPath as NSIndexPath).row == 0 {
             let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath) as! HistoryRequestTableViewCell
-//            cell.exchangeTimeLabel.isHidden = true
-//            cell.exchangeLocationLabel.isHidden = true
+            
             let request = history.request
             let item = history.request?.itemName ?? "ITEM"
-            cell.messageLabel.text = "Requested a \(item)"
-            cell.messageLabel.frame.size = CGSize(width: 288, height: 20) // reset
-            cell.messageLabel.sizeToFit()
+            cell.message = "Requested a \(item)"
+
+            cell.stateColor = UIColor.nbGreen
+            cell.state = "OPEN"
             
-            //add white line so that transaction card doesn't place yellow line on scroll
-            let line = CAShapeLayer()
-            let linePath = UIBezierPath()
-            let start = CGPoint.init(x: 5, y: 1)
-            let end = CGPoint.init(x:5, y:99)
-            linePath.move(to: start)
-            linePath.addLine(to: end)
-            line.path = linePath.cgPath
-            line.strokeColor = UIColor.white.cgColor
-            line.lineWidth = 7
-            line.lineJoin = kCALineJoinRound
-            cell.layer.addSublayer(line)
+            cell.time = history.request?.getElapsedTimeAsString()
             
-            cell.historyStateLabel.backgroundColor = UIColor.nbGreen
-            cell.historyStateLabel.text = " OPEN "
-            cell.historyStateLabel.sizeToFit()
-            
-            cell.timeLabel.text = history.request?.getElapsedTimeAsString()
-            
-            cell.userImageView.image = UIImage(named: "User-64")
-            cell.setNeedsLayout()
+            cell.userImage = UIImage(named: "User-64")
             
             if let pictureURL = history.request?.user?.imageUrl {
                 NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
@@ -51,8 +33,7 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
                         return
                     }
                     if let cellToUpdate = historyVC.tableView?.cellForRow(at: indexPath) as! HistoryRequestTableViewCell? {
-                        cellToUpdate.userImageView?.image = image
-                        cellToUpdate.setNeedsLayout()
+                        cellToUpdate.userImage = image
                     }
                 })
             }

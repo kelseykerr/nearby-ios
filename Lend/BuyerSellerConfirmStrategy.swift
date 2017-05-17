@@ -13,31 +13,14 @@ class BuyerSellerConfirmStrategy: HistoryStateStrategy {
     
     func cell(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UITableViewCell {
         let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath) as! HistoryRequestTableViewCell
-//        cell.exchangeTimeLabel.isHidden = true
-//        cell.exchangeLocationLabel.isHidden = true
+        
         let item = history.request?.itemName ?? "ITEM"
-        cell.messageLabel?.text = "Awaiting seller to confirm your offer for \(item)."
-        cell.messageLabel.frame.size = CGSize(width: 288, height: 20) // reset
-        cell.messageLabel.sizeToFit()
+        cell.message = "Awaiting seller to confirm your offer for \(item)."
         
-        //add white line so that transaction card doesn't place yellow line on scroll
-        let line = CAShapeLayer()
-        let linePath = UIBezierPath()
-        let start = CGPoint.init(x: 5, y: 1)
-        let end = CGPoint.init(x:5, y:99)
-        linePath.move(to: start)
-        linePath.addLine(to: end)
-        line.path = linePath.cgPath
-        line.strokeColor = UIColor.white.cgColor
-        line.lineWidth = 7
-        line.lineJoin = kCALineJoinRound
-        cell.layer.addSublayer(line)
+        cell.stateColor = UIColor.energy
+        cell.state = "SELLER CONFIRM"
         
-        cell.historyStateLabel.backgroundColor = UIColor.energy
-        cell.historyStateLabel.textColor = UIColor.white
-        cell.historyStateLabel.text = " SELLER CONFIRM "
-        cell.historyStateLabel.sizeToFit()
-        cell.timeLabel.text = history.request?.getElapsedTimeAsString()
+        cell.time = history.request?.getElapsedTimeAsString()
         
         return cell
     }

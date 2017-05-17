@@ -13,33 +13,15 @@ class SellerSellerConfirmStrategy: HistoryStateStrategy {
     
     func cell(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UITableViewCell {
         let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath) as! HistoryRequestTableViewCell
-//        cell.exchangeTimeLabel.isHidden = true
-//        cell.exchangeLocationLabel.isHidden = true
         let name = history.request?.user?.firstName ?? "NAME"
         let item = history.request?.itemName ?? "ITEM"
         let price = history.responses[0].priceInDollarFormat
-        cell.messageLabel.text = "Offered a \(item) to \(name) for \(price)"
-        cell.messageLabel.frame.size = CGSize(width: 288, height: 20) // reset
-        cell.messageLabel.sizeToFit()
+        cell.message = "Offered a \(item) to \(name) for \(price)"
 
-        cell.historyStateLabel.backgroundColor = UIColor.energy
-        cell.historyStateLabel.textColor = UIColor.white
-        cell.historyStateLabel.text = " PENDING YOUR APPROVAL "
-        cell.historyStateLabel.sizeToFit()
-        cell.timeLabel.text = history.request?.getElapsedTimeAsString()
+        cell.stateColor = UIColor.energy
+        cell.state = "PENDING YOUR APPROVAL"
         
-        //add white line so that transaction card doesn't place yellow line on scroll
-        let line = CAShapeLayer()
-        let linePath = UIBezierPath()
-        let start = CGPoint.init(x: 5, y: 1)
-        let end = CGPoint.init(x:5, y:99)
-        linePath.move(to: start)
-        linePath.addLine(to: end)
-        line.path = linePath.cgPath
-        line.strokeColor = UIColor.white.cgColor
-        line.lineWidth = 7
-        line.lineJoin = kCALineJoinRound
-        cell.layer.addSublayer(line)
+        cell.time = history.request?.getElapsedTimeAsString()
         
         return cell
     }

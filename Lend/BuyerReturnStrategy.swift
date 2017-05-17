@@ -18,27 +18,14 @@ class BuyerReturnStrategy: HistoryStateStrategy {
         let sellerName = response.seller?.firstName ?? "NAME"
         let item = history.request?.itemName ?? "ITEM"
         
-        cell.messageLabel.text = "Borrowing a \(item) from \(sellerName)"
-        let line = CAShapeLayer()
-        let linePath = UIBezierPath()
-        let start = CGPoint.init(x: 5, y: 1)
-        let end = CGPoint.init(x:5, y:99)
-        linePath.move(to: start)
-        linePath.addLine(to: end)
-        line.path = linePath.cgPath
-        line.strokeColor = UIColor.nbYellow.cgColor
-        line.lineWidth = 7
-        line.lineJoin = kCALineJoinRound
-        cell.layer.addSublayer(line)
+        cell.message = "Borrowing a \(item) from \(sellerName)"
         
         if (history.status == .buyer_overrideReturn) {
-            cell.historyStateLabel.backgroundColor = UIColor.nbYellow
-            cell.historyStateLabel.text = " Return Override Pending Approval "
-            cell.historyStateLabel.sizeToFit()
+            cell.stateColor = UIColor.nbYellow
+            cell.state = "Return Override Pending Approval"
         } else {
-            cell.historyStateLabel.backgroundColor = UIColor.nbYellow
-            cell.historyStateLabel.text = " AWAITING RETURN "
-            cell.historyStateLabel.sizeToFit()
+            cell.stateColor = UIColor.nbYellow
+            cell.state = "AWAITING RETURN"
             if (response.returnTime != nil && response.returnTime != 0) {
                 cell.exchangeTimeLabel.isHidden = false
                 let attrText = NSMutableAttributedString(string: "")
@@ -69,10 +56,9 @@ class BuyerReturnStrategy: HistoryStateStrategy {
 
         }
         
-        cell.timeLabel.text = history.request?.getElapsedTimeAsString()
+        cell.time = history.request?.getElapsedTimeAsString()
         
-        cell.userImageView.image = UIImage(named: "User-64")
-        cell.setNeedsLayout()
+        cell.userImage = UIImage(named: "User-64")
         
         let seller = history.getResponseById(id: (history.transaction?.responseId)!)?.seller
         
@@ -83,8 +69,7 @@ class BuyerReturnStrategy: HistoryStateStrategy {
                     return
                 }
                 if let cellToUpdate = historyVC.tableView?.cellForRow(at: indexPath) as! HistoryTransactionTableViewCell? {
-                    cellToUpdate.userImageView?.image = image
-                    cellToUpdate.setNeedsLayout()
+                    cellToUpdate.userImage = image
                 }
             })
         }

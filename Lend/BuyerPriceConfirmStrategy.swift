@@ -13,26 +13,11 @@ class BuyerPriceConfirmStrategy: HistoryStateStrategy {
     
     func cell(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UITableViewCell {
         let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath) as! HistoryRequestTableViewCell
-//        cell.exchangeTimeLabel.isHidden = true
-//        cell.exchangeLocationLabel.isHidden = true
         let item = history.request?.itemName ?? "ITEM"
         
 //        cell.messageLabel.text = "You have successfully completed transaction for \(item)."
-        cell.messageLabel.text = "Awaiting seller to confirm price for \(item)."
-        cell.messageLabel.frame.size = CGSize(width: 288, height: 20) // reset
-        cell.messageLabel.sizeToFit()
+        cell.message = "Awaiting seller to confirm price for \(item)."
         
-        let line = CAShapeLayer()
-        let linePath = UIBezierPath()
-        let start = CGPoint.init(x: 5, y: 1)
-        let end = CGPoint.init(x:5, y:99)
-        linePath.move(to: start)
-        linePath.addLine(to: end)
-        line.path = linePath.cgPath
-        line.strokeColor = UIColor.nbYellow.cgColor
-        line.lineWidth = 7
-        line.lineJoin = kCALineJoinRound
-        cell.layer.addSublayer(line)
         /*
          let attrText = NSMutableAttributedString(string: "")
          let boldFont = UIFont.boldSystemFont(ofSize: 15)
@@ -50,14 +35,12 @@ class BuyerPriceConfirmStrategy: HistoryStateStrategy {
          cell.messageLabel.attributedText = attrText
          */
         
-        cell.historyStateLabel.backgroundColor = UIColor.purple
-        cell.historyStateLabel.text = " PROCESSING PAYMENT "
-        cell.historyStateLabel.sizeToFit()
+        cell.stateColor = UIColor.purple
+        cell.state = "PROCESSING PAYMENT"
         
-        cell.timeLabel.text = history.request?.getElapsedTimeAsString()
+        cell.time = history.request?.getElapsedTimeAsString()
         
-        cell.userImageView.image = UIImage(named: "User-64")
-        cell.setNeedsLayout()
+        cell.userImage = UIImage(named: "User-64")
         
         let seller = history.getResponseById(id: (history.transaction?.responseId)!)?.seller
         
@@ -68,8 +51,7 @@ class BuyerPriceConfirmStrategy: HistoryStateStrategy {
                     return
                 }
                 if let cellToUpdate = historyVC.tableView?.cellForRow(at: indexPath) as! HistoryRequestTableViewCell? {
-                    cellToUpdate.userImageView?.image = image
-                    cellToUpdate.setNeedsLayout()
+                    cellToUpdate.userImage = image
                 }
             })
         }
