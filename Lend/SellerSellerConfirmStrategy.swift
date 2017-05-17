@@ -81,7 +81,7 @@ class SellerSellerConfirmStrategy: HistoryStateStrategy {
     }
 
     func canEditRowAt(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> Bool {
-        return true
+        return false
     }
     
 }

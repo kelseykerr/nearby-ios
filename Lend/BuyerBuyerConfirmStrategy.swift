@@ -216,6 +216,12 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
     }
     
     func canEditRowAt(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> Bool {
+        if indexPath.row != 0 {
+            let response = history.responses[(indexPath as NSIndexPath).row - 1]
+            if (response.responseStatus?.rawValue == "CLOSED") {
+                return false
+            }
+        }
         return true
     }
     
