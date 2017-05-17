@@ -176,8 +176,13 @@ class ResponseDetailTableViewController: UITableViewController, MFMessageCompose
         messageUserButton.layer.borderColor = UIColor.nbBlue.cgColor
         messageUserButton.clipsToBounds = true
         
-        flagButton.layer.cornerRadius = flagButton.frame.size.height / 16
-        flagButton.clipsToBounds = true
+        if mode != .seller {
+            flagButton.layer.cornerRadius = flagButton.frame.size.height / 16
+            flagButton.clipsToBounds = true
+        }
+        else {
+            flagButton.isHidden = true
+        }
         
         createDatePickers()
         
