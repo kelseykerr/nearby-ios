@@ -103,7 +103,8 @@ class AccountTableViewController: UITableViewController, LoginViewDelegate {
         let city = user?.city ?? "<city>"
         let state = user?.state ?? "<state>"
         let joinDate = (user?.joinDate) ?? "<join date>"
-        self.infoLabel.text = "\(city), \(state) • Joined \(joinDate)"
+//        self.infoLabel.text = "\(city), \(state) • Joined \(joinDate)"
+        self.infoLabel.text = "\(city), \(state)"
         
 
         if let pictureUrl = user?.imageUrl {
