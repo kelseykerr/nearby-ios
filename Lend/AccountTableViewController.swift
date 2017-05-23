@@ -10,6 +10,7 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 import Firebase
+import MessageUI
 
 class AccountTableViewController: UITableViewController, LoginViewDelegate {
     
@@ -21,7 +22,6 @@ class AccountTableViewController: UITableViewController, LoginViewDelegate {
     @IBOutlet var addressLabel: UILabel!
     @IBOutlet var cityStateZipLabel: UILabel!
     @IBOutlet var userIdLabel: UILabel!
-//    @IBOutlet var readyLabel: UILabel!
 
     @IBOutlet var userImageView: UIImageView!
     @IBOutlet var versionLabel: UILabel!
@@ -33,9 +33,6 @@ class AccountTableViewController: UITableViewController, LoginViewDelegate {
         
         userImageView.layer.cornerRadius = userImageView.frame.size.width / 2
         userImageView.clipsToBounds = true
-        
-//        readyLabel.layer.cornerRadius = readyLabel.frame.size.height / 8
-//        readyLabel.clipsToBounds = true
         
         let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
         let build = Bundle.main.infoDictionary?[kCFBundleVersionKey as String] as! String
@@ -49,7 +46,7 @@ class AccountTableViewController: UITableViewController, LoginViewDelegate {
         
         //likely not where this should be
         let token = FIRInstanceID.instanceID().token()!
-        NBUser.editFcmToken(token) { error in
+            NBUser.editFcmToken(token) { error in
         }
     }
     
@@ -113,10 +110,6 @@ class AccountTableViewController: UITableViewController, LoginViewDelegate {
 //        let zip = user?.zip ?? "<zip>"
 //        self.cityStateZipLabel.text = "\(city), \(state) \(zip)"
         
-//        let ready = user?.canRequest
-//        self.readyLabel.text = "Ready"
-//        self.readyLabel.backgroundColor = UIColor.nbRed
-        
 //        if let pictureUrl = user?.pictureUrl {
         if let pictureUrl = user?.imageUrl {
             NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureUrl, completionHandler: { (image, error) in
@@ -154,6 +147,13 @@ class AccountTableViewController: UITableViewController, LoginViewDelegate {
         loadUser()
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print(indexPath)
+        if indexPath.section == 2 && indexPath.row == 0 {
+            sendEmail()
+        }
+    }
+    
     @IBAction func logoutButtonPressed(_ sender: UIButton) {
         NewAccountManager.sharedInstance.doLogout(self) { error in
             // don't really need this?
@@ -162,5 +162,22 @@ class AccountTableViewController: UITableViewController, LoginViewDelegate {
         showOAuthLoginView()
         
         UserDataManager.sharedInstace.clear()
+    }
+}
+
+extension AccountTableViewController: MFMailComposeViewControllerDelegate {
+    
+    func sendEmail() {
+        let mailVC = MFMailComposeViewController()
+        mailVC.mailComposeDelegate = self
+        mailVC.setToRecipients([])
+        mailVC.setSubject("Try Nearby")
+        mailVC.setMessageBody("Nearby is a mobile app that just launched in Washington, DC. Are you looking to borrow or buy something? Do you want to make money from stuff you have sitting around? Learn more at http://thenearbyapp.com!\n\nGoogle Play Store: https://play.google.com/store/apps/details?id=iuxta.nearby\n\nApp Store: https://itunes.apple.com/us/app/nearby-share-sell-borrow/id1223745552", isHTML: false)
+        
+        present(mailVC, animated: true, completion: nil)
+    }
+    
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true, completion: nil)
     }
 }
