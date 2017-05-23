@@ -41,7 +41,7 @@ class UserViewController: UIViewController {
             
             let city = user.city ?? "<city>"
             let state = user.state ?? "<state>"
-            self.infoLabel.text = "\(city), \(state) | Joined August 2016"
+            self.infoLabel.text = "\(city), \(state)"
             
             if let pictureUrl = user.imageUrl {
                 NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureUrl, completionHandler: { (image, error) in
@@ -51,9 +51,15 @@ class UserViewController: UIViewController {
         }
     }
 
+    @IBAction func cancelButtonPressed(_ sender: UIBarButtonItem) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
     @IBAction func blockButtonPressed(_ sender: UIButton) {
+        self.dismiss(animated: true, completion: nil)
     }
     
     @IBAction func messageButtonPressed(_ sender: UIButton) {
+        self.dismiss(animated: true, completion: nil)
     }
 }
