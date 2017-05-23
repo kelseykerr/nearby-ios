@@ -26,7 +26,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kXB-9Q-oHx">
-                                <rect key="frame" x="0.0" y="571" width="375" height="40"/>
+                                <rect key="frame" x="0.0" y="527" width="375" height="40"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="8qp-Rz-o06"/>
@@ -40,7 +40,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="77h-6y-FMe">
-                                <rect key="frame" x="0.0" y="510" width="375" height="40"/>
+                                <rect key="frame" x="0.0" y="466" width="375" height="40"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="uo6-wh-mFO"/>
@@ -53,6 +53,14 @@
                                     <action selector="tappedGoogleLogin" destination="b4n-71-wAM" eventType="touchUpInside" id="irl-kz-WFq"/>
                                 </connections>
                             </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="By signing up, I agree to Nearby's Terms of Service, End User License Agreement, and Privacy Policy" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="St4-JK-6hJ">
+                                <rect key="frame" x="17" y="577" width="340" height="70"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <dataDetectorType key="dataDetectorTypes" link="YES"/>
+                            </textView>
                         </subviews>
                         <color key="backgroundColor" red="0.30588235289999999" green="0.8862745098" blue="0.92549019610000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -60,7 +68,7 @@
                             <constraint firstItem="77h-6y-FMe" firstAttribute="trailing" secondItem="kXB-9Q-oHx" secondAttribute="trailing" id="7XN-u3-uZG"/>
                             <constraint firstItem="cyI-PO-zBB" firstAttribute="bottom" secondItem="lYI-wj-Lg0" secondAttribute="top" id="LqC-xA-7Gb"/>
                             <constraint firstAttribute="trailing" secondItem="kXB-9Q-oHx" secondAttribute="trailing" id="O3J-vz-3QY"/>
-                            <constraint firstItem="lYI-wj-Lg0" firstAttribute="top" secondItem="kXB-9Q-oHx" secondAttribute="bottom" constant="56" id="ZwG-zV-kCH"/>
+                            <constraint firstItem="lYI-wj-Lg0" firstAttribute="top" secondItem="kXB-9Q-oHx" secondAttribute="bottom" constant="100" id="ZwG-zV-kCH"/>
                             <constraint firstItem="77h-6y-FMe" firstAttribute="leading" secondItem="kXB-9Q-oHx" secondAttribute="leading" id="abx-xL-01h"/>
                             <constraint firstItem="cyI-PO-zBB" firstAttribute="top" secondItem="C2J-Kb-4tK" secondAttribute="top" id="gNY-jS-b6Q"/>
                             <constraint firstItem="kXB-9Q-oHx" firstAttribute="trailing" secondItem="cyI-PO-zBB" secondAttribute="trailing" id="iU3-Bh-gmN"/>
@@ -68,6 +76,9 @@
                             <constraint firstItem="kXB-9Q-oHx" firstAttribute="top" secondItem="77h-6y-FMe" secondAttribute="bottom" constant="21" id="kbD-rD-oeL"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="termsText" destination="St4-JK-6hJ" id="0vt-Yl-Uf0"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8DD-te-e87" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
