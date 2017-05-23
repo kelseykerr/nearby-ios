@@ -29,7 +29,7 @@
 		AA2D885D1E8378970005D969 /* TransactionDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2D885C1E8378970005D969 /* TransactionDetailTableViewController.swift */; };
 		AA2D885F1E852AC30005D969 /* BuyerClosedStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2D885E1E852AC30005D969 /* BuyerClosedStrategy.swift */; };
 		AA2D88611E852AF80005D969 /* SellerClosedStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2D88601E852AF80005D969 /* SellerClosedStrategy.swift */; };
-		AA2EB2E01E767E3700646AF3 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2EB2DF1E767E3700646AF3 /* UIColorExtension.swift */; };
+		AA2EB2E01E767E3700646AF3 /* UIColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2EB2DF1E767E3700646AF3 /* UIColorExtensions.swift */; };
 		AA2F16C01E4662210029AB47 /* QRScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2F16BF1E4662200029AB47 /* QRScannerViewController.swift */; };
 		AA31BC1E1E85DAFF00738696 /* BuyerPriceConfirmStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA31BC1D1E85DAFF00738696 /* BuyerPriceConfirmStrategy.swift */; };
 		AA31BC201E85DB1700738696 /* SellerPriceConfirmStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA31BC1F1E85DB1700738696 /* SellerPriceConfirmStrategy.swift */; };
@@ -79,9 +79,9 @@
 		AA9721281D66B54E0036E007 /* AccountTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9721271D66B54E0036E007 /* AccountTableViewController.swift */; };
 		AA97466A1E4E38B900C1FA17 /* ProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9746691E4E38B900C1FA17 /* ProgressHUD.swift */; };
 		AA97466C1E54540C00C1FA17 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA97466B1E54540C00C1FA17 /* Utils.swift */; };
-		AA97466E1E56C10C00C1FA17 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA97466D1E56C10C00C1FA17 /* UIViewControllerExtension.swift */; };
+		AA97466E1E56C10C00C1FA17 /* UIViewControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA97466D1E56C10C00C1FA17 /* UIViewControllerExtensions.swift */; };
 		AA98F7391D9C69910083BB4B /* RequestTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA98F7381D9C69910083BB4B /* RequestTableViewCell.swift */; };
-		AA9B97B01E7FAB3400EE055F /* UIStoryboardExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9B97AF1E7FAB3400EE055F /* UIStoryboardExtension.swift */; };
+		AA9B97B01E7FAB3400EE055F /* UIStoryboardExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9B97AF1E7FAB3400EE055F /* UIStoryboardExtensions.swift */; };
 		AAA7F82A1EC98CE7006CEBB6 /* NBConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA7F8291EC98CE7006CEBB6 /* NBConstants.swift */; };
 		AAA7F82E1EC994D2006CEBB6 /* HistoryTransactionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA7F82D1EC994D2006CEBB6 /* HistoryTransactionTableViewCell.swift */; };
 		AAA7F8301ECA30C7006CEBB6 /* NBFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA7F82F1ECA30C7006CEBB6 /* NBFlag.swift */; };
@@ -137,7 +137,7 @@
 		AA2D885C1E8378970005D969 /* TransactionDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionDetailTableViewController.swift; sourceTree = "<group>"; };
 		AA2D885E1E852AC30005D969 /* BuyerClosedStrategy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuyerClosedStrategy.swift; sourceTree = "<group>"; };
 		AA2D88601E852AF80005D969 /* SellerClosedStrategy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SellerClosedStrategy.swift; sourceTree = "<group>"; };
-		AA2EB2DF1E767E3700646AF3 /* UIColorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
+		AA2EB2DF1E767E3700646AF3 /* UIColorExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorExtensions.swift; sourceTree = "<group>"; };
 		AA2F16BF1E4662200029AB47 /* QRScannerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRScannerViewController.swift; sourceTree = "<group>"; };
 		AA31BC1D1E85DAFF00738696 /* BuyerPriceConfirmStrategy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuyerPriceConfirmStrategy.swift; sourceTree = "<group>"; };
 		AA31BC1F1E85DB1700738696 /* SellerPriceConfirmStrategy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SellerPriceConfirmStrategy.swift; sourceTree = "<group>"; };
@@ -191,9 +191,9 @@
 		AA9721271D66B54E0036E007 /* AccountTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountTableViewController.swift; sourceTree = "<group>"; };
 		AA9746691E4E38B900C1FA17 /* ProgressHUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressHUD.swift; sourceTree = "<group>"; };
 		AA97466B1E54540C00C1FA17 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
-		AA97466D1E56C10C00C1FA17 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
+		AA97466D1E56C10C00C1FA17 /* UIViewControllerExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtensions.swift; sourceTree = "<group>"; };
 		AA98F7381D9C69910083BB4B /* RequestTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestTableViewCell.swift; sourceTree = "<group>"; };
-		AA9B97AF1E7FAB3400EE055F /* UIStoryboardExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIStoryboardExtension.swift; sourceTree = "<group>"; };
+		AA9B97AF1E7FAB3400EE055F /* UIStoryboardExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIStoryboardExtensions.swift; sourceTree = "<group>"; };
 		AAA7F8291EC98CE7006CEBB6 /* NBConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NBConstants.swift; sourceTree = "<group>"; };
 		AAA7F82D1EC994D2006CEBB6 /* HistoryTransactionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryTransactionTableViewCell.swift; sourceTree = "<group>"; };
 		AAA7F82F1ECA30C7006CEBB6 /* NBFlag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NBFlag.swift; sourceTree = "<group>"; };
@@ -278,9 +278,9 @@
 		AA072DBE1EBCDD3F0039495C /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				AA2EB2DF1E767E3700646AF3 /* UIColorExtension.swift */,
-				AA97466D1E56C10C00C1FA17 /* UIViewControllerExtension.swift */,
-				AA9B97AF1E7FAB3400EE055F /* UIStoryboardExtension.swift */,
+				AA2EB2DF1E767E3700646AF3 /* UIColorExtensions.swift */,
+				AA97466D1E56C10C00C1FA17 /* UIViewControllerExtensions.swift */,
+				AA9B97AF1E7FAB3400EE055F /* UIStoryboardExtensions.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -793,7 +793,7 @@
 				AAA7F82A1EC98CE7006CEBB6 /* NBConstants.swift in Sources */,
 				AA2C47461D679BA50013F350 /* NewRequestTableViewController.swift in Sources */,
 				AA8F279A1E5AB5F4003CDC22 /* SellerBuyerConfirmStrategy.swift in Sources */,
-				AA9B97B01E7FAB3400EE055F /* UIStoryboardExtension.swift in Sources */,
+				AA9B97B01E7FAB3400EE055F /* UIStoryboardExtensions.swift in Sources */,
 				AA8F279C1E5AB621003CDC22 /* SellerSellerConfirmStrategy.swift in Sources */,
 				AA8F27AA1E5ABE2E003CDC22 /* BuyerReturnStrategy.swift in Sources */,
 				AA9721261D65637E0036E007 /* UsersRouter.swift in Sources */,
@@ -809,7 +809,7 @@
 				AA546A841DCA5CD3007E1E8F /* NBBraintree.swift in Sources */,
 				AA2D885F1E852AC30005D969 /* BuyerClosedStrategy.swift in Sources */,
 				AA97466C1E54540C00C1FA17 /* Utils.swift in Sources */,
-				AA2EB2E01E767E3700646AF3 /* UIColorExtension.swift in Sources */,
+				AA2EB2E01E767E3700646AF3 /* UIColorExtensions.swift in Sources */,
 				AA9721201D64E0A50036E007 /* NBRequest.swift in Sources */,
 				AA2C47551D6D3FB60013F350 /* RequestDetailTableViewController.swift in Sources */,
 				AA4310B81D616DAB00E00F45 /* LoginViewController.swift in Sources */,
@@ -823,7 +823,7 @@
 				AAB769101E2B41A80021F657 /* PaymentTableViewController.swift in Sources */,
 				AA8F27981E5AB547003CDC22 /* SellerFinishStrategy.swift in Sources */,
 				AAA7F8301ECA30C7006CEBB6 /* NBFlag.swift in Sources */,
-				AA97466E1E56C10C00C1FA17 /* UIViewControllerExtension.swift in Sources */,
+				AA97466E1E56C10C00C1FA17 /* UIViewControllerExtensions.swift in Sources */,
 				AA97211E1D64DB580036E007 /* NBGeoJsonPoint.swift in Sources */,
 				AA9721221D651C460036E007 /* RequestsRouter.swift in Sources */,
 				AA8B21E71D98EECD0026ED7D /* NBHistory.swift in Sources */,
