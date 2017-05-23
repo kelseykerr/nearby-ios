@@ -208,9 +208,14 @@ extension NBTransaction {
         Alamofire.request(TransactionsRouter.editTransactionPrice(id, transaction.toJSON())).validate(statusCode: 200..<300).responseJSON { response in
             var error: NSError? = nil
             if response.result.error != nil {
-                let statusCode = response.response?.statusCode
-                let errorMessage = String(data: response.data!, encoding: String.Encoding.utf8)
-                error = NSError(domain: errorMessage!, code: statusCode!, userInfo: nil)
+                if let statusCode = response.response?.statusCode {
+                    let errorMessage = String(data: response.data!, encoding: String.Encoding.utf8)
+                    error = NSError(domain: errorMessage!, code: statusCode, userInfo: nil)
+                }
+                else if let networkError = response.result.error as NSError? {
+                    let errorMessage = String(data: response.data!, encoding: String.Encoding.utf8)
+                    error = NSError(domain: errorMessage!, code: networkError.code, userInfo: nil)
+                }
             }
             completionHandler(error)
         }
@@ -222,9 +227,14 @@ extension NBTransaction {
             .responseJSON { response in
                 var error: NSError? = nil
                 if response.result.error != nil {
-                    let statusCode = response.response?.statusCode
-                    let errorMessage = String(data: response.data!, encoding: String.Encoding.utf8)
-                    error = NSError(domain: errorMessage!, code: statusCode!, userInfo: nil)
+                    if let statusCode = response.response?.statusCode {
+                        let errorMessage = String(data: response.data!, encoding: String.Encoding.utf8)
+                        error = NSError(domain: errorMessage!, code: statusCode, userInfo: nil)
+                    }
+                    else if let networkError = response.result.error as NSError? {
+                        let errorMessage = String(data: response.data!, encoding: String.Encoding.utf8)
+                        error = NSError(domain: errorMessage!, code: networkError.code, userInfo: nil)
+                    }
                 }
                 completionHandler(error)
         }
@@ -236,9 +246,14 @@ extension NBTransaction {
             .responseJSON { response in
                 var error: NSError? = nil
                 if response.result.error != nil {
-                    let statusCode = response.response?.statusCode
-                    let errorMessage = String(data: response.data!, encoding: String.Encoding.utf8)
-                    error = NSError(domain: errorMessage!, code: statusCode!, userInfo: nil)
+                    if let statusCode = response.response?.statusCode {
+                        let errorMessage = String(data: response.data!, encoding: String.Encoding.utf8)
+                        error = NSError(domain: errorMessage!, code: statusCode, userInfo: nil)
+                    }
+                    else if let networkError = response.result.error as NSError? {
+                        let errorMessage = String(data: response.data!, encoding: String.Encoding.utf8)
+                        error = NSError(domain: errorMessage!, code: networkError.code, userInfo: nil)
+                    }
                 }
                 completionHandler(error)
         }
