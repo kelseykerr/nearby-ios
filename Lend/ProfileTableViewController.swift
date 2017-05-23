@@ -182,11 +182,13 @@ class ProfileTableViewController: UITableViewController, UITextFieldDelegate {
             self.view.endEditing(true)
             
             let loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
+            loadingNotification.offset.y = 250.0
             loadingNotification.mode = MBProgressHUDMode.indeterminate
             loadingNotification.label.text = "Saving"
             
             NBUser.editSelf(user!) { (result, error) in
-                MBProgressHUD.hideAllHUDs(for: self.view, animated: true)
+                loadingNotification.hide(animated: true)
+//                MBProgressHUD.hideAllHUDs(for: self.view, animated: true)
                 guard error == nil else {
                     let alert = Utils.createServerErrorAlert(error: error! as NSError)
                     self.present(alert, animated: true, completion: nil)

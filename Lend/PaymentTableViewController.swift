@@ -98,7 +98,8 @@ class PaymentTableViewController: UITableViewController, UITextFieldDelegate {
                     let alert = Utils.createErrorAlert(errorMessage: error.localizedDescription)
                     self.present(alert, animated: true, completion: nil)
 //                self.progressHUD.hide()
-                    MBProgressHUD.hideAllHUDs(for: self.view, animated: true)
+                    loadingNotification.hide(animated: true)
+//                    MBProgressHUD.hideAllHUDs(for: self.view, animated: true)
                 } else if let token = token {
                     self.user?.stripeCCToken = token.tokenId
                     NBStripe.addCreditcard(self.user!) { error in
