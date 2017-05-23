@@ -17,12 +17,7 @@ class AccountTableViewController: UITableViewController, LoginViewDelegate {
     var user: NBUser?
 
     @IBOutlet var nameLabel: UILabel!
-    @IBOutlet var emailLabel: UILabel!
-    @IBOutlet var phoneLabel: UILabel!
-    @IBOutlet var addressLabel: UILabel!
-    @IBOutlet var cityStateZipLabel: UILabel!
-    @IBOutlet var userIdLabel: UILabel!
-
+    @IBOutlet var infoLabel: UILabel!
     @IBOutlet var userImageView: UIImageView!
     @IBOutlet var versionLabel: UILabel!
     
@@ -104,13 +99,13 @@ class AccountTableViewController: UITableViewController, LoginViewDelegate {
     // MARK - Table View
     func loadCells() {
         self.nameLabel.text = user?.fullName ?? "<name>"
-//        self.addressLabel.text = user?.address ?? "<addess>"
-//        let city = user?.city ?? "<city>"
-//        let state = user?.state ?? "<state>"
-//        let zip = user?.zip ?? "<zip>"
-//        self.cityStateZipLabel.text = "\(city), \(state) \(zip)"
         
-//        if let pictureUrl = user?.pictureUrl {
+        let city = user?.city ?? "<city>"
+        let state = user?.state ?? "<state>"
+        let joinDate = (user?.joinDate) ?? "<join date>"
+        self.infoLabel.text = "\(city), \(state) • Joined \(joinDate)"
+        
+
         if let pictureUrl = user?.imageUrl {
             NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureUrl, completionHandler: { (image, error) in
                 guard error == nil else {
@@ -149,7 +144,7 @@ class AccountTableViewController: UITableViewController, LoginViewDelegate {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(indexPath)
-        if indexPath.section == 2 && indexPath.row == 0 {
+        if indexPath.section == 1 && indexPath.row == 0 {
             sendEmail()
         }
     }

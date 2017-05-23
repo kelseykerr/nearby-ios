@@ -51,6 +51,7 @@
 		AA52E6CE1EB287DC00934C72 /* NewAccountManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA52E6CD1EB287DC00934C72 /* NewAccountManager.swift */; };
 		AA546A841DCA5CD3007E1E8F /* NBBraintree.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA546A831DCA5CD3007E1E8F /* NBBraintree.swift */; };
 		AA546A861DCA5F89007E1E8F /* BraintreeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA546A851DCA5F89007E1E8F /* BraintreeRouter.swift */; };
+		AA5EA4AD1ED42A67007278C2 /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5EA4AC1ED42A67007278C2 /* UserViewController.swift */; };
 		AA8B21E71D98EECD0026ED7D /* NBHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8B21E61D98EECD0026ED7D /* NBHistory.swift */; };
 		AA8B21E91D9A363C0026ED7D /* NBTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8B21E81D9A363C0026ED7D /* NBTransaction.swift */; };
 		AA8B21EB1D9A4A220026ED7D /* NBExchangeOverride.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8B21EA1D9A4A220026ED7D /* NBExchangeOverride.swift */; };
@@ -162,6 +163,7 @@
 		AA52E6CD1EB287DC00934C72 /* NewAccountManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewAccountManager.swift; sourceTree = "<group>"; };
 		AA546A831DCA5CD3007E1E8F /* NBBraintree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NBBraintree.swift; sourceTree = "<group>"; };
 		AA546A851DCA5F89007E1E8F /* BraintreeRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BraintreeRouter.swift; sourceTree = "<group>"; };
+		AA5EA4AC1ED42A67007278C2 /* UserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
 		AA6928381E6FCED3009C022F /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		AA8B21E61D98EECD0026ED7D /* NBHistory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NBHistory.swift; sourceTree = "<group>"; };
 		AA8B21E81D9A363C0026ED7D /* NBTransaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NBTransaction.swift; sourceTree = "<group>"; };
@@ -454,6 +456,7 @@
 				AA4310B71D616DAB00E00F45 /* LoginViewController.swift */,
 				E61F58111EAD34C400EA60F0 /* ForgotToScanViewController.swift */,
 				AAA7F8321ECA39B1006CEBB6 /* FlagTableViewController.swift */,
+				AA5EA4AC1ED42A67007278C2 /* UserViewController.swift */,
 			);
 			name = Other;
 			sourceTree = "<group>";
@@ -816,6 +819,7 @@
 				AAC3C8AC1D5A789800B8F2A9 /* HistoryTableViewController.swift in Sources */,
 				4E82AF481EB39C1400C4EFD4 /* ConfirmPriceTableViewController.swift in Sources */,
 				AA18DAAA1DCA724F00E2B973 /* FilterTableViewController.swift in Sources */,
+				AA5EA4AD1ED42A67007278C2 /* UserViewController.swift in Sources */,
 				AA3F64201D80B55C0021964B /* NewResponseTableViewController.swift in Sources */,
 				E61F58121EAD34C400EA60F0 /* ForgotToScanViewController.swift in Sources */,
 				AAD278E71E150501003DCEE0 /* SearchFilter.swift in Sources */,

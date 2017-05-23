@@ -304,12 +304,16 @@ extension NBUser {
         }
     }
     
+    var joinDate: String {
+        return "May 2017"
+    }
+    
     func acceptedTos() -> Bool {
         return self.tosAccepted
     }
     
     func hasAllRequiredFields() -> Bool {
-        return self.firstName != nil && self.lastName != nil && self.email != nil && self.phone != nil && self.dateOfBirth != nil && self.address != nil && self.city != nil && self.state != nil && self.zip != nil;
+        return self.firstName != nil && self.lastName != nil && self.email != nil && self.phone != nil && self.dateOfBirth != nil && self.address != nil && self.city != nil && self.state != nil && self.zip != nil
     }
     
     func hasHomeLocation() -> Bool {
