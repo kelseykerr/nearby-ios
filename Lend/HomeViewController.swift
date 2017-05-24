@@ -59,8 +59,10 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
     }
     
     deinit {
+        if tableView != nil {
         self.tableView.emptyDataSetSource = nil
         self.tableView.emptyDataSetDelegate = nil
+        }
     }
     
     override func viewDidLoad() {

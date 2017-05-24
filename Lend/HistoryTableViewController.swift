@@ -22,8 +22,10 @@ class HistoryTableViewController: UITableViewController {
     var historyFilter = HistoryFilter()
 
     deinit {
-        self.tableView.emptyDataSetSource = nil
-        self.tableView.emptyDataSetDelegate = nil
+        if tableView != nil {
+            self.tableView.emptyDataSetSource = nil
+            self.tableView.emptyDataSetDelegate = nil
+        }
     }
     
     override func viewDidLoad() {
