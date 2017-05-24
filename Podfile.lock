@@ -2,6 +2,7 @@ PODS:
   - Alamofire (4.0.1)
   - BRYXBanner (0.7.2)
   - DropDown (2)
+  - DZNEmptyDataSet (1.8.1)
   - Firebase/Core (3.14.0):
     - FirebaseAnalytics (= 3.7.0)
     - FirebaseCore (= 3.5.1)
@@ -71,6 +72,7 @@ DEPENDENCIES:
   - Alamofire (~> 4.0)
   - BRYXBanner
   - DropDown
+  - DZNEmptyDataSet
   - Firebase/Core
   - Firebase/Crash
   - Firebase/Messaging
@@ -85,6 +87,7 @@ SPEC CHECKSUMS:
   Alamofire: 7682d43245de14874acd142ec137b144aa1dd335
   BRYXBanner: ed407a56c53f2add0aaa16f810062eac48d802cf
   DropDown: 744784d9c9aa505100e942c16acd05430cbb2f0a
+  DZNEmptyDataSet: 9525833b9e68ac21c30253e1d3d7076cc828eaa7
   Firebase: 85a581fb04e44f63ae9f4fbc8d6dabf4a4c18653
   FirebaseAnalytics: 0d1b7d81d5021155be37702a94ba1ec16d45365d
   FirebaseCore: 225d40532489835a034b8f4e2c9c87fbf4f615a2
@@ -103,6 +106,6 @@ SPEC CHECKSUMS:
   Stripe: abf87fc01f74a2143bba1b1798dd2e4d71fd2cb3
   SwiftyJSON: 29b9f2a64f118c07e691667c2ba1efe536acfe0b
 
-PODFILE CHECKSUM: 45b2ebfa317c49645ff8238e6978b3dbac7f5561
+PODFILE CHECKSUM: 9fb82f84629b9bd57e9d5dc78e567dc16357f16e
 
 COCOAPODS: 1.2.1

@@ -9,6 +9,7 @@
 import UIKit
 import Alamofire
 import SwiftyJSON
+import DZNEmptyDataSet
 
 // changed unwind? to use protocols (delegate) instead, for consistency
 class HistoryTableViewController: UITableViewController {
@@ -19,13 +20,23 @@ class HistoryTableViewController: UITableViewController {
     var cleared = true
     
     var historyFilter = HistoryFilter()
-        
+
+    deinit {
+        self.tableView.emptyDataSetSource = nil
+        self.tableView.emptyDataSetDelegate = nil
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         UserDataManager.sharedInstace.addClearable(self)
         
         self.tableView.contentInset = UIEdgeInsetsMake(-26, 0, 0, 0)
+        
+        self.tableView.emptyDataSetSource = self
+        self.tableView.emptyDataSetDelegate = self
+        
+        self.tableView.tableFooterView = UIView()
         
         //may not need this?
         if cleared {
@@ -182,7 +193,8 @@ class HistoryTableViewController: UITableViewController {
             }
             
             self.histories = fetchedHistories
-            
+
+            /*
             if fetchedHistories.count == 0 {
                 let noDataLabel: UILabel = UILabel(frame: CGRect(x: 0, y: 0, width: self.tableView.bounds.size.width, height: self.tableView.bounds.size.height))
                 noDataLabel.text = "no history to show"
@@ -194,6 +206,7 @@ class HistoryTableViewController: UITableViewController {
                 self.tableView.backgroundView = nil;
 
             }
+             */
             
             //this may not be the best way, but will prevent from crashing
             if !UserManager.sharedInstance.userAvailable() {
@@ -239,6 +252,19 @@ class HistoryTableViewController: UITableViewController {
     }
     
 }
+
+extension HistoryTableViewController: DZNEmptyDataSetSource, DZNEmptyDataSetDelegate {
+    
+    func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
+        return NSAttributedString(string: "Got Nothin'")
+    }
+    
+    func description(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
+        return NSAttributedString(string: "Sorry about this, I'm just all out of data")
+    }
+    
+}
+
 
 extension HistoryTableViewController: RequestDetailTableViewDelegate, ResponseDetailTableViewDelegate, TransactionDetailTableViewDelegate, EditRequestTableViewDelegate, ConfirmPriceTableViewDelegate {
     

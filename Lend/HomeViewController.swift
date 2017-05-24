@@ -12,6 +12,7 @@ import Alamofire
 import SwiftyJSON
 import Ipify
 import MBProgressHUD
+import DZNEmptyDataSet
 
 
 class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelegate {
@@ -57,15 +58,22 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
         }
     }
     
+    deinit {
+        self.tableView.emptyDataSetSource = nil
+        self.tableView.emptyDataSetDelegate = nil
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         UserDataManager.sharedInstace.addClearable(self)
+        /*
         UserManager.sharedInstance.getUser(completionHandler: { user in
             print("VALIDATE PROFILE***")
             print(user.tosAccepted)
             UserManager.sharedInstance.validateProfile(vc: self)
         })
+         */
         if LocationManager.sharedInstance.locationAvailable() {
             print(LocationManager.sharedInstance.location)
         }
@@ -83,6 +91,11 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
         
         self.tableView.contentInset = UIEdgeInsetsMake(-26, 0, 0, 0)
         
+        self.tableView.emptyDataSetDelegate = self
+        self.tableView.emptyDataSetSource = self
+        
+        self.tableView.tableFooterView = UIView()
+        
         requestButton.layer.cornerRadius = requestButton.frame.size.width / 2
         requestButton.clipsToBounds = true
         
@@ -93,7 +106,6 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
         self.view.bringSubview(toFront: notAvailableText)
         self.noResultsText.center = self.view.center
         self.notAvailableText.center = self.view.center
-
 
         if cleared {
             loadInitialData()
@@ -551,6 +563,18 @@ extension HomeViewController: MKMapViewDelegate {
         //self.view.bringSubview(toFront: reloadView)
         self.view.bringSubview(toFront: requestButton)
     }
+}
+
+extension HomeViewController: DZNEmptyDataSetSource, DZNEmptyDataSetDelegate {
+    
+    func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
+        return NSAttributedString(string: "Got Nothin'")
+    }
+    
+    func description(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
+        return NSAttributedString(string: "Sorry about this, I'm just all out of data")
+    }
+    
 }
 
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {

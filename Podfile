@@ -19,6 +19,8 @@ target 'Nearby' do
     pod 'DropDown'
     pod 'MBProgressHUD'
     pod 'BRYXBanner'
+    pod 'DZNEmptyDataSet'
+
 end
 
 target 'NearbyTests' do
