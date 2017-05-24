@@ -238,9 +238,15 @@ class NewResponseTableViewController: UITableViewController {
         response?.requestId = request?.id
         response?.sellerId = UserManager.sharedInstance.user?.userId
         response?.exchangeLocation = pickupLocation
-        response?.exchangeTime = Int64(pickupDatePicker.date.timeIntervalSince1970) * 1000
+        //do not set a default pickup time - leave it empty if the user didn't enter anything
+        if (!(pickupTimeDateTextField.text ?? "").isEmpty) {
+            response?.exchangeTime = Int64(pickupDatePicker.date.timeIntervalSince1970) * 1000
+        }
         response?.returnLocation = returnLocation
-        response?.returnTime = Int64(returnDatePicker.date.timeIntervalSince1970) * 1000
+        //do not set a default return time - leave it empty if the user didn't enter anything
+        if (!(returnTimeDateTextField.text ?? "").isEmpty) {
+            response?.returnTime = Int64(returnDatePicker.date.timeIntervalSince1970) * 1000
+        }
         response?.messagesEnabled = messagesEnabledSwitch.isOn
 //        response?.priceType = priceType
         response?.priceType = .flat
