@@ -17,7 +17,7 @@ class BuyerSellerConfirmStrategy: HistoryStateStrategy {
         let item = history.request?.itemName ?? "ITEM"
         cell.message = "Awaiting seller to confirm your offer for \(item)."
         
-        cell.stateColor = UIColor.energy
+        cell.stateColor = UIColor.nbYellow
         cell.state = "SELLER CONFIRM"
         
         cell.time = history.request?.getElapsedTimeAsString()

@@ -15,8 +15,9 @@ class SellerExchangeStrategy: HistoryStateStrategy {
         
         let name = history.request?.user?.firstName ?? "NAME"
         let item = history.request?.itemName ?? "ITEM"
+        let action = (history.request?.rental)! ? "Loaning" : "Selling";
         
-        cell.message = "Loaning a \(item) to \(name)"
+        cell.message = "\(action) a \(item) to \(name)"
         
         let response = history.responses[0]
         

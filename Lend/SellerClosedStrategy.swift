@@ -17,7 +17,7 @@ class SellerClosedStrategy: HistoryStateStrategy {
         let name = history.request?.user?.firstName ?? "NAME"
         let item = history.request?.itemName ?? "ITEM"
         
-        cell.message = "\(name) has closed transaction for \(item)."
+        cell.message = "Offered a \(item) to \(name)"
         
         cell.stateColor = UIColor.nbRed
         cell.state = "CLOSED"

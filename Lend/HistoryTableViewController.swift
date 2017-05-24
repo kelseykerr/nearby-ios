@@ -255,12 +255,12 @@ class HistoryTableViewController: UITableViewController {
 
 extension HistoryTableViewController: DZNEmptyDataSetSource, DZNEmptyDataSetDelegate {
     
-    func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
-        return NSAttributedString(string: "Got Nothin'")
+    func image(forEmptyDataSet scrollView: UIScrollView!) -> UIImage! {
+        return UIImage(named: "pin_grey_150")
     }
     
-    func description(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
-        return NSAttributedString(string: "Sorry about this, I'm just all out of data")
+    func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
+        return NSAttributedString(string: "no history to show")
     }
     
 }

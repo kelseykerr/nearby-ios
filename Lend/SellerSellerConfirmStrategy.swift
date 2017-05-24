@@ -18,7 +18,7 @@ class SellerSellerConfirmStrategy: HistoryStateStrategy {
         let price = history.responses[0].priceInDollarFormat
         cell.message = "Offered a \(item) to \(name) for \(price)"
 
-        cell.stateColor = UIColor.energy
+        cell.stateColor = UIColor.nbYellow
         cell.state = "PENDING YOUR APPROVAL"
         
         cell.time = history.request?.getElapsedTimeAsString()

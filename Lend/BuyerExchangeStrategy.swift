@@ -15,7 +15,7 @@ class BuyerExchangeStrategy: HistoryStateStrategy {
 
         let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "TransactionCell", for: indexPath) as! HistoryTransactionTableViewCell
         
-        let action = (history.request?.rental)! ? "Buying" : "Borrowing";
+        let action = (history.request?.rental)! ? "Borrowing" : "Buying";
         let response = history.getResponseById(id: (history.transaction?.responseId)!)
         let sellerName = response?.seller?.firstName ?? "NAME"
         let item = history.request?.itemName ?? "ITEM"
