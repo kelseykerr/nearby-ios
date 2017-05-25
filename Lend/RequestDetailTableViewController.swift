@@ -30,17 +30,27 @@ enum RequestDetailTableViewMode {
 
 class RequestDetailTableViewController: UITableViewController {
 
-    @IBOutlet var itemNameLabel: UILabel!
-    @IBOutlet var descriptionTextView: UITextView!
-    @IBOutlet var rentLabel: UILabel!
-    
-    @IBOutlet var saveButton: UIButton!
-    @IBOutlet var flagButton: UIButton!
+    @IBOutlet weak var userImageView: UIImageView!
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var itemNameLabel: UILabel!
+    @IBOutlet weak var descriptionTextView: UITextView!
+    @IBOutlet weak var rentLabel: UILabel!
+    @IBOutlet weak var saveButton: UIButton!
+    @IBOutlet weak var flagButton: UIButton!
     
     weak var delegate: RequestDetailTableViewDelegate?
+    
     var request: NBRequest?
     var mode: RequestDetailTableViewMode = .none
-    var alertController: UIAlertController?
+
+    var name: String? {
+        get {
+            return nameLabel.text
+        }
+        set {
+            nameLabel.text = newValue
+        }
+    }
     
     var itemName: String? {
         get {
@@ -78,93 +88,111 @@ class RequestDetailTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        userImageView.layer.cornerRadius = userImageView.frame.size.width / 2
+        userImageView.clipsToBounds = true
+        
         saveButton.layer.cornerRadius = saveButton.frame.size.height / 16
         saveButton.clipsToBounds = true
         
         flagButton.layer.cornerRadius = flagButton.frame.size.height / 16
         flagButton.clipsToBounds = true
         
+        switch mode {
+        case .buyer:
+            self.saveButton.setTitle("Close", for: UIControlState.normal)
+            self.saveButton.backgroundColor = UIColor.nbRed
+            
+            self.saveButton.isHidden = false
+            self.flagButton.isHidden = true
+        case .seller:
+            self.saveButton.setTitle("Respond", for: UIControlState.normal)
+            self.saveButton.backgroundColor = UIColor.nbTurquoise
+            
+            self.flagButton.setTitle("Flag Request", for: UIControlState.normal)
+            self.flagButton.backgroundColor = UIColor.nbRed
+            
+            self.saveButton.isHidden = false
+            self.flagButton.isHidden = false
+        case .none:
+            self.saveButton.isHidden = true
+            self.flagButton.isHidden = true
+        }
+        
         if let request = request {
             loadFields(request: request)
-
-            if mode == .buyer {
-                self.saveButton.setTitle("Close", for: UIControlState.normal)
-                self.saveButton.backgroundColor = UIColor.nbRed
-            }
-            else if mode == .none {
-                self.saveButton.isHidden = true
-            }
         }
     }
     
-    func showAlertMsg(message: String) {
-        guard (self.alertController == nil) else {
-            print("Alert already displayed")
-            return
-        }
-        
-        self.alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-        
-        let cancelAction = UIAlertAction(title: "close", style: .cancel) { (action) in
-            print("Alert was cancelled")
-            self.alertController=nil;
-        }
-        
-        self.alertController!.addAction(cancelAction)
-        
-        self.present(self.alertController!, animated: true, completion: nil)
+    func showAlertMessage(message: String) {
+        let alert = Utils.createErrorAlert(errorMessage: message)
+        self.present(alert, animated: true, completion: nil)
     }
-
     
     func loadFields(request: NBRequest) {
-        itemName = request.itemName
-        desc = request.desc
+        name = request.user?.fullName ?? "<NAME>"
+        itemName = request.itemName ?? "<ITEM>"
+        desc = request.desc ?? "<DESCRIPTION>"
         rent = request.rental ?? false
+        
+        if let pictureUrl = request.user?.imageUrl {
+            NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureUrl, completionHandler: { (image, error) in
+                guard error == nil else {
+                    print(error!)
+                    return
+                }
+                self.userImageView.image = image
+            })
+        }
     }
     
     @IBAction func respondButtonPressed(_ sender: UIButton) {
-        if mode == .buyer {
+        switch mode {
+        case .buyer:
             print("close button pressed")
             delegate?.closed(request)
-            
             self.navigationController?.popViewController(animated: true)
-        }
-        else {
-            UserManager.sharedInstance.getUser { fetchedUser in
-                if (!fetchedUser.hasAllRequiredFields()) {
-                    self.showAlertMsg(message: "You must finish filling out your profile before you can make offers")
-                    
-                } else if (!fetchedUser.canRespond!) {
-                    self.showAlertMsg(message: "You must add bank account information before you can make offers")
-                } else {
-                    let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-                    guard let navVC = storyboard.instantiateViewController(
-                        withIdentifier: "NewResponseNavigationController") as? UINavigationController else {
-                            assert(false, "Misnamed view controller")
-                            return
-                    }
-                    let responseVC = (navVC.childViewControllers[0] as! NewResponseTableViewController)
-                    responseVC.delegate = self
-                    responseVC.request = self.request
-                    self.present(navVC, animated: true, completion: nil)
+        case .seller:
+            UserManager.sharedInstance.getUser { user in
+                guard user.hasAllRequiredFields() else {
+                    self.showAlertMessage(message: "You must finish filling out your profile before you can make offers")
+                    return
                 }
+                
+                guard let canRespond = user.canRespond, canRespond else {
+                    self.showAlertMessage(message: "You must add bank account information before you can make offers")
+                    return
+                }
+                
+                guard let navVC = UIStoryboard.getViewController(identifier: "NewResponseNavigationController") as? UINavigationController else {
+                    assert(false, "Misnamed view controller")
+                    return
+                }
+                let responseVC = navVC.childViewControllers[0] as! NewResponseTableViewController
+                responseVC.delegate = self
+                responseVC.request = self.request
+                self.present(navVC, animated: true, completion: nil)
             }
+        case .none:
+            print("should never see this")
         }
     }
     
     @IBAction func flagButtonPressed(_ sender: UIButton) {
-        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-        guard let navVC = storyboard.instantiateViewController(
-            withIdentifier: "FlagNavigationController") as? UINavigationController else {
+        switch mode {
+        case .buyer:
+            print("should never see this")
+        case .seller:
+            guard let navVC = UIStoryboard.getViewController(identifier: "FlagNavigationController") as? UINavigationController else {
                 assert(false, "Misnamed view controller")
                 return
+            }
+            let flagVC = navVC.childViewControllers[0] as! FlagTableViewController
+            let requestId = request?.id ?? "-999"
+            flagVC.mode = .request(requestId)
+            self.present(navVC, animated: true, completion: nil)
+        case .none:
+            print("should never see this")
         }
-        let flagVC = (navVC.childViewControllers[0] as! FlagTableViewController)
-//        flagVC.delegate = self
-//        flagVC.request = self.request
-        let requestId = request?.id
-        flagVC.mode = .request(requestId!)
-        self.present(navVC, animated: true, completion: nil)
     }
     
 }

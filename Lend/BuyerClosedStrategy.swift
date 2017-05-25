@@ -24,7 +24,6 @@ class BuyerClosedStrategy: HistoryStateStrategy {
         cell.timeLabel.text = history.request?.getElapsedTimeAsString()
         
         cell.userImage = UIImage(named: "User-64")
-        
         if let pictureURL = history.request?.user?.imageUrl {
             NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
                 guard error == nil else {
@@ -32,7 +31,7 @@ class BuyerClosedStrategy: HistoryStateStrategy {
                     return
                 }
                 if let cellToUpdate = historyVC.tableView?.cellForRow(at: indexPath) as! HistoryRequestTableViewCell? {
-                    cellToUpdate.userImage = UIImage(named: "User-64")
+                    cellToUpdate.userImage = image
                 }
             })
         }

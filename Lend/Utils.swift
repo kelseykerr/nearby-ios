@@ -48,8 +48,8 @@ class Utils {
     
     static func createServerErrorAlert(error: NSError?) -> UIAlertController {
         let errorMessage = error?.domain
-        let errorCode = error?.code
-        let alert = createServerErrorAlert(errorCode: errorCode!, errorMessage: errorMessage)
+        let errorCode = error?.code ?? -999
+        let alert = createServerErrorAlert(errorCode: errorCode, errorMessage: errorMessage)
         return alert
     }
     

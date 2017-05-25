@@ -32,6 +32,8 @@ class FlagTableViewController: UITableViewController {
 
     weak var delegate: FlagTableViewDelegate?
     
+    var mode: FlagTableViewMode = .none
+    
     var id: String? {
         get {
             return requestIdLabel.text
@@ -41,12 +43,6 @@ class FlagTableViewController: UITableViewController {
         }
     }
 
-    
-    var mode: FlagTableViewMode = .none
-    
-//    var userId: String?
-//    var requestId: String?
-    
     var notes: String? {
         get {
             return notesView.text
@@ -68,14 +64,10 @@ class FlagTableViewController: UITableViewController {
     }
     
     func loadInitialData() {
-//        if let id = id {
-//            self.requestIdLabel.text = id
-//        }
-        
         switch mode {
         case .request(let requestId):
             self.id = requestId
-        case .response(let _, let responseId):
+        case .response(_, let responseId):
             self.id = responseId
         case .user(let userId):
             self.id = userId
@@ -91,13 +83,6 @@ class FlagTableViewController: UITableViewController {
         return nil
     }
 
-//    func createUserFlag() -> NBFlag? {
-//        if let userId = userId {
-//            return NBFlag(id: userId, reporterNotes: notes)
-//        }
-//        return nil
-//    }
-    
     @IBAction func flagButtonPressed(_ sender: UIButton) {
         if let flag = createFlag() {
             switch mode {
@@ -120,19 +105,8 @@ class FlagTableViewController: UITableViewController {
                 print("Do nothing")
             }
         }
-        
         self.dismiss(animated: true, completion: nil)
     }
-    
-//    @IBAction func blockUserButtonPressed(_ sender: UIButton) {
-//        if let flag = createUserFlag() {
-//            NBFlag.blockUser(id: userId, flag: flag, completionHandler: { error in
-//                self.delegate?.flagged(flag)
-//            })
-//        }
-//
-//        self.dismiss(animated: true, completion: nil)
-//    }
     
     @IBAction func cancelButtonPressed(_ sender: UIBarButtonItem) {
         delegate?.cancelled()

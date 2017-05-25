@@ -106,7 +106,6 @@ class AccountTableViewController: UITableViewController, LoginViewDelegate {
 //        self.infoLabel.text = "\(city), \(state) • Joined \(joinDate)"
         self.infoLabel.text = "\(city), \(state)"
         
-
         if let pictureUrl = user?.imageUrl {
             NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureUrl, completionHandler: { (image, error) in
                 guard error == nil else {

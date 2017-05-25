@@ -31,18 +31,21 @@ enum ResponseDetailTableViewMode {
 
 class ResponseDetailTableViewController: UITableViewController, MFMessageComposeViewControllerDelegate {
     
-    @IBOutlet var priceText: UITextField!
-    @IBOutlet var pickupLocationText: UITextField!
-    @IBOutlet var returnLocationText: UITextField!
-    @IBOutlet var returnTimeDateTextField: UITextField!
-    @IBOutlet var pickupTimeDateTextField: UITextField!
-    @IBOutlet var descriptionTextView: UITextView!
+    @IBOutlet weak var userImageView: UIImageView!
+    @IBOutlet weak var nameLabel: UILabel!
+    
+    @IBOutlet weak var priceText: UITextField!
+    @IBOutlet weak var pickupLocationText: UITextField!
+    @IBOutlet weak var returnLocationText: UITextField!
+    @IBOutlet weak var returnTimeDateTextField: UITextField!
+    @IBOutlet weak var pickupTimeDateTextField: UITextField!
+    @IBOutlet weak var descriptionTextView: UITextView!
 
     
-    @IBOutlet var acceptButton: UIButton!
-    @IBOutlet var declineButton: UIButton!
-    @IBOutlet var messageUserButton: UIButton!
-    @IBOutlet var flagButton: UIButton!
+    @IBOutlet weak var acceptButton: UIButton!
+    @IBOutlet weak var declineButton: UIButton!
+    @IBOutlet weak var messageUserButton: UIButton!
+    @IBOutlet weak var flagButton: UIButton!
     
     let dateFormatter = DateFormatter()
     
@@ -52,6 +55,15 @@ class ResponseDetailTableViewController: UITableViewController, MFMessageCompose
     
     let pickupDatePicker = UIDatePicker()
     let returnDatePicker = UIDatePicker()
+    
+    var name: String? {
+        get {
+            return nameLabel.text
+        }
+        set {
+            nameLabel.text = newValue
+        }
+    }
     
     var price: Float? {
         get {
@@ -165,6 +177,10 @@ class ResponseDetailTableViewController: UITableViewController, MFMessageCompose
         super.viewDidLoad()
         
         self.hideKeyboardWhenTappedAround()
+        
+        userImageView.layer.cornerRadius = userImageView.frame.size.width / 2
+        userImageView.clipsToBounds = true
+        
         acceptButton.layer.cornerRadius = acceptButton.frame.size.height / 16
         acceptButton.clipsToBounds = true
         
@@ -268,16 +284,28 @@ class ResponseDetailTableViewController: UITableViewController, MFMessageCompose
     func returnDoneButtonPressed() {
         returnTimeDateTextField.text = dateFormatter.string(from: returnDatePicker.date)
         self.view.endEditing(true)
-        
     }
     
     func loadFields(response: NBResponse) {
+        name = response.seller?.fullName
         price = response.offerPrice
         pickupLocation = response.exchangeLocation
         pickupTime = response.exchangeTime
         returnLocation = response.returnLocation
         returnTime = response.returnTime
         responseDescription = response.description
+        
+        print(response.seller?.toJSON())
+        if let pictureUrl = response.seller?.imageUrl {
+            print(pictureUrl)
+            NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureUrl, completionHandler: { (image, error) in
+                guard error == nil else {
+                    print(error!)
+                    return
+                }
+                self.userImageView.image = image
+            })
+        }
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
