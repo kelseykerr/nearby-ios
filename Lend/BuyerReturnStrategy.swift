@@ -14,8 +14,8 @@ class BuyerReturnStrategy: HistoryStateStrategy {
     func cell(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UITableViewCell {
         let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "TransactionCell", for: indexPath) as! HistoryTransactionTableViewCell
         
-        let response = history.responses[indexPath.row]
-        let sellerName = response.seller?.firstName ?? "NAME"
+        let response = history.getResponseById(id: (history.transaction?.responseId)!)
+        let sellerName = response?.seller?.firstName ?? "NAME"
         let item = history.request?.itemName ?? "ITEM"
         
         cell.message = "Borrowing a \(item) from \(sellerName)"
@@ -26,28 +26,28 @@ class BuyerReturnStrategy: HistoryStateStrategy {
         } else {
             cell.stateColor = UIColor.nbYellow
             cell.state = "AWAITING RETURN"
-            if (response.returnTime != nil && response.returnTime != 0) {
+            if (response?.returnTime != nil && response?.returnTime != 0) {
                 cell.exchangeTimeLabel.isHidden = false
                 let attrText = NSMutableAttributedString(string: "")
                 let boldFont = UIFont.boldSystemFont(ofSize: 14)
                 let smallFont = UIFont.systemFont(ofSize: 14)
                 let boldLabel = NSMutableAttributedString(string: "return time: ", attributes: [NSFontAttributeName: boldFont])
                 attrText.append(boldLabel)
-                let dateString = Utils.dateIntToFormattedString(time: response.returnTime!)
+                let dateString = Utils.dateIntToFormattedString(time: (response?.returnTime!)!)
                 attrText.append(NSMutableAttributedString(string: dateString, attributes: [NSFontAttributeName: smallFont]))
                 cell.exchangeTimeLabel.attributedText = attrText
             } else {
                 cell.exchangeTimeLabel.isHidden = true
             }
             
-            if (response.returnLocation != nil && response.returnLocation != "") {
+            if (response?.returnLocation != nil && response?.returnLocation != "") {
                 cell.exchangeLocationLabel.isHidden = false
                 let attrText = NSMutableAttributedString(string: "")
                 let boldFont = UIFont.boldSystemFont(ofSize: 14)
                 let smallFont = UIFont.systemFont(ofSize: 14)
                 let boldLabel = NSMutableAttributedString(string: "return location: ", attributes: [NSFontAttributeName: boldFont])
                 attrText.append(boldLabel)
-                attrText.append(NSMutableAttributedString(string: response.returnLocation!, attributes: [NSFontAttributeName: smallFont]))
+                attrText.append(NSMutableAttributedString(string: (response?.returnLocation!)!, attributes: [NSFontAttributeName: smallFont]))
                 cell.exchangeLocationLabel.attributedText = attrText
             } else {
                 cell.exchangeLocationLabel.isHidden = true
