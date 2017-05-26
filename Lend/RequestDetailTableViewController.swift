@@ -30,28 +30,17 @@ enum RequestDetailTableViewMode {
 
 class RequestDetailTableViewController: UITableViewController {
 
-    @IBOutlet weak var userImageView: UIImageView!
-    @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var itemNameLabel: UILabel!
     @IBOutlet weak var descriptionTextView: UITextView!
     @IBOutlet weak var rentLabel: UILabel!
     @IBOutlet weak var saveButton: UIButton!
-    @IBOutlet weak var flagButton: UIButton!
-    
+    @IBOutlet weak var actionBarButtonItem: UIBarButtonItem!
+
     weak var delegate: RequestDetailTableViewDelegate?
     
     var request: NBRequest?
     var mode: RequestDetailTableViewMode = .none
 
-    var name: String? {
-        get {
-            return nameLabel.text
-        }
-        set {
-            nameLabel.text = newValue
-        }
-    }
-    
     var itemName: String? {
         get {
             return itemNameLabel.text
@@ -88,14 +77,8 @@ class RequestDetailTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        userImageView.layer.cornerRadius = userImageView.frame.size.width / 2
-        userImageView.clipsToBounds = true
-        
         saveButton.layer.cornerRadius = saveButton.frame.size.height / 16
         saveButton.clipsToBounds = true
-        
-        flagButton.layer.cornerRadius = flagButton.frame.size.height / 16
-        flagButton.clipsToBounds = true
         
         switch mode {
         case .buyer:
@@ -103,19 +86,15 @@ class RequestDetailTableViewController: UITableViewController {
             self.saveButton.backgroundColor = UIColor.nbRed
             
             self.saveButton.isHidden = false
-            self.flagButton.isHidden = true
+            self.navigationItem.rightBarButtonItem = nil
         case .seller:
             self.saveButton.setTitle("Respond", for: UIControlState.normal)
             self.saveButton.backgroundColor = UIColor.nbTurquoise
             
-            self.flagButton.setTitle("Flag Request", for: UIControlState.normal)
-            self.flagButton.backgroundColor = UIColor.nbRed
-            
             self.saveButton.isHidden = false
-            self.flagButton.isHidden = false
         case .none:
             self.saveButton.isHidden = true
-            self.flagButton.isHidden = true
+            self.navigationItem.rightBarButtonItem = nil
         }
         
         if let request = request {
@@ -129,20 +108,9 @@ class RequestDetailTableViewController: UITableViewController {
     }
     
     func loadFields(request: NBRequest) {
-        name = request.user?.fullName ?? "<NAME>"
         itemName = request.itemName ?? "<ITEM>"
         desc = request.desc ?? "<DESCRIPTION>"
         rent = request.rental ?? false
-        
-        if let pictureUrl = request.user?.imageUrl {
-            NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureUrl, completionHandler: { (image, error) in
-                guard error == nil else {
-                    print(error!)
-                    return
-                }
-                self.userImageView.image = image
-            })
-        }
     }
     
     @IBAction func respondButtonPressed(_ sender: UIButton) {
@@ -177,24 +145,40 @@ class RequestDetailTableViewController: UITableViewController {
         }
     }
     
-    @IBAction func flagButtonPressed(_ sender: UIButton) {
-        switch mode {
-        case .buyer:
-            print("should never see this")
-        case .seller:
+    @IBAction func actionButtonPressed(_ sender: UIBarButtonItem) {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { action in
+        }
+        alertController.addAction(cancelAction)
+        
+        let flagAction = UIAlertAction(title: "Flag Request", style: .destructive) { action in
             guard let navVC = UIStoryboard.getViewController(identifier: "FlagNavigationController") as? UINavigationController else {
                 assert(false, "Misnamed view controller")
                 return
             }
             let flagVC = navVC.childViewControllers[0] as! FlagTableViewController
-            let requestId = request?.id ?? "-999"
+            let requestId = self.request?.id ?? "-999"
             flagVC.mode = .request(requestId)
             self.present(navVC, animated: true, completion: nil)
-        case .none:
-            print("should never see this")
+        }
+        alertController.addAction(flagAction)
+        
+//        let blockAction = UIAlertAction(title: "Block User", style: .destructive) { action in
+//            guard let navVC = UIStoryboard.getViewController(identifier: "FlagNavigationController") as? UINavigationController else {
+//                assert(false, "Misnamed view controller")
+//                return
+//            }
+//            let flagVC = navVC.childViewControllers[0] as! FlagTableViewController
+//            let userId = self.request?.user?.id ?? "-999"
+//            flagVC.mode = .user(userId)
+//            self.present(navVC, animated: true, completion: nil)
+//        }
+//        alertController.addAction(blockAction)
+        
+        self.present(alertController, animated: true) {
         }
     }
-    
 }
 
 extension RequestDetailTableViewController: NewRequestTableViewDelegate {

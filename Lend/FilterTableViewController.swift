@@ -217,9 +217,9 @@ class FilterTableViewController: UITableViewController {
         if let filter = filter {
             filter.includeMyRequest = includeMyRequestSwitch.isOn
             //filter.includeExpiredRequest = includeExpiredRequestSwitch.isOn
-            filter.searchBy = (locationButton.titleLabel?.text)!
-            filter.sortBy = (sortButton.titleLabel?.text)!
-            let radiusDouble = switchRadiusTextToDouble(radiusText: (radiusButton.titleLabel?.text)!)
+            filter.searchBy = (locationButton.titleLabel?.text) ?? "current location"
+            filter.sortBy = (sortButton.titleLabel?.text) ?? "newest"
+            let radiusDouble = switchRadiusTextToDouble(radiusText: (radiusButton.titleLabel?.text) ?? "10 mile radius")
             filter.searchRadius = radiusDouble
         }
         

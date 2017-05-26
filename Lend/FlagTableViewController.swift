@@ -52,6 +52,8 @@ class FlagTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.hideKeyboardWhenTappedAround()
+        
         flagButton.layer.cornerRadius = flagButton.frame.size.height / 16
         flagButton.clipsToBounds = true
         

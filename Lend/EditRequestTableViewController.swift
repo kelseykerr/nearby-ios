@@ -18,12 +18,14 @@ protocol EditRequestTableViewDelegate: class {
 
 class EditRequestTableViewController: UITableViewController {
     
-    @IBOutlet var itemName: UITextField!
-    @IBOutlet var descriptionText: UITextView!
-    @IBOutlet var saveButton: UIButton!
-    @IBOutlet var closeButton: UIButton!
+    @IBOutlet weak var itemName: UITextField!
+    @IBOutlet weak var descriptionText: UITextView!
+    @IBOutlet weak var rentLabel: UILabel!
+    @IBOutlet weak var saveButton: UIButton!
+    @IBOutlet weak var closeButton: UIButton!
     
     weak var delegate: EditRequestTableViewDelegate?
+    
     var request: NBRequest?
     var mode: RequestDetailTableViewMode = .none
     
@@ -42,6 +44,15 @@ class EditRequestTableViewController: UITableViewController {
         }
         set {
             descriptionText.text = newValue
+        }
+    }
+    
+    var rent: Bool {
+        get {
+            return rentLabel.text == "rent"
+        }
+        set {
+            rentLabel.text = (newValue) ? "rent" : "buy"
         }
     }
     
@@ -68,20 +79,21 @@ class EditRequestTableViewController: UITableViewController {
     }
     
     func loadFields(request: NBRequest) {
-        itemNameText = request.itemName
-        desc = request.desc
+        itemNameText = request.itemName ?? "<ITEM>"
+        desc = request.desc ?? "<DESCRIPTION>"
+        rent = request.rental ?? false
     }
-    
+
+    // should we create a new request? or at least make a copy?
     @IBAction func saveButtonPressed(_ sender: UIButton) {
         let req = self.request
-        req?.itemName = self.itemName.text
-        req?.desc = self.descriptionText.text
+        req?.itemName = itemNameText
+        req?.desc = desc
         self.delegate?.edited(req)
         self.navigationController?.popViewController(animated: true)
-
-        //self.dismiss(animated: true, completion: nil)
     }
     
+    // should we create a new request? or at least make a copy?
     @IBAction func closeButtonPressed(_ sender: UIButton) {
         let req = self.request
         let date = Date()
@@ -92,8 +104,6 @@ class EditRequestTableViewController: UITableViewController {
         req?.expireDate = dateInt
         self.delegate?.closed(req)
         self.navigationController?.popViewController(animated: true)
-
     }
-
     
 }

@@ -31,9 +31,6 @@ enum ResponseDetailTableViewMode {
 
 class ResponseDetailTableViewController: UITableViewController, MFMessageComposeViewControllerDelegate {
     
-    @IBOutlet weak var userImageView: UIImageView!
-    @IBOutlet weak var nameLabel: UILabel!
-    
     @IBOutlet weak var priceText: UITextField!
     @IBOutlet weak var pickupLocationText: UITextField!
     @IBOutlet weak var returnLocationText: UITextField!
@@ -41,29 +38,18 @@ class ResponseDetailTableViewController: UITableViewController, MFMessageCompose
     @IBOutlet weak var pickupTimeDateTextField: UITextField!
     @IBOutlet weak var descriptionTextView: UITextView!
 
-    
     @IBOutlet weak var acceptButton: UIButton!
     @IBOutlet weak var declineButton: UIButton!
-    @IBOutlet weak var messageUserButton: UIButton!
-    @IBOutlet weak var flagButton: UIButton!
-    
-    let dateFormatter = DateFormatter()
+    @IBOutlet weak var moreBarButtonItem: UIBarButtonItem!
     
     weak var delegate: ResponseDetailTableViewDelegate?
+    
     var response: NBResponse?
     var mode: ResponseDetailTableViewMode = .none
     
+    let dateFormatter = DateFormatter()
     let pickupDatePicker = UIDatePicker()
     let returnDatePicker = UIDatePicker()
-    
-    var name: String? {
-        get {
-            return nameLabel.text
-        }
-        set {
-            nameLabel.text = newValue
-        }
-    }
     
     var price: Float? {
         get {
@@ -178,70 +164,50 @@ class ResponseDetailTableViewController: UITableViewController, MFMessageCompose
         
         self.hideKeyboardWhenTappedAround()
         
-        userImageView.layer.cornerRadius = userImageView.frame.size.width / 2
-        userImageView.clipsToBounds = true
-        
         acceptButton.layer.cornerRadius = acceptButton.frame.size.height / 16
         acceptButton.clipsToBounds = true
         
         declineButton.layer.cornerRadius = declineButton.frame.size.height / 16
         declineButton.clipsToBounds = true
         
-        messageUserButton.layer.cornerRadius = messageUserButton.frame.size.height / 16
-        messageUserButton.layer.borderWidth = 1
-        messageUserButton.layer.borderColor = UIColor.nbBlue.cgColor
-        messageUserButton.clipsToBounds = true
-        
-        if mode != .seller {
-            flagButton.layer.cornerRadius = flagButton.frame.size.height / 16
-            flagButton.clipsToBounds = true
-        }
-        else {
-            flagButton.isHidden = true
-        }
-        
         createDatePickers()
         
         dateFormatter.dateStyle = .medium
         dateFormatter.timeStyle = .short
         
+        switch mode {
+        case .buyer:
+            descriptionTextView.isEditable = false
+            if response?.responseStatus?.rawValue == "CLOSED" {
+                priceText.isUserInteractionEnabled = false
+                pickupLocationText.isUserInteractionEnabled = false
+                returnLocationText.isUserInteractionEnabled = false
+                returnTimeDateTextField.isUserInteractionEnabled = false
+                pickupTimeDateTextField.isUserInteractionEnabled = false
+                acceptButton.isHidden = true
+                declineButton.isHidden = true
+                navigationItem.rightBarButtonItem = nil
+            } else {
+                acceptButton.setTitle("Accept/Update", for: UIControlState.normal)
+            }
+        case .seller:
+            if response?.sellerStatus?.rawValue != "ACCEPTED" {
+                acceptButton.setTitle("Accept/Update", for: UIControlState.normal)
+            } else {
+                acceptButton.setTitle("Update", for: UIControlState.normal)
+            }
+            declineButton.setTitle("Withdraw", for: UIControlState.normal)
+            navigationItem.rightBarButtonItem = nil
+            //change the color of description to greyish black
+        case .none:
+            descriptionTextView.isEditable = false
+            acceptButton.isHidden = true
+            declineButton.isHidden = true
+            navigationItem.rightBarButtonItem = nil
+        }
+        
         if let response = response {
             loadFields(response: response)
-
-            if mode == .seller {
-                self.messageUserButton.isHidden = true
-                if (response.sellerStatus?.rawValue != "ACCEPTED") {
-                    self.acceptButton.setTitle("Accept/Update", for: UIControlState.normal)
-                } else {
-                    self.acceptButton.setTitle("Update", for: UIControlState.normal)
-                }
-                self.declineButton.setTitle("Withdraw", for: UIControlState.normal)
-            }
-            if mode == .buyer {
-                descriptionTextView.isEditable = false
-                if (response.responseStatus?.rawValue == "CLOSED") {
-                    priceText.isUserInteractionEnabled = false
-                    pickupLocationText.isUserInteractionEnabled = false
-                    returnLocationText.isUserInteractionEnabled = false
-                    returnTimeDateTextField.isUserInteractionEnabled = false
-                    pickupTimeDateTextField.isUserInteractionEnabled = false
-                    
-                    self.acceptButton.isHidden = true
-                    self.declineButton.isHidden = true
-                    self.messageUserButton.isHidden = true
-                } else {
-                    self.acceptButton.setTitle("Accept/Update", for: UIControlState.normal)
-                }
-                if (response.messagesEnabled == nil || !response.messagesEnabled!) {
-                    self.messageUserButton.isHidden = true
-                }
-            }
-            else if mode == .none {
-                descriptionTextView.isEditable = false
-                self.acceptButton.isHidden = true
-                self.declineButton.isHidden = true
-                self.messageUserButton.isHidden = true
-            }
         }
     }
     
@@ -287,25 +253,12 @@ class ResponseDetailTableViewController: UITableViewController, MFMessageCompose
     }
     
     func loadFields(response: NBResponse) {
-        name = response.seller?.fullName
         price = response.offerPrice
         pickupLocation = response.exchangeLocation
         pickupTime = response.exchangeTime
         returnLocation = response.returnLocation
         returnTime = response.returnTime
         responseDescription = response.description
-        
-        print(response.seller?.toJSON())
-        if let pictureUrl = response.seller?.imageUrl {
-            print(pictureUrl)
-            NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureUrl, completionHandler: { (image, error) in
-                guard error == nil else {
-                    print(error!)
-                    return
-                }
-                self.userImageView.image = image
-            })
-        }
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -370,41 +323,56 @@ class ResponseDetailTableViewController: UITableViewController, MFMessageCompose
             self.navigationController?.popViewController(animated: true)
         } else {
             print("accept button pressed")
-            
             delegate?.declined(response)
             self.navigationController?.popViewController(animated: true)
         }
     }
     
-    @IBAction func messageUserButtonPressed(_ sender: UIButton) {
-        let phone = response?.seller?.phone
-        if (MFMessageComposeViewController.canSendText()) {
-            let controller = MFMessageComposeViewController()
-            controller.recipients = [phone!]
-            controller.messageComposeDelegate = self
-            self.present(controller, animated: true, completion: nil)
-        }
-    }
-    
     func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
-        //... handle sms screen actions
         self.dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func flagButtonPressed(_ sender: UIButton) {
-        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-        guard let navVC = storyboard.instantiateViewController(
-            withIdentifier: "FlagNavigationController") as? UINavigationController else {
+    @IBAction func moreButtonPressed(_ sender: UIBarButtonItem) {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { action in
+        }
+        alertController.addAction(cancelAction)
+        
+        let flagAction = UIAlertAction(title: "Flag Response", style: .destructive) { action in
+            guard let navVC = UIStoryboard.getViewController(identifier: "FlagNavigationController") as? UINavigationController else {
                 assert(false, "Misnamed view controller")
                 return
+            }
+            let flagVC = navVC.childViewControllers[0] as! FlagTableViewController
+            let requestId = self.response?.requestId ?? "-999"
+            let responseId = self.response?.id ?? "-999"
+            flagVC.mode = .response(requestId, responseId)
+            self.present(navVC, animated: true, completion: nil)
         }
-        let flagVC = (navVC.childViewControllers[0] as! FlagTableViewController)
-        let requestId = response?.requestId
-        let responseId = response?.id
-        flagVC.mode = .response(requestId!, responseId!)
-        self.present(navVC, animated: true, completion: nil)
+        alertController.addAction(flagAction)
+        
+        if let messageEnabled = response?.messagesEnabled, messageEnabled {
+            let messageAction = UIAlertAction(title: "Message User", style: .default) { action in
+                if MFMessageComposeViewController.canSendText() {
+                    guard let phone = self.response?.seller?.phone else {
+                        print("No phone number")
+                        return
+                    }
+                    let controller = MFMessageComposeViewController()
+                    controller.recipients = [phone]
+                    controller.messageComposeDelegate = self
+                    self.present(controller, animated: true, completion: nil)
+                }
+            }
+            alertController.addAction(messageAction)
+        }
+        
+        self.present(alertController, animated: true) {
+        }
     }
     
+    // is this necessary?
     override func viewWillDisappear(_ animated: Bool) {
         self.navigationController?.isNavigationBarHidden = false
     }
