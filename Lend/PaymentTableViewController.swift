@@ -13,6 +13,7 @@ import MBProgressHUD
 protocol UpdatePaymentInfoDelegate {
     
     func refreshStripeInfo()
+    
 }
 
 class PaymentTableViewController: UITableViewController, UITextFieldDelegate {
@@ -30,16 +31,12 @@ class PaymentTableViewController: UITableViewController, UITextFieldDelegate {
     
     var delegate: UpdatePaymentInfoDelegate?
     
-//    let progressHUD = ProgressHUD(text: "Saving")
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.hideKeyboardWhenTappedAround()
         ccExpDateTextField.delegate = self
         cvcTextField.delegate = self
-//        self.view.addSubview(progressHUD)
-//        progressHUD.hide()
         
         saveButton.layer.cornerRadius = saveButton.frame.size.height / 16
         saveButton.clipsToBounds = true

@@ -41,9 +41,10 @@ class BanksAndCardsTableViewController: UITableViewController {
         let loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
         loadingNotification.mode = MBProgressHUDMode.indeterminate
         loadingNotification.label.text = "Fetching..."
+        
         NBPayment.fetchPaymentInfo { (result, error) in
-            
             MBProgressHUD.hideAllHUDs(for: self.view, animated: true)
+            
             guard error == nil else {
                 print(error)
                 return
@@ -56,32 +57,24 @@ class BanksAndCardsTableViewController: UITableViewController {
             
             self.paymentInfo = paymentInfo
             
-            if (self.paymentInfo?.bankAccountLast4 != nil &&
-                self.paymentInfo?.routingNumber != nil) {
-                self.accountNumber.text = (self.paymentInfo?.bankAccountLast4)!
-                self.routingNumber.text = (self.paymentInfo?.routingNumber)!
-            } else {
-                self.accountNumber.text = ""
-                self.routingNumber.text = ""
+            if let accountNumber = self.paymentInfo?.bankAccountLast4, let routingNumber = self.paymentInfo?.routingNumber {
+                self.accountNumber.text = accountNumber
+                self.routingNumber.text = routingNumber
             }
             
-            if (self.paymentInfo?.ccMaskedNumber != nil &&
-                self.paymentInfo?.ccExpDate != nil) {
-                self.creditCardNumber.text = (self.paymentInfo?.ccMaskedNumber)!
-                self.ccExp.text = (self.paymentInfo?.ccExpDate)!
-            } else {
-                self.creditCardNumber.text = ""
-                self.ccExp.text = ""
+            if let creditCardNumber = self.paymentInfo?.ccMaskedNumber, let ccExp = self.paymentInfo?.ccExpDate {
+                self.creditCardNumber.text = creditCardNumber
+                self.ccExp.text = ccExp
             }
-
+            
             self.tableView.reloadData()
         }
     }
 
-    
 }
 
 extension BanksAndCardsTableViewController: UpdatePaymentInfoDelegate, UpdateBankInfoDelegate {
+    
     func refreshStripeInfo() {
         print("Updated bank or cc info, refreshing payments")
         self.loadPaymentInfo()

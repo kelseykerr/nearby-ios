@@ -23,17 +23,9 @@ class ProfileTableViewController: UITableViewController, UITextFieldDelegate {
     @IBOutlet var stateTextField: UITextField!
     @IBOutlet var zipCodeTextField: UITextField!
     
-    @IBOutlet var requestNotificationEnabledSwitch: UISwitch!
-    @IBOutlet var currentLocationSwitch: UISwitch!
-    @IBOutlet var homeLocationSwitch: UISwitch!
-    @IBOutlet var radiusTextField: UITextField!
-    @IBOutlet var radiusButton: UIButton!
-    
     @IBOutlet var saveButton: UIButton!
     
     var user: NBUser?
-    
-    let dropDown = DropDown()
     
     let birthdatePicker = UIDatePicker()
     
@@ -47,7 +39,6 @@ class ProfileTableViewController: UITableViewController, UITextFieldDelegate {
         self.hideKeyboardWhenTappedAround()
         
         createDatePickers()
-        createDropDowns()
         
         saveButton.layer.cornerRadius = saveButton.frame.size.height / 16
         saveButton.clipsToBounds = true
@@ -69,12 +60,6 @@ class ProfileTableViewController: UITableViewController, UITextFieldDelegate {
             self.cityTextField.text = fetchedUser.city ?? ""
             self.stateTextField.text = fetchedUser.state ?? ""
             self.zipCodeTextField.text = fetchedUser.zip ?? ""
-            
-            self.requestNotificationEnabledSwitch.isOn = fetchedUser.newRequestNotificationsEnabled ?? false
-            self.currentLocationSwitch.isOn = fetchedUser.currentLocationNotifications ?? false
-            self.homeLocationSwitch.isOn = fetchedUser.homeLocationNotifications ?? false
-//            self.radiusTextField.text = String(format: "%.1f", fetchedUser.notificationRadius ?? 0.0)
-            self.radiusButton.setTitle(String(format: "%.1f", fetchedUser.notificationRadius ?? 0.0), for: UIControlState.normal)
         }
     }
     
@@ -95,20 +80,6 @@ class ProfileTableViewController: UITableViewController, UITextFieldDelegate {
         dateFormatter.dateFormat = "yyyy-MM-dd"
     }
     
-    func createDropDowns() {
-        dropDown.anchorView = radiusButton
-        dropDown.dataSource = ["0.1", "0.25", "0.5", "1.0", "5.0", "10.0"]
-        dropDown.bottomOffset = CGPoint(x: 0, y: radiusButton.bounds.height)
-        
-        self.radiusButton.setTitle("10.0", for: UIControlState.normal)
-        
-        dropDown.selectionAction = { [unowned self] (index: Int, item: String) in
-            print("Selected item: \(item) at index: \(index)")
-            self.dropDown.hide()
-            self.radiusButton.setTitle(item, for: UIControlState.normal)
-        }
-    }
-    
     func birthdateDoneButtonPressed() {
         dateOfBirthTextField.text = dateFormatter.string(from: birthdatePicker.date)
         self.view.endEditing(true)
@@ -116,10 +87,6 @@ class ProfileTableViewController: UITableViewController, UITextFieldDelegate {
     
     @IBAction func saveButtonPressed(_ sender: UIButton) {
         saveCells()
-    }
-    
-    @IBAction func radiusButtonPressed(_ sender: UIButton) {
-        dropDown.show()
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
@@ -173,16 +140,9 @@ class ProfileTableViewController: UITableViewController, UITextFieldDelegate {
             user?.state = state
             user?.zip = self.zipCodeTextField.text
             
-            user?.newRequestNotificationsEnabled = self.requestNotificationEnabledSwitch.isOn
-            user?.homeLocationNotifications = self.homeLocationSwitch.isOn
-            user?.currentLocationNotifications = self.currentLocationSwitch.isOn
-//            user?.notificationRadius = Float(self.radiusTextField.text!) ?? 0.0
-            user?.notificationRadius = Float(self.radiusButton.title(for: UIControlState.normal)!) ?? 0.0
-            
             self.view.endEditing(true)
             
             let loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
-            loadingNotification.offset.y = 250.0
             loadingNotification.mode = MBProgressHUDMode.indeterminate
             loadingNotification.label.text = "Saving"
             

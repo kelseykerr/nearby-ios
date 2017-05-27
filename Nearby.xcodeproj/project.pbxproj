@@ -52,6 +52,7 @@
 		AA546A841DCA5CD3007E1E8F /* NBBraintree.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA546A831DCA5CD3007E1E8F /* NBBraintree.swift */; };
 		AA546A861DCA5F89007E1E8F /* BraintreeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA546A851DCA5F89007E1E8F /* BraintreeRouter.swift */; };
 		AA5EA4AD1ED42A67007278C2 /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5EA4AC1ED42A67007278C2 /* UserViewController.swift */; };
+		AA83930E1ED95310006950DC /* NotificationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA83930D1ED95310006950DC /* NotificationTableViewController.swift */; };
 		AA8B21E71D98EECD0026ED7D /* NBHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8B21E61D98EECD0026ED7D /* NBHistory.swift */; };
 		AA8B21E91D9A363C0026ED7D /* NBTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8B21E81D9A363C0026ED7D /* NBTransaction.swift */; };
 		AA8B21EB1D9A4A220026ED7D /* NBExchangeOverride.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8B21EA1D9A4A220026ED7D /* NBExchangeOverride.swift */; };
@@ -165,6 +166,7 @@
 		AA546A851DCA5F89007E1E8F /* BraintreeRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BraintreeRouter.swift; sourceTree = "<group>"; };
 		AA5EA4AC1ED42A67007278C2 /* UserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
 		AA6928381E6FCED3009C022F /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		AA83930D1ED95310006950DC /* NotificationTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationTableViewController.swift; sourceTree = "<group>"; };
 		AA8B21E61D98EECD0026ED7D /* NBHistory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NBHistory.swift; sourceTree = "<group>"; };
 		AA8B21E81D9A363C0026ED7D /* NBTransaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NBTransaction.swift; sourceTree = "<group>"; };
 		AA8B21EA1D9A4A220026ED7D /* NBExchangeOverride.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NBExchangeOverride.swift; sourceTree = "<group>"; };
@@ -444,6 +446,7 @@
 				AAB7690F1E2B41A80021F657 /* PaymentTableViewController.swift */,
 				AAB769111E2B43380021F657 /* DirectDepositTableViewController.swift */,
 				E62E7F6D1E9AC7CA00AF16DB /* BanksAndCardsTableViewController.swift */,
+				AA83930D1ED95310006950DC /* NotificationTableViewController.swift */,
 			);
 			name = Account;
 			sourceTree = "<group>";
@@ -846,6 +849,7 @@
 				AA072DC41EBE51300039495C /* HistoryFilterTableViewController.swift in Sources */,
 				AA2D885D1E8378970005D969 /* TransactionDetailTableViewController.swift in Sources */,
 				AA2D88611E852AF80005D969 /* SellerClosedStrategy.swift in Sources */,
+				AA83930E1ED95310006950DC /* NotificationTableViewController.swift in Sources */,
 				AA3E34011E78E9A800B92943 /* StripeRouter.swift in Sources */,
 				AA8F27AC1E5ABE3F003CDC22 /* BuyerFinishStrategy.swift in Sources */,
 				AA0F72A51D77E7FD0023DAA6 /* CategoriesManager.swift in Sources */,

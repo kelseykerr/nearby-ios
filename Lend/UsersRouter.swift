@@ -132,7 +132,7 @@ enum UsersRouter: URLRequestConvertible {
         Ipify.getPublicIPAddress { result in
             switch result {
             case .success(let ip):
-                print(ip)
+//                print(ip)
                 urlRequest.setValue(ip, forHTTPHeaderField: "x-auth-ip")
             case .failure(let error):
                 print(error.localizedDescription)

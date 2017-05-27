@@ -143,9 +143,13 @@ class AccountTableViewController: UITableViewController, LoginViewDelegate {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(indexPath)
+//        print(indexPath)
         if indexPath.section == 1 && indexPath.row == 0 {
             sendEmail()
+        }
+        else if indexPath.section == 1 && indexPath.row == 1 {
+            rate()
+            tableView.deselectRow(at: indexPath, animated: true)
         }
     }
     
@@ -175,4 +179,11 @@ extension AccountTableViewController: MFMailComposeViewControllerDelegate {
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
         controller.dismiss(animated: true, completion: nil)
     }
+    
+    func rate() {
+        if let appURL = URL(string: "itms-apps://itunes.apple.com/app/id1223745552") {
+            UIApplication.shared.openURL(appURL)
+        }
+    }
+    
 }
