@@ -286,14 +286,16 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         
         // Print full message.
         print(userInfo)
-        
-        let title = userInfo["title"] as! String
-        let message = userInfo["message"] as! String
-
-        banner = Banner(title: title, subtitle: message, image: nil, backgroundColor:         UIColor.nbGreen)
-        banner?.dismissesOnTap = true
-        banner?.show(duration: 3.0)
-        
+        var title = "";
+        if userInfo["title"] != nil {
+           title = userInfo["title"] as! String
+        }
+        if userInfo["message"] != nil {
+            let message = userInfo["message"] as! String
+            banner = Banner(title: title, subtitle: message, image: nil, backgroundColor:         UIColor.nbGreen)
+            banner?.dismissesOnTap = true
+            banner?.show(duration: 3.0)
+        }
         // Change this to your preferred presentation option
         completionHandler([])
     }
@@ -309,14 +311,16 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         
         // Print full message.
         print(userInfo)
-        
-        let title = userInfo["title"] as! String
-        let message = userInfo["message"] as! String
-        
-        banner = Banner(title: title, subtitle: message, image: nil, backgroundColor:         UIColor.nbGreen)
-        banner?.dismissesOnTap = true
-        banner?.show(duration: 3.0)
-        
+        var title = ""
+        if userInfo["title"] != nil {
+            title = userInfo["title"] as! String
+        }
+        if userInfo["message"] != nil {
+            let message = userInfo["message"] as! String
+            banner = Banner(title: title, subtitle: message, image: nil, backgroundColor:         UIColor.nbGreen)
+            banner?.dismissesOnTap = true
+            banner?.show(duration: 3.0)
+        }
         completionHandler()
     }
 }
