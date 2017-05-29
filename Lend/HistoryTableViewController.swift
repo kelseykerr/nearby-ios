@@ -258,11 +258,24 @@ class HistoryTableViewController: UITableViewController {
 extension HistoryTableViewController: DZNEmptyDataSetSource, DZNEmptyDataSetDelegate {
     
     func image(forEmptyDataSet scrollView: UIScrollView!) -> UIImage! {
-        return UIImage(named: "pin_grey_150")
+        let hasAlpha = true
+        let scale: CGFloat = 0.0 // Use scale factor of main screen
+        let sizeChange = CGSize(width: 100, height: 100)
+        let image = UIImage(named: "pin_grey_150")
+
+        UIGraphicsBeginImageContextWithOptions(sizeChange, !hasAlpha, scale)
+        image?.draw(in: CGRect(origin: CGPoint.zero, size: sizeChange))
+        
+        let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
+        return scaledImage
     }
     
     func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
         return NSAttributedString(string: "no history to show")
+    }
+    
+    func verticalOffset(forEmptyDataSet scrollView: UIScrollView!) -> CGFloat {
+        return CGFloat(-25)
     }
     
 }
