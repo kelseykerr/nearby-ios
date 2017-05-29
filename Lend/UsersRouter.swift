@@ -93,7 +93,7 @@ enum UsersRouter: URLRequestConvertible {
                 relativePath = "users/\(id)"
             case .getPaymentInfo:
                 relativePath = "users/me/payments"
-            case .blockUser(let id, let _):
+            case .blockUser(let id, _):
                 relativePath = "users/\(id)/flags"
             case .getAtPath(let path):
                 // already have the full URL, so just return it
@@ -115,7 +115,7 @@ enum UsersRouter: URLRequestConvertible {
                 return nil
             case .editSelf(let newItem):
                 return (newItem)
-            case .blockUser(let _, let newItem):
+            case .blockUser( _, let newItem):
                 return (newItem)
             case .editFcmToken:
                 return nil
