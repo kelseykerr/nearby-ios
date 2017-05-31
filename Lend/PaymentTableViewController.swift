@@ -31,10 +31,47 @@ class PaymentTableViewController: UITableViewController, UITextFieldDelegate {
     
     var delegate: UpdatePaymentInfoDelegate?
     
+    var name: String? {
+        get {
+            return nameOnCardTextField.text
+        }
+        set {
+            nameOnCardTextField.text = newValue
+        }
+    }
+    
+    var ccNumber: String? {
+        get {
+            return ccNumberTextField.text
+        }
+        set {
+            ccNumberTextField.text = newValue
+        }
+    }
+    
+    var ccExpDate: String? {
+        get {
+            return ccExpDateTextField.text
+        }
+        set {
+            ccExpDateTextField.text = newValue
+        }
+    }
+    
+    var cvc: String? {
+        get {
+            return cvcTextField.text
+        }
+        set {
+            cvcTextField.text = newValue
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.hideKeyboardWhenTappedAround()
+        
         ccExpDateTextField.delegate = self
         cvcTextField.delegate = self
         
@@ -43,15 +80,6 @@ class PaymentTableViewController: UITableViewController, UITextFieldDelegate {
         
         UserManager.sharedInstance.getUser { user in
             self.user = user
-            self.loadCells()
-        }
-    }
-    
-    func loadCells() {
-        if user != nil {
-//            self.nameOnCardTextField.text = user?.firstName ?? ""
-//            self.ccNumberTextField.text = user?.lastName ?? ""
-//            self.ccExpDateTextField.text = user?.email ?? ""
         }
     }
     
@@ -59,81 +87,75 @@ class PaymentTableViewController: UITableViewController, UITextFieldDelegate {
         saveCells()
     }
     
-    func saveCells() {
-        if user != nil {
-            if (!(user?.hasAllRequiredFields())!) {
-                self.showAlertMsg(message: "You must finish filling out your profile before you can add a credit card")
-                return
-                
-            }
-            self.view.endEditing(true)
-            
-//            progressHUD.show()
-            let loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
-            loadingNotification.mode = MBProgressHUDMode.indeterminate
-            loadingNotification.label.text = "Saving"
-            
-            //tmp
-            // generate creditcard token
-            // set that value to user object
-            let cardParams = STPCardParams()
-            //cardParams.number = "4242424242424242"
-            cardParams.number = ccNumberTextField.text
-            if ccExpDateTextField.text != nil && (ccExpDateTextField.text?.characters.count)! > 0 {
-                let index1 = ccExpDateTextField.text?.index((ccExpDateTextField.text?.endIndex)!, offsetBy: -3)
-                let month = ccExpDateTextField.text?.substring(to: index1!)
-                cardParams.expMonth = UInt(month!)!
-                let index2 = ccExpDateTextField.text?.index((ccExpDateTextField.text?.endIndex)!, offsetBy: -2)
-                let year = ccExpDateTextField.text?.substring(from: index2!)
-                let expYear = 2000 + UInt(year!)!
-                cardParams.expYear = expYear
-            }
-            cardParams.cvc = cvcTextField.text
-            
-            STPAPIClient.shared().createToken(withCard: cardParams) { (token, error) in
-                if let error = error {
-                    let alert = Utils.createErrorAlert(errorMessage: error.localizedDescription)
-                    self.present(alert, animated: true, completion: nil)
-//                self.progressHUD.hide()
-                    loadingNotification.hide(animated: true)
-//                    MBProgressHUD.hideAllHUDs(for: self.view, animated: true)
-                } else if let token = token {
-                    self.user?.stripeCCToken = token.tokenId
-                    NBStripe.addCreditcard(self.user!) { error in
-                        if let error = error {
-                            let alert = Utils.createServerErrorAlert(error: error)
-                            self.present(alert, animated: true, completion: nil)
-                        }
-                        self.delegate?.refreshStripeInfo()
-                        UserManager.sharedInstance.fetchUser {user in
-                            print("updated user")
-                        }
-//                self.progressHUD.hide()
-                        MBProgressHUD.hideAllHUDs(for: self.view, animated: true)
-                    }
-                }
-            }
-
-        }
+    func canSave() -> Bool {
+        return name != "" && ccNumber != "" && ccExpDate != "" && cvc != ""
     }
     
-    func showAlertMsg(message: String) {
-        guard (self.alertController == nil) else {
-            print("Alert already displayed")
+    func saveCells() {
+        guard let user = user, canSave() else {
+            self.showAlertMessage(message: "All fields must be filled before you can add a bank account")
             return
         }
         
-        self.alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-        
-        let cancelAction = UIAlertAction(title: "close", style: .cancel) { (action) in
-            print("Alert was cancelled")
-            self.alertController=nil;
+        guard user.hasAllRequiredFields() else {
+            self.showAlertMessage(message: "You must finish filling out your profile before you can add a credit card")
+            return
         }
         
-        self.alertController!.addAction(cancelAction)
+        self.view.endEditing(true)
         
-        self.present(self.alertController!, animated: true, completion: nil)
+        let loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
+        loadingNotification.mode = MBProgressHUDMode.indeterminate
+        loadingNotification.label.text = "Saving"
+        
+        // generate creditcard token
+        // set that value to user object
+        let cardParams = STPCardParams()
+        cardParams.number = ccNumber
+        if let ccExpDate = ccExpDate, ccExpDate.characters.count == 5 {
+            let ccExpDateArray = ccExpDate.components(separatedBy: "/")
+            let month = UInt(ccExpDateArray[0]) ?? 0
+            let year = 2000 + (UInt(ccExpDateArray[1]) ?? 0)
+            cardParams.expMonth = month
+            cardParams.expYear = year
+        }
+        cardParams.cvc = cvc
+        
+        STPAPIClient.shared().createToken(withCard: cardParams) { (token, error) in
+            MBProgressHUD.hideAllHUDs(for: self.view, animated: true)
+            
+            if let error = error {
+                let alert = Utils.createErrorAlert(errorMessage: error.localizedDescription)
+                self.present(alert, animated: true, completion: nil)
+            }
+            
+            if let token = token {
+                user.stripeCCToken = token.tokenId
+                
+                NBStripe.addCreditcard(user) { error in
+                    
+                    if let error = error {
+                        let alert = Utils.createServerErrorAlert(error: error)
+                        self.present(alert, animated: true, completion: nil)
+                    }
+
+                    UserManager.sharedInstance.fetchUser {user in
+                        print("updated user")
+                        self.delegate?.refreshStripeInfo()
+                    }
+                }
+            }
+        }
     }
+    
+    func showAlertMessage(message: String) {
+        let alert = Utils.createErrorAlert(errorMessage: message)
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    ////////////////////////////////////
+    //START: THIS NEEDS TO BE CLEANED UP
+    ////////////////////////////////////
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if textField == ccExpDateTextField {
@@ -181,7 +203,8 @@ class PaymentTableViewController: UITableViewController, UITextFieldDelegate {
         return true
     }
 
-
-
+    ////////////////////////////////////
+    //FINISH: THIS NEEDS TO BE CLEANED UP
+    ////////////////////////////////////
     
 }

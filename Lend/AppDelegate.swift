@@ -312,8 +312,8 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         // Print full message.
         print(userInfo)
         
-        if let title = userInfo["title"] as? String,
-           let message = userInfo["message"] as? String {
+        let title = userInfo["title"] as? String
+        if let message = userInfo["message"] as? String {
             banner = Banner(title: title, subtitle: message, image: nil, backgroundColor:         UIColor.nbGreen)
             banner?.dismissesOnTap = true
             banner?.show(duration: 3.0)
@@ -328,8 +328,8 @@ extension AppDelegate : FIRMessagingDelegate {
     func applicationReceivedRemoteMessage(_ remoteMessage: FIRMessagingRemoteMessage) {
         print(remoteMessage.appData)
         
-        if let title = remoteMessage.appData["title"] as? String,
-           let message = remoteMessage.appData["message"] as? String {
+        let title = remoteMessage.appData["title"] as? String
+        if let message = remoteMessage.appData["message"] as? String {
             banner = Banner(title: title, subtitle: message, image: nil, backgroundColor:         UIColor.nbGreen)
             banner?.dismissesOnTap = true
             banner?.show(duration: 3.0)

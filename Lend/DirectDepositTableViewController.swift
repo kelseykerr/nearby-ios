@@ -75,7 +75,7 @@ class DirectDepositTableViewController: UITableViewController {
     }
     
     func canSave() -> Bool {
-        return nameTextField.text != "" && accountNumberTextField.text != "" && routingNumberTextField.text != ""
+        return name != "" && accountNumber != "" && routingNumber != ""
     }
     
     func saveCells() {
@@ -89,15 +89,15 @@ class DirectDepositTableViewController: UITableViewController {
             return
         }
 
-        user.bankAccountNumber = accountNumber
-        user.bankRoutingNumber = routingNumber
-        user.fundDestination = "bank"
-        
         self.view.endEditing(true)
         
         let loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
         loadingNotification.mode = MBProgressHUDMode.indeterminate
         loadingNotification.label.text = "Saving"
+        
+        user.bankAccountNumber = accountNumber
+        user.bankRoutingNumber = routingNumber
+        user.fundDestination = "bank"
         
         NBStripe.addBank(user) { error in
             MBProgressHUD.hideAllHUDs(for: self.view, animated: true)
@@ -105,6 +105,7 @@ class DirectDepositTableViewController: UITableViewController {
             if let error = error {
                 let alert = Utils.createServerErrorAlert(error: error)
                 self.present(alert, animated: true, completion: nil)
+                return
             }
             
             UserManager.sharedInstance.fetchUser { user in

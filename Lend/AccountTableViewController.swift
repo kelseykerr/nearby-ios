@@ -14,14 +14,50 @@ import MessageUI
 
 class AccountTableViewController: UITableViewController, LoginViewDelegate {
     
-    var user: NBUser?
-
     @IBOutlet var nameLabel: UILabel!
     @IBOutlet var infoLabel: UILabel!
     @IBOutlet var userImageView: UIImageView!
     @IBOutlet var versionLabel: UILabel!
     
+    var user: NBUser?
+    
     var cleared = true
+    
+    var name: String? {
+        get {
+            return nameLabel.text
+        }
+        set {
+            nameLabel.text = newValue
+        }
+    }
+    
+    var info: String? {
+        get {
+            return infoLabel.text
+        }
+        set {
+            infoLabel.text = newValue
+        }
+    }
+    
+    var userImage: UIImage? {
+        get {
+            return userImageView.image
+        }
+        set {
+            userImageView.image = newValue
+        }
+    }
+    
+    var versionBuild: String? {
+        get {
+            return versionLabel.text
+        }
+        set {
+            versionLabel.text = newValue
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,8 +67,7 @@ class AccountTableViewController: UITableViewController, LoginViewDelegate {
         
         let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
         let build = Bundle.main.infoDictionary?[kCFBundleVersionKey as String] as! String
-        
-        self.versionLabel.text = "©2016-17 Iuxta, Inc. v\(version) (\(build))"
+        versionBuild = "©2016-17 Iuxta, Inc. v\(version) (\(build))"
         
         if cleared {
             loadInitialData()
@@ -40,8 +75,9 @@ class AccountTableViewController: UITableViewController, LoginViewDelegate {
         }
         
         //likely not where this should be
-        let token = FIRInstanceID.instanceID().token()!
+        if let token = FIRInstanceID.instanceID().token() {
             NBUser.editFcmToken(token) { error in
+            }
         }
     }
     
@@ -57,7 +93,8 @@ class AccountTableViewController: UITableViewController, LoginViewDelegate {
     override func clear() {
         print("Account View Cleared")
         user = nil
-        self.nameLabel.text = "Full Name"
+        name = "Full Name"
+        info = "Location"
         cleared = true
     }
     
@@ -98,22 +135,24 @@ class AccountTableViewController: UITableViewController, LoginViewDelegate {
     
     // MARK - Table View
     func loadCells() {
-        self.nameLabel.text = user?.fullName ?? "<name>"
-        
-        let city = user?.city ?? "<city>"
-        let state = user?.state ?? "<state>"
-        let joinDate = (user?.joinDate) ?? "<join date>"
-//        self.infoLabel.text = "\(city), \(state) • Joined \(joinDate)"
-        self.infoLabel.text = "\(city), \(state)"
-        
-        if let pictureUrl = user?.imageUrl {
-            NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureUrl, completionHandler: { (image, error) in
-                guard error == nil else {
-                    print(error!)
-                    return
-                }
-                self.userImageView.image = image
-            })
+        if let user = user {
+            name = user.fullName ?? "<name>"
+            
+            let city = user.city ?? "<city>"
+            let state = user.state ?? "<state>"
+            info = "\(city), \(state)"
+            
+            if let pictureUrl = user.imageUrl {
+                NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureUrl, completionHandler: { (image, error) in
+                    
+                    if let error = error {
+                        print(error)
+                        return
+                    }
+                    
+                    self.userImage = image
+                })
+            }
         }
     }
 
@@ -143,7 +182,6 @@ class AccountTableViewController: UITableViewController, LoginViewDelegate {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        print(indexPath)
         if indexPath.section == 1 && indexPath.row == 0 {
             sendEmail()
         }

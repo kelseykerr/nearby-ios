@@ -24,6 +24,42 @@ class NotificationTableViewController: UITableViewController {
     
     let dropDown = DropDown()
     
+    var requestNotificationEnabled: Bool {
+        get {
+            return requestNotificationEnabledSwitch.isOn
+        }
+        set {
+            requestNotificationEnabledSwitch.isOn = newValue
+        }
+    }
+    
+    var currentLocation: Bool {
+        get {
+            return currentLocationSwitch.isOn
+        }
+        set {
+            currentLocationSwitch.isOn = newValue
+        }
+    }
+    
+    var homeLocation: Bool {
+        get {
+            return homeLocationSwitch.isOn
+        }
+        set {
+            homeLocationSwitch.isOn = newValue
+        }
+    }
+    
+    var radius: Float {
+        get {
+            return Float(self.radiusButton.title(for: UIControlState.normal) ?? "0.0") ?? 0.0
+        }
+        set {
+            self.radiusButton.setTitle(String(format: "%.1f", newValue), for: UIControlState.normal)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -41,10 +77,10 @@ class NotificationTableViewController: UITableViewController {
         UserManager.sharedInstance.getUser { fetchedUser in
             self.user = fetchedUser
             
-            self.requestNotificationEnabledSwitch.isOn = fetchedUser.newRequestNotificationsEnabled ?? false
-            self.currentLocationSwitch.isOn = fetchedUser.currentLocationNotifications ?? false
-            self.homeLocationSwitch.isOn = fetchedUser.homeLocationNotifications ?? false
-            self.radiusButton.setTitle(String(format: "%.1f", fetchedUser.notificationRadius ?? 0.0), for: UIControlState.normal)
+            self.requestNotificationEnabled = fetchedUser.newRequestNotificationsEnabled ?? false
+            self.currentLocation = fetchedUser.currentLocationNotifications ?? false
+            self.homeLocation = fetchedUser.homeLocationNotifications ?? false
+            self.radius = fetchedUser.notificationRadius ?? 0.0
         }
     }
     
@@ -56,7 +92,7 @@ class NotificationTableViewController: UITableViewController {
         self.radiusButton.setTitle("10.0", for: UIControlState.normal)
         
         dropDown.selectionAction = { [unowned self] (index: Int, item: String) in
-            print("Selected item: \(item) at index: \(index)")
+//            print("Selected item: \(item) at index: \(index)")
             self.dropDown.hide()
             self.radiusButton.setTitle(item, for: UIControlState.normal)
         }
@@ -71,37 +107,40 @@ class NotificationTableViewController: UITableViewController {
     }
     
     func saveCells() {
-        if user != nil {
-            user?.newRequestNotificationsEnabled = self.requestNotificationEnabledSwitch.isOn
-            user?.homeLocationNotifications = self.homeLocationSwitch.isOn
-            user?.currentLocationNotifications = self.currentLocationSwitch.isOn
-//            user?.notificationRadius = Float(self.radiusTextField.text!) ?? 0.0
-            user?.notificationRadius = Float(self.radiusButton.title(for: UIControlState.normal)!) ?? 0.0
-            
-            self.view.endEditing(true)
-            
-            let loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
-            loadingNotification.mode = MBProgressHUDMode.indeterminate
-            loadingNotification.label.text = "Saving"
-            
-            NBUser.editSelf(user!) { (result, error) in
-                loadingNotification.hide(animated: true)
-                
-                guard error == nil else {
-                    let alert = Utils.createServerErrorAlert(error: error! as NSError)
-                    self.present(alert, animated: true, completion: nil)
-                    return
-                }
-                
-                guard let editedUser = result.value else {
-                    print("no value was returned")
-                    return
-                }
-                UserManager.sharedInstance.user = editedUser
-                self.user = editedUser
-                
-            }
+        guard let user = user else {
+            print("not a valid user")
+            return
         }
+        
+        self.view.endEditing(true)
+        
+        let loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
+        loadingNotification.mode = MBProgressHUDMode.indeterminate
+        loadingNotification.label.text = "Saving"
+        
+        user.newRequestNotificationsEnabled = requestNotificationEnabled
+        user.homeLocationNotifications = homeLocation
+        user.currentLocationNotifications = currentLocation
+        user.notificationRadius = radius
+        
+        NBUser.editSelf(user) { (result, error) in
+            loadingNotification.hide(animated: true)
+            
+            if let error = error {
+                let alert = Utils.createServerErrorAlert(error: error)
+                self.present(alert, animated: true, completion: nil)
+                return
+            }
+            
+            guard let editedUser = result.value else {
+                print("no value was returned")
+                return
+            }
+            
+            UserManager.sharedInstance.user = editedUser
+            self.user = editedUser
+        }
+        
     }
     
 }

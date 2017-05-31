@@ -10,8 +10,6 @@ import UIKit
 import MBProgressHUD
 
 class BanksAndCardsTableViewController: UITableViewController {
-    var user: NBUser?
-    var paymentInfo: NBPayment?
     
     @IBOutlet weak var accountNumber: UILabel!
     @IBOutlet weak var routingNumber: UILabel!
@@ -19,10 +17,12 @@ class BanksAndCardsTableViewController: UITableViewController {
     @IBOutlet weak var creditCardNumber: UILabel!
     @IBOutlet weak var ccExp: UILabel!
     
-    var alertController: UIAlertController?
-
+    var user: NBUser?
+    var paymentInfo: NBPayment?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         loadPaymentInfo()
     }
 
@@ -31,7 +31,7 @@ class BanksAndCardsTableViewController: UITableViewController {
             let paymentTableViewController = segue.destination as! PaymentTableViewController
             paymentTableViewController.delegate = self
         }
-        if segue.identifier == "BanksAndCardsToBankSegue" {
+        else if segue.identifier == "BanksAndCardsToBankSegue" {
             let directDepositTableViewController = segue.destination as! DirectDepositTableViewController
             directDepositTableViewController.delegate = self
         }
@@ -45,7 +45,7 @@ class BanksAndCardsTableViewController: UITableViewController {
         NBPayment.fetchPaymentInfo { (result, error) in
             MBProgressHUD.hideAllHUDs(for: self.view, animated: true)
             
-            guard error == nil else {
+            if let error = error {
                 print(error)
                 return
             }

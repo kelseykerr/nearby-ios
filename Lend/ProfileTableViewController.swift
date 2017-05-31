@@ -28,8 +28,88 @@ class ProfileTableViewController: UITableViewController, UITextFieldDelegate {
     var user: NBUser?
     
     let birthdatePicker = UIDatePicker()
-    
     let dateFormatter = DateFormatter()
+    
+    var firstName: String? {
+        get {
+            return firstNameTextField.text
+        }
+        set {
+            firstNameTextField.text = newValue
+        }
+    }
+    
+    var lastName: String? {
+        get {
+            return lastNameTextField.text
+        }
+        set {
+            lastNameTextField.text = newValue
+        }
+    }
+    
+    var emailAddress: String? {
+        get {
+            return emailAddressTextField.text
+        }
+        set {
+            emailAddressTextField.text = newValue
+        }
+    }
+    
+    var phoneNumber: String? {
+        get {
+            return phoneNumberTextField.text
+        }
+        set {
+            phoneNumberTextField.text = newValue
+        }
+    }
+    
+    var dateOfBirth: String? {
+        get {
+            return dateOfBirthTextField.text
+        }
+        set {
+            dateOfBirthTextField.text = newValue
+        }
+    }
+    
+    var streetAddress: String? {
+        get {
+            return streetAddressTextField.text
+        }
+        set {
+            streetAddressTextField.text = newValue
+        }
+    }
+    
+    var city: String? {
+        get {
+            return cityTextField.text
+        }
+        set {
+            cityTextField.text = newValue
+        }
+    }
+    
+    var state: String? {
+        get {
+            return stateTextField.text
+        }
+        set {
+            stateTextField.text = newValue
+        }
+    }
+    
+    var zipCode: String? {
+        get {
+            return zipCodeTextField.text
+        }
+        set {
+            zipCodeTextField.text = newValue
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,16 +130,16 @@ class ProfileTableViewController: UITableViewController, UITextFieldDelegate {
         UserManager.sharedInstance.getUser { fetchedUser in
             self.user = fetchedUser
             
-            self.firstNameTextField.text = fetchedUser.firstName ?? ""
-            self.lastNameTextField.text = fetchedUser.lastName ?? ""
-            self.emailAddressTextField.text = fetchedUser.email ?? ""
-            self.phoneNumberTextField.text = fetchedUser.phone ?? ""
-            self.dateOfBirthTextField.text = fetchedUser.dateOfBirth ?? ""
+            self.firstName = fetchedUser.firstName ?? ""
+            self.lastName = fetchedUser.lastName ?? ""
+            self.emailAddress = fetchedUser.email ?? ""
+            self.phoneNumber = fetchedUser.phone ?? ""
+            self.dateOfBirth = fetchedUser.dateOfBirth ?? ""
             
-            self.streetAddressTextField.text = fetchedUser.address ?? ""
-            self.cityTextField.text = fetchedUser.city ?? ""
-            self.stateTextField.text = fetchedUser.state ?? ""
-            self.zipCodeTextField.text = fetchedUser.zip ?? ""
+            self.streetAddress = fetchedUser.address ?? ""
+            self.city = fetchedUser.city ?? ""
+            self.state = fetchedUser.state ?? ""
+            self.zipCode = fetchedUser.zip ?? ""
         }
     }
     
@@ -81,13 +161,17 @@ class ProfileTableViewController: UITableViewController, UITextFieldDelegate {
     }
     
     func birthdateDoneButtonPressed() {
-        dateOfBirthTextField.text = dateFormatter.string(from: birthdatePicker.date)
+        dateOfBirth = dateFormatter.string(from: birthdatePicker.date)
         self.view.endEditing(true)
     }
     
     @IBAction func saveButtonPressed(_ sender: UIButton) {
         saveCells()
     }
+    
+    ////////////////////////////////////
+    //START: THIS NEEDS TO BE CLEANED UP
+    ////////////////////////////////////
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if textField == phoneNumberTextField {
@@ -121,36 +205,40 @@ class ProfileTableViewController: UITableViewController, UITextFieldDelegate {
         return true
     }
     
+    ////////////////////////////////////
+    //FINISH: THIS NEEDS TO BE CLEANED UP
+    ////////////////////////////////////
+    
     func saveCells() {
-        if user != nil {
-            user?.firstName = self.firstNameTextField.text
-            user?.lastName = self.lastNameTextField.text
-            user?.email = self.emailAddressTextField.text
-            user?.phone = self.phoneNumberTextField.text
-            user?.dateOfBirth = self.dateOfBirthTextField.text
-            
-            user?.address = self.streetAddressTextField.text
-            user?.city = self.cityTextField.text
-            var state = self.stateTextField.text
-            state = state?.replacingOccurrences(of: "\\s+$", with: "", options: .regularExpression)
-            if (state == "D.C.") {
-                state = "DC"
-            }
-            
-            user?.state = state
-            user?.zip = self.zipCodeTextField.text
-            
+        if let user = user {
             self.view.endEditing(true)
             
             let loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
             loadingNotification.mode = MBProgressHUDMode.indeterminate
             loadingNotification.label.text = "Saving"
             
-            NBUser.editSelf(user!) { (result, error) in
+            user.firstName = self.firstName
+            user.lastName = self.lastName
+            user.email = self.emailAddress
+            user.phone = self.phoneNumber
+            user.dateOfBirth = self.dateOfBirth
+            
+            user.address = self.streetAddress
+            user.city = self.city
+            var state2 = self.state
+            state2 = state2?.replacingOccurrences(of: "\\s+$", with: "", options: .regularExpression)
+            if state2 == "D.C." {
+                state2 = "DC"
+            }
+            
+            user.state = state2
+            user.zip = self.zipCode
+            
+            NBUser.editSelf(user) { (result, error) in
                 loadingNotification.hide(animated: true)
 //                MBProgressHUD.hideAllHUDs(for: self.view, animated: true)
-                guard error == nil else {
-                    let alert = Utils.createServerErrorAlert(error: error! as NSError)
+                if let error = error {
+                    let alert = Utils.createServerErrorAlert(error: error)
                     self.present(alert, animated: true, completion: nil)
                     return
                 }
