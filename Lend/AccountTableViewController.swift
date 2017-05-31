@@ -136,11 +136,17 @@ class AccountTableViewController: UITableViewController, LoginViewDelegate {
     // MARK - Table View
     func loadCells() {
         if let user = user {
-            name = user.fullName ?? "<name>"
+            name = user.fullName ?? ""
             
-            let city = user.city ?? "<city>"
-            let state = user.state ?? "<state>"
-            info = "\(city), \(state)"
+            if !(user.city ?? "").isEmpty && !(user.state ?? "").isEmpty {
+                info = "\(user.city!), \(user.state!)"
+            } else if !(user.city ?? "").isEmpty {
+                info = user.city!
+            } else if !(user.state ?? "").isEmpty {
+                info = user.state!
+            } else {
+                info = ""
+            }
             
             if let pictureUrl = user.imageUrl {
                 NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureUrl, completionHandler: { (image, error) in
