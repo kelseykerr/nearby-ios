@@ -235,11 +235,6 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
     
     func didTapLoginButton() {
         self.dismiss(animated: false) {
-//            guard let authURL = GitHubAPIManager.sharedInstance.URLToStartOAuth2Login() else {
-//                return
-//            }
-// TODO: show web page
-            
             let currentLocation = LocationManager.sharedInstance.location
             let radius = self.getRadius()
             self.loadRequests((currentLocation?.coordinate.latitude)!, longitude: (currentLocation?.coordinate.longitude)!, radius: radius)
@@ -326,9 +321,21 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
             }
             
             //TODO: This doesn't work...we areen't ever getting server errors here, the method that uses the responseArray needs to be updated
+//            guard error == nil else {
+//                //TODO: if error == 403, display the not available message on the screen
+//                print(error)
+//                return
+//            }
             guard error == nil else {
-                //TODO: if error == 403, display the not available message on the screen
+                //if error == 403, display the not available message on the screen
                 print(error)
+                self.requests = []
+                self.tableView.reloadData()
+                if (error?.code == 403) {
+                    self.noResultsText.isHidden = true
+                    self.notAvailableText.isHidden = false
+                    self.notAvailableText.center = self.view.center
+                }
                 return
             }
             
@@ -569,13 +576,15 @@ extension HomeViewController: MKMapViewDelegate {
 
 extension HomeViewController: DZNEmptyDataSetSource, DZNEmptyDataSetDelegate {
     
-    /*func image(forEmptyDataSet scrollView: UIScrollView!) -> UIImage! {
+    /*
+    func image(forEmptyDataSet scrollView: UIScrollView!) -> UIImage! {
         return UIImage(named: "pin_grey_150")
     }
     
     func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
         return NSAttributedString(string: "no requests found")
-    }*/
+    }
+    */
     
 }
 
