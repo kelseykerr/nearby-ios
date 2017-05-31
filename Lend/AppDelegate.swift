@@ -309,8 +309,10 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         
         // Print full message.
         print(userInfo)
-        
-        let title = userInfo["title"] as? String
+        var title = "";
+        if userInfo["title"] != nil {
+            title = userInfo["title"] as! String
+        }
         if let message = userInfo["message"] as? String {
             banner = Banner(title: title, subtitle: message, image: nil, backgroundColor:         UIColor.nbGreen)
             banner?.dismissesOnTap = true
