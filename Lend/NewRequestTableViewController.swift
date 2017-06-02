@@ -253,7 +253,8 @@ class NewRequestTableViewController: UITableViewController {
             req.postDate = postDate64
             
             let oneWeek = 60 * 60 * 24 * 7.0
-            let expireDate64: Int64 = Int64(Date().addingTimeInterval(oneWeek).timeIntervalSince1970) * 1000
+            let tenYears = 60 * 60 * 24 * 7.0 * 52 * 10
+            let expireDate64: Int64 = Int64(Date().addingTimeInterval(tenYears).timeIntervalSince1970) * 1000
             req.expireDate = expireDate64
         }
         else {

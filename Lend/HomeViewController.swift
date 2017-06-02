@@ -243,7 +243,6 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
                 print("first login")
                 UserDefaults.standard.set(loginCount + 1, forKey: "loginCount")
                 self.showEditProfileView()
-                return
             }
         
             let currentLocation = LocationManager.sharedInstance.location
