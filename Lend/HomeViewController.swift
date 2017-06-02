@@ -262,6 +262,11 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(myLocation.coordinate, regionRadius * 2.0, regionRadius * 2.0)
         mapView.setRegion(coordinateRegion, animated: true)
         
+        //show progress spinner
+        let loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
+        loadingNotification.mode = MBProgressHUDMode.indeterminate
+        loadingNotification.label.text = "fetching"
+        
         let searchTerm = searchFilter.searchTerm
         let includeMine = searchFilter.includeMyRequest
         let expired = searchFilter.includeExpiredRequest
@@ -273,7 +278,7 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
             }
             
             print(result)
-            
+            MBProgressHUD.hideAllHUDs(for: self.view, animated: true)
             guard error == nil else {
                 //if error == 403, display the not available message on the screen
                 print(error)
@@ -314,6 +319,12 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
         mapView.removeAnnotations(mapView.annotations)
         noResultsText.isHidden = true;
         notAvailableText.isHidden = true;
+        
+        //show progress spinner
+        let loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
+        loadingNotification.mode = MBProgressHUDMode.indeterminate
+        loadingNotification.label.text = "fetching"
+
         let myLocation = CLLocation(latitude: latitude, longitude: longitude)
         let regionRadius: CLLocationDistance = radius
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(myLocation.coordinate, regionRadius * 2.0, regionRadius * 2.0)
@@ -329,7 +340,9 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
             if self.refreshControl != nil && self.refreshControl!.isRefreshing {
                 self.refreshControl?.endRefreshing()
             }
-            
+            //hide progress spinner
+            MBProgressHUD.hideAllHUDs(for: self.view, animated: true)
+
             //TODO: This doesn't work...we areen't ever getting server errors here, the method that uses the responseArray needs to be updated
 //            guard error == nil else {
 //                //TODO: if error == 403, display the not available message on the screen

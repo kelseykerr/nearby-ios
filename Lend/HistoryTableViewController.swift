@@ -10,6 +10,7 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 import DZNEmptyDataSet
+import MBProgressHUD
 
 // changed unwind? to use protocols (delegate) instead, for consistency
 class HistoryTableViewController: UITableViewController {
@@ -178,12 +179,17 @@ class HistoryTableViewController: UITableViewController {
     
     func loadHistories() {
         let filter = self.historyFilter
+        let loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
+        loadingNotification.mode = MBProgressHUDMode.indeterminate
+        loadingNotification.label.text = "fetching"
+        
         NBHistory.fetchHistories(includeTransaction: filter.includeTransaction, includeRequest: filter.includeRequest, includeOffer: filter.includeOffer, includeOpen: filter.includeOpen, includeClosed: filter.includeClosed) { (result, error) in
 
             if self.refreshControl != nil && self.refreshControl!.isRefreshing {
                 self.refreshControl?.endRefreshing()
             }
             
+            loadingNotification.hide(animated: true)
             guard error == nil else {
                 print(error)
                 return
