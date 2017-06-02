@@ -235,6 +235,17 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
     
     func didTapLoginButton() {
         self.dismiss(animated: false) {
+            
+            //make this a function in Utils?
+            let loginCount = UserDefaults.standard.integer(forKey: "loginCount")
+            let firstLogin = (loginCount == 0)
+            if firstLogin {
+                print("first login")
+                UserDefaults.standard.set(loginCount + 1, forKey: "loginCount")
+                self.showEditProfileView()
+                return
+            }
+        
             let currentLocation = LocationManager.sharedInstance.location
             let radius = self.getRadius()
             self.loadRequests((currentLocation?.coordinate.latitude)!, longitude: (currentLocation?.coordinate.longitude)!, radius: radius)
