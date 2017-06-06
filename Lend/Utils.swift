@@ -22,16 +22,16 @@ class Utils {
     
     static func secondsToEnglish(seconds: Int) -> String {
         if seconds < 60 { // less than a min
-            return "\(seconds) Secs Ago"
+            return "\(seconds)s"
         }
-        else if seconds < 60 * 60 { // less than an hour
-            return "\(seconds / 60) Mins Ago"
+        else if seconds < 3600 { // less than an hour
+            return "\(seconds / 60)m"
         }
         else if seconds < 60 * 60 * 24 { // less than a day
-            return "\(seconds / (60 * 60)) Hours Ago"
+            return "\(seconds / (60 * 60))h"
         }
         else {
-            return "\(seconds / (60 * 60 * 24)) Days Ago"
+            return "\(seconds / (60 * 60 * 24))d"
         }
     }
 

@@ -71,13 +71,6 @@ class NewResponseTableViewController: UITableViewController {
         }
     }
     
-    
-//    var pickupTime: String? {
-//        get {
-//            return pickupTimeDatePicker
-//        }
-//    }
-    
     var returnLocation: String? {
         get {
             return returnLocationTextField.text
@@ -86,12 +79,6 @@ class NewResponseTableViewController: UITableViewController {
             returnLocationTextField.text = newValue
         }
     }
-    
-//    var returnTime: String? {
-//        get {
-//            return returnTimeDatePicker
-//        }
-//    }
     
     var priceType: PriceType {
         get {
@@ -128,8 +115,8 @@ class NewResponseTableViewController: UITableViewController {
         dateFormatter.dateStyle = .medium
         dateFormatter.timeStyle = .short
         
-        if response != nil {
-            loadFields(response: response!)
+        if let response = response {
+            loadFields(response: response)
         }
     }
     
@@ -182,7 +169,7 @@ class NewResponseTableViewController: UITableViewController {
     //magic numbers are bad
     //really should be checking rental againt some enum? and maybe check if nil in the model itself
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if section == 3 && !(request?.rental)! {
+        if section == 3 && (request?.requestType == RequestType.buying || request?.requestType == RequestType.selling) {
             return nil
         }
         else {
@@ -191,7 +178,7 @@ class NewResponseTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if section == 3 && !(request?.rental)! {
+        if section == 3 && (request?.requestType == RequestType.buying || request?.requestType == RequestType.selling) {
             return 0.1
         }
         else {
@@ -200,7 +187,7 @@ class NewResponseTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        if section == 3 && !(request?.rental)! {
+        if section == 3 && (request?.requestType == RequestType.buying || request?.requestType == RequestType.selling) {
             return 0.1
         }
         else {
@@ -209,7 +196,7 @@ class NewResponseTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 3 && !(request?.rental)! {
+        if section == 3 && (request?.requestType == RequestType.buying || request?.requestType == RequestType.selling) {
             return 0
         }
         else {
@@ -236,7 +223,7 @@ class NewResponseTableViewController: UITableViewController {
         response?.offerPrice = price
         response?.description = responseDescription
         response?.requestId = request?.id
-        response?.sellerId = UserManager.sharedInstance.user?.userId
+        response?.responderId = UserManager.sharedInstance.user?.userId
         response?.exchangeLocation = pickupLocation
         //do not set a default pickup time - leave it empty if the user didn't enter anything
         if (!(pickupTimeDateTextField.text ?? "").isEmpty) {

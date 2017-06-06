@@ -17,10 +17,10 @@ class BuyerExchangeStrategy: HistoryStateStrategy {
         
         let action = (history.request?.rental)! ? "Borrowing" : "Buying";
         let response = history.getResponseById(id: (history.transaction?.responseId)!)
-        let sellerName = response?.seller?.firstName ?? "NAME"
+        let responderName = response?.responder?.firstName ?? "NAME"
         let item = history.request?.itemName ?? "ITEM"
         
-        cell.message = "\(action) a \(item) from \(sellerName)"
+        cell.message = "\(action) a \(item) from \(responderName)"
         
         if (history.status == .buyer_overrideExchange && !(history.transaction?.exchangeOverride?.declined)!) {
             cell.stateColor = UIColor.nbYellow
@@ -32,7 +32,7 @@ class BuyerExchangeStrategy: HistoryStateStrategy {
             dateFormatter.dateStyle = DateFormatter.Style.full
             dateFormatter.timeStyle = DateFormatter.Style.short
             let dateExchanged = dateFormatter.string(from: dateTimeStamp as Date)
-            let messageString = "Did you exchange the \(item) with \(sellerName) on \(dateExchanged)"
+            let messageString = "Did you exchange the \(item) with \(responderName) on \(dateExchanged)"
             let alert = UIAlertController(title: "Confirm Exchange", message: messageString, preferredStyle: UIAlertControllerStyle.alert)
             alert.addAction(UIAlertAction(title: "yes", style: UIAlertActionStyle.default, handler: { action in
                 switch action.style {
@@ -96,8 +96,8 @@ class BuyerExchangeStrategy: HistoryStateStrategy {
         
         cell.userImage = UIImage(named: "User-64")
         
-        let seller = history.getResponseById(id: (history.transaction?.responseId)!)?.seller
-        if let pictureURL = seller?.imageUrl {
+        let responder = history.getResponseById(id: (history.transaction?.responseId)!)?.responder
+        if let pictureURL = responder?.imageUrl {
             NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
                 guard error == nil else {
                     print(error!)

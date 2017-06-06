@@ -170,7 +170,7 @@ class TransactionDetailTableViewController: UITableViewController, MFMessageComp
     @IBAction func messageUserButtonPressed(_ sender: UIButton) {
         let isBuyer = UserManager.sharedInstance.user?.id == history?.request?.user?.id
         let response = history?.getResponseById(id: (history?.transaction?.responseId)!)
-        let phone = isBuyer ? response?.seller?.phone : history?.request?.user?.phone
+        let phone = isBuyer ? response?.responder?.phone : history?.request?.user?.phone
         if (MFMessageComposeViewController.canSendText()) {
             let controller = MFMessageComposeViewController()
             controller.recipients = [phone!]

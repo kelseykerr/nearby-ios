@@ -42,10 +42,10 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
         } else {
             let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "ResponseCell", for: indexPath) as! HistoryResponseTableViewCell
             
-            let sellerName = history.responses[indexPath.row - 1].seller?.firstName ?? "NAME"
+            let responderName = history.responses[indexPath.row - 1].responder?.firstName ?? "NAME"
             let response = history.responses[indexPath.row - 1]
             let price = response.priceInDollarFormat
-            cell.messageLabel.text = "\(sellerName) made an offer for \(price)"
+            cell.messageLabel.text = "\(responderName) made an offer for \(price)"
             if (response.responseStatus?.rawValue == "CLOSED") {
                 cell.responseStateLabel.backgroundColor = UIColor.nbRed
                 cell.responseStateLabel.text = " CLOSED "
@@ -67,7 +67,7 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
             cell.userImageView.image = UIImage(named: "User-64")
             cell.setNeedsLayout()
             
-            if let pictureURL = history.responses[indexPath.row - 1].seller?.imageUrl {
+            if let pictureURL = history.responses[indexPath.row - 1].responder?.imageUrl {
                 NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
                     guard error == nil else {
                         print(error!)

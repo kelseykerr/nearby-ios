@@ -42,9 +42,9 @@ class BuyerPriceConfirmStrategy: HistoryStateStrategy {
         
         cell.userImage = UIImage(named: "User-64")
         
-        let seller = history.getResponseById(id: (history.transaction?.responseId)!)?.seller
+        let responder = history.getResponseById(id: (history.transaction?.responseId)!)?.responder
         
-        if let pictureURL = seller?.imageUrl {
+        if let pictureURL = responder?.imageUrl {
             NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
                 guard error == nil else {
                     print(error!)

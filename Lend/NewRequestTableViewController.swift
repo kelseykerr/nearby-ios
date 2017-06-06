@@ -99,19 +99,27 @@ class NewRequestTableViewController: UITableViewController {
         rentalDropDown.bottomOffset = CGPoint(x: 0, y: rentalButton.bounds.height)
         rentalDropDown.dataSource = [
             "rent",
-            "buy"
+            "buy",
+            "sell",
+            "loan"
         ]
         
         self.rentalButton.setTitle("rent", for: .normal)
         // Action triggered on selection
         rentalDropDown.selectionAction = { [unowned self] (index, item) in
             self.rentalButton.setTitle(item, for: .normal)
-            if item == "rent" {
-                self.rental = true
-            } else if item == "buy" {
-                self.rental = false
+            switch item {
+            case "rent":
+                self.rental = RequestType.renting
+            case "buy":
+                self.rental = RequestType.buying
+            case "sell":
+                self.rental = RequestType.selling
+            case "loan":
+                self.rental = RequestType.loaning
+            default:
+                self.rental = RequestType.none
             }
-            
         }
     }
     
@@ -133,16 +141,7 @@ class NewRequestTableViewController: UITableViewController {
         }
     }
     
-    var rental = true
-//    var rental: Bool {
-//        get {
-//            return !self.rentImageView.isHidden
-//        }
-//        set {
-//            self.rentImageView.isHidden = !newValue
-//            self.buyImageView.isHidden = newValue
-//        }
-//    }
+    var rental: RequestType = RequestType.none
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -152,7 +151,6 @@ class NewRequestTableViewController: UITableViewController {
         saveButton.clipsToBounds = true
         
         self.hideKeyboardWhenTappedAround()
-//        rental = true
 
         if request != nil {
             loadFields(request: request!)
@@ -165,13 +163,13 @@ class NewRequestTableViewController: UITableViewController {
     func loadFields(request: NBRequest) {
         itemName = request.itemName
         desc = request.desc
-        rental = request.rental!
+        rental = request.requestType
     }
     
     func saveFields(request: NBRequest) {
         request.itemName = itemName
         request.desc = desc
-        request.rental = rental
+        request.requestType = rental
     }
     
     func setupMapCurrentLocation() {
@@ -263,7 +261,7 @@ class NewRequestTableViewController: UITableViewController {
         
         saveFields(request: req)
         
-        req.type = "item"
+//        req.type = "item"
        
         self.delegate?.saved(req)
         
@@ -276,11 +274,11 @@ class NewRequestTableViewController: UITableViewController {
     }
     
     @IBAction func rentButtonPressed(_ sender: UIButton) {
-        rental = true
+//        rental = true
     }
 
     @IBAction func buyButtonPressed(_ sender: UIButton) {
-        rental = false
+//        rental = false
     }
     
     @IBAction func handleTouchWithGestureRecognizer(gestureRecognizer:UIGestureRecognizer){

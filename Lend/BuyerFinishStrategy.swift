@@ -22,7 +22,7 @@ class BuyerFinishStrategy: HistoryStateStrategy {
         } else {
             text = "Bought a "
         }
-        text += "\(item) from " + (history.responses[0].seller?.firstName)!
+        text += "\(item) from " + (history.responses[0].responder?.firstName)!
         let price = history.transaction?.finalPriceInDollarFormat ?? "0.00"
         text += " for \(price)"
         cell.message = text;
@@ -34,9 +34,9 @@ class BuyerFinishStrategy: HistoryStateStrategy {
         
         cell.userImage = UIImage(named: "User-64")
         
-        let seller = history.getResponseById(id: (history.transaction?.responseId)!)?.seller
+        let responder = history.getResponseById(id: (history.transaction?.responseId)!)?.responder
         
-        if let pictureURL = seller?.imageUrl {
+        if let pictureURL = responder?.imageUrl {
             NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
                 guard error == nil else {
                     print(error!)

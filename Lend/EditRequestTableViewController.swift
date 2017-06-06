@@ -47,12 +47,27 @@ class EditRequestTableViewController: UITableViewController {
         }
     }
     
-    var rent: Bool {
+    var rent: RequestType {
         get {
-            return rentLabel.text == "rent"
+            //this can be better, simply make an initializer for enum to do this.... later
+            if let rental = rentLabel.text {
+                switch rental {
+                case "rent":
+                    return RequestType.renting
+                case "buy":
+                    return RequestType.buying
+                case "loan":
+                    return RequestType.loaning
+                case "sell":
+                    return RequestType.selling
+                default:
+                    return RequestType.none
+                }
+            }
+            return RequestType.none
         }
         set {
-            rentLabel.text = (newValue) ? "rent" : "buy"
+            rentLabel.text = newValue.rawValue.replacingOccurrences(of: "ing", with: "")
         }
     }
     
@@ -81,7 +96,7 @@ class EditRequestTableViewController: UITableViewController {
     func loadFields(request: NBRequest) {
         itemNameText = request.itemName ?? "<ITEM>"
         desc = request.desc ?? "<DESCRIPTION>"
-        rent = request.rental ?? false
+        rent = request.requestType
     }
 
     // should we create a new request? or at least make a copy?

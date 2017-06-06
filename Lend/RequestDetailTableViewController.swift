@@ -59,12 +59,27 @@ class RequestDetailTableViewController: UITableViewController {
         }
     }
     
-    var rent: Bool {
+    var rent: RequestType {
         get {
-            return rentLabel.text == "rent"
+            //this can be better, simply make an initializer for enum to do this.... later
+            if let rental = rentLabel.text {
+                switch rental {
+                case "rent":
+                    return RequestType.renting
+                case "buy":
+                    return RequestType.buying
+                case "loan":
+                    return RequestType.loaning
+                case "sell":
+                    return RequestType.selling
+                default:
+                    return RequestType.none
+                }
+            }
+            return RequestType.none
         }
         set {
-            rentLabel.text = (newValue) ? "rent" : "buy"
+            rentLabel.text = newValue.rawValue.replacingOccurrences(of: "ing", with: "")
         }
     }
     
@@ -110,7 +125,7 @@ class RequestDetailTableViewController: UITableViewController {
     func loadFields(request: NBRequest) {
         itemName = request.itemName ?? "<ITEM>"
         desc = request.desc ?? "<DESCRIPTION>"
-        rent = request.rental ?? false
+        rent = request.requestType
     }
     
     @IBAction func respondButtonPressed(_ sender: UIButton) {
@@ -152,7 +167,7 @@ class RequestDetailTableViewController: UITableViewController {
         }
         alertController.addAction(cancelAction)
         
-        let flagAction = UIAlertAction(title: "Flag Request", style: .destructive) { action in
+        let flagAction = UIAlertAction(title: "Flag Post", style: .destructive) { action in
             guard let navVC = UIStoryboard.getViewController(identifier: "FlagNavigationController") as? UINavigationController else {
                 assert(false, "Misnamed view controller")
                 return
@@ -164,17 +179,17 @@ class RequestDetailTableViewController: UITableViewController {
         }
         alertController.addAction(flagAction)
         
-//        let blockAction = UIAlertAction(title: "Block User", style: .destructive) { action in
-//            guard let navVC = UIStoryboard.getViewController(identifier: "FlagNavigationController") as? UINavigationController else {
-//                assert(false, "Misnamed view controller")
-//                return
-//            }
-//            let flagVC = navVC.childViewControllers[0] as! FlagTableViewController
-//            let userId = self.request?.user?.id ?? "-999"
-//            flagVC.mode = .user(userId)
-//            self.present(navVC, animated: true, completion: nil)
-//        }
-//        alertController.addAction(blockAction)
+        let blockAction = UIAlertAction(title: "Block User", style: .destructive) { action in
+            guard let navVC = UIStoryboard.getViewController(identifier: "FlagNavigationController") as? UINavigationController else {
+                assert(false, "Misnamed view controller")
+                return
+            }
+            let flagVC = navVC.childViewControllers[0] as! FlagTableViewController
+            let userId = self.request?.user?.id ?? "-999"
+            flagVC.mode = .user(userId)
+            self.present(navVC, animated: true, completion: nil)
+        }
+        alertController.addAction(blockAction)
         
         self.present(alertController, animated: true) {
         }

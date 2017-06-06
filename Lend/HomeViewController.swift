@@ -104,7 +104,7 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
         self.mapView.delegate = self
         self.view.bringSubview(toFront: mapView)
         self.view.bringSubview(toFront: requestButton)
-        self.view.bringSubview(toFront: noResultsText)
+//        self.view.bringSubview(toFront: noResultsText)
         self.view.bringSubview(toFront: notAvailableText)
         self.noResultsText.center = self.view.center
         self.notAvailableText.center = self.view.center
@@ -268,11 +268,11 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
         loadingNotification.label.text = "fetching"
         
         let searchTerm = searchFilter.searchTerm
-        let includeMine = searchFilter.includeMyRequest
-        let expired = searchFilter.includeExpiredRequest
+        let includeWanted = searchFilter.includeWanted
+        let includeOffered = searchFilter.includeOffered
         let sort = searchFilter.sortBy
         
-        NBRequest.fetchRequests(latitude, longitude: longitude, radius: Converter.metersToMiles(radius), expired: expired, includeMine: includeMine, searchTerm: searchTerm, sort: sort) { (result, error) in
+        NBRequest.fetchRequests(latitude, longitude: longitude, radius: Converter.metersToMiles(radius), includeWanted: includeWanted, includeOffered: includeOffered, searchTerm: searchTerm, sort: sort) { (result, error) in
             if self.refreshControl != nil && self.refreshControl!.isRefreshing {
                 self.refreshControl?.endRefreshing()
             }
@@ -331,12 +331,11 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
         mapView.setRegion(coordinateRegion, animated: true)
             
         let searchTerm = searchFilter.searchTerm
-        let includeMine = searchFilter.includeMyRequest
-        let expired = searchFilter.includeExpiredRequest
+        let includeWanted = searchFilter.includeWanted
+        let includeOffered = searchFilter.includeOffered
         let sort = searchFilter.sortBy;
-        //let sort = searchFilter.sortRequestByDate ? "distance": "newest"
         
-        NBRequest.fetchRequests(latitude, longitude: longitude, radius: Converter.metersToMiles(radius), expired: expired, includeMine: includeMine, searchTerm: searchTerm, sort: sort) { (result, error) in
+        NBRequest.fetchRequests(latitude, longitude: longitude, radius: Converter.metersToMiles(radius), includeWanted: includeWanted, includeOffered: includeOffered, searchTerm: searchTerm, sort: sort) { (result, error) in
             if self.refreshControl != nil && self.refreshControl!.isRefreshing {
                 self.refreshControl?.endRefreshing()
             }
@@ -522,8 +521,18 @@ extension HomeViewController: MKMapViewDelegate {
                 view.tintColor = UIColor.lightGray
             }
             
-            //view.pinTintColor = annotation.rental! ? UIColor.cinnabar : UIColor.pictonBlue
-            view.pinTintColor = UIColor.nbBlue
+            switch annotation.requestType {
+            case .buying:
+                view.pinTintColor = UIColor.nbBlue
+            case .selling:
+                view.pinTintColor = UIColor.purple
+            case .loaning:
+                view.pinTintColor = UIColor.purple
+            case .renting:
+                view.pinTintColor = UIColor.nbBlue
+            case .none:
+                view.pinTintColor = UIColor.nbBlue
+            }
             let image = UIImage(named: "User-64")
             let imageView = UIImageView(image: image)
             imageView.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
@@ -628,9 +637,8 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         let request = requests[(indexPath as NSIndexPath).section]
         let name = request.isMyRequest() ? "You" : (request.user?.shortName ?? "NAME")
         let want = request.isMyRequest() ? "want" : "wants"
-        let rent = (request.rental)! ? "borrow" : "buy"
+        let rent = request.requestType.rawValue.replacingOccurrences(of: "ing", with: "")
         let item = request.itemName ?? "ITEM"
-//        cell.messageLabel.text = "\(name) wants to \(rent) a \(item)"
         
         let attrText = NSMutableAttributedString(string: "")
         let boldFont = UIFont.boldSystemFont(ofSize: 16)

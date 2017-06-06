@@ -355,7 +355,7 @@ class ResponseDetailTableViewController: UITableViewController, MFMessageCompose
         if let messageEnabled = response?.messagesEnabled, messageEnabled {
             let messageAction = UIAlertAction(title: "Message User", style: .default) { action in
                 if MFMessageComposeViewController.canSendText() {
-                    guard let phone = self.response?.seller?.phone else {
+                    guard let phone = self.response?.responder?.phone else {
                         print("No phone number")
                         return
                     }

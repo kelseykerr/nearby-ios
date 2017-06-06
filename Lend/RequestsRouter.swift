@@ -12,7 +12,7 @@ import Alamofire
 enum RequestsRouter: URLRequestConvertible {
     static let baseURLString = NBConstants.baseURLString
 
-    case getRequests(Double, Double, Double, Bool, Bool, String, String) // latitude, longitude, radius, expired, includeMine, searchTerm, sort
+    case getRequests(Double, Double, Double, Bool, Bool, String, String) // latitude, longitude, radius, includeWanted, includeOffered, searchTerm, sort
     case getRequest(String)
     case createRequest([String: AnyObject])
     case deleteRequest(String)
@@ -48,8 +48,15 @@ enum RequestsRouter: URLRequestConvertible {
         let url: URL = {
             let relativePath: String?
             switch self {
-            case .getRequests(let latitude, let longitude, let radius, let expired, let includeMine, let searchTerm, let sort):
-                relativePath = "requests?longitude=\(longitude)&latitude=\(latitude)&radius=\(radius)&expired=\(expired)&includeMine=\(includeMine)&searchTerm=\(searchTerm)&sort=\(sort)"
+            case .getRequests(let latitude, let longitude, let radius, let includeWanted, let includeOffered, let searchTerm, let sort):
+                var additionalParams = ""
+                if includeWanted && !includeOffered {
+                    additionalParams.append("&type=requests")
+                }
+                else if !includeWanted && includeOffered {
+                    additionalParams.append("&type=offers")
+                }
+                relativePath = "requests?longitude=\(longitude)&latitude=\(latitude)&radius=\(radius)&searchTerm=\(searchTerm)&sort=\(sort)&includeMine=false\(additionalParams)"
             case .getRequest(let id):
                 relativePath = "requests/\(id)"
             case .getAtPath(let path):

@@ -22,8 +22,8 @@ class FilterTableViewController: UITableViewController {
     
     var filter: SearchFilter?
     
-    @IBOutlet var includeMyRequestSwitch: UISwitch!
-    //@IBOutlet var includeExpiredRequestSwitch: UISwitch!
+    @IBOutlet weak var wantedSwitch: UISwitch!
+    @IBOutlet weak var offeredSwitch: UISwitch!
     @IBOutlet weak var locationButton: UIButton!
     @IBOutlet weak var radiusButton: UIButton!
     @IBOutlet weak var sortButton: UIButton!
@@ -155,8 +155,8 @@ class FilterTableViewController: UITableViewController {
     
     func loadInitialData() {
         if let filter = filter {
-            includeMyRequestSwitch.setOn(filter.includeMyRequest, animated: false)
-            //includeExpiredRequestSwitch.setOn(filter.includeExpiredRequest, animated: false)
+            wantedSwitch.setOn(filter.includeWanted, animated: false)
+            offeredSwitch.setOn(filter.includeOffered, animated: false)
             sortButton.setTitle(filter.sortBy, for: .normal)
             locationButton.setTitle(filter.searchBy, for: .normal)
             let radiusString = switchRadiusDoubleToText(radius: filter.searchRadius)
@@ -202,21 +202,12 @@ class FilterTableViewController: UITableViewController {
         }
     }
 
-
-    @IBAction func includeMyRequestChanged(_ sender: UISwitch) {
-//        filter?.includeMyRequest = includeMyRequestSwitch.isOn
-    }
-    
-    @IBAction func sortRequestByDateChanged(_ sender: UISwitch) {
-//        filter?.sortRequestByDate = sortRequestByDateSwitch.isOn
-    }
-    
     @IBAction func searchButtonPressed(_ sender: UIButton) {
         print("FilterTableView::searchButtonPressed")
         
         if let filter = filter {
-            filter.includeMyRequest = includeMyRequestSwitch.isOn
-            //filter.includeExpiredRequest = includeExpiredRequestSwitch.isOn
+            filter.includeWanted = wantedSwitch.isOn
+            filter.includeOffered = offeredSwitch.isOn
             filter.searchBy = (locationButton.titleLabel?.text) ?? "current location"
             filter.sortBy = (sortButton.titleLabel?.text) ?? "newest"
             let radiusDouble = switchRadiusTextToDouble(radiusText: (radiusButton.titleLabel?.text) ?? "10 mile radius")

@@ -19,6 +19,14 @@ enum Status: String {
     case processingPayment = "PROCESSING_PAYMENT"
 }
 
+enum RequestType: String {
+    case buying = "buying"
+    case renting = "renting"
+    case selling = "selling"
+    case loaning = "loaning"
+    case none = "none"
+}
+
 class NBRequest: NSObject, NSCopying, ResponseJSONObjectSerializable {
     
     var user: NBUser?
@@ -110,9 +118,48 @@ class NBRequest: NSObject, NSCopying, ResponseJSONObjectSerializable {
 }
 
 extension NBRequest {
+    
+    //This actually may make more sense as part of the enum, yay for Swift
+    var requestType: RequestType {
+        get {
+            if let type = type {
+                switch type {
+                case RequestType.buying.rawValue:
+                    return .buying
+                case RequestType.renting.rawValue:
+                    return .renting
+                case RequestType.selling.rawValue:
+                    return .selling
+                case RequestType.loaning.rawValue:
+                    return .loaning
+                default:
+                    return .none
+                }
+            }
+            return .none
+        }
+        set {
+            switch newValue {
+            case RequestType.buying:
+                type = RequestType.buying.rawValue
+            case RequestType.renting:
+                type = RequestType.renting.rawValue
+            case RequestType.selling:
+                type = RequestType.selling.rawValue
+            case RequestType.loaning:
+                type = RequestType.loaning.rawValue
+            case RequestType.none:
+                type = nil
+            }
+        }
+    }
+
+}
+
+extension NBRequest {
         
-    static func fetchRequests(_ latitude: Double, longitude: Double, radius: Double, expired: Bool, includeMine: Bool, searchTerm: String, sort: String, completionHandler: @escaping (Result<[NBRequest]>, NSError?) -> Void) {
-        Alamofire.request(RequestsRouter.getRequests(latitude, longitude, radius, expired, includeMine, searchTerm, sort))
+    static func fetchRequests(_ latitude: Double, longitude: Double, radius: Double, includeWanted: Bool, includeOffered: Bool, searchTerm: String, sort: String, completionHandler: @escaping (Result<[NBRequest]>, NSError?) -> Void) {
+        Alamofire.request(RequestsRouter.getRequests(latitude, longitude, radius, includeWanted, includeOffered, searchTerm, sort))
             .validate(statusCode: 200..<300)
             .responseJSON { response in
                 var error: NSError? = nil

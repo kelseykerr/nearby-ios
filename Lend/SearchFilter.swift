@@ -12,9 +12,9 @@ class SearchFilter {
     
     var searchTerm: String
     
-    var includeMyRequest: Bool
+    var includeWanted: Bool
     
-    var includeExpiredRequest: Bool
+    var includeOffered: Bool
     
     var sortBy: String
     
@@ -23,9 +23,10 @@ class SearchFilter {
     var searchRadius: Double
     
     init() {
+        //init with default values
         self.searchTerm = ""
-        self.includeMyRequest = false
-        self.includeExpiredRequest = false
+        self.includeWanted = true
+        self.includeOffered = true
         self.sortBy = "newest"
         self.searchBy = "current location"
         self.searchRadius = 10.0
