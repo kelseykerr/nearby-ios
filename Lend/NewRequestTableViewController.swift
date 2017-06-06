@@ -141,7 +141,7 @@ class NewRequestTableViewController: UITableViewController {
         }
     }
     
-    var rental: RequestType = RequestType.none
+    var rental: RequestType = RequestType.renting
 
     override func viewDidLoad() {
         super.viewDidLoad()

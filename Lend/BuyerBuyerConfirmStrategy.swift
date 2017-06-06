@@ -17,7 +17,12 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
             
             let request = history.request
             let item = history.request?.itemName ?? "ITEM"
-            cell.message = "Requested a \(item)"
+            if request?.requestType == RequestType.renting || request?.requestType == RequestType.buying  {
+                cell.message = "Requested a \(item)"
+            }
+            else {
+                cell.message = "Offered a \(item)"
+            }
 
             cell.stateColor = UIColor.nbGreen
             cell.state = "OPEN"
