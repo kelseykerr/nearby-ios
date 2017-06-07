@@ -336,13 +336,21 @@ extension HistoryTableViewController: RequestDetailTableViewDelegate, ResponseDe
     
     func accepted(_ response: NBResponse?) {
         print("HistoryTableViewController->accepted")
-        response?.buyerStatus = .accepted
+        if response?.isOfferToBuyOrRent ?? false {
+            response?.sellerStatus = .accepted
+        } else {
+            response?.buyerStatus = .accepted
+        }
         responseEdited(response)
     }
     
     func declined(_ response: NBResponse?) {
         print("HistoryTableViewController->declined")
-        response?.buyerStatus = .declined
+        if response?.isOfferToBuyOrRent ?? false {
+            response?.sellerStatus = .withdrawn
+        } else {
+            response?.buyerStatus = .declined
+        }
         responseEdited(response)
     }
     

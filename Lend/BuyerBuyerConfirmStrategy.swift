@@ -81,8 +81,13 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
                             }
                         }
                         else {
-                            cell.stateColor = UIColor.nbGreen
-                            cell.state = "OPEN"
+                            if (history.request?.type == RequestType.selling.rawValue || history.request?.type == RequestType.loaning.rawValue) {
+                                cell.stateColor = UIColor.nbYellow
+                                cell.state = "AWAITING BUYER APPROVAL"
+                            } else {
+                                cell.stateColor = UIColor.nbGreen
+                                cell.state = "OPEN"
+                            }
                         }
                     }
                     else {

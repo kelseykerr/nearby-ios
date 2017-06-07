@@ -20,8 +20,14 @@ class BuyerFinishStrategy: HistoryStateStrategy {
             let responderName = history.responses[0].responder?.firstName ?? "NAME"
             let price = history.transaction?.finalPriceInDollarFormat ?? "0.00"
             let action = request.requestType.getAsPastTense()
-            
-            cell.message = "\(action) a \(item) from \(responderName) for \(price)"
+            let inventoryListing = history.request?.requestType == .loaning || history.request?.requestType == .selling
+            if inventoryListing {
+                let action = history.request?.requestType == .loaning ? "Loaned" : "Sold"
+                cell.message = "\(action) a \(item) to \(responderName) for \(price)"
+            } else {
+                cell.message = "\(action) a \(item) from \(responderName) for \(price)"
+ 
+            }
             
             cell.stateColor = UIColor.nbBlue
             cell.state = "FULFILLED"
