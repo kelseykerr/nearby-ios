@@ -20,6 +20,9 @@ target 'Nearby' do
     pod 'MBProgressHUD'
     pod 'BRYXBanner'
     pod 'DZNEmptyDataSet'
+    pod 'AWSCore'
+    pod 'AWSCognito'
+    pod 'AWSS3'
 
 end
 

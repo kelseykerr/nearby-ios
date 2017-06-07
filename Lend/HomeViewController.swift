@@ -636,7 +636,6 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 
         let request = requests[(indexPath as NSIndexPath).section]
         let name = request.isMyRequest() ? "You" : (request.user?.shortName ?? "NAME")
-        let want = request.isMyRequest() ? "want" : "wants"
         let rent = request.requestType.rawValue.replacingOccurrences(of: "ing", with: "")
         let item = request.itemName ?? "ITEM"
         
@@ -646,8 +645,17 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         let boldFullname = NSMutableAttributedString(string: name, attributes: [NSFontAttributeName: boldFont])
         attrText.append(boldFullname)
         
-        attrText.append(NSMutableAttributedString(string: " \(want) to \(rent) \(item)."))
-        
+        switch (request.requestType) {
+        case RequestType.loaning:
+            attrText.append(NSMutableAttributedString(string: " has a \(item) available to rent"))
+            break
+        case RequestType.selling:
+            attrText.append(NSMutableAttributedString(string: " is selling a \(item)"))
+            break
+        default:
+            attrText.append(NSMutableAttributedString(string: " wants to \(rent) a \(item)"))
+            break
+        }        
         cell.messageLabel.attributedText = attrText
         
         /*
