@@ -166,10 +166,6 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="59.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="User-64" translatesAutoresizingMaskIntoConstraints="NO" id="k0X-Q7-9JI">
-                                            <rect key="frame" x="24" y="9" width="42" height="42"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GOC-p3-ykc">
                                             <rect key="frame" x="328" y="37" width="36" height="16"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
@@ -199,6 +195,10 @@
                                             </attributedString>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="User-64" translatesAutoresizingMaskIntoConstraints="NO" id="k0X-Q7-9JI">
+                                            <rect key="frame" x="20" y="9" width="42" height="42"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        </imageView>
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
@@ -238,14 +238,14 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GaW-61-lWI">
-                                            <rect key="frame" x="78" y="32" width="286" height="20"/>
+                                            <rect key="frame" x="121" y="32" width="243" height="20"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <color key="textColor" red="0.2470588235" green="0.27450980390000002" blue="0.32549019610000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VtY-0B-NfC">
-                                            <rect key="frame" x="78" y="54" width="286" height="20"/>
+                                            <rect key="frame" x="146" y="54" width="218" height="20"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <color key="textColor" red="0.2470588235" green="0.27450980390000002" blue="0.32549019610000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -267,6 +267,20 @@
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <color key="backgroundColor" red="0.98535603279999995" green="0.79686385390000003" blue="0.28479599950000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </view>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Time:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E1P-bX-Jut">
+                                            <rect key="frame" x="78" y="32" width="41" height="20"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
+                                            <color key="textColor" red="0.24705882352941178" green="0.27450980392156865" blue="0.32549019607843138" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Location:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1lB-7P-kNt">
+                                            <rect key="frame" x="79" y="54" width="65" height="20"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
+                                            <color key="textColor" red="0.24705882352941178" green="0.27450980392156865" blue="0.32549019607843138" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
@@ -810,7 +824,7 @@
                                                     <color key="textColor" red="0.24705882352941178" green="0.27450980392156865" blue="0.32549019607843138" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="User" id="GzZ-TY-vF7">
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="User2" id="GzZ-TY-vF7">
                                                     <rect key="frame" x="15" y="7" width="29" height="29"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
@@ -834,7 +848,7 @@
                                                     <color key="textColor" red="0.24705882352941178" green="0.27450980392156865" blue="0.32549019607843138" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="Bank Card Back Side" id="sbP-UF-A95">
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="Card" id="sbP-UF-A95">
                                                     <rect key="frame" x="15" y="7" width="29" height="29"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
@@ -858,7 +872,7 @@
                                                     <color key="textColor" red="0.2470588235" green="0.27450980390000002" blue="0.32549019610000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="Notifications" id="Zym-Go-fbQ">
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="Notification" id="Zym-Go-fbQ">
                                                     <rect key="frame" x="15" y="7" width="29" height="29"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
@@ -886,7 +900,7 @@
                                                     <color key="textColor" red="0.24705882352941178" green="0.27450980392156865" blue="0.32549019607843138" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="Share" id="teO-oI-kvW">
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="Share2" id="teO-oI-kvW">
                                                     <rect key="frame" x="15" y="7" width="29" height="29"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
@@ -907,7 +921,7 @@
                                                     <color key="textColor" red="0.2470588235" green="0.27450980390000002" blue="0.32549019610000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="Star" id="4LA-Qx-f4G">
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="Star2" id="4LA-Qx-f4G">
                                                     <rect key="frame" x="15" y="7" width="29" height="29"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
@@ -3697,7 +3711,7 @@
                                                     <rect key="frame" x="15" y="0.0" width="68" height="44"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" red="0.24606668949999999" green="0.27366775269999999" blue="0.32354259489999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="textColor" red="0.24705882352941178" green="0.27450980392156865" blue="0.32549019607843138" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Label" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Bf5-wT-uNT">
@@ -4085,16 +4099,16 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Bank Card Back Side" width="29" height="29"/>
+        <image name="Card" width="29" height="29"/>
         <image name="Clock" width="32" height="32"/>
         <image name="Contacts" width="32" height="32"/>
         <image name="Home" width="32" height="32"/>
         <image name="More" width="25" height="25"/>
-        <image name="Notifications" width="29" height="29"/>
-        <image name="Share" width="29" height="29"/>
-        <image name="Star" width="29" height="29"/>
-        <image name="User" width="29" height="29"/>
+        <image name="Notification" width="29" height="29"/>
+        <image name="Share2" width="29" height="29"/>
+        <image name="Star2" width="29" height="29"/>
         <image name="User-64" width="64" height="64"/>
+        <image name="User2" width="29" height="29"/>
         <image name="nearby_splash_480x320" width="320" height="480"/>
     </resources>
 </document>

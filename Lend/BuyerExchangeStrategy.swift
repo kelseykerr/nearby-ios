@@ -15,100 +15,104 @@ class BuyerExchangeStrategy: HistoryStateStrategy {
 
         let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "TransactionCell", for: indexPath) as! HistoryTransactionTableViewCell
         
-//        let action = (history.request?.rental)! ? "Borrowing" : "Buying";
-        let action = history.request?.requestType.getAsInflected()
-        
-        let response = history.getResponseById(id: (history.transaction?.responseId)!)
-        let responderName = response?.responder?.firstName ?? "NAME"
-        let item = history.request?.itemName ?? "ITEM"
-        let direction = (history.request?.requestType == .loaning || history.request?.requestType == .selling) ? "to" : "from"
-        cell.message = "\(action!) \(item) \(direction) \(responderName)"
-        
-        if (history.status == .buyer_overrideExchange && !(history.transaction?.exchangeOverride?.declined)!) {
-            cell.stateColor = UIColor.nbYellow
-            cell.state = "Exchange Override Pending Your Approval"
-            let dateTimeStamp = NSDate(timeIntervalSince1970:Double((history.transaction?.exchangeOverride?.time)!)/1000)  //UTC time
-            let dateFormatter = DateFormatter()
-            dateFormatter.timeZone = NSTimeZone.local //Edit
-            dateFormatter.dateFormat = "yyyy-MM-dd"
-            dateFormatter.dateStyle = DateFormatter.Style.full
-            dateFormatter.timeStyle = DateFormatter.Style.short
-            let dateExchanged = dateFormatter.string(from: dateTimeStamp as Date)
-            let messageString = "Did you exchange the \(item) with \(responderName) on \(dateExchanged)"
-            let alert = UIAlertController(title: "Confirm Exchange", message: messageString, preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "yes", style: UIAlertActionStyle.default, handler: { action in
-                switch action.style {
-                case .default:
-                    print("default")
-                    history.transaction?.exchangeOverride?.buyerAccepted = true
-                    self.respondToOverride(t: history.transaction!, historyVC: historyVC)
-                case .cancel:
-                    print("cancel")
-                case .destructive:
-                    print("destructive")
-                }
-            }))
-            alert.addAction(UIAlertAction(title: "no", style: UIAlertActionStyle.default, handler: { action in
-                switch action.style {
-                case .default:
-                    print("default")
-                    history.transaction?.exchangeOverride?.buyerAccepted = false
-                    history.transaction?.exchangeOverride?.declined = true
-                    self.respondToOverride(t: history.transaction!, historyVC: historyVC)
-                case .cancel:
-                    print("cancel")
-                case .destructive:
-                    print("destructive")
-                }
-            }))
-            cell.exchangeTimeLabel.isHidden = true
-            cell.exchangeLocationLabel.isHidden = true
-            historyVC.present(alert, animated: true, completion: nil)
-        } else {
-            cell.stateColor = UIColor.nbGreen
-            cell.state = "AWAITING EXCHANGE"
-            if (response?.exchangeTime != nil && response?.exchangeTime != 0) {
-                cell.exchangeTimeLabel.isHidden = false
-                let attrText = NSMutableAttributedString(string: "")
-                let boldFont = UIFont.boldSystemFont(ofSize: 14)
-                let smallFont = UIFont.systemFont(ofSize: 14)
-                let boldLabel = NSMutableAttributedString(string: "exchange time: ", attributes: [NSFontAttributeName: boldFont])
-                attrText.append(boldLabel)
-                let dateString = Utils.dateIntToFormattedString(time: (response?.exchangeTime!)!)
-                attrText.append(NSMutableAttributedString(string: dateString, attributes: [NSFontAttributeName: smallFont]))
-                cell.exchangeTimeLabel.attributedText = attrText
-            } else {
+        if let request = history.request {
+            let action = request.requestType.getAsInflected()
+            let response = history.getResponseById(id: (history.transaction?.responseId)!)
+            let responderName = response?.responder?.firstName ?? "NAME"
+            let item = history.request?.itemName ?? "ITEM"
+            let direction = (history.request?.requestType == .loaning || history.request?.requestType == .selling) ? "to" : "from"
+            cell.message = "\(action) \(item) \(direction) \(responderName)"
+            
+            if (history.status == .buyer_overrideExchange && !(history.transaction?.exchangeOverride?.declined)!) {
+                cell.stateColor = UIColor.nbYellow
+                cell.state = "Exchange Override Pending Your Approval"
+                let dateTimeStamp = NSDate(timeIntervalSince1970:Double((history.transaction?.exchangeOverride?.time)!)/1000)  //UTC time
+                let dateFormatter = DateFormatter()
+                dateFormatter.timeZone = NSTimeZone.local //Edit
+                dateFormatter.dateFormat = "yyyy-MM-dd"
+                dateFormatter.dateStyle = DateFormatter.Style.full
+                dateFormatter.timeStyle = DateFormatter.Style.short
+                let dateExchanged = dateFormatter.string(from: dateTimeStamp as Date)
+                let messageString = "Did you exchange the \(item) with \(responderName) on \(dateExchanged)"
+                let alert = UIAlertController(title: "Confirm Exchange", message: messageString, preferredStyle: UIAlertControllerStyle.alert)
+                alert.addAction(UIAlertAction(title: "yes", style: UIAlertActionStyle.default, handler: { action in
+                    switch action.style {
+                    case .default:
+                        print("default")
+                        history.transaction?.exchangeOverride?.buyerAccepted = true
+                        self.respondToOverride(t: history.transaction!, historyVC: historyVC)
+                    case .cancel:
+                        print("cancel")
+                    case .destructive:
+                        print("destructive")
+                    }
+                }))
+                alert.addAction(UIAlertAction(title: "no", style: UIAlertActionStyle.default, handler: { action in
+                    switch action.style {
+                    case .default:
+                        print("default")
+                        history.transaction?.exchangeOverride?.buyerAccepted = false
+                        history.transaction?.exchangeOverride?.declined = true
+                        self.respondToOverride(t: history.transaction!, historyVC: historyVC)
+                    case .cancel:
+                        print("cancel")
+                    case .destructive:
+                        print("destructive")
+                    }
+                }))
                 cell.exchangeTimeLabel.isHidden = true
+                cell.exchangeLocationLabel.isHidden = true
+                historyVC.present(alert, animated: true, completion: nil)
+            } else {
+                cell.stateColor = UIColor.nbGreen
+                cell.state = "AWAITING EXCHANGE"
+                if (response?.exchangeTime != nil && response?.exchangeTime != 0) {
+                    cell.exchangeTimeLabel.isHidden = false
+                    let attrText = NSMutableAttributedString(string: "")
+                    let boldFont = UIFont.boldSystemFont(ofSize: 14)
+                    let smallFont = UIFont.systemFont(ofSize: 14)
+                    let boldLabel = NSMutableAttributedString(string: "", attributes: [NSFontAttributeName: boldFont])
+                    attrText.append(boldLabel)
+                    let dateString = Utils.dateIntToFormattedString(time: (response?.exchangeTime!)!)
+                    attrText.append(NSMutableAttributedString(string: dateString, attributes: [NSFontAttributeName: smallFont]))
+                    cell.exchangeTimeLabel.attributedText = attrText
+                } else {
+                    cell.exchangeTimeLabel.isHidden = true
+                }
+                
+                if (response?.exchangeLocation != nil && response?.exchangeLocation != "") {
+                    cell.exchangeLocationLabel.isHidden = false
+                    let attrText = NSMutableAttributedString(string: "")
+                    let boldFont = UIFont.boldSystemFont(ofSize: 14)
+                    let smallFont = UIFont.systemFont(ofSize: 14)
+                    let boldLabel = NSMutableAttributedString(string: "", attributes: [NSFontAttributeName: boldFont])
+                    attrText.append(boldLabel)
+                    attrText.append(NSMutableAttributedString(string: (response?.exchangeLocation!)!, attributes: [NSFontAttributeName: smallFont]))
+                    cell.exchangeLocationLabel.attributedText = attrText
+                } else {
+                    cell.exchangeLocationLabel.isHidden = true
+                }
             }
             
-            if (response?.exchangeLocation != nil && response?.exchangeLocation != "") {
-                cell.exchangeLocationLabel.isHidden = false
-                let attrText = NSMutableAttributedString(string: "")
-                let boldFont = UIFont.boldSystemFont(ofSize: 14)
-                let smallFont = UIFont.systemFont(ofSize: 14)
-                let boldLabel = NSMutableAttributedString(string: "exchange location: ", attributes: [NSFontAttributeName: boldFont])
-                attrText.append(boldLabel)
-                attrText.append(NSMutableAttributedString(string: (response?.exchangeLocation!)!, attributes: [NSFontAttributeName: smallFont]))
-                cell.exchangeLocationLabel.attributedText = attrText
-            } else {
-                cell.exchangeLocationLabel.isHidden = true
+            
+            
+            cell.time = history.request?.getElapsedTimeAsString()
+            
+            cell.userImage = UIImage(named: "User-64")
+            
+            let responder = history.getResponseById(id: (history.transaction?.responseId)!)?.responder
+            if let pictureURL = responder?.imageUrl {
+                NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
+                    guard error == nil else {
+                        print(error!)
+                        return
+                    }
+                    if let cellToUpdate = historyVC.tableView?.cellForRow(at: indexPath) as! HistoryTransactionTableViewCell? {
+                        cellToUpdate.userImage = image
+                    }
+                })
             }
-        }
-        cell.time = history.request?.getElapsedTimeAsString()
-        
-        cell.userImage = UIImage(named: "User-64")
-        
-        let responder = history.getResponseById(id: (history.transaction?.responseId)!)?.responder
-        if let pictureURL = responder?.imageUrl {
-            NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
-                guard error == nil else {
-                    print(error!)
-                    return
-                }
-                if let cellToUpdate = historyVC.tableView?.cellForRow(at: indexPath) as! HistoryTransactionTableViewCell? {
-                    cellToUpdate.userImage = image
-                }
-            })
+            
         }
         
         return cell

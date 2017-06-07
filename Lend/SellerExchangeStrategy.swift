@@ -32,7 +32,7 @@ class SellerExchangeStrategy: HistoryStateStrategy {
                 let attrText = NSMutableAttributedString(string: "")
                 let boldFont = UIFont.boldSystemFont(ofSize: 14)
                 let smallFont = UIFont.systemFont(ofSize: 14)
-                let boldLabel = NSMutableAttributedString(string: "exchange time: ", attributes: [NSFontAttributeName: boldFont])
+                let boldLabel = NSMutableAttributedString(string: "", attributes: [NSFontAttributeName: boldFont])
                 attrText.append(boldLabel)
                 let dateString = Utils.dateIntToFormattedString(time: response.exchangeTime!)
                 attrText.append(NSMutableAttributedString(string: dateString, attributes: [NSFontAttributeName: smallFont]))
@@ -46,7 +46,7 @@ class SellerExchangeStrategy: HistoryStateStrategy {
                 let attrText = NSMutableAttributedString(string: "")
                 let boldFont = UIFont.boldSystemFont(ofSize: 14)
                 let smallFont = UIFont.systemFont(ofSize: 14)
-                let boldLabel = NSMutableAttributedString(string: "exchange location: ", attributes: [NSFontAttributeName: boldFont])
+                let boldLabel = NSMutableAttributedString(string: "", attributes: [NSFontAttributeName: boldFont])
                 attrText.append(boldLabel)
                 attrText.append(NSMutableAttributedString(string: response.exchangeLocation!, attributes: [NSFontAttributeName: smallFont]))
                 cell.exchangeLocationLabel.attributedText = attrText
