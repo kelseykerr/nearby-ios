@@ -119,17 +119,33 @@ class BuyerReturnStrategy: HistoryStateStrategy {
     func rowAction(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> [UITableViewRowAction]? {
         let exchange = UITableViewRowAction(style: .normal, title: "Return") { action, index in
             let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-            guard let navVC = storyboard.instantiateViewController(
-                withIdentifier: "QRGeneratorNavigationController") as? UINavigationController else {
-                    assert(false, "Misnamed view controller")
-                    return
+            if (history.request?.type == RequestType.selling.rawValue || history.request?.type == RequestType.loaning.rawValue) {
+                guard let navVC = storyboard.instantiateViewController(
+                    withIdentifier: "QRScannerNavigationController") as? UINavigationController else {
+                        assert(false, "Misnamed view controller")
+                        return
+                }
+                let scannerVC = (navVC.childViewControllers[0] as! QRScannerViewController)
+                scannerVC.delegate = historyVC
+                scannerVC.transaction = history.transaction
+                historyVC.present(navVC, animated: true, completion: nil)
+                
+                historyVC.tableView.isEditing = false
+
+            } else {
+                guard let navVC = storyboard.instantiateViewController(
+                    withIdentifier: "QRGeneratorNavigationController") as? UINavigationController else {
+                        assert(false, "Misnamed view controller")
+                        return
+                }
+                let generatorVC = (navVC.childViewControllers[0] as! QRGeneratorViewController)
+                generatorVC.delegate = historyVC
+                generatorVC.transaction = history.transaction
+                historyVC.present(navVC, animated: true, completion: nil)
+                
+                historyVC.tableView.isEditing = false
+
             }
-            let generatorVC = (navVC.childViewControllers[0] as! QRGeneratorViewController)
-            generatorVC.delegate = historyVC
-            generatorVC.transaction = history.transaction
-            historyVC.present(navVC, animated: true, completion: nil)
-            
-            historyVC.tableView.isEditing = false
         }
         exchange.backgroundColor = UIColor.nbBlue
         

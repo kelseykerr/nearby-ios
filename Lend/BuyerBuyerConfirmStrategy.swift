@@ -74,7 +74,11 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
                     if let sellerStatus = response.sellerStatus {
                         if sellerStatus != .accepted {
                             cell.stateColor = UIColor.nbYellow
-                            cell.state = "SELLER CONFIRM"
+                            if (history.request?.type == RequestType.selling.rawValue || history.request?.type == RequestType.loaning.rawValue) {
+                                cell.state = "AWAITING YOUR APPROVAL"
+                            } else {
+                                cell.state = "AWAITING SELLER APPROVAL"
+                            }
                         }
                         else {
                             cell.stateColor = UIColor.nbGreen

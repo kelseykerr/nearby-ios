@@ -147,7 +147,8 @@ extension NBHistory {
             }
             else if self.transaction?.getStatus() == .exchange {
                 let exchangeOverride = self.transaction?.exchangeOverride
-                if self.isMyRequest() {
+                let sellerRequest = self.request?.type == RequestType.selling.rawValue || self.request?.type == RequestType.loaning.rawValue
+                if (self.isMyRequest() && !sellerRequest) || (!self.isMyRequest() && sellerRequest) {
                     //if there is an exchange override, and I haven't accepted or declined it, show the override for my approval
                     if exchangeOverride != nil && !(exchangeOverride?.buyerAccepted)! && !(exchangeOverride?.declined)! {
                         return HistoryStatus.buyer_overrideExchange
