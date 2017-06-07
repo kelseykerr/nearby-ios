@@ -56,7 +56,6 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
             if let responseStatus = response.responseStatus {
                 switch responseStatus {
                 case .closed:
-                    //does it ever get here?
                     cell.stateColor = UIColor.nbRed
                     cell.state = "CLOSED"
                 case .accepted:

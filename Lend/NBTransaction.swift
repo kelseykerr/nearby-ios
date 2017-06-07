@@ -200,6 +200,11 @@ extension NBTransaction {
     
     static func editTransactionCode(id: String, code: String, completionHandler: @escaping (NSError?)-> Void) {
         Alamofire.request(TransactionsRouter.editTransactionCode(id, code)).response { response in
+            
+            print("request:")
+            print(response.request)
+            print("response:")
+            print(response.response)
             completionHandler(response.error as NSError?)
         }
     }

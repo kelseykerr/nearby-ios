@@ -19,7 +19,7 @@ class SellerReturnStrategy: HistoryStateStrategy {
         let response = history.responses[0]
         let action = history.request?.requestType.getAsInflected()
         
-        cell.message = "\(action) a \(item) to \(name)"
+        cell.message = "\(action!) a \(item) to \(name)"
         
         if (history.status == .seller_overrideReturn) {
             cell.stateColor = UIColor.nbYellow

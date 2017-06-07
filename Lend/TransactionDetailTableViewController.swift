@@ -164,7 +164,7 @@ class TransactionDetailTableViewController: UITableViewController, MFMessageComp
     
     @IBAction func closeButtonPressed(_ sender: UIButton) {
         // should I send transaction or request
-//        delegate.closed()
+//        delegate?.closed()
     }
     
     @IBAction func messageUserButtonPressed(_ sender: UIButton) {

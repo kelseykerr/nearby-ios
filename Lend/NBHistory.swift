@@ -157,7 +157,8 @@ extension NBHistory {
                     }
                 }
             }
-            else if self.transaction?.getStatus() == .returns && (self.request?.rental)! == false {
+//            else if self.transaction?.getStatus() == .returns && (self.request?.rental)! == false {
+            else if self.transaction?.getStatus() == .returns && (self.request?.requestType == RequestType.buying || self.request?.requestType == RequestType.selling) {
                 if self.isMyRequest() {
                     if self.transaction?.finalPrice == nil {
                         return HistoryStatus.buyer_priceConfirm
