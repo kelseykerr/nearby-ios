@@ -15,12 +15,14 @@ class BuyerExchangeStrategy: HistoryStateStrategy {
 
         let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "TransactionCell", for: indexPath) as! HistoryTransactionTableViewCell
         
-        let action = (history.request?.rental)! ? "Borrowing" : "Buying";
+//        let action = (history.request?.rental)! ? "Borrowing" : "Buying";
+        let action = history.request?.requestType.getAsInflected()
+        
         let response = history.getResponseById(id: (history.transaction?.responseId)!)
         let responderName = response?.responder?.firstName ?? "NAME"
         let item = history.request?.itemName ?? "ITEM"
-        
-        cell.message = "\(action) a \(item) from \(responderName)"
+        let direction = (history.request?.requestType == .loaning || history.request?.requestType == .selling) ? "to" : "from"
+        cell.message = "\(action!) \(item) \(direction) \(responderName)"
         
         if (history.status == .buyer_overrideExchange && !(history.transaction?.exchangeOverride?.declined)!) {
             cell.stateColor = UIColor.nbYellow

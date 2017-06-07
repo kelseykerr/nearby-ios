@@ -14,13 +14,16 @@ class BuyerSellerConfirmStrategy: HistoryStateStrategy {
     func cell(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UITableViewCell {
         let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath) as! HistoryRequestTableViewCell
         
-        let item = history.request?.itemName ?? "ITEM"
-        cell.message = "Awaiting seller to confirm your offer for \(item)."
-        
-        cell.stateColor = UIColor.nbYellow
-        cell.state = "SELLER CONFIRM"
-        
-        cell.time = history.request?.getElapsedTimeAsString()
+        if let request = history.request {
+            let item = request.itemName ?? "ITEM"
+            
+            cell.message = "Awaiting responder to confirm your offer for \(item)."
+            
+            cell.stateColor = UIColor.nbYellow
+            cell.state = "RESPONDER CONFIRM"
+            
+            cell.time = history.request?.getElapsedTimeAsString()
+        }
         
         return cell
     }

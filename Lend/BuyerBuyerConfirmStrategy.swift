@@ -15,76 +15,89 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
         if (indexPath as NSIndexPath).row == 0 {
             let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath) as! HistoryRequestTableViewCell
             
-            let request = history.request
-            let item = history.request?.itemName ?? "ITEM"
-            if request?.requestType == RequestType.renting || request?.requestType == RequestType.buying  {
-                cell.message = "Requested a \(item)"
-            }
-            else {
-                cell.message = "Offered a \(item)"
-            }
-
-            cell.stateColor = UIColor.nbGreen
-            cell.state = "OPEN"
-            
-            cell.time = history.request?.getElapsedTimeAsString()
-            
-            cell.userImage = UIImage(named: "User-64")
-            
-            if let pictureURL = history.request?.user?.imageUrl {
-                NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
-                    guard error == nil else {
-                        print(error!)
-                        return
-                    }
-                    if let cellToUpdate = historyVC.tableView?.cellForRow(at: indexPath) as! HistoryRequestTableViewCell? {
-                        cellToUpdate.userImage = image
-                    }
-                })
+            if let request = history.request {
+                let item = request.itemName ?? "ITEM"
+                let action = request.requestType.getAsVerb()
+                
+                cell.message = "Posted to \(action) \(item)"
+                
+                cell.stateColor = UIColor.nbGreen
+                cell.state = "OPEN"
+                
+                cell.time = request.getElapsedTimeAsString()
+                
+                cell.userImage = UIImage(named: "User-64")
+                if let pictureURL = request.user?.imageUrl {
+                    NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
+                        guard error == nil else {
+                            print(error!)
+                            return
+                        }
+                        if let cellToUpdate = historyVC.tableView?.cellForRow(at: indexPath) as! HistoryRequestTableViewCell? {
+                            cellToUpdate.userImage = image
+                        }
+                    })
+                }
             }
             
             return cell
+            
         } else {
             let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "ResponseCell", for: indexPath) as! HistoryResponseTableViewCell
             
-            let responderName = history.responses[indexPath.row - 1].responder?.firstName ?? "NAME"
             let response = history.responses[indexPath.row - 1]
+                //move bunch of view stuff to the view controller
+                
+            let responderName = response.responder?.firstName ?? "NAME"
             let price = response.priceInDollarFormat
+            
             cell.messageLabel.text = "\(responderName) made an offer for \(price)"
-            if (response.responseStatus?.rawValue == "CLOSED") {
-                cell.responseStateLabel.backgroundColor = UIColor.nbRed
-                cell.responseStateLabel.text = " CLOSED "
-            } else if (response.responseStatus?.rawValue == "ACCEPTED") { //shouldn't happen...if it's accepted a transaction should be open
-                cell.responseStateLabel.backgroundColor = UIColor.nbGreen
-                cell.responseStateLabel.text = " ACCEPTED "
-            } else {
-                if (response.sellerStatus?.rawValue != "ACCEPTED") {
-                    cell.responseStateLabel.backgroundColor = UIColor.nbYellow
-                    cell.responseStateLabel.text = " SELLER CONFIRM "
-                } else {
-                    cell.responseStateLabel.backgroundColor = UIColor.nbGreen
-                    cell.responseStateLabel.text = " OPEN "
+            
+            if let responseStatus = response.responseStatus {
+                switch responseStatus {
+                case .closed:
+                    cell.stateColor = UIColor.nbRed
+                    cell.state = "CLOSED"
+                case .accepted:
+                    cell.stateColor = UIColor.nbGreen
+                    cell.state = "ACCEPTED"
+                case .pending:
+                    if let sellerStatus = response.sellerStatus {
+                        if sellerStatus != .accepted {
+                            cell.stateColor = UIColor.nbYellow
+                            cell.state = "SELLER CONFIRM"
+                        }
+                        else {
+                            cell.stateColor = UIColor.nbGreen
+                            cell.state = "OPEN"
+                        }
+                    }
+                    else {
+                        cell.stateColor = UIColor.gray
+                        cell.state = "UNKNOWN"
+                    }
                 }
             }
-            cell.responseStateLabel.sizeToFit()
-            cell.timeLabel.text = response.getElapsedTimeAsString()
+            else {
+                cell.stateColor = UIColor.gray
+                cell.state = "UNKNOWN"
+            }
+
+            cell.time = response.getElapsedTimeAsString()
             
-            cell.userImageView.image = UIImage(named: "User-64")
-            cell.setNeedsLayout()
-            
-            if let pictureURL = history.responses[indexPath.row - 1].responder?.imageUrl {
+            cell.userImage = UIImage(named: "User-64")
+            if let pictureURL = response.responder?.imageUrl {
                 NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
                     guard error == nil else {
                         print(error!)
                         return
                     }
                     if let cellToUpdate = historyVC.tableView?.cellForRow(at: indexPath) as! HistoryResponseTableViewCell? {
-                        cellToUpdate.userImageView?.image = image
-                        cellToUpdate.setNeedsLayout()
+                        cellToUpdate.userImage = image
                     }
                 })
             }
-
+            
             return cell
         }
     }

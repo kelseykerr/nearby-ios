@@ -14,12 +14,14 @@ class SellerBuyerConfirmStrategy: HistoryStateStrategy {
     func cell(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UITableViewCell {
         if (indexPath as NSIndexPath).row == 0 {
             let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath) as! HistoryRequestTableViewCell
-            let name = history.request?.user?.firstName ?? "NAME"
+            let name = history.request?.user?.shortName ?? "NAME"
             let item = history.request?.itemName ?? "ITEM"
-            let rent = (history.request?.rental)! ? "lend" : "sell"
+//            let rent = (history.request?.rental)! ? "lend" : "sell"
             let price = history.responses[0].priceInDollarFormat
+            let action = history.request?.requestType.getAsVerb()
+            let direction = (history.request?.requestType == .loaning || history.request?.requestType == .selling) ? "to" : "from"
             
-            cell.message = "Offered a \(item) to \(name) for \(price)"
+            cell.message = "Offered to \(action) \(item) \(direction) \(name) for \(price)"
 
             cell.stateColor = UIColor.nbYellow
             cell.state = "PENDING"

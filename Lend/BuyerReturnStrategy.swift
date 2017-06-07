@@ -18,7 +18,9 @@ class BuyerReturnStrategy: HistoryStateStrategy {
         let responderName = response?.responder?.firstName ?? "NAME"
         let item = history.request?.itemName ?? "ITEM"
         
-        cell.message = "Borrowing a \(item) from \(responderName)"
+        let action = history.request?.requestType.getAsInflected()
+        let direction = (history.request?.requestType == .loaning || history.request?.requestType == .selling) ? "to" : "from"
+        cell.message = "\(action!) \(item) \(direction) \(responderName)"
         
         if (history.status == .buyer_overrideReturn) {
             cell.stateColor = UIColor.nbYellow

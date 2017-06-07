@@ -15,25 +15,29 @@ class BuyerClosedStrategy: HistoryStateStrategy {
     func cell(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UITableViewCell {
         let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath) as! HistoryRequestTableViewCell
         
-        let item = history.request?.itemName ?? "ITEM"
-        cell.message = "Requested a \(item)"
-        
-        cell.stateColor = UIColor.nbRed
-        cell.state = "CLOSED"
-
-        cell.timeLabel.text = history.request?.getElapsedTimeAsString()
-        
-        cell.userImage = UIImage(named: "User-64")
-        if let pictureURL = history.request?.user?.imageUrl {
-            NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
-                guard error == nil else {
-                    print(error!)
-                    return
-                }
-                if let cellToUpdate = historyVC.tableView?.cellForRow(at: indexPath) as! HistoryRequestTableViewCell? {
-                    cellToUpdate.userImage = image
-                }
-            })
+        if let request = history.request {
+            let item = request.itemName ?? "ITEM"
+            let action = request.requestType.getAsVerb()
+            
+            cell.message = "Posted to \(action) \(item)"
+            
+            cell.stateColor = UIColor.nbRed
+            cell.state = "CLOSED"
+            
+            cell.timeLabel.text = request.getElapsedTimeAsString()
+            
+            cell.userImage = UIImage(named: "User-64")
+            if let pictureURL = request.user?.imageUrl {
+                NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
+                    guard error == nil else {
+                        print(error!)
+                        return
+                    }
+                    if let cellToUpdate = historyVC.tableView?.cellForRow(at: indexPath) as! HistoryRequestTableViewCell? {
+                        cellToUpdate.userImage = image
+                    }
+                })
+            }
         }
         
         return cell

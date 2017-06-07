@@ -15,37 +15,34 @@ class BuyerFinishStrategy: HistoryStateStrategy {
     func cell(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UITableViewCell {
         let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath) as! HistoryRequestTableViewCell
 
-        let item = history.request?.itemName ?? "ITEM"
-        var text = ""
-        if (history.request?.rental)! {
-            text = "Borrowed a "
-        } else {
-            text = "Bought a "
-        }
-        text += "\(item) from " + (history.responses[0].responder?.firstName)!
-        let price = history.transaction?.finalPriceInDollarFormat ?? "0.00"
-        text += " for \(price)"
-        cell.message = text;
-        
-        cell.stateColor = UIColor.nbBlue
-        cell.state = "FULFILLED"
-
-        cell.time = history.request?.getElapsedTimeAsString()
-        
-        cell.userImage = UIImage(named: "User-64")
-        
-        let responder = history.getResponseById(id: (history.transaction?.responseId)!)?.responder
-        
-        if let pictureURL = responder?.imageUrl {
-            NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
-                guard error == nil else {
-                    print(error!)
-                    return
-                }
-                if let cellToUpdate = historyVC.tableView?.cellForRow(at: indexPath) as! HistoryRequestTableViewCell? {
-                    cellToUpdate.userImage = image
-                }
-            })
+        if let request = history.request {
+            let item = request.itemName ?? "ITEM"
+            let responderName = history.responses[0].responder?.firstName ?? "NAME"
+            let price = history.transaction?.finalPriceInDollarFormat ?? "0.00"
+            let action = request.requestType.getAsPastTense()
+            
+            cell.message = "\(action) \(item) from \(responderName) for \(price)"
+            
+            cell.stateColor = UIColor.nbBlue
+            cell.state = "FULFILLED"
+            
+            cell.time = request.getElapsedTimeAsString()
+            
+            cell.userImage = UIImage(named: "User-64")
+            
+            let responder = history.getResponseById(id: (history.transaction?.responseId)!)?.responder
+            
+            if let pictureURL = responder?.imageUrl {
+                NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
+                    guard error == nil else {
+                        print(error!)
+                        return
+                    }
+                    if let cellToUpdate = historyVC.tableView?.cellForRow(at: indexPath) as! HistoryRequestTableViewCell? {
+                        cellToUpdate.userImage = image
+                    }
+                })
+            }
         }
         
         return cell

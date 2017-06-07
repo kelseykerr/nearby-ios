@@ -25,6 +25,30 @@ enum RequestType: String {
     case selling = "selling"
     case loaning = "loaning"
     case none = "none"
+   
+    func getAsVerb() -> String {
+        return self.rawValue.replacingOccurrences(of: "ing", with: "")
+    }
+    
+    func getAsInflected() -> String {
+        return self.rawValue
+    }
+    
+    func getAsPastTense() -> String {
+        switch self {
+        case .buying:
+            return "bought"
+        case .renting:
+            return "rented"
+        case .selling:
+            return "sold"
+        case .loaning:
+            return "loaned"
+        case .none:
+            return "none"
+        }
+    }
+    
 }
 
 class NBRequest: NSObject, NSCopying, ResponseJSONObjectSerializable {

@@ -17,8 +17,9 @@ class SellerReturnStrategy: HistoryStateStrategy {
         let name = history.request?.user?.firstName ?? "NAME"
         let item = history.request?.itemName ?? "ITEM"
         let response = history.responses[0]
+        let action = history.request?.requestType.getAsInflected()
         
-        cell.message = "Loaning a \(item) to \(name)"
+        cell.message = "\(action) a \(item) to \(name)"
         
         if (history.status == .seller_overrideReturn) {
             cell.stateColor = UIColor.nbYellow

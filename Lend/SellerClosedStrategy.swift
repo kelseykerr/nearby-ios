@@ -16,8 +16,10 @@ class SellerClosedStrategy: HistoryStateStrategy {
         let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath) as! HistoryRequestTableViewCell
         let name = history.request?.user?.firstName ?? "NAME"
         let item = history.request?.itemName ?? "ITEM"
+        let action = history.request?.requestType.getAsVerb()
+        let direction = (history.request?.requestType == .loaning || history.request?.requestType == .selling) ? "to" : "from"
         
-        cell.message = "Offered a \(item) to \(name)"
+        cell.message = "Offered to \(action) \(item) \(direction) \(name)"
         
         cell.stateColor = UIColor.nbRed
         cell.state = "CLOSED"

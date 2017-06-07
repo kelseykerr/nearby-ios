@@ -17,11 +17,7 @@ class SellerFinishStrategy: HistoryStateStrategy {
 
         let item = history.request?.itemName ?? "ITEM"
         var text = ""
-        if (history.request?.rental)! {
-            text = "Loaned a "
-        } else {
-            text = "Sold a "
-        }
+        text = (history.request?.requestType.getAsPastTense())!
         text += "\(item) to " + (history.request?.user?.firstName)!
         let price = history.transaction?.finalPriceInDollarFormat ?? "0.00"
         text += " for \(price)"

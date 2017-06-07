@@ -15,7 +15,7 @@ class SellerExchangeStrategy: HistoryStateStrategy {
         
         let name = history.request?.user?.firstName ?? "NAME"
         let item = history.request?.itemName ?? "ITEM"
-        let action = (history.request?.rental)! ? "Loaning" : "Selling";
+        let action = history.request?.requestType.getAsInflected()
         
         cell.message = "\(action) a \(item) to \(name)"
         
