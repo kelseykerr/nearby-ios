@@ -35,11 +35,14 @@ class ConfirmPriceTableViewController:  UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        let type = (history?.request?.rental)! ? "loaning" : "selling"
-        let item = history?.request?.itemName! ?? "item"
-        let buyer = history?.request?.user?.firstName! ?? "the buyer"
-        let message = "Confirm the price for \(type) your \(item) to \(buyer)"
-        return message
+        if let request = history?.request {
+            let action = request.requestType.getAsInflected()
+            let item = request.itemName ?? "item"
+            let buyer = request.user?.firstName ?? "the buyer"
+            let message = "Confirm the price for \(action) your \(item) to \(buyer)"
+            return message
+        }
+        return "Something went wrong"
     }
 
     
