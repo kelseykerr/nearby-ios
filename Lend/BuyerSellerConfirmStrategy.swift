@@ -16,11 +16,13 @@ class BuyerSellerConfirmStrategy: HistoryStateStrategy {
         
         if let request = history.request {
             let item = request.itemName ?? "ITEM"
-            
-            cell.message = "Awaiting responder to confirm your offer for \(item)."
+            let action = request.requestType == RequestType.loaning ? "borrow" : "buy"
+            let name = history.request?.user?.shortName ?? "NAME"
+
+            cell.message = "Requested to \(action) a \(item) from \(name)"
             
             cell.stateColor = UIColor.nbYellow
-            cell.state = "RESPONDER CONFIRM"
+            cell.state = "SELLER CONFIRM"
             
             cell.time = history.request?.getElapsedTimeAsString()
         }

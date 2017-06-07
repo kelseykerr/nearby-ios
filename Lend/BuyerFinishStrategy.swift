@@ -21,7 +21,7 @@ class BuyerFinishStrategy: HistoryStateStrategy {
             let price = history.transaction?.finalPriceInDollarFormat ?? "0.00"
             let action = request.requestType.getAsPastTense()
             
-            cell.message = "\(action) \(item) from \(responderName) for \(price)"
+            cell.message = "\(action) a \(item) from \(responderName) for \(price)"
             
             cell.stateColor = UIColor.nbBlue
             cell.state = "FULFILLED"

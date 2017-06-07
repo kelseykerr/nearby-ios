@@ -19,7 +19,7 @@ class SellerClosedStrategy: HistoryStateStrategy {
         let action = history.request?.requestType.getAsVerb()
         let direction = (history.request?.requestType == .loaning || history.request?.requestType == .selling) ? "to" : "from"
         
-        cell.message = "Offered to \(action) \(item) \(direction) \(name)"
+        cell.message = "Offered to \(action ?? "loan") a \(item) \(direction) \(name)"
         
         cell.stateColor = UIColor.nbRed
         cell.state = "CLOSED"

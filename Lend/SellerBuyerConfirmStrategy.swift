@@ -13,15 +13,20 @@ class SellerBuyerConfirmStrategy: HistoryStateStrategy {
     
     func cell(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UITableViewCell {
         if (indexPath as NSIndexPath).row == 0 {
+            let request = history.request
             let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath) as! HistoryRequestTableViewCell
-            let name = history.request?.user?.shortName ?? "NAME"
-            let item = history.request?.itemName ?? "ITEM"
-//            let rent = (history.request?.rental)! ? "lend" : "sell"
+            let name = request?.user?.shortName ?? "NAME"
+            let item = request?.itemName ?? "ITEM"
             let price = history.responses[0].priceInDollarFormat
-            let action = history.request?.requestType.getAsVerb()
-            let direction = (history.request?.requestType == .loaning || history.request?.requestType == .selling) ? "to" : "from"
-            
-            cell.message = "Offered to \(action) \(item) \(direction) \(name) for \(price)"
+            let action = request?.requestType.getAsVerb()
+            let direction = (request?.requestType == .loaning || request?.requestType == .selling) ? "to" : "from"
+    
+            if (request?.type == RequestType.loaning.rawValue || request?.type == RequestType.selling.rawValue) {
+                var action = (request?.type == RequestType.loaning.rawValue) ? "borrow" : "buy"
+                cell.message = "Requested to \(action) a \(item) from \(name) for \(price)"
+            } else {
+                cell.message = "Offered to \(action ?? "loan") a \(item) \(direction) \(name) for \(price)"
+            }
 
             cell.stateColor = UIColor.nbYellow
             cell.state = "PENDING"
@@ -45,10 +50,10 @@ class SellerBuyerConfirmStrategy: HistoryStateStrategy {
             return cell
         } else {
             let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "ResponseCell", for: indexPath) as! HistoryResponseTableViewCell
-            
+                let item = history.request?.itemName ?? "ITEM"
                 let name: String = history.request?.user?.firstName ?? "NAME"
                 let price = history.responses[indexPath.row - 1].offerPrice ?? -9.99
-                cell.messageLabel?.text = "You are offering to sell it to \(name) for $\(price)."
+                cell.messageLabel?.text = "Offered a \(item) to \(name) for $\(price)"
             
             return cell
         }

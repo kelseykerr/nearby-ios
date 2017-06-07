@@ -19,7 +19,7 @@ class BuyerClosedStrategy: HistoryStateStrategy {
             let item = request.itemName ?? "ITEM"
             let action = request.requestType.getAsVerb()
             
-            cell.message = "Posted to \(action) \(item)"
+            cell.message = "Requested to \(action) \(item)"
             
             cell.stateColor = UIColor.nbRed
             cell.state = "CLOSED"

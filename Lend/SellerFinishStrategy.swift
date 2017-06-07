@@ -18,7 +18,7 @@ class SellerFinishStrategy: HistoryStateStrategy {
         let item = history.request?.itemName ?? "ITEM"
         var text = ""
         text = (history.request?.requestType.getAsPastTense())!
-        text += "\(item) to " + (history.request?.user?.firstName)!
+        text += " a \(item) to " + (history.request?.user?.firstName)!
         let price = history.transaction?.finalPriceInDollarFormat ?? "0.00"
         text += " for \(price)"
 

@@ -19,7 +19,15 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
                 let item = request.itemName ?? "ITEM"
                 let action = request.requestType.getAsVerb()
                 
-                cell.message = "Posted to \(action) \(item)"
+                if (request.type == RequestType.buying.rawValue || request.type == RequestType.renting.rawValue) {
+                    cell.message = "Requested to \(action) a \(item)"
+                } else {
+                    if (request.type == RequestType.loaning.rawValue) {
+                        cell.message = "Offering to \(action) out a \(item)"
+                    } else if (request.type == RequestType.selling.rawValue) {
+                        cell.message = "Selling a \(item)"
+                    }
+                }
                 
                 cell.stateColor = UIColor.nbGreen
                 cell.state = "OPEN"

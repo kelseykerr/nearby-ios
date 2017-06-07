@@ -51,8 +51,8 @@ class HistoryStateManager {
         switch history.status {
         case .buyer_buyerConfirm:
             return buyerBuyerConfirmStrategy.cell(historyVC: historyVC, indexPath: indexPath, history: history)
-        /*case .buyer_sellerConfirm:
-            return buyerSellerConfirmStrategy.cell(historyVC: historyVC, indexPath: indexPath, history: history)*/
+        case .buyer_sellerConfirm:
+            return buyerSellerConfirmStrategy.cell(historyVC: historyVC, indexPath: indexPath, history: history)
         case .buyer_exchange, .buyer_overrideExchange:
             return buyerExchangeStrategy.cell(historyVC: historyVC, indexPath: indexPath, history: history)
         case .buyer_returns, .buyer_overrideReturn:
@@ -84,8 +84,8 @@ class HistoryStateManager {
         switch history.status {
         case .buyer_buyerConfirm:
             return buyerBuyerConfirmStrategy.alertController(historyVC: historyVC, indexPath: indexPath, history: history)
-        /*case .buyer_sellerConfirm:
-            return buyerSellerConfirmStrategy.alertController(historyVC: historyVC, indexPath: indexPath, history: history)*/
+        case .buyer_sellerConfirm:
+            return buyerSellerConfirmStrategy.alertController(historyVC: historyVC, indexPath: indexPath, history: history)
         case .buyer_exchange, .buyer_overrideExchange:
             return buyerExchangeStrategy.alertController(historyVC: historyVC, indexPath: indexPath, history: history)
         case .buyer_returns, .buyer_overrideReturn:
@@ -117,8 +117,8 @@ class HistoryStateManager {
         switch history.status {
         case .buyer_buyerConfirm:
             return buyerBuyerConfirmStrategy.detailViewController(historyVC: historyVC, indexPath: indexPath, history: history)
-        /*case .buyer_sellerConfirm:
-            return buyerSellerConfirmStrategy.detailViewController(historyVC: historyVC, indexPath: indexPath, history: history)*/
+        case .buyer_sellerConfirm:
+            return buyerSellerConfirmStrategy.detailViewController(historyVC: historyVC, indexPath: indexPath, history: history)
         case .buyer_exchange, .buyer_overrideExchange:
             return buyerExchangeStrategy.detailViewController(historyVC: historyVC, indexPath: indexPath, history: history)
         case .buyer_returns, .buyer_overrideReturn:
@@ -150,8 +150,8 @@ class HistoryStateManager {
         switch history.status {
         case .buyer_buyerConfirm:
             return buyerBuyerConfirmStrategy.rowAction(historyVC: historyVC, indexPath: indexPath, history: history)
-        /*case .buyer_sellerConfirm:
-            return buyerSellerConfirmStrategy.rowAction(historyVC: historyVC, indexPath: indexPath, history: history)*/
+        case .buyer_sellerConfirm:
+            return buyerSellerConfirmStrategy.rowAction(historyVC: historyVC, indexPath: indexPath, history: history)
         case .buyer_exchange, .buyer_overrideExchange:
             return buyerExchangeStrategy.rowAction(historyVC: historyVC, indexPath: indexPath, history: history)
         case .buyer_returns, .buyer_overrideReturn:
@@ -183,8 +183,8 @@ class HistoryStateManager {
         switch history.status {
         case .buyer_buyerConfirm:
             return buyerBuyerConfirmStrategy.canEditRowAt(historyVC: historyVC, indexPath: indexPath, history: history)
-        /*case .buyer_sellerConfirm:
-            return buyerSellerConfirmStrategy.canEditRowAt(historyVC: historyVC, indexPath: indexPath, history: history)*/
+        case .buyer_sellerConfirm:
+            return buyerSellerConfirmStrategy.canEditRowAt(historyVC: historyVC, indexPath: indexPath, history: history)
         case .buyer_exchange, .buyer_overrideExchange:
             return buyerExchangeStrategy.canEditRowAt(historyVC: historyVC, indexPath: indexPath, history: history)
         case .buyer_returns, .buyer_overrideReturn:
