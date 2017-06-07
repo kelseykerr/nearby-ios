@@ -9,6 +9,8 @@
 import UIKit
 import MapKit
 import DropDown
+import AWSCore
+import AWSCognito
 
 protocol NewRequestTableViewDelegate: class {
     

@@ -1,5 +1,10 @@
 PODS:
   - Alamofire (4.0.1)
+  - AWSCognito (2.5.5):
+    - AWSCore (= 2.5.5)
+  - AWSCore (2.5.5)
+  - AWSS3 (2.5.5):
+    - AWSCore (= 2.5.5)
   - BRYXBanner (0.7.2)
   - DropDown (2)
   - DZNEmptyDataSet (1.8.1)
@@ -70,6 +75,9 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire (~> 4.0)
+  - AWSCognito
+  - AWSCore
+  - AWSS3
   - BRYXBanner
   - DropDown
   - DZNEmptyDataSet
@@ -85,6 +93,9 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   Alamofire: 7682d43245de14874acd142ec137b144aa1dd335
+  AWSCognito: 5f1dddb8669682b1224c19c214270a942e438b06
+  AWSCore: 665371d51ccdfe62430c586e3cb8e57eff8ce09d
+  AWSS3: 7a910824991e5dc13971f7ae73230d354666880e
   BRYXBanner: ed407a56c53f2add0aaa16f810062eac48d802cf
   DropDown: 744784d9c9aa505100e942c16acd05430cbb2f0a
   DZNEmptyDataSet: 9525833b9e68ac21c30253e1d3d7076cc828eaa7
@@ -106,6 +117,6 @@ SPEC CHECKSUMS:
   Stripe: abf87fc01f74a2143bba1b1798dd2e4d71fd2cb3
   SwiftyJSON: 29b9f2a64f118c07e691667c2ba1efe536acfe0b
 
-PODFILE CHECKSUM: 9fb82f84629b9bd57e9d5dc78e567dc16357f16e
+PODFILE CHECKSUM: 9671a3cb93a397c0ebc5dd505880b75bb668be9d
 
 COCOAPODS: 1.2.1
