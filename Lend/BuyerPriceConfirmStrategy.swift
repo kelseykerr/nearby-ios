@@ -15,7 +15,7 @@ class BuyerPriceConfirmStrategy: HistoryStateStrategy {
         let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath) as! HistoryRequestTableViewCell
         let item = history.request?.itemName ?? "ITEM"
         
-        cell.message = "Awaiting responder to confirm price for \(item)."
+        cell.message = "Waiting for seller to confirm price for \(item)."
         
         /*
          let attrText = NSMutableAttributedString(string: "")

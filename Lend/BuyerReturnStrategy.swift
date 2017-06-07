@@ -19,7 +19,8 @@ class BuyerReturnStrategy: HistoryStateStrategy {
         let item = history.request?.itemName ?? "ITEM"
         
         let action = history.request?.requestType.getAsInflected()
-        let direction = (history.request?.requestType == .loaning || history.request?.requestType == .selling) ? "to" : "from"
+        let inventoryRequest = history.request?.requestType == .loaning || history.request?.requestType == .selling
+        let direction = inventoryRequest ? "to" : "from"
         cell.message = "\(action!) \(item) \(direction) \(responderName)"
         
         if (history.status == .buyer_overrideReturn) {
@@ -64,18 +65,34 @@ class BuyerReturnStrategy: HistoryStateStrategy {
         
         let responder = history.getResponseById(id: (history.transaction?.responseId)!)?.responder
         
-        if let pictureURL = responder?.imageUrl {
-            NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
-                guard error == nil else {
-                    print(error!)
-                    return
-                }
-                if let cellToUpdate = historyVC.tableView?.cellForRow(at: indexPath) as! HistoryTransactionTableViewCell? {
-                    cellToUpdate.userImage = image
-                }
-            })
-        }
+        if inventoryRequest {
+            if let pictureURL = history.request?.user?.imageUrl {
+                NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
+                    guard error == nil else {
+                        print(error!)
+                        return
+                    }
+                    if let cellToUpdate = historyVC.tableView?.cellForRow(at: indexPath) as! HistoryTransactionTableViewCell? {
+                        cellToUpdate.userImage = image
+                    }
+                })
+            }
 
+        } else {
+            if let pictureURL = responder?.imageUrl {
+                NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
+                    guard error == nil else {
+                        print(error!)
+                        return
+                    }
+                    if let cellToUpdate = historyVC.tableView?.cellForRow(at: indexPath) as! HistoryTransactionTableViewCell? {
+                        cellToUpdate.userImage = image
+                    }
+                })
+            }
+
+        }
+    
         return cell
     }
     

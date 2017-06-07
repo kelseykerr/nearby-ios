@@ -19,7 +19,12 @@ class BuyerClosedStrategy: HistoryStateStrategy {
             let item = request.itemName ?? "ITEM"
             let action = request.requestType.getAsVerb()
             
-            cell.message = "Requested to \(action) \(item)"
+            if request.type == RequestType.loaning.rawValue || request.type == RequestType.selling.rawValue {
+                let action = request.type == RequestType.loaning.rawValue ? "Offering to loan out" : "Selling"
+                cell.message = "\(action) a \(item)"
+            } else {
+                cell.message = "Requested to \(action) \(item)"
+            }
             
             cell.stateColor = UIColor.nbRed
             cell.state = "CLOSED"

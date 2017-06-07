@@ -17,8 +17,11 @@ class SellerFinishStrategy: HistoryStateStrategy {
 
         let item = history.request?.itemName ?? "ITEM"
         var text = ""
+        let inventoryListing = history.request?.requestType == .loaning || history.request?.requestType == .selling
+        let responder = history.getResponseById(id: (history.transaction?.responseId)!)?.responder
+        let name = (inventoryListing ? responder?.firstName : history.request?.user?.firstName) ?? "NAME"
         text = (history.request?.requestType.getAsPastTense())!
-        text += " a \(item) to " + (history.request?.user?.firstName)!
+        text += " a \(item) to \(name)"
         let price = history.transaction?.finalPriceInDollarFormat ?? "0.00"
         text += " for \(price)"
 
@@ -32,16 +35,32 @@ class SellerFinishStrategy: HistoryStateStrategy {
         
         cell.userImage = UIImage(named: "User-64")
         
-        if let pictureURL = history.request?.user?.imageUrl {
-            NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
-                guard error == nil else {
-                    print(error!)
-                    return
-                }
-                if let cellToUpdate = historyVC.tableView?.cellForRow(at: indexPath) as! HistoryRequestTableViewCell? {
-                    cellToUpdate.userImage = image
-                }
-            })
+        if inventoryListing {
+            if let pictureURL = responder?.imageUrl {
+                NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
+                    guard error == nil else {
+                        print(error!)
+                        return
+                    }
+                    if let cellToUpdate = historyVC.tableView?.cellForRow(at: indexPath) as! HistoryRequestTableViewCell? {
+                        cellToUpdate.userImage = image
+                    }
+                })
+            }
+            
+        } else {
+            if let pictureURL = history.request?.user?.imageUrl {
+                NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
+                    guard error == nil else {
+                        print(error!)
+                        return
+                    }
+                    if let cellToUpdate = historyVC.tableView?.cellForRow(at: indexPath) as! HistoryRequestTableViewCell? {
+                        cellToUpdate.userImage = image
+                    }
+                })
+            }
+            
         }
         
         return cell

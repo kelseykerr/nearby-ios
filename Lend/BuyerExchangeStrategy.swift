@@ -18,10 +18,15 @@ class BuyerExchangeStrategy: HistoryStateStrategy {
         if let request = history.request {
             let action = request.requestType.getAsInflected()
             let response = history.getResponseById(id: (history.transaction?.responseId)!)
-            let responderName = response?.responder?.firstName ?? "NAME"
+            var buyerName = ""
+            if (request.type == RequestType.selling.rawValue || request.type == RequestType.loaning.rawValue) {
+                buyerName = request.user?.firstName ?? "NAME"
+            } else {
+                buyerName = response?.responder?.firstName ?? "NAME"
+            }
             let item = history.request?.itemName ?? "ITEM"
             let direction = (history.request?.requestType == .loaning || history.request?.requestType == .selling) ? "to" : "from"
-            cell.message = "\(action) \(item) \(direction) \(responderName)"
+            cell.message = "\(action) \(item) \(direction) \(buyerName)"
             
             if (history.status == .buyer_overrideExchange && !(history.transaction?.exchangeOverride?.declined)!) {
                 cell.stateColor = UIColor.nbYellow
@@ -33,7 +38,7 @@ class BuyerExchangeStrategy: HistoryStateStrategy {
                 dateFormatter.dateStyle = DateFormatter.Style.full
                 dateFormatter.timeStyle = DateFormatter.Style.short
                 let dateExchanged = dateFormatter.string(from: dateTimeStamp as Date)
-                let messageString = "Did you exchange the \(item) with \(responderName) on \(dateExchanged)"
+                let messageString = "Did you exchange the \(item) with \(buyerName) on \(dateExchanged)"
                 let alert = UIAlertController(title: "Confirm Exchange", message: messageString, preferredStyle: UIAlertControllerStyle.alert)
                 alert.addAction(UIAlertAction(title: "yes", style: UIAlertActionStyle.default, handler: { action in
                     switch action.style {

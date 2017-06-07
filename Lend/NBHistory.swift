@@ -167,7 +167,8 @@ extension NBHistory {
             }
 //            else if self.transaction?.getStatus() == .returns && (self.request?.rental)! == false {
             else if self.transaction?.getStatus() == .returns && (self.request?.requestType == RequestType.buying || self.request?.requestType == RequestType.selling) {
-                if self.isMyRequest() {
+                let isInventoryListing = self.request?.type == RequestType.selling.rawValue || self.request?.type == RequestType.loaning.rawValue
+                if (self.isMyRequest() && !isInventoryListing) || (!self.isMyRequest() && isInventoryListing) {
                     if self.transaction?.finalPrice == nil {
                         return HistoryStatus.buyer_priceConfirm
                     } else {
@@ -183,7 +184,8 @@ extension NBHistory {
             }
             else if self.transaction?.getStatus() == .returns {
                 let returnOverride = self.transaction?.returnOverride
-                if self.isMyRequest() {
+                let isInventoryListing = self.request?.type == RequestType.selling.rawValue || self.request?.type == RequestType.loaning.rawValue
+                if (self.isMyRequest() && !isInventoryListing) || (!self.isMyRequest() && isInventoryListing) {
                     if returnOverride != nil && !(returnOverride?.declined)! && !(returnOverride?.sellerAccepted)! {
                         return HistoryStatus.buyer_overrideReturn
                     } else {
@@ -199,7 +201,8 @@ extension NBHistory {
                 }
             }
             else if self.transaction?.getStatus() == .payment {
-                if self.isMyRequest() {
+                let isInventoryListing = self.request?.type == RequestType.selling.rawValue || self.request?.type == RequestType.loaning.rawValue
+                if (self.isMyRequest() && !isInventoryListing) || (!self.isMyRequest() && isInventoryListing) {
                     return HistoryStatus.buyer_priceConfirm
                 }
                 else {

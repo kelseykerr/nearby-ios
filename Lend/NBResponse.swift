@@ -57,6 +57,7 @@ class NBResponse: ResponseJSONObjectSerializable {
     var responder: NBUser?
     var description: String?
     var messagesEnabled: Bool?
+    var isOfferToBuyOrRent: Bool?
     
     required init?(json: SwiftyJSON.JSON) {
         self.id = json["id"].string
@@ -74,6 +75,7 @@ class NBResponse: ResponseJSONObjectSerializable {
         self.returnTime = json["returnTime"].int64
         self.description = json["description"].string
         self.messagesEnabled = json["messagesEnabled"].bool
+        self.isOfferToBuyOrRent = json["isOfferToBuyOrRent"].bool
         if let buyerStatusString = json["buyerStatus"].string {
             self.buyerStatus = BuyerStatus(rawValue: buyerStatusString)
         }
@@ -165,6 +167,9 @@ class NBResponse: ResponseJSONObjectSerializable {
         }
         if let messagesEnabled = messagesEnabled {
             json["messagesEnabled"] = messagesEnabled as AnyObject?
+        }
+        if let isOfferToBuyOrRent = isOfferToBuyOrRent {
+            json["isOfferToBuyOrRent"] = isOfferToBuyOrRent as AnyObject?
         }
         return json
     }
