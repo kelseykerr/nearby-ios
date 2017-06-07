@@ -17,6 +17,8 @@ class HistoryTransactionTableViewCell: UITableViewCell {
     @IBOutlet var timeLabel: UILabel!
     @IBOutlet var exchangeTimeLabel: UILabel!
     @IBOutlet var exchangeLocationLabel: UILabel!
+    @IBOutlet var timeTitleLabel: UILabel!
+    @IBOutlet var locationTitleLabel: UILabel!
     
     var userImage: UIImage? {
         get {
@@ -83,6 +85,28 @@ class HistoryTransactionTableViewCell: UITableViewCell {
         }
     }
     
+    var exchangeTime: String? {
+        get {
+            return exchangeTimeLabel.text
+        }
+        set {
+            exchangeTimeLabel.isHidden = (newValue == nil)
+            timeTitleLabel.isHidden = (newValue == nil)
+            exchangeTimeLabel.text = newValue
+        }
+    }
+    
+    var exchangeLocation: String? {
+        get {
+            return exchangeLocationLabel.text
+        }
+        set {
+            exchangeLocationLabel.isHidden = (newValue == nil)
+            locationTitleLabel.isHidden = (newValue == nil)
+            exchangeLocationLabel.text = newValue
+        }
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -91,6 +115,9 @@ class HistoryTransactionTableViewCell: UITableViewCell {
         
         historyStateLabel.layer.cornerRadius = historyStateLabel.frame.size.height / 8
         historyStateLabel.clipsToBounds = true
+        
+        timeTitleLabel.isHidden = true
+        locationTitleLabel.isHidden = true
     }
     
 }

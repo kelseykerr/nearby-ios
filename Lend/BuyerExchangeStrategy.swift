@@ -62,35 +62,29 @@ class BuyerExchangeStrategy: HistoryStateStrategy {
                 }))
                 cell.exchangeTimeLabel.isHidden = true
                 cell.exchangeLocationLabel.isHidden = true
+                cell.timeTitleLabel.isHidden = true
+                cell.locationTitleLabel.isHidden = true
                 historyVC.present(alert, animated: true, completion: nil)
             } else {
                 cell.stateColor = UIColor.nbGreen
                 cell.state = "AWAITING EXCHANGE"
                 if (response?.exchangeTime != nil && response?.exchangeTime != 0) {
                     cell.exchangeTimeLabel.isHidden = false
-                    let attrText = NSMutableAttributedString(string: "")
-                    let boldFont = UIFont.boldSystemFont(ofSize: 14)
-                    let smallFont = UIFont.systemFont(ofSize: 14)
-                    let boldLabel = NSMutableAttributedString(string: "", attributes: [NSFontAttributeName: boldFont])
-                    attrText.append(boldLabel)
+                    cell.timeTitleLabel.isHidden = false
                     let dateString = Utils.dateIntToFormattedString(time: (response?.exchangeTime!)!)
-                    attrText.append(NSMutableAttributedString(string: dateString, attributes: [NSFontAttributeName: smallFont]))
-                    cell.exchangeTimeLabel.attributedText = attrText
+                    cell.exchangeTimeLabel.text = dateString
                 } else {
                     cell.exchangeTimeLabel.isHidden = true
+                    cell.timeTitleLabel.isHidden = true
                 }
                 
                 if (response?.exchangeLocation != nil && response?.exchangeLocation != "") {
                     cell.exchangeLocationLabel.isHidden = false
-                    let attrText = NSMutableAttributedString(string: "")
-                    let boldFont = UIFont.boldSystemFont(ofSize: 14)
-                    let smallFont = UIFont.systemFont(ofSize: 14)
-                    let boldLabel = NSMutableAttributedString(string: "", attributes: [NSFontAttributeName: boldFont])
-                    attrText.append(boldLabel)
-                    attrText.append(NSMutableAttributedString(string: (response?.exchangeLocation!)!, attributes: [NSFontAttributeName: smallFont]))
-                    cell.exchangeLocationLabel.attributedText = attrText
+                    cell.locationTitleLabel.isHidden = false
+                    cell.exchangeLocationLabel.text = (response?.exchangeLocation!)!
                 } else {
                     cell.exchangeLocationLabel.isHidden = true
+                    cell.locationTitleLabel.isHidden = true
                 }
             }
             
