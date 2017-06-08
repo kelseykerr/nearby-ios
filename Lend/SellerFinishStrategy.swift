@@ -20,7 +20,7 @@ class SellerFinishStrategy: HistoryStateStrategy {
         let inventoryListing = history.request?.requestType == .loaning || history.request?.requestType == .selling
         let responder = history.getResponseById(id: (history.transaction?.responseId)!)?.responder
         let name = (inventoryListing ? responder?.firstName : history.request?.user?.firstName) ?? "NAME"
-        text = (history.request?.requestType.getAsPastTense())!
+        text = history.request?.type == RequestType.renting.rawValue || history.request?.type == RequestType.loaning.rawValue ? "Loaned" : "Sold"
         text += " a \(item) to \(name)"
         let price = history.transaction?.finalPriceInDollarFormat ?? "0.00"
         text += " for \(price)"

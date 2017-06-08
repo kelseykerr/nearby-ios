@@ -36,7 +36,7 @@ class ConfirmPriceTableViewController:  UITableViewController {
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if let request = history?.request {
-            let action = request.requestType.getAsInflected()
+            let action = request.type == RequestType.selling.rawValue || request.type == RequestType.renting.rawValue ? "loaning" : "selling"
             let item = request.itemName ?? "item"
             let buyer = request.user?.firstName ?? "the buyer"
             let message = "Confirm the price for \(action) your \(item) to \(buyer)"

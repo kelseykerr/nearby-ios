@@ -30,6 +30,7 @@ class NewRequestTableViewController: UITableViewController {
     @IBOutlet var mapView: MKMapView!
     @IBOutlet var requestLocationButton: UIButton!
     @IBOutlet var rentalButton: UIButton!
+    var alertController: UIAlertController?
     
     let requestLocationDropDown = DropDown()
     let rentalDropDown = DropDown()
@@ -242,32 +243,38 @@ class NewRequestTableViewController: UITableViewController {
     }
     
     @IBAction func saveButtonPressed(_ sender: UIButton) {
-        var req = NBRequest()
         
-        if request == nil {
-            let annotation = mapView.annotations[0]
-            req.latitude = annotation.coordinate.latitude
-            req.longitude = annotation.coordinate.longitude
-        
-            let postDate64: Int64 = Int64(Date().timeIntervalSince1970) * 1000
-            req.postDate = postDate64
+        if ((rental == RequestType.selling || rental == RequestType.loaning) && !(UserManager.sharedInstance.user?.canRespond ?? false)) {
+            self.showAlertMsg(message: "You must add bank account information before you create this kind of post to this post")
+        } else {
+            var req = NBRequest()
             
-            let oneWeek = 60 * 60 * 24 * 7.0
-            let tenYears = 60 * 60 * 24 * 7.0 * 52 * 10
-            let expireDate64: Int64 = Int64(Date().addingTimeInterval(tenYears).timeIntervalSince1970) * 1000
-            req.expireDate = expireDate64
+            if request == nil {
+                let annotation = mapView.annotations[0]
+                req.latitude = annotation.coordinate.latitude
+                req.longitude = annotation.coordinate.longitude
+                
+                let postDate64: Int64 = Int64(Date().timeIntervalSince1970) * 1000
+                req.postDate = postDate64
+                
+                let oneWeek = 60 * 60 * 24 * 7.0
+                let tenYears = 60 * 60 * 24 * 7.0 * 52 * 10
+                let expireDate64: Int64 = Int64(Date().addingTimeInterval(tenYears).timeIntervalSince1970) * 1000
+                req.expireDate = expireDate64
+            }
+            else {
+                req = request?.copy() as! NBRequest
+            }
+            
+            saveFields(request: req)
+            
+            //        req.type = "item"
+            
+            self.delegate?.saved(req)
+            
+            self.dismiss(animated: true, completion: nil)
         }
-        else {
-            req = request?.copy() as! NBRequest
-        }
         
-        saveFields(request: req)
-        
-//        req.type = "item"
-       
-        self.delegate?.saved(req)
-        
-        self.dismiss(animated: true, completion: nil)
     }
     
     @IBAction func cancelButtonPressed(_ sender: UIBarButtonItem) {
@@ -323,4 +330,26 @@ extension NewRequestTableViewController: MKMapViewDelegate {
         default: break
         }
     }
+    
+    func showAlertMsg(message: String) {
+        guard (self.alertController == nil) else {
+            print("Alert already displayed")
+            return
+        }
+        
+        self.alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        
+        let cancelAction = UIAlertAction(title: "close", style: .cancel) { (action) in
+            print("Alert was cancelled")
+            self.alertController=nil;
+        }
+        
+        self.alertController!.addAction(cancelAction)
+        /*if (time > 0) {
+         self.alertTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.countDown), userInfo: nil, repeats: true)
+         }*/
+        
+        self.present(self.alertController!, animated: true, completion: nil)
+    }
+
 }

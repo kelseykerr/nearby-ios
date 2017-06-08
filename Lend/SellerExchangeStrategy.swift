@@ -15,6 +15,7 @@ class SellerExchangeStrategy: HistoryStateStrategy {
         let isInventoryRequest = history.request?.type == RequestType.selling.rawValue || history.request?.type == RequestType.loaning.rawValue
         var name = ""
         let response = history.responses[0]
+        var action = history.request?.requestType.getAsInflected()
         cell.userImage = UIImage(named: "User-64")
         if isInventoryRequest {
             name = response.responder?.firstName ?? "NAME"
@@ -31,7 +32,11 @@ class SellerExchangeStrategy: HistoryStateStrategy {
             }
         } else {
             name = history.request?.user?.firstName ?? "NAME"
-            
+            if history.request?.type == RequestType.buying.rawValue {
+                action = "Selling"
+            } else {
+                action = "Loaning"
+            }
             if let pictureURL = history.request?.user?.imageUrl {
                 NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
                     guard error == nil else {
@@ -46,7 +51,6 @@ class SellerExchangeStrategy: HistoryStateStrategy {
 
         }
         let item = history.request?.itemName ?? "ITEM"
-        let action = history.request?.requestType.getAsInflected()
         
         cell.message = "\(action!) a \(item) to \(name)"
         

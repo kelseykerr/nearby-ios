@@ -16,17 +16,17 @@ class BuyerExchangeStrategy: HistoryStateStrategy {
         let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "TransactionCell", for: indexPath) as! HistoryTransactionTableViewCell
         
         if let request = history.request {
-            let action = request.requestType.getAsInflected()
+            let action = request.type == RequestType.loaning.rawValue || request.type == RequestType.renting.rawValue ? "borrowing" : "buying"
             let response = history.getResponseById(id: (history.transaction?.responseId)!)
-            var buyerName = ""
+            var name = ""
             if (request.type == RequestType.selling.rawValue || request.type == RequestType.loaning.rawValue) {
-                buyerName = request.user?.firstName ?? "NAME"
+                name = request.user?.firstName ?? "NAME"
             } else {
-                buyerName = response?.responder?.firstName ?? "NAME"
+                name = response?.responder?.firstName ?? "NAME"
             }
             let item = history.request?.itemName ?? "ITEM"
-            let direction = (history.request?.requestType == .loaning || history.request?.requestType == .selling) ? "to" : "from"
-            cell.message = "\(action) \(item) \(direction) \(buyerName)"
+            let direction = (history.request?.requestType == .loaning || history.request?.requestType == .selling) ? "from" : "to"
+            cell.message = "\(action) a \(item) from \(name)"
             
             if (history.status == .buyer_overrideExchange && !(history.transaction?.exchangeOverride?.declined)!) {
                 cell.stateColor = UIColor.nbYellow
@@ -38,7 +38,7 @@ class BuyerExchangeStrategy: HistoryStateStrategy {
                 dateFormatter.dateStyle = DateFormatter.Style.full
                 dateFormatter.timeStyle = DateFormatter.Style.short
                 let dateExchanged = dateFormatter.string(from: dateTimeStamp as Date)
-                let messageString = "Did you exchange the \(item) with \(buyerName) on \(dateExchanged)"
+                let messageString = "Did you exchange the \(item) with \(name) on \(dateExchanged)"
                 let alert = UIAlertController(title: "Confirm Exchange", message: messageString, preferredStyle: UIAlertControllerStyle.alert)
                 alert.addAction(UIAlertAction(title: "yes", style: UIAlertActionStyle.default, handler: { action in
                     switch action.style {
@@ -98,20 +98,35 @@ class BuyerExchangeStrategy: HistoryStateStrategy {
             cell.time = history.request?.getElapsedTimeAsString()
             
             cell.userImage = UIImage(named: "User-64")
-            
+            let inventoryRequest = history.request?.requestType == .loaning || history.request?.requestType == .selling
             let responder = history.getResponseById(id: (history.transaction?.responseId)!)?.responder
-            if let pictureURL = responder?.imageUrl {
-                NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
-                    guard error == nil else {
-                        print(error!)
-                        return
-                    }
-                    if let cellToUpdate = historyVC.tableView?.cellForRow(at: indexPath) as! HistoryTransactionTableViewCell? {
-                        cellToUpdate.userImage = image
-                    }
-                })
+            if (inventoryRequest) {
+                if let pictureURL = history.request?.user?.imageUrl {
+                    NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
+                        guard error == nil else {
+                            print(error!)
+                            return
+                        }
+                        if let cellToUpdate = historyVC.tableView?.cellForRow(at: indexPath) as! HistoryTransactionTableViewCell? {
+                            cellToUpdate.userImage = image
+                        }
+                    })
+                }
+
+            } else {
+                if let pictureURL = responder?.imageUrl {
+                    NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
+                        guard error == nil else {
+                            print(error!)
+                            return
+                        }
+                        if let cellToUpdate = historyVC.tableView?.cellForRow(at: indexPath) as! HistoryTransactionTableViewCell? {
+                            cellToUpdate.userImage = image
+                        }
+                    })
+                }
+
             }
-            
         }
         
         return cell

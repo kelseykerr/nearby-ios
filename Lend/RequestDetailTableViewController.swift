@@ -140,10 +140,17 @@ class RequestDetailTableViewController: UITableViewController {
                     self.showAlertMessage(message: "You must finish filling out your profile before you can make offers")
                     return
                 }
-                
-                guard let canRespond = user.canRespond, canRespond else {
-                    self.showAlertMessage(message: "You must add bank account information before you can make offers")
-                    return
+                let isInventoryRequest = self.request?.type == RequestType.selling.rawValue || self.request?.type == RequestType.loaning.rawValue
+                if (isInventoryRequest) {
+                    guard let canBuy = user.canRequest, canBuy else {
+                        self.showAlertMessage(message: "You must add payment information before you can respond to this post")
+                        return
+                    }
+                } else {
+                    guard let canRespond = user.canRespond, canRespond else {
+                        self.showAlertMessage(message: "You must add bank account information before you can respond to this post")
+                        return
+                    }
                 }
                 
                 guard let navVC = UIStoryboard.getViewController(identifier: "NewResponseNavigationController") as? UINavigationController else {

@@ -147,8 +147,8 @@ extension NBHistory {
             }
             else if self.transaction?.getStatus() == .exchange {
                 let exchangeOverride = self.transaction?.exchangeOverride
-                let sellerRequest = self.request?.type == RequestType.selling.rawValue || self.request?.type == RequestType.loaning.rawValue
-                if (self.isMyRequest() && !sellerRequest) || (!self.isMyRequest() && sellerRequest) {
+                let inventoryRequest = self.request?.type == RequestType.selling.rawValue || self.request?.type == RequestType.loaning.rawValue
+                if (self.isMyRequest() && !inventoryRequest) || (!self.isMyRequest() && inventoryRequest) {
                     //if there is an exchange override, and I haven't accepted or declined it, show the override for my approval
                     if exchangeOverride != nil && !(exchangeOverride?.buyerAccepted)! && !(exchangeOverride?.declined)! {
                         return HistoryStatus.buyer_overrideExchange
@@ -210,10 +210,10 @@ extension NBHistory {
                 }
             }
             else { // check request is fulfilled
-                if self.isMyRequest() {
+                let isInventoryListing = self.request?.type == RequestType.selling.rawValue || self.request?.type == RequestType.loaning.rawValue
+                if (self.isMyRequest() && !isInventoryListing) || (!self.isMyRequest() && isInventoryListing) {
                     return HistoryStatus.buyer_finish
-                }
-                else {
+                } else {
                     return HistoryStatus.seller_finish
                 }
             }

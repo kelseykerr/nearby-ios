@@ -745,12 +745,15 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
                         assert(false, "Misnamed view controller")
                         return
                 }
+                let inventoryRequest = request.type == RequestType.loaning.rawValue || request.type == RequestType.selling.rawValue
                 UserManager.sharedInstance.getUser { fetchedUser in
                     if (!fetchedUser.hasAllRequiredFields()) {
                         self.showAlertMsg(message: "You must finish filling out your profile before you can make offers")
                         
-                    } else if (!fetchedUser.canRespond!) {
-                        self.showAlertMsg(message: "You must add bank account information before you can make offers")
+                    } else if (!fetchedUser.canRespond! && !inventoryRequest) {
+                        self.showAlertMsg(message: "You must add bank account information before you can respond to this post")
+                    } else if (!fetchedUser.canRequest! && inventoryRequest){
+                        self.showAlertMsg(message: "You must add payment information before you respond to this post")
                     } else {
                         let responseVC = (navVC.childViewControllers[0] as! NewResponseTableViewController)
                         responseVC.delegate = self
@@ -845,7 +848,11 @@ extension HomeViewController: NewRequestTableViewDelegate, NewResponseTableViewD
                 self.showAlertMsg(message: "You must finish filling out your profile before you can make requests")
 
             } else if (!fetchedUser.canRequest!) {
-                self.showAlertMsg(message: "You must add payment info before you can make requests")
+                var msg = "You must add payment info before you can make requests"
+                if (!fetchedUser.canRespond!) {
+                    msg += ". You'll also need to add bank information if you plan on listing items to loan/sell."
+                }
+                self.showAlertMsg(message: msg)
             } else {
                 let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
                 guard let navVC = storyboard.instantiateViewController(

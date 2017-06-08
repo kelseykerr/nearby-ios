@@ -15,13 +15,18 @@ class BuyerReturnStrategy: HistoryStateStrategy {
         let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "TransactionCell", for: indexPath) as! HistoryTransactionTableViewCell
         
         let response = history.getResponseById(id: (history.transaction?.responseId)!)
-        let responderName = response?.responder?.firstName ?? "NAME"
+        var name = ""
+        if (history.request?.type == RequestType.selling.rawValue || history.request?.type == RequestType.loaning.rawValue) {
+            name = history.request?.user?.firstName ?? "NAME"
+        } else {
+            name = response?.responder?.firstName ?? "NAME"
+        }
+
         let item = history.request?.itemName ?? "ITEM"
         
-        let action = history.request?.requestType.getAsInflected()
+        let action = history.request?.type == RequestType.loaning.rawValue || history.request?.type == RequestType.renting.rawValue ? "borrowing" : "buying"
         let inventoryRequest = history.request?.requestType == .loaning || history.request?.requestType == .selling
-        let direction = inventoryRequest ? "to" : "from"
-        cell.message = "\(action!) \(item) \(direction) \(responderName)"
+        cell.message = "\(action) a \(item) from \(name)"
         
         if (history.status == .buyer_overrideReturn) {
             cell.stateColor = UIColor.nbYellow
@@ -130,20 +135,7 @@ class BuyerReturnStrategy: HistoryStateStrategy {
     func rowAction(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> [UITableViewRowAction]? {
         let exchange = UITableViewRowAction(style: .normal, title: "Return") { action, index in
             let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-            if (history.request?.type == RequestType.selling.rawValue || history.request?.type == RequestType.loaning.rawValue) {
-                guard let navVC = storyboard.instantiateViewController(
-                    withIdentifier: "QRScannerNavigationController") as? UINavigationController else {
-                        assert(false, "Misnamed view controller")
-                        return
-                }
-                let scannerVC = (navVC.childViewControllers[0] as! QRScannerViewController)
-                scannerVC.delegate = historyVC
-                scannerVC.transaction = history.transaction
-                historyVC.present(navVC, animated: true, completion: nil)
-                
-                historyVC.tableView.isEditing = false
-
-            } else {
+    
                 guard let navVC = storyboard.instantiateViewController(
                     withIdentifier: "QRGeneratorNavigationController") as? UINavigationController else {
                         assert(false, "Misnamed view controller")
@@ -156,7 +148,7 @@ class BuyerReturnStrategy: HistoryStateStrategy {
                 
                 historyVC.tableView.isEditing = false
 
-            }
+            
         }
         exchange.backgroundColor = UIColor.nbBlue
         

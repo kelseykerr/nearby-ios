@@ -18,14 +18,16 @@ class SellerBuyerConfirmStrategy: HistoryStateStrategy {
             let name = request?.user?.shortName ?? "NAME"
             let item = request?.itemName ?? "ITEM"
             let price = history.responses[0].priceInDollarFormat
-            let action = request?.requestType.getAsVerb()
-            let direction = (request?.requestType == .loaning || request?.requestType == .selling) ? "to" : "from"
     
             if (request?.type == RequestType.loaning.rawValue || request?.type == RequestType.selling.rawValue) {
-                var action = (request?.type == RequestType.loaning.rawValue) ? "borrow" : "buy"
+                let action = (request?.type == RequestType.loaning.rawValue) ? "borrow" : "buy"
                 cell.message = "Requested to \(action) a \(item) from \(name) for \(price)"
             } else {
-                cell.message = "Offered to \(action ?? "loan") a \(item) \(direction) \(name) for \(price)"
+                if (request?.type == RequestType.renting.rawValue) {
+                    cell.message = "offered to loan a \(item) to \(name) for \(price)"
+                } else {
+                    cell.message = "selling a \(item) to \(name) for \(price)"
+                }
             }
 
             cell.stateColor = UIColor.nbYellow
