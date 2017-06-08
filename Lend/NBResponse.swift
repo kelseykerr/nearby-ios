@@ -39,7 +39,6 @@ class NBResponse: ResponseJSONObjectSerializable {
     
     var id: String?
     var requestId: String? //REQ
-//    var sellerId: String? //REQ
     var responderId: String? //REQ
     var responseTime: Int64?
     var offerPrice: Float? //REQ
@@ -50,19 +49,17 @@ class NBResponse: ResponseJSONObjectSerializable {
     var returnTime: Int64?
     var buyerStatus: BuyerStatus?
     var sellerStatus: SellerStatus?
-//    var responseStatus: String?
     var responseStatus: ResponseStatus?
     var messages = [NBMessage]()
-//    var seller: NBUser?
     var responder: NBUser?
     var description: String?
     var messagesEnabled: Bool?
     var isOfferToBuyOrRent: Bool?
+    var photos: [String] = []
     
     required init?(json: SwiftyJSON.JSON) {
         self.id = json["id"].string
         self.requestId = json["requestId"].string
-//        self.sellerId = json["sellerId"].string
         self.responderId = json["responderId"].string
         self.responseTime = json["responseTime"].int64
         self.offerPrice = json["offerPrice"].float
@@ -82,7 +79,6 @@ class NBResponse: ResponseJSONObjectSerializable {
         if let sellerStatusString = json["sellerStatus"].string {
             self.sellerStatus = SellerStatus(rawValue: sellerStatusString)
         }
-//        self.responseStatus = json["responseStatus"].string
         if let responseStatusString = json["responseStatus"].string {
             self.responseStatus = ResponseStatus(rawValue: responseStatusString)
         }
@@ -91,10 +87,13 @@ class NBResponse: ResponseJSONObjectSerializable {
             //instantiate, check if nil, then append
             messages.append(NBMessage(json: messageJson)!)
         }
-//        self.seller = NBUser(json: json["seller"])
+        for (index, photo) in json["photos"] {
+            print("\(index) photo: \(photo.string)")
+            photos.append(photo.string!)
+        }
         self.responder = NBUser(json: json["responder"])
     }
-    
+
     init(test: Bool) {
         if test {
             self.id = "id"
@@ -103,18 +102,6 @@ class NBResponse: ResponseJSONObjectSerializable {
     
     func toString() -> String {
         return "response"
-//        return "firstName: \(self.firstName)" +
-//            " lastName: \(self.lastName)" +
-//            " userId: \(self.userId)" +
-//            " fullName: \(self.fullName)" +
-//            " id: \(self.id)" +
-//            " email: \(self.email)" +
-//            " phone: \(self.phone)" +
-//            " address: \(self.address)" +
-//            " addressLine2: \(self.addressLine2)" +
-//            " city: \(self.city)" +
-//            " state: \(self.state)" +
-//            " zip: \(self.zip)\n"
     }
     
     //apparntly seller does not get passed back, likely not necessary but should we?
@@ -126,9 +113,6 @@ class NBResponse: ResponseJSONObjectSerializable {
         if let requestId = requestId {
             json["requestId"] = requestId as AnyObject?
         }
-//        if let sellerId = sellerId {
-//            json["sellerId"] = sellerId as AnyObject?
-//        }
         if let responderId = responderId {
             json["responderId"] = responderId as AnyObject?
         }

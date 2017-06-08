@@ -25,14 +25,15 @@ class NewRequestTableViewController: UITableViewController {
     @IBOutlet var itemNameTextField: UITextField!
     @IBOutlet var descriptionTextView: UITextView!
     @IBOutlet var saveButton: UIButton!
-    @IBOutlet var rentImageView: UIImageView!
-    @IBOutlet var buyImageView: UIImageView!
     @IBOutlet var mapView: MKMapView!
     @IBOutlet var requestLocationButton: UIButton!
     @IBOutlet var rentalButton: UIButton!
+    @IBOutlet weak var itemImageView: UIImageView!
     
     let requestLocationDropDown = DropDown()
     let rentalDropDown = DropDown()
+    
+    let picker = UIImagePickerController()
     
     var currentMapView = "current location"
     
@@ -149,6 +150,8 @@ class NewRequestTableViewController: UITableViewController {
         super.viewDidLoad()
         setupDropDowns()
 
+        picker.delegate = self
+        
         saveButton.layer.cornerRadius = saveButton.frame.size.height / 16
         saveButton.clipsToBounds = true
         
@@ -261,7 +264,32 @@ class NewRequestTableViewController: UITableViewController {
             req = request?.copy() as! NBRequest
         }
         
+        
+        
+        
+////////
+        let image = itemImageView.image
+         let imageUrl          = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true) as NSURL
+        let imageName         = "uploadImage.jpeg"//imageUrl?.lastPathComponent
+        let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
+        let photoURL          = NSURL(fileURLWithPath: documentDirectory)
+        let localPath         = photoURL.appendingPathComponent(imageName)
+        let key         = UUID().uuidString
+        
+        do {
+            try UIImageJPEGRepresentation(image!, 0.1)?.write(to: localPath!)
+            print("file saved")
+        }catch {
+            print("error saving file")
+        }
+        AwsManager.sharedInstance.uploadPhoto(path: localPath!, key: key)
+///////
+        req.photos.append(key)
+        
         saveFields(request: req)
+        
+        
+        
         
 //        req.type = "item"
        
@@ -275,12 +303,21 @@ class NewRequestTableViewController: UITableViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func rentButtonPressed(_ sender: UIButton) {
-//        rental = true
+    @IBAction func photoButtonPressed(_ sender: UIButton) {
+        print("photo button")
+        picker.allowsEditing = false
+        picker.sourceType = .photoLibrary
+        picker.mediaTypes = UIImagePickerController.availableMediaTypes(for: .photoLibrary)!
+        present(picker, animated: true, completion: nil)
     }
 
-    @IBAction func buyButtonPressed(_ sender: UIButton) {
-//        rental = false
+    @IBAction func cameraButtonPressed(_ sender: UIButton) {
+        print("camera button")
+        picker.allowsEditing = false
+        picker.sourceType = UIImagePickerControllerSourceType.camera
+        picker.cameraCaptureMode = .photo
+        picker.modalPresentationStyle = .fullScreen
+        present(picker,animated: true,completion: nil)
     }
     
     @IBAction func handleTouchWithGestureRecognizer(gestureRecognizer:UIGestureRecognizer){
@@ -293,6 +330,23 @@ class NewRequestTableViewController: UITableViewController {
         mapView.addAnnotation(annotation)
     }
     
+}
+
+extension NewRequestTableViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func imagePickerController(_ picker: UIImagePickerController,
+                               didFinishPickingMediaWithInfo info: [String : AnyObject])
+    {
+        let chosenImage = info[UIImagePickerControllerOriginalImage] as! UIImage //2
+        itemImageView.contentMode = .scaleAspectFit //3
+        itemImageView.image = chosenImage //4
+        dismiss(animated:true, completion: nil) //5
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
+    }
+
 }
 
 extension NewRequestTableViewController: MKMapViewDelegate {

@@ -35,7 +35,9 @@ class RequestDetailTableViewController: UITableViewController {
     @IBOutlet weak var rentLabel: UILabel!
     @IBOutlet weak var saveButton: UIButton!
     @IBOutlet weak var actionBarButtonItem: UIBarButtonItem!
-
+    @IBOutlet weak var itemImageView: UIImageView!
+    
+    
     weak var delegate: RequestDetailTableViewDelegate?
     
     var request: NBRequest?
@@ -126,6 +128,20 @@ class RequestDetailTableViewController: UITableViewController {
         itemName = request.itemName ?? "<ITEM>"
         desc = request.desc ?? "<DESCRIPTION>"
         rent = request.requestType
+        
+        if request.photos.count > 0 {
+            let pictureURL = "https://s3.amazonaws.com/nearbyappphotos/\(request.photos[0])"
+            print(pictureURL)
+            NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
+                print("done")
+                guard error == nil else {
+                    print(error!)
+                    return
+                }
+                self.itemImageView.image = image
+            })
+        }
+        
     }
     
     @IBAction func respondButtonPressed(_ sender: UIButton) {

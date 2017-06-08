@@ -65,6 +65,7 @@ class NBRequest: NSObject, NSCopying, ResponseJSONObjectSerializable {
     var id: String?
     var type: String?
     var status: Status?
+    var photos: [String] = []
     
     required init?(json: SwiftyJSON.JSON) {
         self.user = NBUser(json: json["user"])
@@ -80,6 +81,9 @@ class NBRequest: NSObject, NSCopying, ResponseJSONObjectSerializable {
         self.type = json["type"].string
         if let statusString = json["status"].string {
             self.status = Status(rawValue: statusString)
+        }
+        for (index, photo) in json["photos"] {
+            photos.append(photo.string!)
         }
     }
     
@@ -136,6 +140,8 @@ class NBRequest: NSObject, NSCopying, ResponseJSONObjectSerializable {
         if let status = status {
             json["status"] = status.rawValue as AnyObject?
         }
+        json["photos"] = photos as AnyObject?
+
         return json
     }
     

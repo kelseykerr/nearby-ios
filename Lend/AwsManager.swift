@@ -10,31 +10,32 @@ import Foundation
 import AWSCognito
 import AWSS3
 
-class AwsManager: NSObject {
+class AwsManager {
     
     static let sharedInstance = AwsManager()
+    
     let bucketName = "nearbyappphotos"
-    var credentialProvider: AWSCognitoCredentialsProvider!
-    var configuration: AWSServiceConfiguration!
     var transferManager: AWSS3TransferManager!
-    var cognitoId: String!
 
-    override init() {
-        super.init()
-        credentialProvider = AWSCognitoCredentialsProvider(regionType: .USEast1, identityPoolId: "us-east-1:c505ec70-228a-498f-87e5-d9035d10a8e3")
-        configuration = AWSServiceConfiguration(region: .USEast1, credentialsProvider: credentialProvider)
+    init() {
         transferManager = AWSS3TransferManager.default()
-        cognitoId = credentialProvider.identityId
-        AWSServiceManager.default().defaultServiceConfiguration = configuration
     }
     
-    func UploadPhoto(path: String) {
-        let uploadingFileURL = URL(fileURLWithPath: path)
+    func uploadPhoto(path: URL, key: String) {
+        // Delete image.
+//        do {
+//            try FileManager.default.removeItem(atPath: path)
+//        } catch {
+//            print(error)
+//        }
+        
+        let uploadingFileURL = path//URL(fileURLWithPath: path)
         let uploadRequest = AWSS3TransferManagerUploadRequest()
-        let key = UUID().uuidString
+//        let key = UUID().uuidString
         uploadRequest?.bucket = bucketName
         uploadRequest?.key = key
         uploadRequest?.body = uploadingFileURL
+        uploadRequest?.acl = AWSS3ObjectCannedACL.publicRead
         
         transferManager.upload(uploadRequest!).continueWith(executor: AWSExecutor.mainThread(), block: { (task:AWSTask<AnyObject>) -> Any? in
             
@@ -58,11 +59,10 @@ class AwsManager: NSObject {
         })
     }
     
-    func downloadPhoto(key: String) {
+    func downloadPhoto(key: String, completionBlock: @escaping (UIImage) -> Void) {
         let downloadingFileURL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(key)
-        
+
         let downloadRequest = AWSS3TransferManagerDownloadRequest()
-        
         downloadRequest?.bucket = bucketName
         downloadRequest?.key = key
         downloadRequest?.downloadingFileURL = downloadingFileURL
@@ -82,11 +82,11 @@ class AwsManager: NSObject {
                 }
                 return nil
             }
-            print("Download complete for: \(key)")
-            _ = task.result
+//            print("Download complete for: \(key)")
+            let downloadingFileURL: NSURL = task.result!.body as! NSURL
+            let image = UIImage(contentsOfFile: downloadingFileURL.path!)
+            completionBlock(image!)
             return nil
-            //self.imageView.image = UIImage(contentsOfFile: downloadingFileURL.path)
         })
-        
     }
 }

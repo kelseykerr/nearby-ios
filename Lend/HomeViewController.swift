@@ -684,7 +684,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         cell.distance = distanceString
         
         cell.time = request.getElapsedTimeAsString()
-        
+
         cell.userImageView.image = UIImage(named: "User-64")
         cell.setNeedsLayout()
         
