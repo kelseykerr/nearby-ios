@@ -37,10 +37,7 @@ class RequestDetailTableViewController: UITableViewController {
     @IBOutlet weak var rentLabel: UILabel!
     @IBOutlet weak var saveButton: UIButton!
     @IBOutlet weak var actionBarButtonItem: UIBarButtonItem!
-    @IBOutlet weak var itemImageView: UIImageView!
     @IBOutlet weak var collectionView: UICollectionView!
-    
-    
     
     weak var delegate: RequestDetailTableViewDelegate?
     
@@ -101,6 +98,8 @@ class RequestDetailTableViewController: UITableViewController {
         
         saveButton.layer.cornerRadius = saveButton.frame.size.height / 16
         saveButton.clipsToBounds = true
+        
+        collectionView.delegate = self
         
         switch mode {
         case .buyer:
@@ -228,13 +227,11 @@ extension RequestDetailTableViewController: UICollectionViewDelegate, UICollecti
         return 1
     }
     
-    //2
     func collectionView(_ collectionView: UICollectionView,
                                  numberOfItemsInSection section: Int) -> Int {
         return photos.count
     }
     
-    //3
     func collectionView(_ collectionView: UICollectionView,
                                  cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageCell",

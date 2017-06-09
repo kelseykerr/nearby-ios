@@ -11,6 +11,8 @@ import MapKit
 import DropDown
 import AWSCore
 import AWSCognito
+import NYTPhotoViewer
+
 
 protocol NewRequestTableViewDelegate: class {
     
@@ -22,13 +24,15 @@ protocol NewRequestTableViewDelegate: class {
 
 class NewRequestTableViewController: UITableViewController {
 
-    @IBOutlet var itemNameTextField: UITextField!
-    @IBOutlet var descriptionTextView: UITextView!
-    @IBOutlet var saveButton: UIButton!
-    @IBOutlet var mapView: MKMapView!
-    @IBOutlet var requestLocationButton: UIButton!
-    @IBOutlet var rentalButton: UIButton!
-    @IBOutlet weak var itemImageView: UIImageView!
+    @IBOutlet weak var itemNameTextField: UITextField!
+    @IBOutlet weak var descriptionTextView: UITextView!
+    @IBOutlet weak var saveButton: UIButton!
+    @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var requestLocationButton: UIButton!
+    @IBOutlet weak var rentalButton: UIButton!
+    @IBOutlet weak var collectionView: UICollectionView!
+    
+    var photos: [NBPhoto] = []
     
     let requestLocationDropDown = DropDown()
     let rentalDropDown = DropDown()
@@ -155,6 +159,8 @@ class NewRequestTableViewController: UITableViewController {
         saveButton.layer.cornerRadius = saveButton.frame.size.height / 16
         saveButton.clipsToBounds = true
         
+        collectionView.delegate = self
+        
         self.hideKeyboardWhenTappedAround()
 
         if request != nil {
@@ -268,6 +274,7 @@ class NewRequestTableViewController: UITableViewController {
         
         
 ////////
+        /*
         let image = itemImageView.image
          let imageUrl          = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true) as NSURL
         let imageName         = "uploadImage.jpeg"//imageUrl?.lastPathComponent
@@ -285,6 +292,8 @@ class NewRequestTableViewController: UITableViewController {
         AwsManager.sharedInstance.uploadPhoto(path: localPath!, key: key)
 ///////
         req.photos.append(key)
+        */
+        
         
         saveFields(request: req)
         
@@ -303,23 +312,6 @@ class NewRequestTableViewController: UITableViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func photoButtonPressed(_ sender: UIButton) {
-        print("photo button")
-        picker.allowsEditing = false
-        picker.sourceType = .photoLibrary
-        picker.mediaTypes = UIImagePickerController.availableMediaTypes(for: .photoLibrary)!
-        present(picker, animated: true, completion: nil)
-    }
-
-    @IBAction func cameraButtonPressed(_ sender: UIButton) {
-        print("camera button")
-        picker.allowsEditing = false
-        picker.sourceType = UIImagePickerControllerSourceType.camera
-        picker.cameraCaptureMode = .photo
-        picker.modalPresentationStyle = .fullScreen
-        present(picker,animated: true,completion: nil)
-    }
-    
     @IBAction func handleTouchWithGestureRecognizer(gestureRecognizer:UIGestureRecognizer){
         let touchPoint = gestureRecognizer.location(in: mapView)
         let newCoordinates = mapView.convert(touchPoint, toCoordinateFrom: mapView)
@@ -332,14 +324,93 @@ class NewRequestTableViewController: UITableViewController {
     
 }
 
+extension NewRequestTableViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        numberOfItemsInSection section: Int) -> Int {
+        return photos.count + 1
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        /*
+        if indexPath.row == photos.count + 2 { //camera
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cameraCell",
+                                                          for: indexPath)
+            return cell
+        }
+        else if indexPath.row == photos.count + 1 { //chooser
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "chooserCell",
+                                                          for: indexPath)
+            return cell
+        }
+        else {
+//            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageCell2",
+//                                                          for: indexPath) as! ImageCollectionViewCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageCell2", for: indexPath)
+            
+            cell.backgroundColor = UIColor.black
+            
+//            cell.photoImageView.image = photos[indexPath.row].image
+            // Configure the cell
+            return cell
+        }
+ */
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageCell2", for: indexPath)
+        cell.backgroundColor = UIColor.black
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("blah")
+        if indexPath.row == photos.count + 1 { //camera
+            cameraButtonPressed()
+        }
+        else if indexPath.row == photos.count { //chooser
+            photoButtonPressed()
+        }
+        else {
+//            let photo = photos[indexPath.row]
+//            let photosVC = NYTPhotosViewController(photos: photos, initialPhoto: photo)
+//            self.present(photosVC, animated: true, completion: nil)
+        }
+    }
+    
+    func photoButtonPressed() {
+        print("photo button")
+        picker.allowsEditing = false
+        picker.sourceType = .photoLibrary
+        picker.mediaTypes = UIImagePickerController.availableMediaTypes(for: .photoLibrary)!
+        present(picker, animated: true, completion: nil)
+    }
+    
+    func cameraButtonPressed() {
+        print("camera button")
+        picker.allowsEditing = false
+        picker.sourceType = UIImagePickerControllerSourceType.camera
+        picker.cameraCaptureMode = .photo
+        picker.modalPresentationStyle = .fullScreen
+        present(picker,animated: true,completion: nil)
+    }
+    
+}
+
+
 extension NewRequestTableViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func imagePickerController(_ picker: UIImagePickerController,
                                didFinishPickingMediaWithInfo info: [String : AnyObject])
     {
         let chosenImage = info[UIImagePickerControllerOriginalImage] as! UIImage //2
-        itemImageView.contentMode = .scaleAspectFit //3
-        itemImageView.image = chosenImage //4
+//        itemImageView.contentMode = .scaleAspectFit //3
+//        itemImageView.image = chosenImage //4
+        let photo = NBPhoto(image: chosenImage)
+        photos.append(photo)
+        self.collectionView.reloadData()
         dismiss(animated:true, completion: nil) //5
     }
     
