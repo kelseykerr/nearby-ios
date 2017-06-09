@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import NYTPhotoViewer
+
 
 protocol RequestDetailTableViewDelegate: class {
     
@@ -42,7 +44,8 @@ class RequestDetailTableViewController: UITableViewController {
     
     var request: NBRequest?
     var mode: RequestDetailTableViewMode = .none
-
+    var photos: [NBPhoto] = []
+    
     var itemName: String? {
         get {
             return itemNameLabel.text
@@ -139,6 +142,8 @@ class RequestDetailTableViewController: UITableViewController {
                     return
                 }
                 self.itemImageView.image = image
+                let photo = NBPhoto(image: image)
+                self.photos.append(photo)
             })
         }
         
@@ -173,6 +178,20 @@ class RequestDetailTableViewController: UITableViewController {
             }
         case .none:
             print("should never see this")
+        }
+    }
+    
+    @IBAction func showButtonPressed(_ sender: UIButton) {
+        // rewrite this, this is really bad
+        if photos.count == 0 {
+            let image = UIImage(named: "No Image Picture")
+            let photo = NBPhoto(image: image)
+            let photosVC = NYTPhotosViewController(photos: [photo])
+            self.present(photosVC, animated: true, completion: nil)
+        }
+        else {
+            let photosVC = NYTPhotosViewController(photos: photos)
+            self.present(photosVC, animated: true, completion: nil)
         }
     }
     

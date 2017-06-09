@@ -8,3 +8,4 @@
 #import <Google/SignIn.h>
 #import <MBProgressHUD/MBProgressHUD.h>
 #import <DZNEmptyDataSet/UIScrollView+EmptyDataSet.h>
+#import <NYTPhotoViewer/NYTPhotoViewer.h>

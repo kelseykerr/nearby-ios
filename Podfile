@@ -23,7 +23,7 @@ target 'Nearby' do
     pod 'AWSCore'
     pod 'AWSCognito'
     pod 'AWSS3'
-
+    pod 'NYTPhotoViewer'
 end
 
 target 'NearbyTests' do

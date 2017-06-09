@@ -35,6 +35,7 @@ PODS:
     - FirebaseInstanceID (~> 1.0)
     - GoogleToolboxForMac/Logger (~> 2.1)
     - Protobuf (~> 3.1)
+  - FLAnimatedImage (1.0.12)
   - Google/Core (3.0.3):
     - FirebaseAnalytics (~> 3.2)
   - Google/SignIn (3.0.3):
@@ -69,6 +70,13 @@ PODS:
     - KIF/Core (= 3.5.1)
   - KIF/Core (3.5.1)
   - MBProgressHUD (1.0.0)
+  - NYTPhotoViewer (1.2.0):
+    - NYTPhotoViewer/AnimatedGifSupport (= 1.2.0)
+    - NYTPhotoViewer/Core (= 1.2.0)
+  - NYTPhotoViewer/AnimatedGifSupport (1.2.0):
+    - FLAnimatedImage (~> 1.0.12)
+    - NYTPhotoViewer/Core
+  - NYTPhotoViewer/Core (1.2.0)
   - Protobuf (3.2.0)
   - Stripe (10.0.0)
   - SwiftyJSON (3.1.0)
@@ -88,6 +96,7 @@ DEPENDENCIES:
   - Ipify
   - KIF
   - MBProgressHUD
+  - NYTPhotoViewer
   - Stripe
   - SwiftyJSON (~> 3.0)
 
@@ -105,6 +114,7 @@ SPEC CHECKSUMS:
   FirebaseCrash: db4c05d9c75baa050744d31b36357c8f1efba481
   FirebaseInstanceID: 2d0518b1378fe9d685ef40cbdd63d2fdc1125339
   FirebaseMessaging: df8267f378580a24174ce7861233aa11d5c90109
+  FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
   Google: cd92fab98f800f509da88c1e0c570275713bc9d5
   GoogleSignIn: d7ad83f13480e1f30453471d00d19b5293ac46af
   GoogleToolboxForMac: 8e329f1b599f2512c6b10676d45736bcc2cbbeb0
@@ -113,10 +123,11 @@ SPEC CHECKSUMS:
   Ipify: 1d96ce2b7ee8fd8ee41568c3fc39a45dac15d7ca
   KIF: 082eb65279e51c3092923802849eb796a04982ab
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
+  NYTPhotoViewer: 323217e4590a1586eb3c9674b3fefb0fb8b57896
   Protobuf: 745f59e122e5de98d4d7ef291e264a0eef80f58e
   Stripe: abf87fc01f74a2143bba1b1798dd2e4d71fd2cb3
   SwiftyJSON: 29b9f2a64f118c07e691667c2ba1efe536acfe0b
 
-PODFILE CHECKSUM: 9671a3cb93a397c0ebc5dd505880b75bb668be9d
+PODFILE CHECKSUM: b057c0693b05042e2592ae702d2696cf424d39c1
 
 COCOAPODS: 1.2.1

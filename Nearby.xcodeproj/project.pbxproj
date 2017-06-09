@@ -100,6 +100,7 @@
 		AAC3C8AD1D5A789800B8F2A9 /* AlamofireRequest+JSONSerializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC3C8A81D5A789800B8F2A9 /* AlamofireRequest+JSONSerializable.swift */; };
 		AAC3C8B01D5A789800B8F2A9 /* NearbyAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC3C8AB1D5A789800B8F2A9 /* NearbyAPIManager.swift */; };
 		AAD278E71E150501003DCEE0 /* SearchFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAD278E61E150501003DCEE0 /* SearchFilter.swift */; };
+		AAEACB7C1EEA6DBF00AD82A7 /* NBPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAEACB7B1EEA6DBF00AD82A7 /* NBPhoto.swift */; };
 		E61F58121EAD34C400EA60F0 /* ForgotToScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61F58111EAD34C400EA60F0 /* ForgotToScanViewController.swift */; };
 		E62E7F6E1E9AC7CA00AF16DB /* BanksAndCardsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E62E7F6D1E9AC7CA00AF16DB /* BanksAndCardsTableViewController.swift */; };
 		E63B18541EA05D79005983DF /* EditRequestTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E63B18531EA05D79005983DF /* EditRequestTableViewController.swift */; };
@@ -217,6 +218,7 @@
 		AAC3C8AB1D5A789800B8F2A9 /* NearbyAPIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NearbyAPIManager.swift; sourceTree = "<group>"; };
 		AAD278E61E150501003DCEE0 /* SearchFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchFilter.swift; sourceTree = "<group>"; };
 		AAE171031DA24D8B008DD5D8 /* Nearby.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Nearby.entitlements; sourceTree = "<group>"; };
+		AAEACB7B1EEA6DBF00AD82A7 /* NBPhoto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NBPhoto.swift; sourceTree = "<group>"; };
 		C4BE07AAD7E7749E48DF11BF /* Pods_Nearby.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Nearby.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D418FAC02A6167DA6BE47114 /* libPods-NearbyTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NearbyTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E61F58111EAD34C400EA60F0 /* ForgotToScanViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgotToScanViewController.swift; sourceTree = "<group>"; };
@@ -528,6 +530,7 @@
 				AA8B21EA1D9A4A220026ED7D /* NBExchangeOverride.swift */,
 				AAB7690D1E2B3CF80021F657 /* NBPayment.swift */,
 				AAA7F82F1ECA30C7006CEBB6 /* NBFlag.swift */,
+				AAEACB7B1EEA6DBF00AD82A7 /* NBPhoto.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -857,6 +860,7 @@
 				AA072DC41EBE51300039495C /* HistoryFilterTableViewController.swift in Sources */,
 				AA2D885D1E8378970005D969 /* TransactionDetailTableViewController.swift in Sources */,
 				AA2D88611E852AF80005D969 /* SellerClosedStrategy.swift in Sources */,
+				AAEACB7C1EEA6DBF00AD82A7 /* NBPhoto.swift in Sources */,
 				AA83930E1ED95310006950DC /* NotificationTableViewController.swift in Sources */,
 				AA3E34011E78E9A800B92943 /* StripeRouter.swift in Sources */,
 				AA8F27AC1E5ABE3F003CDC22 /* BuyerFinishStrategy.swift in Sources */,
