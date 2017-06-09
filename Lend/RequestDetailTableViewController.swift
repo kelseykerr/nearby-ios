@@ -38,6 +38,8 @@ class RequestDetailTableViewController: UITableViewController {
     @IBOutlet weak var saveButton: UIButton!
     @IBOutlet weak var actionBarButtonItem: UIBarButtonItem!
     @IBOutlet weak var itemImageView: UIImageView!
+    @IBOutlet weak var collectionView: UICollectionView!
+    
     
     
     weak var delegate: RequestDetailTableViewDelegate?
@@ -132,8 +134,12 @@ class RequestDetailTableViewController: UITableViewController {
         desc = request.desc ?? "<DESCRIPTION>"
         rent = request.requestType
         
-        if request.photos.count > 0 {
-            let pictureURL = "https://s3.amazonaws.com/nearbyappphotos/\(request.photos[0])"
+        loadPhotos(photoStringArray: request.photos)
+    }
+    
+    func loadPhotos(photoStringArray: [String]) {
+        for photoString in photoStringArray {
+            let pictureURL = "https://s3.amazonaws.com/nearbyappphotos/\(photoString)"
             print(pictureURL)
             NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
                 print("done")
@@ -141,12 +147,11 @@ class RequestDetailTableViewController: UITableViewController {
                     print(error!)
                     return
                 }
-                self.itemImageView.image = image
                 let photo = NBPhoto(image: image)
                 self.photos.append(photo)
+                self.collectionView.reloadData()
             })
         }
-        
     }
     
     @IBAction func respondButtonPressed(_ sender: UIButton) {
@@ -178,20 +183,6 @@ class RequestDetailTableViewController: UITableViewController {
             }
         case .none:
             print("should never see this")
-        }
-    }
-    
-    @IBAction func showButtonPressed(_ sender: UIButton) {
-        // rewrite this, this is really bad
-        if photos.count == 0 {
-            let image = UIImage(named: "No Image Picture")
-            let photo = NBPhoto(image: image)
-            let photosVC = NYTPhotosViewController(photos: [photo])
-            self.present(photosVC, animated: true, completion: nil)
-        }
-        else {
-            let photosVC = NYTPhotosViewController(photos: photos)
-            self.present(photosVC, animated: true, completion: nil)
         }
     }
     
@@ -228,6 +219,38 @@ class RequestDetailTableViewController: UITableViewController {
         
         self.present(alertController, animated: true) {
         }
+    }
+}
+
+extension RequestDetailTableViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
+    //2
+    func collectionView(_ collectionView: UICollectionView,
+                                 numberOfItemsInSection section: Int) -> Int {
+        return photos.count
+    }
+    
+    //3
+    func collectionView(_ collectionView: UICollectionView,
+                                 cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageCell",
+                                                      for: indexPath) as! ImageCollectionViewCell
+        
+        cell.backgroundColor = UIColor.black
+        
+        cell.photoImageView.image = photos[indexPath.row].image
+        // Configure the cell
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let photo = photos[indexPath.row]
+        let photosVC = NYTPhotosViewController(photos: photos, initialPhoto: photo)
+        self.present(photosVC, animated: true, completion: nil)
     }
 }
 

@@ -101,6 +101,7 @@
 		AAC3C8B01D5A789800B8F2A9 /* NearbyAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC3C8AB1D5A789800B8F2A9 /* NearbyAPIManager.swift */; };
 		AAD278E71E150501003DCEE0 /* SearchFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAD278E61E150501003DCEE0 /* SearchFilter.swift */; };
 		AAEACB7C1EEA6DBF00AD82A7 /* NBPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAEACB7B1EEA6DBF00AD82A7 /* NBPhoto.swift */; };
+		AAEACB7E1EEA907600AD82A7 /* ImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAEACB7D1EEA907600AD82A7 /* ImageCollectionViewCell.swift */; };
 		E61F58121EAD34C400EA60F0 /* ForgotToScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61F58111EAD34C400EA60F0 /* ForgotToScanViewController.swift */; };
 		E62E7F6E1E9AC7CA00AF16DB /* BanksAndCardsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E62E7F6D1E9AC7CA00AF16DB /* BanksAndCardsTableViewController.swift */; };
 		E63B18541EA05D79005983DF /* EditRequestTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E63B18531EA05D79005983DF /* EditRequestTableViewController.swift */; };
@@ -219,6 +220,7 @@
 		AAD278E61E150501003DCEE0 /* SearchFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchFilter.swift; sourceTree = "<group>"; };
 		AAE171031DA24D8B008DD5D8 /* Nearby.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Nearby.entitlements; sourceTree = "<group>"; };
 		AAEACB7B1EEA6DBF00AD82A7 /* NBPhoto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NBPhoto.swift; sourceTree = "<group>"; };
+		AAEACB7D1EEA907600AD82A7 /* ImageCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		C4BE07AAD7E7749E48DF11BF /* Pods_Nearby.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Nearby.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D418FAC02A6167DA6BE47114 /* libPods-NearbyTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NearbyTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E61F58111EAD34C400EA60F0 /* ForgotToScanViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgotToScanViewController.swift; sourceTree = "<group>"; };
@@ -488,6 +490,7 @@
 				AA2C47541D6D3FB60013F350 /* RequestDetailTableViewController.swift */,
 				AA0F72A21D7791C20023DAA6 /* CategorySelectionTableViewController.swift */,
 				E63B18531EA05D79005983DF /* EditRequestTableViewController.swift */,
+				AAEACB7D1EEA907600AD82A7 /* ImageCollectionViewCell.swift */,
 			);
 			name = Request;
 			sourceTree = "<group>";
@@ -824,6 +827,7 @@
 				AA072DBD1EBCDA5B0039495C /* UserDataManager.swift in Sources */,
 				AA546A841DCA5CD3007E1E8F /* NBBraintree.swift in Sources */,
 				AA2D885F1E852AC30005D969 /* BuyerClosedStrategy.swift in Sources */,
+				AAEACB7E1EEA907600AD82A7 /* ImageCollectionViewCell.swift in Sources */,
 				AA2BA97D1EE6A6BF001E1C5A /* UISwitchGroup.swift in Sources */,
 				AA97466C1E54540C00C1FA17 /* Utils.swift in Sources */,
 				AA2EB2E01E767E3700646AF3 /* UIColorExtensions.swift in Sources */,
