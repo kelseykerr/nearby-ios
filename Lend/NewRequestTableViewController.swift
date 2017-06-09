@@ -332,52 +332,30 @@ extension NewRequestTableViewController: UICollectionViewDelegate, UICollectionV
     
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
-        return photos.count + 1
+        return photos.count + 2
     }
     
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        /*
-        if indexPath.row == photos.count + 2 { //camera
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cameraCell",
-                                                          for: indexPath)
-            return cell
-        }
-        else if indexPath.row == photos.count + 1 { //chooser
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "chooserCell",
-                                                          for: indexPath)
-            return cell
-        }
-        else {
-//            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageCell2",
-//                                                          for: indexPath) as! ImageCollectionViewCell
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageCell2", for: indexPath)
-            
-            cell.backgroundColor = UIColor.black
-            
-//            cell.photoImageView.image = photos[indexPath.row].image
-            // Configure the cell
-            return cell
-        }
- */
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageCell2", for: indexPath)
-        cell.backgroundColor = UIColor.black
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("blah")
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageCell",
+                                                      for: indexPath) as! ImageCollectionViewCell
+        
         if indexPath.row == photos.count + 1 { //camera
-            cameraButtonPressed()
+            let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.cameraButtonPressed))
+            cell.addGestureRecognizer(tap)
+            cell.photoImageView.image = UIImage(named: "Camera")
         }
         else if indexPath.row == photos.count { //chooser
-            photoButtonPressed()
+            let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.photoButtonPressed))
+            cell.addGestureRecognizer(tap)
+            cell.photoImageView.image = UIImage(named: "Stack of Photos")
         }
         else {
-//            let photo = photos[indexPath.row]
-//            let photosVC = NYTPhotosViewController(photos: photos, initialPhoto: photo)
-//            self.present(photosVC, animated: true, completion: nil)
+//            let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.cameraButtonPressed))
+//            cell.addGestureRecognizer(tap)
+            cell.photoImageView.image = photos[indexPath.row].image
         }
+        return cell
     }
     
     func photoButtonPressed() {

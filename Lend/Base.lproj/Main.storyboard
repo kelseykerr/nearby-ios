@@ -399,66 +399,38 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="99.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="PdF-8J-Dx6">
-                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="99"/>
+                                                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="76X-b8-Pez">
+                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="100"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="phD-1T-JVR">
-                                                        <size key="itemSize" width="82" height="79"/>
+                                                    <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="E2q-HS-2RW">
+                                                        <size key="itemSize" width="82" height="80"/>
                                                         <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                                         <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                                         <inset key="sectionInset" minX="10" minY="10" maxX="10" maxY="10"/>
                                                     </collectionViewFlowLayout>
                                                     <cells>
-                                                        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="imageCell2" id="gqd-CI-xE8" customClass="ImageCollectionViewCell" customModule="Nearby" customModuleProvider="target">
-                                                            <rect key="frame" x="10" y="10" width="82" height="79"/>
+                                                        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="imageCell" id="BOb-Ew-jvg" customClass="ImageCollectionViewCell" customModule="Nearby" customModuleProvider="target">
+                                                            <rect key="frame" x="10" y="10" width="82" height="80"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                                                <rect key="frame" x="0.0" y="0.0" width="82" height="79"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="82" height="80"/>
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                 <subviews>
-                                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="No Image Picture" translatesAutoresizingMaskIntoConstraints="NO" id="asS-HO-7Bq">
+                                                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="No Image Picture" translatesAutoresizingMaskIntoConstraints="NO" id="fel-6W-f88">
                                                                         <rect key="frame" x="0.0" y="0.0" width="82" height="82"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                                     </imageView>
                                                                 </subviews>
                                                             </view>
                                                             <connections>
-                                                                <outlet property="photoImageView" destination="asS-HO-7Bq" id="vvZ-9g-SsX"/>
+                                                                <outlet property="photoImageView" destination="fel-6W-f88" id="Gum-Ol-5Ed"/>
                                                             </connections>
-                                                        </collectionViewCell>
-                                                        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="chooserCell" id="RVb-77-Aku">
-                                                            <rect key="frame" x="102" y="10" width="82" height="79"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                                                <rect key="frame" x="0.0" y="0.0" width="82" height="79"/>
-                                                                <autoresizingMask key="autoresizingMask"/>
-                                                                <subviews>
-                                                                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="icons8-Stack of Photos-48" translatesAutoresizingMaskIntoConstraints="NO" id="BNy-yZ-Tqu">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="82" height="82"/>
-                                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                                    </imageView>
-                                                                </subviews>
-                                                            </view>
-                                                        </collectionViewCell>
-                                                        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cameraCell" id="f7L-dh-UAU">
-                                                            <rect key="frame" x="194" y="10" width="82" height="79"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                                                <rect key="frame" x="0.0" y="0.0" width="82" height="79"/>
-                                                                <autoresizingMask key="autoresizingMask"/>
-                                                                <subviews>
-                                                                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="icons8-Camera-48" translatesAutoresizingMaskIntoConstraints="NO" id="lTE-Ik-Aaa">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="82" height="82"/>
-                                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                                    </imageView>
-                                                                </subviews>
-                                                            </view>
                                                         </collectionViewCell>
                                                     </cells>
                                                     <connections>
-                                                        <outlet property="dataSource" destination="K3m-Yp-29m" id="SZz-6e-ob3"/>
-                                                        <outlet property="delegate" destination="K3m-Yp-29m" id="bqJ-AP-qQx"/>
+                                                        <outlet property="dataSource" destination="K3m-Yp-29m" id="efe-jh-XYu"/>
+                                                        <outlet property="delegate" destination="K3m-Yp-29m" id="0We-DX-z0n"/>
                                                     </connections>
                                                 </collectionView>
                                             </subviews>
@@ -554,7 +526,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="collectionView" destination="PdF-8J-Dx6" id="KZJ-oD-TcR"/>
+                        <outlet property="collectionView" destination="76X-b8-Pez" id="kwy-cJ-3EE"/>
                         <outlet property="descriptionTextView" destination="uQL-Ii-n5Z" id="3tb-2k-fUu"/>
                         <outlet property="itemNameTextField" destination="cGe-7R-cXz" id="Oec-at-5eZ"/>
                         <outlet property="mapView" destination="het-Xy-CEf" id="Oiq-J3-ygA"/>
@@ -4238,8 +4210,6 @@
         <image name="Star2" width="29" height="29"/>
         <image name="User-64" width="64" height="64"/>
         <image name="User2" width="29" height="29"/>
-        <image name="icons8-Camera-48" width="48" height="48"/>
-        <image name="icons8-Stack of Photos-48" width="48" height="48"/>
         <image name="nearby_splash_480x320" width="320" height="480"/>
     </resources>
 </document>
