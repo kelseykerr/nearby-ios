@@ -337,25 +337,34 @@ extension NewRequestTableViewController: UICollectionViewDelegate, UICollectionV
     
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageCell",
-                                                      for: indexPath) as! ImageCollectionViewCell
-        
         if indexPath.row == photos.count + 1 { //camera
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cameraCell",
+                                                          for: indexPath)
+            
             let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.cameraButtonPressed))
             cell.addGestureRecognizer(tap)
-            cell.photoImageView.image = UIImage(named: "Camera")
+            
+            return cell
         }
         else if indexPath.row == photos.count { //chooser
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "chooserCell",
+                                                          for: indexPath)
+            
             let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.photoButtonPressed))
             cell.addGestureRecognizer(tap)
-            cell.photoImageView.image = UIImage(named: "Stack of Photos")
+            
+            return cell
         }
         else {
-//            let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.cameraButtonPressed))
-//            cell.addGestureRecognizer(tap)
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageCell",
+                                                          for: indexPath) as! ImageCollectionViewCell
+            
+            let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.removeImage))
+            cell.addGestureRecognizer(tap)
+            
             cell.photoImageView.image = photos[indexPath.row].image
+            return cell
         }
-        return cell
     }
     
     func photoButtonPressed() {
@@ -375,6 +384,8 @@ extension NewRequestTableViewController: UICollectionViewDelegate, UICollectionV
         present(picker,animated: true,completion: nil)
     }
     
+    func removeImage(sender: UITapGestureRecognizer) {
+    }
 }
 
 
