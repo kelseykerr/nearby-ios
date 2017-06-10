@@ -54,7 +54,9 @@ class FlagTableViewController: UITableViewController {
 
         self.hideKeyboardWhenTappedAround()
         
-        flagButton.layer.cornerRadius = flagButton.frame.size.height / 16
+        flagButton.layer.cornerRadius = 4
+        flagButton.layer.borderColor = UIColor(netHex: 0xE2E1DF).cgColor
+        flagButton.layer.borderWidth = 1.0
         flagButton.clipsToBounds = true
         
         if case .user = mode {

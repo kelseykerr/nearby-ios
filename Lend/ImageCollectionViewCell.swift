@@ -12,4 +12,13 @@ class ImageCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var photoImageView: UIImageView!
     
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        photoImageView.layer.cornerRadius = 4
+        photoImageView.layer.borderColor = UIColor(netHex: 0xE2E1DF).cgColor
+        photoImageView.layer.borderWidth = 1.0
+        photoImageView.clipsToBounds = true
+    }
+    
 }

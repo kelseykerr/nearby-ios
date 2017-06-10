@@ -96,7 +96,9 @@ class RequestDetailTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        saveButton.layer.cornerRadius = saveButton.frame.size.height / 16
+        saveButton.layer.cornerRadius = 4
+        saveButton.layer.borderColor = UIColor(netHex: 0xE2E1DF).cgColor
+        saveButton.layer.borderWidth = 1.0
         saveButton.clipsToBounds = true
         
         collectionView.delegate = self
@@ -104,13 +106,13 @@ class RequestDetailTableViewController: UITableViewController {
         switch mode {
         case .buyer:
             self.saveButton.setTitle("Close", for: UIControlState.normal)
-            self.saveButton.backgroundColor = UIColor.nbRed
+//            self.saveButton.backgroundColor = UIColor.nbRed
             
             self.saveButton.isHidden = false
             self.navigationItem.rightBarButtonItem = nil
         case .seller:
             self.saveButton.setTitle("Respond", for: UIControlState.normal)
-            self.saveButton.backgroundColor = UIColor.nbTurquoise
+//            self.saveButton.backgroundColor = UIColor.nbTurquoise
             
             self.saveButton.isHidden = false
         case .none:
@@ -237,7 +239,7 @@ extension RequestDetailTableViewController: UICollectionViewDelegate, UICollecti
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageCell",
                                                       for: indexPath) as! ImageCollectionViewCell
         
-        cell.backgroundColor = UIColor.black
+//        cell.backgroundColor = UIColor.black
         
         cell.photoImageView.image = photos[indexPath.row].image
         // Configure the cell

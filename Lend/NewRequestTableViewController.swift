@@ -156,7 +156,9 @@ class NewRequestTableViewController: UITableViewController {
 
         picker.delegate = self
         
-        saveButton.layer.cornerRadius = saveButton.frame.size.height / 16
+        saveButton.layer.cornerRadius = 4
+        saveButton.layer.borderColor = UIColor(netHex: 0xE2E1DF).cgColor
+        saveButton.layer.borderWidth = 1.0
         saveButton.clipsToBounds = true
         
         collectionView.delegate = self
@@ -307,21 +309,13 @@ extension NewRequestTableViewController: UICollectionViewDelegate, UICollectionV
     
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
-        return photos.count + 2
+        return photos.count + 1
     }
     
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if indexPath.row == photos.count + 1 { //camera
+        if indexPath.row == photos.count { //camera
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cameraCell", for: indexPath)
-            
-            let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.cameraButtonPressed))
-            cell.addGestureRecognizer(tap)
-            
-            return cell
-        }
-        else if indexPath.row == photos.count { //chooser
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "chooserCell", for: indexPath)
             
             let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.photoButtonPressed))
             cell.addGestureRecognizer(tap)
@@ -340,6 +334,28 @@ extension NewRequestTableViewController: UICollectionViewDelegate, UICollectionV
     }
     
     func photoButtonPressed() {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { action in
+        }
+        alertController.addAction(cancelAction)
+        
+        let cameraAction = UIAlertAction(title: "Take a photo", style: .default) { action in
+            self.cameraButtonPressed()
+        }
+        alertController.addAction(cameraAction)
+        
+        let chooserAction = UIAlertAction(title: "Choose from album", style: .default) { action in
+            self.chooserButtonPressed()
+        }
+        alertController.addAction(chooserAction)
+        
+        self.present(alertController, animated: true) {
+        }
+        
+    }
+    
+    func chooserButtonPressed() {
         print("photo button")
         picker.allowsEditing = false
         picker.sourceType = .photoLibrary

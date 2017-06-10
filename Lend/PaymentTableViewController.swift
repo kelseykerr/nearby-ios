@@ -75,7 +75,9 @@ class PaymentTableViewController: UITableViewController, UITextFieldDelegate {
         ccExpDateTextField.delegate = self
         cvcTextField.delegate = self
         
-        saveButton.layer.cornerRadius = saveButton.frame.size.height / 16
+        saveButton.layer.cornerRadius = 4
+        saveButton.layer.borderColor = UIColor(netHex: 0xE2E1DF).cgColor
+        saveButton.layer.borderWidth = 1.0
         saveButton.clipsToBounds = true
         
         UserManager.sharedInstance.getUser { user in
