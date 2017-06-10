@@ -1,8 +1,8 @@
 //
-//  AwsManager.swift
+//  AWSManager.swift
 //  Nearby
 //
-//  Created by Kelsey Kerr on 6/6/17.
+//  Created by Kei Sakaguchi on 6/9/17.
 //  Copyright © 2017 Kei Sakaguchi. All rights reserved.
 //
 
@@ -10,9 +10,9 @@ import Foundation
 import AWSCognito
 import AWSS3
 
-class AwsManager {
+class AWSManager {
     
-    static let sharedInstance = AwsManager()
+    static let sharedInstance = AWSManager()
     
     let bucketName = "nearbyappphotos"
     var transferManager: AWSS3TransferManager!
@@ -21,17 +21,33 @@ class AwsManager {
         transferManager = AWSS3TransferManager.default()
     }
     
-    func uploadPhoto(path: URL, key: String) {
-        // Delete image.
-//        do {
-//            try FileManager.default.removeItem(atPath: path)
-//        } catch {
-//            print(error)
-//        }
+    func uploadPhotos(photos: [NBPhoto]) -> [String] {
+        var photoStringArray: [String] = []
+        for photo in photos {
+            let photoString = uploadPhoto(photo: photo)
+            photoStringArray.append(photoString)
+        }
+        return photoStringArray
+    }
+    
+    func uploadPhoto(photo: NBPhoto) -> String {
+        let image = photo.image
+        let imageUrl = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true) as NSURL
+        let key = UUID().uuidString
+        let imageName = key
+        let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
+        let photoURL = NSURL(fileURLWithPath: documentDirectory)
+        let localPath = photoURL.appendingPathComponent(imageName)
         
-        let uploadingFileURL = path//URL(fileURLWithPath: path)
+        do {
+            try UIImageJPEGRepresentation(image!, 0.2)?.write(to: localPath!)
+            print("file saved")
+        } catch {
+            print("error saving file")
+        }
+    
+        let uploadingFileURL = localPath!
         let uploadRequest = AWSS3TransferManagerUploadRequest()
-//        let key = UUID().uuidString
         uploadRequest?.bucket = bucketName
         uploadRequest?.key = key
         uploadRequest?.body = uploadingFileURL
@@ -57,6 +73,7 @@ class AwsManager {
             print("Upload complete for: \(key)")
             return nil
         })
+        return key
     }
     
     func downloadPhoto(key: String, completionBlock: @escaping (UIImage) -> Void) {

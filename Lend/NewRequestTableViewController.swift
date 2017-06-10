@@ -270,35 +270,10 @@ class NewRequestTableViewController: UITableViewController {
             req = request?.copy() as! NBRequest
         }
         
-        
-        
-        
-////////
-        /*
-        let image = itemImageView.image
-         let imageUrl          = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true) as NSURL
-        let imageName         = "uploadImage.jpeg"//imageUrl?.lastPathComponent
-        let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
-        let photoURL          = NSURL(fileURLWithPath: documentDirectory)
-        let localPath         = photoURL.appendingPathComponent(imageName)
-        let key         = UUID().uuidString
-        
-        do {
-            try UIImageJPEGRepresentation(image!, 0.1)?.write(to: localPath!)
-            print("file saved")
-        }catch {
-            print("error saving file")
-        }
-        AwsManager.sharedInstance.uploadPhoto(path: localPath!, key: key)
-///////
-        req.photos.append(key)
-        */
-        
+        let photoStringArray = AWSManager.sharedInstance.uploadPhotos(photos: photos)
+        req.photos = photoStringArray
         
         saveFields(request: req)
-        
-        
-        
         
 //        req.type = "item"
        
@@ -338,8 +313,7 @@ extension NewRequestTableViewController: UICollectionViewDelegate, UICollectionV
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.row == photos.count + 1 { //camera
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cameraCell",
-                                                          for: indexPath)
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cameraCell", for: indexPath)
             
             let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.cameraButtonPressed))
             cell.addGestureRecognizer(tap)
@@ -347,8 +321,7 @@ extension NewRequestTableViewController: UICollectionViewDelegate, UICollectionV
             return cell
         }
         else if indexPath.row == photos.count { //chooser
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "chooserCell",
-                                                          for: indexPath)
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "chooserCell", for: indexPath)
             
             let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.photoButtonPressed))
             cell.addGestureRecognizer(tap)
@@ -356,8 +329,7 @@ extension NewRequestTableViewController: UICollectionViewDelegate, UICollectionV
             return cell
         }
         else {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageCell",
-                                                          for: indexPath) as! ImageCollectionViewCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageCell", for: indexPath) as! ImageCollectionViewCell
             
             let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.removeImage))
             cell.addGestureRecognizer(tap)
@@ -394,13 +366,11 @@ extension NewRequestTableViewController: UIImagePickerControllerDelegate, UINavi
     func imagePickerController(_ picker: UIImagePickerController,
                                didFinishPickingMediaWithInfo info: [String : AnyObject])
     {
-        let chosenImage = info[UIImagePickerControllerOriginalImage] as! UIImage //2
-//        itemImageView.contentMode = .scaleAspectFit //3
-//        itemImageView.image = chosenImage //4
+        let chosenImage = info[UIImagePickerControllerOriginalImage] as! UIImage
         let photo = NBPhoto(image: chosenImage)
         photos.append(photo)
         self.collectionView.reloadData()
-        dismiss(animated:true, completion: nil) //5
+        dismiss(animated:true, completion: nil)
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
