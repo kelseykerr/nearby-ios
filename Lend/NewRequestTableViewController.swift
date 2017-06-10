@@ -340,7 +340,7 @@ extension NewRequestTableViewController: UICollectionViewDelegate, UICollectionV
         }
         alertController.addAction(cancelAction)
         
-        let cameraAction = UIAlertAction(title: "Take a photo", style: .default) { action in
+        let cameraAction = UIAlertAction(title: "Take a photo with camera", style: .default) { action in
             self.cameraButtonPressed()
         }
         alertController.addAction(cameraAction)
