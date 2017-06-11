@@ -8,6 +8,8 @@
 
 import Foundation
 import MessageUI
+import NYTPhotoViewer
+
 
 protocol ResponseDetailTableViewDelegate: class {
     
@@ -37,6 +39,7 @@ class ResponseDetailTableViewController: UITableViewController, MFMessageCompose
     @IBOutlet weak var returnTimeDateTextField: UITextField!
     @IBOutlet weak var pickupTimeDateTextField: UITextField!
     @IBOutlet weak var descriptionTextView: UITextView!
+    @IBOutlet weak var collectionView: UICollectionView!
 
     @IBOutlet weak var acceptButton: UIButton!
     @IBOutlet weak var declineButton: UIButton!
@@ -46,6 +49,7 @@ class ResponseDetailTableViewController: UITableViewController, MFMessageCompose
     
     var response: NBResponse?
     var mode: ResponseDetailTableViewMode = .none
+    var photos: [NBPhoto] = []
     
     let dateFormatter = DateFormatter()
     let pickupDatePicker = UIDatePicker()
@@ -259,6 +263,25 @@ class ResponseDetailTableViewController: UITableViewController, MFMessageCompose
         returnLocation = response.returnLocation
         returnTime = response.returnTime
         responseDescription = response.description
+        
+        loadPhotos(photoStringArray: response.photos)
+    }
+    
+    func loadPhotos(photoStringArray: [String]) {
+        for photoString in photoStringArray {
+            let pictureURL = "https://s3.amazonaws.com/nearbyappphotos/\(photoString)"
+            print(pictureURL)
+            NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
+                print("done")
+                guard error == nil else {
+                    print(error!)
+                    return
+                }
+                let photo = NBPhoto(image: image)
+                self.photos.append(photo)
+                self.collectionView.reloadData()
+            })
+        }
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -377,6 +400,34 @@ class ResponseDetailTableViewController: UITableViewController, MFMessageCompose
         self.navigationController?.isNavigationBarHidden = false
     }
     
+}
+
+extension ResponseDetailTableViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        numberOfItemsInSection section: Int) -> Int {
+        return photos.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageCell",
+                                                      for: indexPath) as! ImageCollectionViewCell
+        
+        cell.photoImageView.image = photos[indexPath.row].image
+        
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let photo = photos[indexPath.row]
+        let photosVC = NYTPhotosViewController(photos: photos, initialPhoto: photo)
+        self.present(photosVC, animated: true, completion: nil)
+    }
 }
 
 extension ResponseDetailTableViewController: NewResponseTableViewDelegate {

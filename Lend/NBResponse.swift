@@ -88,7 +88,6 @@ class NBResponse: ResponseJSONObjectSerializable {
             messages.append(NBMessage(json: messageJson)!)
         }
         for (index, photo) in json["photos"] {
-            print("\(index) photo: \(photo.string)")
             photos.append(photo.string!)
         }
         self.responder = NBUser(json: json["responder"])
@@ -155,6 +154,7 @@ class NBResponse: ResponseJSONObjectSerializable {
         if let isOfferToBuyOrRent = isOfferToBuyOrRent {
             json["isOfferToBuyOrRent"] = isOfferToBuyOrRent as AnyObject?
         }
+        json["photos"] = photos as AnyObject?
         return json
     }
     

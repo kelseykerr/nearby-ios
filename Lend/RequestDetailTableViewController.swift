@@ -101,8 +101,6 @@ class RequestDetailTableViewController: UITableViewController {
         saveButton.layer.borderWidth = 1.0
         saveButton.clipsToBounds = true
         
-        collectionView.delegate = self
-        
         switch mode {
         case .buyer:
             self.saveButton.setTitle("Close", for: UIControlState.normal)
