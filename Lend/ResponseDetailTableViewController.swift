@@ -168,10 +168,14 @@ class ResponseDetailTableViewController: UITableViewController, MFMessageCompose
         
         self.hideKeyboardWhenTappedAround()
         
-        acceptButton.layer.cornerRadius = acceptButton.frame.size.height / 16
+        acceptButton.layer.cornerRadius = 4
+        acceptButton.layer.borderColor = UIColor(netHex: 0xE2E1DF).cgColor
+        acceptButton.layer.borderWidth = 1.0
         acceptButton.clipsToBounds = true
         
-        declineButton.layer.cornerRadius = declineButton.frame.size.height / 16
+        declineButton.layer.cornerRadius = 4
+        declineButton.layer.borderColor = UIColor(netHex: 0xE2E1DF).cgColor
+        declineButton.layer.borderWidth = 1.0
         declineButton.clipsToBounds = true
         
         createDatePickers()
