@@ -27,6 +27,7 @@ class NewResponseTableViewController: UITableViewController {
     @IBOutlet var returnTimeDateTextField: UITextField!
     @IBOutlet var descriptionTextView: UITextView!
     @IBOutlet var messagesEnabledSwitch: UISwitch!
+    @IBOutlet weak var collectionView: UICollectionView!
 
     /*@IBOutlet var perHourImageView: UIImageView!
     @IBOutlet var perDayImageView: UIImageView!
@@ -34,12 +35,16 @@ class NewResponseTableViewController: UITableViewController {
     
     @IBOutlet var saveButton: UIButton!
     
+    var photos: [NBPhoto] = []
+    
     weak var delegate: NewResponseTableViewDelegate?
     var request: NBRequest?
     var response: NBResponse?
     
     let pickupDatePicker = UIDatePicker()
     let returnDatePicker = UIDatePicker()
+    
+    let picker = UIImagePickerController()
     
     let dateFormatter = DateFormatter()
     
@@ -102,6 +107,8 @@ class NewResponseTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        picker.delegate = self
         
         self.hideKeyboardWhenTappedAround()
 //        priceType = .per_hour
@@ -240,6 +247,9 @@ class NewResponseTableViewController: UITableViewController {
 //        response?.priceType = priceType
         response?.priceType = .flat
         
+        let photoStringArray = AWSManager.sharedInstance.uploadPhotos(photos: photos)
+        response?.photos = photoStringArray
+        
         delegate?.saved(response)
         self.dismiss(animated: true, completion: nil)
     }
@@ -254,6 +264,99 @@ class NewResponseTableViewController: UITableViewController {
     
     @IBAction func flatButtonPressed(_ sender: UIButton) {
         priceType = .flat
+    }
+    
+}
+
+extension NewResponseTableViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        numberOfItemsInSection section: Int) -> Int {
+        return photos.count + 1
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if indexPath.row == photos.count { //camera
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cameraCell", for: indexPath)
+            
+            let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.photoButtonPressed))
+            cell.addGestureRecognizer(tap)
+            
+            return cell
+        }
+        else {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageCell", for: indexPath) as! ImageCollectionViewCell
+            
+            let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.removeImage))
+            cell.addGestureRecognizer(tap)
+            
+            cell.photoImageView.image = photos[indexPath.row].image
+            return cell
+        }
+    }
+    
+    func photoButtonPressed() {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { action in
+        }
+        alertController.addAction(cancelAction)
+        
+        let cameraAction = UIAlertAction(title: "Take a photo with camera", style: .default) { action in
+            self.cameraButtonPressed()
+        }
+        alertController.addAction(cameraAction)
+        
+        let chooserAction = UIAlertAction(title: "Choose from album", style: .default) { action in
+            self.chooserButtonPressed()
+        }
+        alertController.addAction(chooserAction)
+        
+        self.present(alertController, animated: true) {
+        }
+        
+    }
+    
+    func chooserButtonPressed() {
+        print("photo button")
+        picker.allowsEditing = false
+        picker.sourceType = .photoLibrary
+        picker.mediaTypes = UIImagePickerController.availableMediaTypes(for: .photoLibrary)!
+        present(picker, animated: true, completion: nil)
+    }
+    
+    func cameraButtonPressed() {
+        print("camera button")
+        picker.allowsEditing = false
+        picker.sourceType = UIImagePickerControllerSourceType.camera
+        picker.cameraCaptureMode = .photo
+        picker.modalPresentationStyle = .fullScreen
+        present(picker,animated: true,completion: nil)
+    }
+    
+    func removeImage(sender: UITapGestureRecognizer) {
+    }
+}
+
+extension NewResponseTableViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func imagePickerController(_ picker: UIImagePickerController,
+                               didFinishPickingMediaWithInfo info: [String : AnyObject])
+    {
+        let chosenImage = info[UIImagePickerControllerOriginalImage] as! UIImage
+        let photo = NBPhoto(image: chosenImage)
+        photos.append(photo)
+        self.collectionView.reloadData()
+        dismiss(animated:true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
     }
     
 }
