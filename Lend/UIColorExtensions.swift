@@ -25,6 +25,7 @@ extension UIColor {
     static let nbRed = UIColor(red: 233, green: 88, blue: 78)
     static let nbYellow = UIColor(red: 255, green: 226, blue: 77)
     static let nbGreen = UIColor(red: 78, green: 236, blue: 207)
+    
     //static let nbBlue = UIColor(red: 0, green: 227, blue: 237)
     static let nbBlue = UIColor(netHex: 0x00E3ED)
     static let nbTurquoise = UIColor(netHex: 0x00E3ED)
