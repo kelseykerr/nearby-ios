@@ -23,7 +23,7 @@ class BuyerClosedStrategy: HistoryStateStrategy {
                 let action = request.type == RequestType.loaning.rawValue ? "Offering to loan out" : "Selling"
                 cell.message = "\(action) a \(item)"
             } else {
-                cell.message = "Requested to \(action) \(item)"
+                cell.message = "Requested to \(action) a \(item)"
             }
             
             cell.stateColor = UIColor.nbRed

@@ -37,13 +37,13 @@ enum RequestType: String {
     func getAsPastTense() -> String {
         switch self {
         case .buying:
-            return "bought"
+            return "Bought"
         case .renting:
-            return "rented"
+            return "Rented"
         case .selling:
-            return "sold"
+            return "Sold"
         case .loaning:
-            return "loaned"
+            return "Loaned"
         case .none:
             return "none"
         }

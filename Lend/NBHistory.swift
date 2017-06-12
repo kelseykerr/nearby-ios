@@ -210,7 +210,8 @@ extension NBHistory {
                 }
             }
             else { // check request is fulfilled
-                if self.isMyRequest() {
+                let isInventoryListing = self.request?.type == RequestType.selling.rawValue || self.request?.type == RequestType.loaning.rawValue
+                if (self.isMyRequest() && !isInventoryListing) || (!self.isMyRequest() && isInventoryListing) {
                     return HistoryStatus.buyer_finish
                 }
                 else {
