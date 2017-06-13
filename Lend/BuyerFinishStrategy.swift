@@ -18,7 +18,8 @@ class BuyerFinishStrategy: HistoryStateStrategy {
         if let request = history.request {
             let item = request.itemName ?? "ITEM"
              let inventoryListing = history.request?.requestType == .loaning || history.request?.requestType == .selling
-            let responderName = history.responses[0].responder?.firstName ?? "NAME"
+            let responder = history.getResponseById(id: (history.transaction?.responseId)!)?.responder
+            let responderName = responder?.firstName ?? "NAME"
             let name = (inventoryListing ? history.request?.user?.firstName :responderName) ?? "NAME"
             let price = history.transaction?.finalPriceInDollarFormat ?? "0.00"
             let action = request.type == RequestType.renting.rawValue || request.type == RequestType.loaning.rawValue ? "Borrowed" : "Bought"
@@ -30,8 +31,6 @@ class BuyerFinishStrategy: HistoryStateStrategy {
             cell.time = request.getElapsedTimeAsString()
             
             cell.userImage = UIImage(named: "User-64")
-            
-            let responder = history.getResponseById(id: (history.transaction?.responseId)!)?.responder
             
             if inventoryListing {
                 if let pictureURL = request.user?.imageUrl {
