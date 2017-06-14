@@ -289,7 +289,7 @@ class ResponseDetailTableViewController: UITableViewController, MFMessageCompose
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if section == 3 && (response?.returnLocation == nil || response?.returnLocation == "") {
+        if section == 4 && (response?.returnLocation == nil || response?.returnLocation == "") {
             return nil
         }
         else {
@@ -298,7 +298,7 @@ class ResponseDetailTableViewController: UITableViewController, MFMessageCompose
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if section == 3 && (response?.returnLocation == nil || response?.returnLocation == "") {
+        if section == 4 && (response?.returnLocation == nil || response?.returnLocation == "") {
             return 0.1
         }
         else {
@@ -307,7 +307,7 @@ class ResponseDetailTableViewController: UITableViewController, MFMessageCompose
     }
     
     override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        if section == 3 && (response?.returnLocation == nil || response?.returnLocation == "") {
+        if section == 4 && (response?.returnLocation == nil || response?.returnLocation == "") {
             return 0.1
         }
         else {
@@ -316,7 +316,7 @@ class ResponseDetailTableViewController: UITableViewController, MFMessageCompose
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 3 && (response?.returnLocation == nil || response?.returnLocation == "") {
+        if section == 4 && (response?.returnLocation == nil || response?.returnLocation == "") {
             return 0
         }
         else {
