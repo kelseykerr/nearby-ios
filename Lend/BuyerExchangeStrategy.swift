@@ -26,7 +26,7 @@ class BuyerExchangeStrategy: HistoryStateStrategy {
             }
             let item = history.request?.itemName ?? "ITEM"
             let direction = (history.request?.requestType == .loaning || history.request?.requestType == .selling) ? "to" : "from"
-            cell.message = "\(action) \(item) \(direction) \(buyerName)"
+            cell.message = "\(action) a \(item) \(direction) \(buyerName)"
             
             if (history.status == .buyer_overrideExchange && !(history.transaction?.exchangeOverride?.declined)!) {
                 cell.stateColor = UIColor.nbYellow
