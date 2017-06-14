@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import NYTPhotoViewer
+
 
 protocol NewResponseTableViewDelegate: class {
     
@@ -27,7 +29,7 @@ class NewResponseTableViewController: UITableViewController {
     @IBOutlet var returnTimeDateTextField: UITextField!
     @IBOutlet var descriptionTextView: UITextView!
     @IBOutlet var messagesEnabledSwitch: UISwitch!
-    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var collectionView: ImageCollectionView!
 
     /*@IBOutlet var perHourImageView: UIImageView!
     @IBOutlet var perDayImageView: UIImageView!
@@ -268,7 +270,7 @@ class NewResponseTableViewController: UITableViewController {
     
 }
 
-extension NewResponseTableViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+extension NewResponseTableViewController: ImageCollectionViewDelegate, UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
@@ -284,18 +286,13 @@ extension NewResponseTableViewController: UICollectionViewDelegate, UICollection
         if indexPath.row == photos.count { //camera
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cameraCell", for: indexPath)
             
-            let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.photoButtonPressed))
-            cell.addGestureRecognizer(tap)
-            
             return cell
         }
         else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageCell", for: indexPath) as! ImageCollectionViewCell
             
-            let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.removeImage))
-            cell.addGestureRecognizer(tap)
-            
             cell.photoImageView.image = photos[indexPath.row].image
+            
             return cell
         }
     }
@@ -308,12 +305,12 @@ extension NewResponseTableViewController: UICollectionViewDelegate, UICollection
         alertController.addAction(cancelAction)
         
         let cameraAction = UIAlertAction(title: "Take a photo with camera", style: .default) { action in
-            self.cameraButtonPressed()
+            self.takePhoto()
         }
         alertController.addAction(cameraAction)
         
         let chooserAction = UIAlertAction(title: "Choose from album", style: .default) { action in
-            self.chooserButtonPressed()
+            self.choosePhoto()
         }
         alertController.addAction(chooserAction)
         
@@ -322,7 +319,7 @@ extension NewResponseTableViewController: UICollectionViewDelegate, UICollection
         
     }
     
-    func chooserButtonPressed() {
+    func choosePhoto() {
         print("photo button")
         picker.allowsEditing = false
         picker.sourceType = .photoLibrary
@@ -330,7 +327,7 @@ extension NewResponseTableViewController: UICollectionViewDelegate, UICollection
         present(picker, animated: true, completion: nil)
     }
     
-    func cameraButtonPressed() {
+    func takePhoto() {
         print("camera button")
         picker.allowsEditing = false
         picker.sourceType = UIImagePickerControllerSourceType.camera
@@ -339,7 +336,48 @@ extension NewResponseTableViewController: UICollectionViewDelegate, UICollection
         present(picker,animated: true,completion: nil)
     }
     
-    func removeImage(sender: UITapGestureRecognizer) {
+    func removeImage(index: Int) {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { action in
+        }
+        alertController.addAction(cancelAction)
+        
+        let removeAction = UIAlertAction(title: "Remove this photo", style: .destructive) { action in
+            print("removing image")
+            self.photos.remove(at: index)
+            self.collectionView.reloadData()
+        }
+        alertController.addAction(removeAction)
+        
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if indexPath.row == photos.count { //camera
+            if photos.count < 3 {
+                photoButtonPressed()
+            }
+            else {
+                let alertController = UIAlertController(title: nil, message: "You cannot add more than 3 photos.", preferredStyle: .alert)
+                
+                let okAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                alertController.addAction(okAction)
+                
+                self.present(alertController, animated: true, completion: nil)
+            }
+        }
+        else {
+            let photo = photos[indexPath.row]
+            let photosVC = NYTPhotosViewController(photos: photos, initialPhoto: photo)
+            self.present(photosVC, animated: true, completion: nil)
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemToRemoveAt indexPath: IndexPath) {
+        if indexPath.row != photos.count {
+            removeImage(index: indexPath.row)
+        }
     }
 }
 

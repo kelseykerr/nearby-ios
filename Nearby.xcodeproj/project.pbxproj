@@ -86,6 +86,7 @@
 		AA97466E1E56C10C00C1FA17 /* UIViewControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA97466D1E56C10C00C1FA17 /* UIViewControllerExtensions.swift */; };
 		AA98F7391D9C69910083BB4B /* RequestTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA98F7381D9C69910083BB4B /* RequestTableViewCell.swift */; };
 		AA9B97B01E7FAB3400EE055F /* UIStoryboardExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9B97AF1E7FAB3400EE055F /* UIStoryboardExtensions.swift */; };
+		AA9E15CB1EF12EAA00639EB3 /* ImageCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9E15CA1EF12EAA00639EB3 /* ImageCollectionView.swift */; };
 		AAA7F82A1EC98CE7006CEBB6 /* NBConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA7F8291EC98CE7006CEBB6 /* NBConstants.swift */; };
 		AAA7F82E1EC994D2006CEBB6 /* HistoryTransactionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA7F82D1EC994D2006CEBB6 /* HistoryTransactionTableViewCell.swift */; };
 		AAA7F8301ECA30C7006CEBB6 /* NBFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA7F82F1ECA30C7006CEBB6 /* NBFlag.swift */; };
@@ -204,6 +205,7 @@
 		AA97466D1E56C10C00C1FA17 /* UIViewControllerExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtensions.swift; sourceTree = "<group>"; };
 		AA98F7381D9C69910083BB4B /* RequestTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestTableViewCell.swift; sourceTree = "<group>"; };
 		AA9B97AF1E7FAB3400EE055F /* UIStoryboardExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIStoryboardExtensions.swift; sourceTree = "<group>"; };
+		AA9E15CA1EF12EAA00639EB3 /* ImageCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCollectionView.swift; sourceTree = "<group>"; };
 		AAA7F8291EC98CE7006CEBB6 /* NBConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NBConstants.swift; sourceTree = "<group>"; };
 		AAA7F82D1EC994D2006CEBB6 /* HistoryTransactionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryTransactionTableViewCell.swift; sourceTree = "<group>"; };
 		AAA7F82F1ECA30C7006CEBB6 /* NBFlag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NBFlag.swift; sourceTree = "<group>"; };
@@ -491,6 +493,7 @@
 				AA0F72A21D7791C20023DAA6 /* CategorySelectionTableViewController.swift */,
 				E63B18531EA05D79005983DF /* EditRequestTableViewController.swift */,
 				AAEACB7D1EEA907600AD82A7 /* ImageCollectionViewCell.swift */,
+				AA9E15CA1EF12EAA00639EB3 /* ImageCollectionView.swift */,
 			);
 			name = Request;
 			sourceTree = "<group>";
@@ -844,6 +847,7 @@
 				AA9027231DD7D53400B5CA2B /* ProfileTableViewController.swift in Sources */,
 				AAB769101E2B41A80021F657 /* PaymentTableViewController.swift in Sources */,
 				AA8F27981E5AB547003CDC22 /* SellerFinishStrategy.swift in Sources */,
+				AA9E15CB1EF12EAA00639EB3 /* ImageCollectionView.swift in Sources */,
 				AAA7F8301ECA30C7006CEBB6 /* NBFlag.swift in Sources */,
 				AA97466E1E56C10C00C1FA17 /* UIViewControllerExtensions.swift in Sources */,
 				AA97211E1D64DB580036E007 /* NBGeoJsonPoint.swift in Sources */,

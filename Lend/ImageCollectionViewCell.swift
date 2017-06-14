@@ -19,6 +19,16 @@ class ImageCollectionViewCell: UICollectionViewCell {
         photoImageView.layer.borderColor = UIColor(netHex: 0xE2E1DF).cgColor
         photoImageView.layer.borderWidth = 1.0
         photoImageView.clipsToBounds = true
+
+        let press = UILongPressGestureRecognizer(target: self, action: #selector(ImageCollectionViewCell.pressed))
+        self.addGestureRecognizer(press)
+        
+    }
+    
+    func pressed() {
+        if let collectionView = self.superview as? ImageCollectionView {
+            collectionView.cellSelectedToBeRemoved(cell: self)
+        }
     }
     
 }
