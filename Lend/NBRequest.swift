@@ -30,10 +30,6 @@ enum RequestType: String {
         return self.rawValue.replacingOccurrences(of: "ing", with: "")
     }
     
-    func getAsInflected() -> String {
-        return self.rawValue
-    }
-    
     func getAsPastTense() -> String {
         switch self {
         case .buying:

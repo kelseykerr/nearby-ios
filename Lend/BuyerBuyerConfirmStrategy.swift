@@ -21,16 +21,24 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
                 
                 if (request.type == RequestType.buying.rawValue || request.type == RequestType.renting.rawValue) {
                     cell.message = "Requested to \(action) a \(item)"
+                    cell.stateColor = UIColor.nbGreen
+                    cell.state = "OPEN"
                 } else {
+                    let name = request.user?.firstName ?? "user"
                     if (request.type == RequestType.loaning.rawValue) {
-                        cell.message = "Offering to \(action) out a \(item)"
+                        cell.message = "Requested to borrow a \(item) from \(name)"
                     } else if (request.type == RequestType.selling.rawValue) {
-                        cell.message = "Selling a \(item)"
+                        cell.message = "Requested to buy a \(item) from \(name)"
                     }
+                    if history.responses.count > 0 && history.responses[0].sellerStatus == SellerStatus.accepted {
+                        cell.stateColor = UIColor.nbYellow
+                        cell.state = "PENDING YOUR APPROVAL"
+                    } else {
+                        cell.stateColor = UIColor.nbGreen
+                        cell.state = "OPEN"
+                    }
+                    
                 }
-                
-                cell.stateColor = UIColor.nbGreen
-                cell.state = "OPEN"
                 
                 cell.time = request.getElapsedTimeAsString()
                 
@@ -167,8 +175,8 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
     }
     
     func detailViewController(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UIViewController {
-        
-        if indexPath.row == 0 {
+        let inventoryRequest = history.request?.type == RequestType.selling.rawValue || history.request?.type == RequestType.loaning.rawValue
+        if indexPath.row == 0 && !inventoryRequest {
             let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
    
             guard let requestDetailVC = storyboard.instantiateViewController(
@@ -187,7 +195,7 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
                     assert(false, "Misnamed view controller")
                     return UIViewController()
             }
-            responseDetailVC.response = history.responses[indexPath.row - 1]
+            responseDetailVC.response = inventoryRequest ? history.responses[0] :history.responses[indexPath.row - 1]
             responseDetailVC.mode = .buyer
             responseDetailVC.delegate = historyVC
             return responseDetailVC

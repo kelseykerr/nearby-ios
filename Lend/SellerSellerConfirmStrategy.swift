@@ -12,18 +12,69 @@ import Foundation
 class SellerSellerConfirmStrategy: HistoryStateStrategy {
     
     func cell(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UITableViewCell {
-        let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath) as! HistoryRequestTableViewCell
-        let name = history.request?.user?.firstName ?? "NAME"
+        let inventoryRequest = history.request?.type == RequestType.selling.rawValue || history.request?.type == RequestType.loaning.rawValue
+        let request = history.request
         let item = history.request?.itemName ?? "ITEM"
-        let price = history.responses[0].priceInDollarFormat
-        cell.message = "Offered a \(item) to \(name) for \(price)"
-
-        cell.stateColor = UIColor.nbYellow
-        cell.state = "PENDING YOUR APPROVAL"
-        
-        cell.time = history.request?.getElapsedTimeAsString()
-        
-        return cell
+        if (indexPath as NSIndexPath).row == 0 {
+            let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath) as! HistoryRequestTableViewCell
+            if inventoryRequest {
+                let action = (request?.type == RequestType.selling.rawValue) ? "Selling" : "Offering to loan out"
+                cell.message = "\(action) a \(item)"
+                cell.stateColor = UIColor.nbGreen
+                cell.state = "OPEN"
+            } else {
+                let name = history.request?.user?.firstName ?? "NAME"
+                let price = history.responses[0].priceInDollarFormat
+                cell.message = "Offered a \(item) to \(name) for \(price)"
+                
+                cell.stateColor = UIColor.nbYellow
+                cell.state = "PENDING YOUR APPROVAL"
+                
+                cell.time = history.request?.getElapsedTimeAsString()
+  
+            }
+            cell.userImage = UIImage(named: "User-64")
+            if let pictureURL = request?.user?.imageUrl {
+                NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
+                    guard error == nil else {
+                        print(error!)
+                        return
+                    }
+                    if let cellToUpdate = historyVC.tableView?.cellForRow(at: indexPath) as! HistoryRequestTableViewCell? {
+                        cellToUpdate.userImage = image
+                    }
+                })
+            }
+            cell.time = history.request?.getElapsedTimeAsString()
+            return cell
+        } else {
+            let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "ResponseCell", for: indexPath) as! HistoryResponseTableViewCell
+            let response = history.responses[indexPath.row - 1]
+            let name: String = response.responder?.firstName ?? "NAME"
+            let price = response.offerPrice ?? -9.99
+            cell.messageLabel?.text = "\(name) made an offer for $\(price)"
+            cell.userImage = UIImage(named: "User-64")
+            if let pictureURL = response.responder?.imageUrl {
+                NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
+                    guard error == nil else {
+                        print(error!)
+                        return
+                    }
+                    if let cellToUpdate = historyVC.tableView?.cellForRow(at: indexPath) as! HistoryResponseTableViewCell? {
+                        cellToUpdate.userImage = image
+                    }
+                })
+            }
+            if response.buyerStatus == BuyerStatus.accepted {
+                cell.stateColor = UIColor.nbYellow
+                cell.state = "PENDING YOUR APPROVAL"
+            } else if response.sellerStatus == SellerStatus.accepted {
+                cell.stateColor = UIColor.nbYellow
+                cell.state = "PENDING BUYER APPROVAL"
+            }
+            cell.time = response.getElapsedTimeAsString()
+            return cell
+        }
     }
     
     func alertController(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UIAlertController {

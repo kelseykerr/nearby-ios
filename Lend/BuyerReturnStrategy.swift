@@ -18,10 +18,10 @@ class BuyerReturnStrategy: HistoryStateStrategy {
         let responderName = response?.responder?.firstName ?? "NAME"
         let item = history.request?.itemName ?? "ITEM"
         
-        let action = history.request?.requestType.getAsInflected()
+        let action = history.request?.type == RequestType.buying.rawValue || history.request?.type == RequestType.selling.rawValue ? "Buying" : "Borrowing"
         let inventoryRequest = history.request?.requestType == .loaning || history.request?.requestType == .selling
         let direction = inventoryRequest ? "to" : "from"
-        cell.message = "\(action!) \(item) \(direction) \(responderName)"
+        cell.message = "\(action) \(item) \(direction) \(responderName)"
         
         if (history.status == .buyer_overrideReturn) {
             cell.stateColor = UIColor.nbYellow

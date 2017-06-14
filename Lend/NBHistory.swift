@@ -116,33 +116,19 @@ extension NBHistory {
                 }
             }
             else if self.transaction?.getStatus() == .start {
-                if responseAccepted() {
-                    if self.isMyRequest() {
-                        if self.request?.type == RequestType.selling.rawValue || self.request?.type == RequestType.loaning.rawValue {
-                            return HistoryStatus.buyer_buyerConfirm
-                        } else {
-                            return HistoryStatus.buyer_buyerConfirm
-                        }
-                    } else if (self.request?.status?.rawValue == "CLOSED") {
-                        return HistoryStatus.seller_closed
+                if self.isMyRequest() {
+                    if self.request?.type == RequestType.selling.rawValue || self.request?.type == RequestType.loaning.rawValue {
+                        return sellerAccepted() || sellerOpen() ? HistoryStatus.seller_buyerConfirm : HistoryStatus.seller_sellerConfirm
                     } else {
-                        if self.request?.type == RequestType.selling.rawValue || self.request?.type == RequestType.loaning.rawValue {
-                            return HistoryStatus.buyer_sellerConfirm
-                        }
-                        return HistoryStatus.seller_sellerConfirm
+                        return !buyerAccepted() || sellerOpen() ? HistoryStatus.buyer_buyerConfirm : HistoryStatus.buyer_sellerConfirm
                     }
-                }
-                else {
-                    if self.isMyRequest() {
-                        return HistoryStatus.buyer_buyerConfirm
+                } else if (self.request?.status?.rawValue == "CLOSED") {
+                    return HistoryStatus.seller_closed
+                } else {
+                    if self.request?.type == RequestType.selling.rawValue || self.request?.type == RequestType.loaning.rawValue {
+                        return buyerAccepted() ? HistoryStatus.buyer_sellerConfirm : HistoryStatus.buyer_buyerConfirm
                     }
-                    else {
-                        if (self.responses[0].responseStatus?.rawValue == "CLOSED") {
-                            return HistoryStatus.seller_closed
-
-                        }
-                        return HistoryStatus.seller_buyerConfirm
-                    }
+                    return sellerAccepted() ? HistoryStatus.seller_buyerConfirm : HistoryStatus.seller_sellerConfirm
                 }
             }
             else if self.transaction?.getStatus() == .exchange {
@@ -220,7 +206,7 @@ extension NBHistory {
         }
     }
 
-    func responseAccepted() -> Bool {
+    func buyerAccepted() -> Bool {
         if self.responses.count > 0 {
             for response in responses {
                 if response.buyerStatus == .accepted {
@@ -229,6 +215,21 @@ extension NBHistory {
             }
         }
         return false
+    }
+    
+    func sellerAccepted() -> Bool {
+        if self.responses.count > 0 {
+            for response in responses {
+                if response.sellerStatus == .accepted {
+                    return true
+                }
+            }
+        }
+        return false
+    }
+    
+    func sellerOpen() -> Bool {
+        return self.responses.count == 0 && self.request?.status == Status.pending
     }
 }
 
