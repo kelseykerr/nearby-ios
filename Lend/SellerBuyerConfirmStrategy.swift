@@ -15,24 +15,24 @@ class SellerBuyerConfirmStrategy: HistoryStateStrategy {
         if (indexPath as NSIndexPath).row == 0 {
             let request = history.request
             let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath) as! HistoryRequestTableViewCell
+            let inventoryRequest = request?.type == RequestType.selling.rawValue || request?.type == RequestType.loaning.rawValue
             let name = request?.user?.shortName ?? "NAME"
             let item = request?.itemName ?? "ITEM"
-            let price = history.responses[0].priceInDollarFormat
-            let action = request?.requestType.getAsVerb()
-            let direction = (request?.requestType == .loaning || request?.requestType == .selling) ? "to" : "from"
-    
-            if (request?.type == RequestType.loaning.rawValue || request?.type == RequestType.selling.rawValue) {
-                var action = (request?.type == RequestType.loaning.rawValue) ? "borrow" : "buy"
-                cell.message = "Requested to \(action) a \(item) from \(name) for \(price)"
+            if (inventoryRequest) {
+                let action = (request?.type == RequestType.selling.rawValue) ? "Selling" : "Offering to loan out"
+                cell.message = "\(action) a \(item)"
+                cell.stateColor = UIColor.nbGreen
+                cell.state = "OPEN"
             } else {
-                cell.message = "Offered to \(action ?? "loan") a \(item) \(direction) \(name) for \(price)"
-            }
+                let action = (request?.type == RequestType.buying.rawValue) ? "sell" : "loan"
+                let price = history.responses[0].priceInDollarFormat
+                cell.message = "Offered to \(action ) a \(item) to \(name) for \(price)"
+                cell.stateColor = UIColor.nbYellow
+                cell.state = "PENDING"
 
-            cell.stateColor = UIColor.nbYellow
-            cell.state = "PENDING"
-            
+            }
+        
             cell.time = history.request?.getElapsedTimeAsString()
-            
             cell.userImage = UIImage(named: "User-64")
             
             if let pictureURL = history.request?.user?.imageUrl {
@@ -46,7 +46,7 @@ class SellerBuyerConfirmStrategy: HistoryStateStrategy {
                     }
                 })
             }
-            
+
             return cell
         } else {
             let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "ResponseCell", for: indexPath) as! HistoryResponseTableViewCell

@@ -11,7 +11,7 @@ import Foundation
 
 struct NBConstants {
     
-    //static let baseURLString = "https://alpha-server.thenearbyapp.com/api/"
-    static let baseURLString = "https://server.thenearbyapp.com/api/"
+    static let baseURLString = "https://alpha-server.thenearbyapp.com/api/"
+    //static let baseURLString = "https://server.thenearbyapp.com/api/"
     
 }

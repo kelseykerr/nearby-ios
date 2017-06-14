@@ -83,10 +83,15 @@ class HistoryTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if histories[section].status == .buyer_buyerConfirm {
+        //show responses when:
+        //I'm the buyer AND I'm the requester (not an inventoryRequest)
+        //I'm the seller AND I'm the reqeuster (and inventoryReqeust)
+        let showBuyerChildren = (histories[section].status == .buyer_buyerConfirm || histories[section].status == .buyer_sellerConfirm) && histories[section].isMyRequest()
+        let showSellerChildren = (histories[section].status == .seller_sellerConfirm || histories[section].status == .seller_buyerConfirm) && histories[section].isMyRequest()
+
+        if showSellerChildren || showBuyerChildren {
             return histories[section].responses.count + 1
-        }
-        else {
+        } else {
             return 1
         }
     }
