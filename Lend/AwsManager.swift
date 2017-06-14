@@ -16,7 +16,7 @@ class AWSManager {
     
     let bucketName = "nearbyappphotos"
     var transferManager: AWSS3TransferManager!
-
+    
     init() {
         transferManager = AWSS3TransferManager.default()
     }
@@ -45,7 +45,7 @@ class AWSManager {
         } catch {
             print("error saving file")
         }
-    
+        
         let uploadingFileURL = localPath!
         let uploadRequest = AWSS3TransferManagerUploadRequest()
         uploadRequest?.bucket = bucketName
@@ -76,9 +76,24 @@ class AWSManager {
         return key
     }
     
+    func removePhoto(photo: NBPhoto, filename: String) {
+        let s3 = AWSS3.default()
+        let deleteObjectRequest = AWSS3DeleteObjectRequest()
+        deleteObjectRequest?.bucket = self.bucketName
+        deleteObjectRequest?.key = filename
+        s3.deleteObject(deleteObjectRequest!).continueWith { (task:AWSTask) -> AnyObject? in
+            if let error = task.error {
+                print("Error occurred: \(error)")
+                return nil
+            }
+            print("Deleted successfully.")
+            return nil
+        }
+    }
+    
     func downloadPhoto(key: String, completionBlock: @escaping (UIImage) -> Void) {
         let downloadingFileURL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(key)
-
+        
         let downloadRequest = AWSS3TransferManagerDownloadRequest()
         downloadRequest?.bucket = bucketName
         downloadRequest?.key = key
@@ -99,7 +114,7 @@ class AWSManager {
                 }
                 return nil
             }
-//            print("Download complete for: \(key)")
+            //            print("Download complete for: \(key)")
             let downloadingFileURL: NSURL = task.result!.body as! NSURL
             let image = UIImage(contentsOfFile: downloadingFileURL.path!)
             completionBlock(image!)
