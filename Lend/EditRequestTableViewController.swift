@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import NYTPhotoViewer
+
 
 protocol EditRequestTableViewDelegate: class {
     
@@ -23,11 +25,15 @@ class EditRequestTableViewController: UITableViewController {
     @IBOutlet weak var rentLabel: UILabel!
     @IBOutlet weak var saveButton: UIButton!
     @IBOutlet weak var closeButton: UIButton!
+    @IBOutlet weak var collectionView: ImageCollectionView!
     
     weak var delegate: EditRequestTableViewDelegate?
     
+    let picker = UIImagePickerController()
+    
     var request: NBRequest?
     var mode: RequestDetailTableViewMode = .none
+    var photos: [NBPhoto] = []
     
     var itemNameText: String? {
         get {
@@ -80,6 +86,8 @@ class EditRequestTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        picker.delegate = self
+        
         self.hideKeyboardWhenTappedAround()
         
         saveButton.layer.cornerRadius = 4
@@ -101,6 +109,24 @@ class EditRequestTableViewController: UITableViewController {
         itemNameText = request.itemName ?? "<ITEM>"
         desc = request.desc ?? "<DESCRIPTION>"
         rent = request.requestType
+        loadPhotos(photoStringArray: request.photos)
+    }
+    
+    func loadPhotos(photoStringArray: [String]) {
+        for photoString in photoStringArray {
+            let pictureURL = "https://s3.amazonaws.com/nearbyappphotos/\(photoString)"
+            print(pictureURL)
+            NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
+                print("done")
+                guard error == nil else {
+                    print(error!)
+                    return
+                }
+                let photo = NBPhoto(image: image)
+                self.photos.append(photo)
+                self.collectionView.reloadData()
+            })
+        }
     }
 
     // should we create a new request? or at least make a copy?
@@ -108,6 +134,10 @@ class EditRequestTableViewController: UITableViewController {
         let req = self.request
         req?.itemName = itemNameText
         req?.desc = desc
+        
+        let photoStringArray = AWSManager.sharedInstance.uploadPhotos(photos: photos)
+        req?.photos = photoStringArray
+        
         self.delegate?.edited(req)
         self.navigationController?.popViewController(animated: true)
     }
@@ -126,3 +156,134 @@ class EditRequestTableViewController: UITableViewController {
     }
     
 }
+
+extension EditRequestTableViewController: ImageCollectionViewDelegate, UICollectionViewDataSource {
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        numberOfItemsInSection section: Int) -> Int {
+        return photos.count + 1
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if indexPath.row == photos.count { //camera
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cameraCell", for: indexPath)
+            
+            return cell
+        }
+        else {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageCell", for: indexPath) as! ImageCollectionViewCell
+            
+            cell.photoImageView.image = photos[indexPath.row].image
+            
+            return cell
+        }
+    }
+    
+    func photoButtonPressed() {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { action in
+        }
+        alertController.addAction(cancelAction)
+        
+        let cameraAction = UIAlertAction(title: "Take a photo with camera", style: .default) { action in
+            self.takePhoto()
+        }
+        alertController.addAction(cameraAction)
+        
+        let chooserAction = UIAlertAction(title: "Choose from album", style: .default) { action in
+            self.chooserPhoto()
+        }
+        alertController.addAction(chooserAction)
+        
+        self.present(alertController, animated: true) {
+        }
+        
+    }
+    
+    func chooserPhoto() {
+        print("photo button")
+        picker.allowsEditing = false
+        picker.sourceType = .photoLibrary
+        picker.mediaTypes = UIImagePickerController.availableMediaTypes(for: .photoLibrary)!
+        present(picker, animated: true, completion: nil)
+    }
+    
+    func takePhoto() {
+        print("camera button")
+        picker.allowsEditing = false
+        picker.sourceType = UIImagePickerControllerSourceType.camera
+        picker.cameraCaptureMode = .photo
+        picker.modalPresentationStyle = .fullScreen
+        present(picker,animated: true,completion: nil)
+    }
+    
+    func removeImage(index: Int) {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { action in
+        }
+        alertController.addAction(cancelAction)
+        
+        let removeAction = UIAlertAction(title: "Remove this photo", style: .destructive) { action in
+            print("removing image")
+            self.photos.remove(at: index)
+            self.collectionView.reloadData()
+        }
+        alertController.addAction(removeAction)
+        
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if indexPath.row == photos.count { //camera
+            if photos.count < 3 {
+                photoButtonPressed()
+            }
+            else {
+                let alertController = UIAlertController(title: nil, message: "You cannot add more than 3 photos.", preferredStyle: .alert)
+                
+                let okAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                alertController.addAction(okAction)
+                
+                self.present(alertController, animated: true, completion: nil)
+            }
+        }
+        else {
+            let photo = photos[indexPath.row]
+            let photosVC = NYTPhotosViewController(photos: photos, initialPhoto: photo)
+            self.present(photosVC, animated: true, completion: nil)
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemToRemoveAt indexPath: IndexPath) {
+        if indexPath.row != photos.count {
+            removeImage(index: indexPath.row)
+        }
+    }
+    
+}
+
+extension EditRequestTableViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func imagePickerController(_ picker: UIImagePickerController,
+                               didFinishPickingMediaWithInfo info: [String : AnyObject])
+    {
+        let chosenImage = info[UIImagePickerControllerOriginalImage] as! UIImage
+        let photo = NBPhoto(image: chosenImage)
+        photos.append(photo)
+        self.collectionView.reloadData()
+        dismiss(animated:true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+}
+
