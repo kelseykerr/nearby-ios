@@ -12,10 +12,10 @@ import Foundation
 class SellerBuyerConfirmStrategy: HistoryStateStrategy {
     
     func cell(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UITableViewCell {
+        let inventoryRequest = history.request?.type == RequestType.selling.rawValue || history.request?.type == RequestType.loaning.rawValue
         if (indexPath as NSIndexPath).row == 0 {
             let request = history.request
             let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath) as! HistoryRequestTableViewCell
-            let inventoryRequest = request?.type == RequestType.selling.rawValue || request?.type == RequestType.loaning.rawValue
             let name = request?.user?.shortName ?? "NAME"
             let item = request?.itemName ?? "ITEM"
             if (inventoryRequest) {
@@ -49,11 +49,40 @@ class SellerBuyerConfirmStrategy: HistoryStateStrategy {
 
             return cell
         } else {
-            let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "ResponseCell", for: indexPath) as! HistoryResponseTableViewCell
-                let item = history.request?.itemName ?? "ITEM"
+            let cell = historyVC.tableView.dequeueReusableCell(withIdentifier:
+                "ResponseCell", for: indexPath) as! HistoryResponseTableViewCell
+            let item = history.request?.itemName ?? "ITEM"
+            if inventoryRequest {
+                let response = history.responses[indexPath.row - 1]
+                let name: String = response.responder?.firstName ?? "NAME"
+                let price = response.offerPrice ?? -9.99
+                cell.messageLabel?.text = "\(name) made an offer for $\(price)"
+                cell.userImage = UIImage(named: "User-64")
+                if let pictureURL = response.responder?.imageUrl {
+                    NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
+                        guard error == nil else {
+                            print(error!)
+                            return
+                        }
+                        if let cellToUpdate = historyVC.tableView?.cellForRow(at: indexPath) as! HistoryResponseTableViewCell? {
+                            cellToUpdate.userImage = image
+                        }
+                    })
+                }
+                if response.buyerStatus == BuyerStatus.accepted {
+                    cell.stateColor = UIColor.nbYellow
+                    cell.state = "PENDING YOUR APPROVAL"
+                } else if response.sellerStatus == SellerStatus.accepted {
+                    cell.stateColor = UIColor.nbYellow
+                    cell.state = "PENDING BUYER APPROVAL"
+                }
+                cell.time = response.getElapsedTimeAsString()
+
+            } else {
                 let name: String = history.request?.user?.firstName ?? "NAME"
                 let price = history.responses[indexPath.row - 1].offerPrice ?? -9.99
                 cell.messageLabel?.text = "Offered a \(item) to \(name) for $\(price)"
+            }
             
             return cell
         }
