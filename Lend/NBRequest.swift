@@ -60,7 +60,6 @@ class NBRequest: NSObject, NSCopying, ResponseJSONObjectSerializable {
     var postDate: Int64?
     var expireDate: Int64?
     var category: NBCategory?
-    var rental: Bool?
     var desc: String?
     var id: String?
     var type: String?
@@ -75,7 +74,6 @@ class NBRequest: NSObject, NSCopying, ResponseJSONObjectSerializable {
         self.postDate = json["postDate"].int64
         self.expireDate = json["expireDate"].int64
         self.category = NBCategory(json: json["category"])
-        self.rental = json["rental"].bool
         self.desc = json["description"].string
         self.id = json["id"].string
         self.type = json["type"].string
@@ -124,9 +122,6 @@ class NBRequest: NSObject, NSCopying, ResponseJSONObjectSerializable {
             if category.id != nil {
                 json["category"] = category.toJSON() as AnyObject?
             }
-        }
-        if let rental = rental {
-            json["rental"] = rental as AnyObject?
         }
         if let desc = desc {
             json["description"] = desc as AnyObject?
