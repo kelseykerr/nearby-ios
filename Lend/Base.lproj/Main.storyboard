@@ -3505,18 +3505,16 @@
                         <color key="backgroundColor" red="0.97647058819999999" green="0.97647058819999999" blue="0.97647058819999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="separatorColor" red="0.8862745098" green="0.88235294119999996" blue="0.87450980389999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <view key="tableFooterView" contentMode="scaleToFill" id="jhu-Sb-9cN">
-                            <rect key="frame" x="0.0" y="129.5" width="375" height="128"/>
+                            <rect key="frame" x="0.0" y="129.5" width="375" height="64"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4ja-tx-2Lk">
-                                    <rect key="frame" x="15" y="42" width="345" height="44"/>
-                                    <color key="backgroundColor" red="0.0" green="0.8901960784313725" blue="0.92941176470588238" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="44" id="QqR-qO-yD2"/>
-                                    </constraints>
+                                <button contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4ja-tx-2Lk">
+                                    <rect key="frame" x="15" y="10" width="345" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                     <state key="normal" title="Confirm">
-                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="titleColor" red="0.24606668949999999" green="0.27366775269999999" blue="0.32354259489999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </state>
                                     <connections>
                                         <action selector="confirmButtonPressed:" destination="cyh-PJ-08h" eventType="touchUpInside" id="7Tc-fn-XuG"/>
@@ -3524,11 +3522,6 @@
                                 </button>
                             </subviews>
                             <color key="backgroundColor" red="0.97647058823529409" green="0.97647058823529409" blue="0.97647058823529409" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <constraints>
-                                <constraint firstItem="4ja-tx-2Lk" firstAttribute="leading" secondItem="jhu-Sb-9cN" secondAttribute="leading" constant="15" id="XlT-5b-Om5"/>
-                                <constraint firstItem="4ja-tx-2Lk" firstAttribute="centerX" secondItem="jhu-Sb-9cN" secondAttribute="centerX" id="ljI-gf-vV4"/>
-                                <constraint firstItem="4ja-tx-2Lk" firstAttribute="centerY" secondItem="jhu-Sb-9cN" secondAttribute="centerY" id="qbk-mx-esW"/>
-                            </constraints>
                         </view>
                         <sections>
                             <tableViewSection headerTitle="Placeholder" footerTitle="You may decrease the price but you may not increase it" id="Fnf-Px-f4f">
@@ -3573,7 +3566,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fJl-Z7-qqM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6160.8000000000002" y="-1930.8845577211396"/>
+            <point key="canvasLocation" x="5968.8000000000002" y="-1931.7841079460272"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Y2w-pL-yBm">
