@@ -116,15 +116,22 @@ extension NBHistory {
                 }
             }
             else if self.transaction?.getStatus() == .start {
-                if self.isMyRequest() {
+                if (self.request?.status?.rawValue == "CLOSED") {
+                    return HistoryStatus.seller_closed
+                } else if self.isMyRequest() {
                     if self.request?.type == RequestType.selling.rawValue || self.request?.type == RequestType.loaning.rawValue {
                         return sellerAccepted() || sellerOpen() ? HistoryStatus.seller_buyerConfirm : HistoryStatus.seller_sellerConfirm
                     } else {
                         return !buyerAccepted() || sellerOpen() ? HistoryStatus.buyer_buyerConfirm : HistoryStatus.buyer_sellerConfirm
                     }
-                } else if (self.request?.status?.rawValue == "CLOSED") {
-                    return HistoryStatus.seller_closed
                 } else {
+                    if self.responses != nil && self.responses[0].responseStatus == ResponseStatus.closed {
+                        if self.request?.type == RequestType.selling.rawValue || self.request?.type == RequestType.loaning.rawValue {
+                            return HistoryStatus.buyer_closed
+                        } else {
+                            return HistoryStatus.seller_closed
+                        }
+                    }
                     if self.request?.type == RequestType.selling.rawValue || self.request?.type == RequestType.loaning.rawValue {
                         return buyerAccepted() ? HistoryStatus.buyer_sellerConfirm : HistoryStatus.buyer_buyerConfirm
                     }
