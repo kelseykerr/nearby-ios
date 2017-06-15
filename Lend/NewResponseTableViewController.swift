@@ -249,7 +249,7 @@ class NewResponseTableViewController: UITableViewController {
 //        response?.priceType = priceType
         response?.priceType = .flat
         
-        let photoStringArray = AWSManager.sharedInstance.uploadPhotos(photos: photos)
+        let photoStringArray = AWSManager.sharedInstance.photoActions(photos: photos)
         response?.photos = photoStringArray
         
         delegate?.saved(response)
@@ -389,6 +389,7 @@ extension NewResponseTableViewController: UIImagePickerControllerDelegate, UINav
         let chosenImage = info[UIImagePickerControllerOriginalImage] as! UIImage
         let photo = NBPhoto(image: chosenImage)
         photos.append(photo)
+        photo.awsActionType = .upload
         self.collectionView.reloadData()
         dismiss(animated:true, completion: nil)
     }

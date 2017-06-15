@@ -19,6 +19,8 @@ class NBPhoto: NSObject, NYTPhoto, ResponseJSONObjectSerializable {
     var attributedCaptionTitle: NSAttributedString?
     var attributedCaptionSummary: NSAttributedString?
     var attributedCaptionCredit: NSAttributedString?
+    var awsActionType = AWSActionType.none
+    var photoString = ""
     
     required init?(json: SwiftyJSON.JSON) {
 //        self.firstName = json["firstName"].string

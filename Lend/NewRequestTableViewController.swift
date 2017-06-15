@@ -272,7 +272,7 @@ class NewRequestTableViewController: UITableViewController {
             req = request?.copy() as! NBRequest
         }
         
-        let photoStringArray = AWSManager.sharedInstance.uploadPhotos(photos: photos)
+        let photoStringArray = AWSManager.sharedInstance.photoActions(photos: photos)
         req.photos = photoStringArray
         
         saveFields(request: req)
@@ -422,6 +422,7 @@ extension NewRequestTableViewController: UIImagePickerControllerDelegate, UINavi
         let chosenImage = info[UIImagePickerControllerOriginalImage] as! UIImage
         let photo = NBPhoto(image: chosenImage)
         photos.append(photo)
+        photo.awsActionType = .upload
         self.collectionView.reloadData()
         dismiss(animated:true, completion: nil)
     }

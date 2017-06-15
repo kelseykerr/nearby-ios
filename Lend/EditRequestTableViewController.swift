@@ -34,6 +34,7 @@ class EditRequestTableViewController: UITableViewController {
     var request: NBRequest?
     var mode: RequestDetailTableViewMode = .none
     var photos: [NBPhoto] = []
+    var photosToRemove: [NBPhoto] = []
     
     var itemNameText: String? {
         get {
@@ -123,6 +124,7 @@ class EditRequestTableViewController: UITableViewController {
                     return
                 }
                 let photo = NBPhoto(image: image)
+                photo.photoString = photoString
                 self.photos.append(photo)
                 self.collectionView.reloadData()
             })
@@ -135,8 +137,9 @@ class EditRequestTableViewController: UITableViewController {
         req?.itemName = itemNameText
         req?.desc = desc
         
-        let photoStringArray = AWSManager.sharedInstance.uploadPhotos(photos: photos)
+        let photoStringArray = AWSManager.sharedInstance.photoActions(photos: photos)
         req?.photos = photoStringArray
+        AWSManager.sharedInstance.photoActions(photos: photosToRemove)
         
         self.delegate?.edited(req)
         self.navigationController?.popViewController(animated: true)
@@ -232,7 +235,11 @@ extension EditRequestTableViewController: ImageCollectionViewDelegate, UICollect
         
         let removeAction = UIAlertAction(title: "Remove this photo", style: .destructive) { action in
             print("removing image")
-            self.photos.remove(at: index)
+            let removePhoto = self.photos.remove(at: index)
+            if removePhoto.awsActionType != .upload {
+                removePhoto.awsActionType = .delete
+                self.photosToRemove.append(removePhoto)
+            }
             self.collectionView.reloadData()
         }
         alertController.addAction(removeAction)
@@ -276,6 +283,7 @@ extension EditRequestTableViewController: UIImagePickerControllerDelegate, UINav
     {
         let chosenImage = info[UIImagePickerControllerOriginalImage] as! UIImage
         let photo = NBPhoto(image: chosenImage)
+        photo.awsActionType = .upload
         photos.append(photo)
         self.collectionView.reloadData()
         dismiss(animated:true, completion: nil)
