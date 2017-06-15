@@ -17,14 +17,15 @@ class BuyerClosedStrategy: HistoryStateStrategy {
         
         if let request = history.request {
             let item = request.itemName ?? "ITEM"
-            let action = request.requestType.getAsVerb()
-            
+            let borrow = request.type == RequestType.loaning.rawValue || request.type == RequestType.renting.rawValue
+            let action = borrow ? "borrow" : "buy"
+            var message = "Requested to \(action) a \(item)"
             if request.type == RequestType.loaning.rawValue || request.type == RequestType.selling.rawValue {
-                let action = request.type == RequestType.loaning.rawValue ? "Offering to loan out" : "Selling"
-                cell.message = "\(action) a \(item)"
-            } else {
-                cell.message = "Requested to \(action) a \(item)"
+                let seller = request.user?.firstName ?? "user"
+                message += " from \(seller)"
             }
+            cell.message = message
+
             
             cell.stateColor = UIColor.nbRed
             cell.state = "CLOSED"

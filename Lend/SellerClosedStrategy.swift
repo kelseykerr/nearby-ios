@@ -17,25 +17,14 @@ class SellerClosedStrategy: HistoryStateStrategy {
         let inventoryListing = history.request?.requestType == .loaning || history.request?.requestType == .selling
         let item = history.request?.itemName ?? "ITEM"
         var responder: NBUser?
-        if inventoryListing {
-            if (history.request?.isMyRequest() ?? false) {
-                let responseId = history.transaction?.responseId
-                if let respId = responseId {
-                    let response = history.getResponseById(id: respId)
-                    responder = response?.responder
-                }
-            } else {
-                let action = history.request?.requestType == .loaning ? "borrow" : "buy"
-                let name = history.request?.user?.firstName ?? "No Name"
-                cell.message = "Requested to \(action ) a \(item) from \(name)"
-            }
-        } else {
-            let name = (inventoryListing ? responder?.firstName ?? "NO NAME" : history.request?.user?.firstName) ?? "NAME"
-            let action = history.request?.requestType.getAsVerb()
-            let direction = inventoryListing ? "to" : "from"
-            
-            cell.message = "Offered to \(action ?? "loan") a \(item) \(direction) \(name)"
+        let name = (inventoryListing ? responder?.firstName ?? "NO NAME" : history.request?.user?.firstName) ?? "NAME"
+        let borrow = history.request?.requestType == .loaning || history.request?.requestType == .renting
+        let action = borrow ? "loan" : "sell"
+        var message = "Offered to \(action) a \(item)"
+        if !inventoryListing {
+            message += " to \(name)"
         }
+        cell.message =  message
         
         cell.stateColor = UIColor.nbRed
         cell.state = "CLOSED"
@@ -44,32 +33,16 @@ class SellerClosedStrategy: HistoryStateStrategy {
         
         cell.userImage = UIImage(named: "User-64")
         
-        if inventoryListing {
-            if let pictureURL = responder?.imageUrl {
-                NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
-                    guard error == nil else {
-                        print(error!)
-                        return
-                    }
-                    if let cellToUpdate = historyVC.tableView?.cellForRow(at: indexPath) as! HistoryRequestTableViewCell? {
-                        cellToUpdate.userImage = image
-                    }
-                })
-            }
-
-        } else {
-            if let pictureURL = history.request?.user?.imageUrl {
-                NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
-                    guard error == nil else {
-                        print(error!)
-                        return
-                    }
-                    if let cellToUpdate = historyVC.tableView?.cellForRow(at: indexPath) as! HistoryRequestTableViewCell? {
-                        cellToUpdate.userImage = image
-                    }
-                })
-            }
-
+        if let pictureURL = history.request?.user?.imageUrl {
+            NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
+                guard error == nil else {
+                    print(error!)
+                    return
+                }
+                if let cellToUpdate = historyVC.tableView?.cellForRow(at: indexPath) as! HistoryRequestTableViewCell? {
+                    cellToUpdate.userImage = image
+                }
+            })
         }
         
         return cell
