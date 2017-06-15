@@ -10,6 +10,14 @@ import Foundation
 import AWSCognito
 import AWSS3
 
+
+enum AWSActionType {
+    case delete
+    case upload
+    case none
+}
+
+
 class AWSManager {
     
     static let sharedInstance = AWSManager()
@@ -21,11 +29,24 @@ class AWSManager {
         transferManager = AWSS3TransferManager.default()
     }
     
-    func uploadPhotos(photos: [NBPhoto]) -> [String] {
+    func photoActions(photos: [NBPhoto]) -> [String] {
         var photoStringArray: [String] = []
         for photo in photos {
-            let photoString = uploadPhoto(photo: photo)
-            photoStringArray.append(photoString)
+            if photo.awsActionType == .upload {
+                let photoString = uploadPhoto(photo: photo)
+                print("uploading: \(photoString)")
+                photoStringArray.append(photoString)
+                photo.photoString = photoString
+            }
+            else if photo.awsActionType == .delete {
+                print("removing: \(photo.photoString)")
+                removePhoto(photo: photo)
+            }
+            else {
+                let photoString = photo.photoString
+                print("nothing: \(photoString)")
+                photoStringArray.append(photoString)
+            }
         }
         return photoStringArray
     }
@@ -76,11 +97,15 @@ class AWSManager {
         return key
     }
     
-    func removePhoto(photo: NBPhoto, filename: String) {
+    func removePhoto(photo: NBPhoto) {
+        let credentialProvider = AWSCognitoCredentialsProvider(regionType: .USEast1, identityPoolId: "us-east-1:c505ec70-228a-498f-87e5-d9035d10a8e3")
+        let configuration = AWSServiceConfiguration(region: .USEast1, credentialsProvider: credentialProvider)
+        AWSServiceManager.default().defaultServiceConfiguration = configuration
+        
         let s3 = AWSS3.default()
         let deleteObjectRequest = AWSS3DeleteObjectRequest()
         deleteObjectRequest?.bucket = self.bucketName
-        deleteObjectRequest?.key = filename
+        deleteObjectRequest?.key = photo.photoString
         s3.deleteObject(deleteObjectRequest!).continueWith { (task:AWSTask) -> AnyObject? in
             if let error = task.error {
                 print("Error occurred: \(error)")
