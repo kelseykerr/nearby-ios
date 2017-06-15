@@ -107,18 +107,18 @@ extension NBHistory {
     var status: HistoryStatus {
         get {
             // check if request status is closed
-            if self.request?.expireDate != nil && (self.request?.expireDate)! < (self.request?.postDate)! {
-                if self.isMyRequest() {
-                    return HistoryStatus.buyer_closed
-                }
-                else {
+            if (self.request?.expireDate != nil && (self.request?.expireDate)! < (self.request?.postDate)!) || self.request?.status == Status.closed {
+                let sellerAndMyRequest = self.isMyRequest() && (self.request?.type == RequestType.selling.rawValue || self.request?.type == RequestType.loaning.rawValue);
+                let sellerAndMyResponse = !self.isMyRequest() && (self.request?.type == RequestType.renting.rawValue || self.request?.type == RequestType.buying.rawValue);
+                
+                if sellerAndMyRequest || sellerAndMyResponse {
                     return HistoryStatus.seller_closed
+                } else {
+                    return HistoryStatus.buyer_closed
                 }
             }
             else if self.transaction?.getStatus() == .start {
-                if (self.request?.status?.rawValue == "CLOSED") {
-                    return HistoryStatus.seller_closed
-                } else if self.isMyRequest() {
+                 if self.isMyRequest() {
                     if self.request?.type == RequestType.selling.rawValue || self.request?.type == RequestType.loaning.rawValue {
                         return sellerAccepted() || sellerOpen() ? HistoryStatus.seller_buyerConfirm : HistoryStatus.seller_sellerConfirm
                     } else {
