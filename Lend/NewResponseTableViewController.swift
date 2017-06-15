@@ -180,7 +180,7 @@ class NewResponseTableViewController: UITableViewController {
     //magic numbers are bad
     //really should be checking rental againt some enum? and maybe check if nil in the model itself
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if section == 3 && (request?.requestType == RequestType.buying || request?.requestType == RequestType.selling) {
+        if section == 4 && (request?.requestType == RequestType.buying || request?.requestType == RequestType.selling) {
             return nil
         }
         else {
@@ -189,7 +189,7 @@ class NewResponseTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if section == 3 && (request?.requestType == RequestType.buying || request?.requestType == RequestType.selling) {
+        if section == 4 && (request?.requestType == RequestType.buying || request?.requestType == RequestType.selling) {
             return 0.1
         }
         else {
@@ -198,7 +198,7 @@ class NewResponseTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        if section == 3 && (request?.requestType == RequestType.buying || request?.requestType == RequestType.selling) {
+        if section == 4 && (request?.requestType == RequestType.buying || request?.requestType == RequestType.selling) {
             return 0.1
         }
         else {
@@ -207,7 +207,7 @@ class NewResponseTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 3 && (request?.requestType == RequestType.buying || request?.requestType == RequestType.selling) {
+        if section == 4 && (request?.requestType == RequestType.buying || request?.requestType == RequestType.selling) {
             return 0
         }
         else {
