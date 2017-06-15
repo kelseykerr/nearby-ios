@@ -938,6 +938,9 @@ extension HomeViewController: NewRequestTableViewDelegate, NewResponseTableViewD
     
     func responseOffered(_ response: NBResponse?) {
         print("HomeViewController->responseOffered")
+        let loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
+        loadingNotification.mode = MBProgressHUDMode.indeterminate
+        loadingNotification.label.text = "Saving"
         if let response = response {
             NBResponse.addResponse(response) { error in
                 print("Response added")
@@ -946,6 +949,8 @@ extension HomeViewController: NewRequestTableViewDelegate, NewResponseTableViewD
                     self.present(alert, animated: true, completion: nil)
                 }
                 self.loadRequests()
+                MBProgressHUD.hideAllHUDs(for: self.view, animated: true)
+                self.showHistoryView()
             }
         }
     }
