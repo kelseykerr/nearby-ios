@@ -3540,31 +3540,21 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JPf-JC-3h0">
-                                                    <rect key="frame" x="20" y="0.0" width="90" height="43"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="90" id="zTh-5u-LQI"/>
-                                                    </constraints>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="$" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JPf-JC-3h0">
+                                                    <rect key="frame" x="15" y="0.0" width="9" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.24606668949999999" green="0.27366775269999999" blue="0.32354259489999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="XX.XX" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jGy-rl-e6V">
-                                                    <rect key="frame" x="24" y="-1" width="327" height="44"/>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="XX.XX" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jGy-rl-e6V">
+                                                    <rect key="frame" x="32" y="-1" width="335" height="44"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="textColor" red="0.51764705879999995" green="0.51764705879999995" blue="0.51764705879999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                                 </textField>
                                             </subviews>
-                                            <constraints>
-                                                <constraint firstItem="JPf-JC-3h0" firstAttribute="leading" secondItem="EwD-8e-9nR" secondAttribute="leadingMargin" constant="12" id="Kft-yc-l9L"/>
-                                                <constraint firstItem="jGy-rl-e6V" firstAttribute="centerX" secondItem="EwD-8e-9nR" secondAttribute="centerX" id="eT5-Ef-Nqa"/>
-                                                <constraint firstItem="JPf-JC-3h0" firstAttribute="bottom" secondItem="jGy-rl-e6V" secondAttribute="bottom" id="ezg-6R-cgm"/>
-                                                <constraint firstItem="JPf-JC-3h0" firstAttribute="top" secondItem="EwD-8e-9nR" secondAttribute="top" id="gDu-3y-w9u"/>
-                                                <constraint firstItem="jGy-rl-e6V" firstAttribute="leading" secondItem="EwD-8e-9nR" secondAttribute="leadingMargin" constant="16" id="k90-JC-wJZ"/>
-                                                <constraint firstItem="JPf-JC-3h0" firstAttribute="centerY" secondItem="EwD-8e-9nR" secondAttribute="centerY" id="q1S-Lx-e6w"/>
-                                                <constraint firstItem="JPf-JC-3h0" firstAttribute="centerY" secondItem="jGy-rl-e6V" secondAttribute="centerY" id="suK-Fc-b9M"/>
-                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
@@ -3583,7 +3573,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fJl-Z7-qqM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6162" y="-1930"/>
+            <point key="canvasLocation" x="6160.8000000000002" y="-1930.8845577211396"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Y2w-pL-yBm">

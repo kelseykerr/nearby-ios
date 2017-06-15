@@ -20,6 +20,7 @@ class ConfirmPriceTableViewController:  UITableViewController {
     
     weak var delegate: ConfirmPriceTableViewDelegate?
 
+    let minimumPrice: Float = 0.5
     
     var history: NBHistory?
 
@@ -68,32 +69,33 @@ class ConfirmPriceTableViewController:  UITableViewController {
     
     @IBAction func confirmButtonPressed(_ sender: UIButton) {
         let response = history?.getResponseById(id: (history?.transaction?.responseId)!)
-        let offerPrice = response?.offerPrice
-        if (price == nil || price! > offerPrice!) {
-            showError()
-            return
-        } else {
-            history?.transaction?.priceOverride = price
-            delegate?.confirmed(history?.transaction)
-            self.navigationController?.popViewController(animated: true)
-            self.dismiss(animated: true, completion: nil)
+        if let price = price, let offerPrice = response?.offerPrice {
+            if price > offerPrice {
+                showError()
+            }
+            else if price < minimumPrice {
+                showMinimumError()
+            }
+            else {
+                history?.transaction?.priceOverride = price
+                delegate?.confirmed(history?.transaction)
+                self.navigationController?.popViewController(animated: true)
+                self.dismiss(animated: true, completion: nil)
+            }
         }
     }
     
+    func showMinimumError() {
+        let alert = UIAlertController(title: "Invalid Input", message: "You must enter a valid price greater than $0.50", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "ok", style: UIAlertActionStyle.default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
+
     func showError() {
         let response = history?.getResponseById(id: (history?.transaction?.responseId)!)
         let originalOffer = response?.priceInDollarFormat
         let alert = UIAlertController(title: "Invalid Input", message: "You must enter a valid price no greater than \(originalOffer ?? "$0.00")", preferredStyle: UIAlertControllerStyle.alert)
-        alert.addAction(UIAlertAction(title: "ok", style: UIAlertActionStyle.default, handler: { action in
-            switch action.style {
-            case .default:
-                print("default")
-            case .cancel:
-                print("cancel")
-            case .destructive:
-                print("destructive")
-            }
-        }))
+        alert.addAction(UIAlertAction(title: "ok", style: UIAlertActionStyle.default, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
 
