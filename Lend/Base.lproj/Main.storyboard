@@ -3594,40 +3594,37 @@
                         <color key="backgroundColor" red="0.97647058823529409" green="0.97647058823529409" blue="0.97647058823529409" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="separatorColor" red="0.8862745098" green="0.88235294119999996" blue="0.87450980389999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <view key="tableFooterView" contentMode="scaleToFill" id="Bel-zo-XTl">
-                            <rect key="frame" x="0.0" y="249.5" width="375" height="180"/>
+                            <rect key="frame" x="0.0" y="249.5" width="375" height="178"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YOJ-06-HZ3">
-                                    <rect key="frame" x="16" y="0.0" width="345" height="44"/>
-                                    <color key="backgroundColor" red="0.0" green="0.8901960784313725" blue="0.92941176470588238" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="44" id="fUc-vY-OWO"/>
-                                    </constraints>
+                                <button contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YOJ-06-HZ3">
+                                    <rect key="frame" x="15" y="10" width="345" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                     <state key="normal" title="Exchange">
-                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="titleColor" red="0.24606668949999999" green="0.27366775269999999" blue="0.32354259489999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </state>
                                     <connections>
                                         <action selector="exchangeButtonPressed:" destination="SN9-hu-hvK" eventType="touchUpInside" id="q1b-Jv-1IC"/>
                                     </connections>
                                 </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Foc-og-Bg6">
-                                    <rect key="frame" x="15" y="58" width="345" height="44"/>
-                                    <color key="backgroundColor" red="0.91372549020000005" green="0.34509803919999998" blue="0.30588235289999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <button contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Foc-og-Bg6">
+                                    <rect key="frame" x="15" y="64" width="345" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                     <state key="normal" title="Close">
-                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     </state>
                                     <connections>
                                         <action selector="closeButtonPressed:" destination="SN9-hu-hvK" eventType="touchUpInside" id="5J8-Pb-5yK"/>
                                     </connections>
                                 </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="of4-99-g8L" userLabel="Message User">
-                                    <rect key="frame" x="15" y="116" width="345" height="44"/>
+                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="of4-99-g8L" userLabel="Message User">
+                                    <rect key="frame" x="15" y="118" width="345" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="44" id="7KD-sD-qtK"/>
-                                    </constraints>
                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                     <state key="normal" title="Message User">
                                         <color key="titleColor" red="0.0" green="0.8901960784313725" blue="0.92941176470588238" alpha="1" colorSpace="calibratedRGB"/>
@@ -3640,18 +3637,6 @@
                                 </button>
                             </subviews>
                             <color key="backgroundColor" red="0.97636479139999999" green="0.97653168440000004" blue="0.9763541818" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <constraints>
-                                <constraint firstAttribute="bottom" secondItem="of4-99-g8L" secondAttribute="bottom" constant="20" id="4E7-vb-HXr"/>
-                                <constraint firstItem="Foc-og-Bg6" firstAttribute="leading" secondItem="Bel-zo-XTl" secondAttribute="leading" constant="15" id="9Hk-7c-C2F"/>
-                                <constraint firstItem="Foc-og-Bg6" firstAttribute="top" secondItem="YOJ-06-HZ3" secondAttribute="bottom" constant="14" id="Ohk-ff-W0i"/>
-                                <constraint firstItem="Foc-og-Bg6" firstAttribute="trailing" secondItem="of4-99-g8L" secondAttribute="trailing" id="PEK-WT-Y44"/>
-                                <constraint firstItem="YOJ-06-HZ3" firstAttribute="leading" secondItem="Bel-zo-XTl" secondAttribute="leading" constant="16" id="aXj-d9-Wb4"/>
-                                <constraint firstAttribute="trailing" secondItem="YOJ-06-HZ3" secondAttribute="trailing" constant="14" id="aYS-DL-Tyg"/>
-                                <constraint firstItem="Foc-og-Bg6" firstAttribute="centerX" secondItem="Bel-zo-XTl" secondAttribute="centerX" id="ePp-mN-Djn"/>
-                                <constraint firstItem="YOJ-06-HZ3" firstAttribute="top" secondItem="Bel-zo-XTl" secondAttribute="top" id="lJA-Xp-Do4"/>
-                                <constraint firstItem="Foc-og-Bg6" firstAttribute="leading" secondItem="of4-99-g8L" secondAttribute="leading" id="uBo-An-knR"/>
-                                <constraint firstItem="of4-99-g8L" firstAttribute="top" secondItem="Foc-og-Bg6" secondAttribute="bottom" constant="14" id="y0O-67-Qt0"/>
-                            </constraints>
                         </view>
                         <sections>
                             <tableViewSection headerTitle="Detail" id="ocS-EU-e3t">
@@ -3813,7 +3798,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DZ3-jZ-pBD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5969" y="-1217"/>
+            <point key="canvasLocation" x="5968.8000000000002" y="-1217.5412293853074"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Bwz-GZ-tYf">
