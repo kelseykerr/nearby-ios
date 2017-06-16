@@ -50,11 +50,6 @@ class ConfirmPriceTableViewController:  UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        confirmButton.layer.cornerRadius = 4
-        confirmButton.layer.borderColor = UIColor(netHex: 0xE2E1DF).cgColor
-        confirmButton.layer.borderWidth = 1.0
-        confirmButton.clipsToBounds = true
-        
         if let transaction = history?.transaction {
             loadFields(transaction: transaction)
         }

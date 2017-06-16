@@ -120,11 +120,6 @@ class ProfileTableViewController: UITableViewController, UITextFieldDelegate {
         
         createDatePickers()
         
-        saveButton.layer.cornerRadius = 4
-        saveButton.layer.borderColor = UIColor(netHex: 0xE2E1DF).cgColor
-        saveButton.layer.borderWidth = 1.0
-        saveButton.clipsToBounds = true
-        
         loadCells()
     }
     

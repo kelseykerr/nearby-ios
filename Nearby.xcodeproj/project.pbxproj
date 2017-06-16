@@ -100,6 +100,7 @@
 		AAC3C8AC1D5A789800B8F2A9 /* HistoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC3C8A71D5A789800B8F2A9 /* HistoryTableViewController.swift */; };
 		AAC3C8AD1D5A789800B8F2A9 /* AlamofireRequest+JSONSerializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC3C8A81D5A789800B8F2A9 /* AlamofireRequest+JSONSerializable.swift */; };
 		AAC3C8B01D5A789800B8F2A9 /* NearbyAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC3C8AB1D5A789800B8F2A9 /* NearbyAPIManager.swift */; };
+		AAC82B6B1EF3CDCC000674AF /* NBButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC82B6A1EF3CDCC000674AF /* NBButton.swift */; };
 		AAD278E71E150501003DCEE0 /* SearchFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAD278E61E150501003DCEE0 /* SearchFilter.swift */; };
 		AAEACB7C1EEA6DBF00AD82A7 /* NBPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAEACB7B1EEA6DBF00AD82A7 /* NBPhoto.swift */; };
 		AAEACB7E1EEA907600AD82A7 /* ImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAEACB7D1EEA907600AD82A7 /* ImageCollectionViewCell.swift */; };
@@ -219,6 +220,7 @@
 		AAC3C8A71D5A789800B8F2A9 /* HistoryTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryTableViewController.swift; sourceTree = "<group>"; };
 		AAC3C8A81D5A789800B8F2A9 /* AlamofireRequest+JSONSerializable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AlamofireRequest+JSONSerializable.swift"; sourceTree = "<group>"; };
 		AAC3C8AB1D5A789800B8F2A9 /* NearbyAPIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NearbyAPIManager.swift; sourceTree = "<group>"; };
+		AAC82B6A1EF3CDCC000674AF /* NBButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NBButton.swift; sourceTree = "<group>"; };
 		AAD278E61E150501003DCEE0 /* SearchFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchFilter.swift; sourceTree = "<group>"; };
 		AAE171031DA24D8B008DD5D8 /* Nearby.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Nearby.entitlements; sourceTree = "<group>"; };
 		AAEACB7B1EEA6DBF00AD82A7 /* NBPhoto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NBPhoto.swift; sourceTree = "<group>"; };
@@ -332,6 +334,7 @@
 				AA2C47501D6B759D0013F350 /* Converter.swift */,
 				AA97466B1E54540C00C1FA17 /* Utils.swift */,
 				AAA7F8291EC98CE7006CEBB6 /* NBConstants.swift */,
+				AAC82B6A1EF3CDCC000674AF /* NBButton.swift */,
 			);
 			name = Other;
 			sourceTree = "<group>";
@@ -832,6 +835,7 @@
 				AA2D885F1E852AC30005D969 /* BuyerClosedStrategy.swift in Sources */,
 				AAEACB7E1EEA907600AD82A7 /* ImageCollectionViewCell.swift in Sources */,
 				AA2BA97D1EE6A6BF001E1C5A /* UISwitchGroup.swift in Sources */,
+				AAC82B6B1EF3CDCC000674AF /* NBButton.swift in Sources */,
 				AA97466C1E54540C00C1FA17 /* Utils.swift in Sources */,
 				AA2EB2E01E767E3700646AF3 /* UIColorExtensions.swift in Sources */,
 				AA9721201D64E0A50036E007 /* NBRequest.swift in Sources */,

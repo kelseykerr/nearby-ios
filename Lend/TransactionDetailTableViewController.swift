@@ -84,16 +84,6 @@ class TransactionDetailTableViewController: UITableViewController, MFMessageComp
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        exchangeButton.layer.cornerRadius = 4
-        exchangeButton.layer.borderColor = UIColor(netHex: 0xE2E1DF).cgColor
-        exchangeButton.layer.borderWidth = 1.0
-        exchangeButton.clipsToBounds = true
-        
-        closeButton.layer.cornerRadius = 4
-        closeButton.layer.borderColor = UIColor(netHex: 0xE2E1DF).cgColor
-        closeButton.layer.borderWidth = 1.0
-        closeButton.clipsToBounds = true
-        
         messageUserButton.layer.cornerRadius = messageUserButton.frame.size.height / 16
         messageUserButton.layer.borderWidth = 1
         messageUserButton.layer.borderColor = UIColor.nbBlue.cgColor

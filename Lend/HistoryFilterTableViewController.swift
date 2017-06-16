@@ -32,11 +32,6 @@ class HistoryFilterTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        searchButton.layer.cornerRadius = 4
-        searchButton.layer.borderColor = UIColor(netHex: 0xE2E1DF).cgColor
-        searchButton.layer.borderWidth = 1.0
-        searchButton.clipsToBounds = true
-        
         loadInitialData()
     }
     

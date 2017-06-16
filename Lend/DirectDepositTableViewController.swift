@@ -62,11 +62,6 @@ class DirectDepositTableViewController: UITableViewController {
         
         self.hideKeyboardWhenTappedAround()
         
-        saveButton.layer.cornerRadius = 4
-        saveButton.layer.borderColor = UIColor(netHex: 0xE2E1DF).cgColor
-        saveButton.layer.borderWidth = 1.0
-        saveButton.clipsToBounds = true
-        
         UserManager.sharedInstance.getUser { user in
             self.user = user
         }

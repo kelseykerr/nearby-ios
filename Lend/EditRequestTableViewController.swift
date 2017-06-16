@@ -91,16 +91,6 @@ class EditRequestTableViewController: UITableViewController {
         
         self.hideKeyboardWhenTappedAround()
         
-        saveButton.layer.cornerRadius = 4
-        saveButton.layer.borderColor = UIColor(netHex: 0xE2E1DF).cgColor
-        saveButton.layer.borderWidth = 1.0
-        saveButton.clipsToBounds = true
-        
-        closeButton.layer.cornerRadius = 4
-        closeButton.layer.borderColor = UIColor(netHex: 0xE2E1DF).cgColor
-        closeButton.layer.borderWidth = 1.0
-        closeButton.clipsToBounds = true
-        
         if let request = request {
             loadFields(request: request)
         }
