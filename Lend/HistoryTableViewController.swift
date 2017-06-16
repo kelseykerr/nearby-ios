@@ -117,7 +117,13 @@ class HistoryTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        // move to strategy
+        let history = histories[indexPath.section]
+        
+        let height = HistoryStateManager.sharedInstance.heightForRowAt(historyVC: self, indexPath: indexPath, history: history)
+        
+        return height
+
+        /*
         let history = histories[indexPath.section]
         if indexPath.row == 0 {
             if (history.transaction != nil && history.transaction?.id != nil && history.request?.status?.rawValue == "TRANSACTION_PENDING" && !(history.transaction?.canceled)!) {
@@ -136,6 +142,7 @@ class HistoryTableViewController: UITableViewController {
         else {
             return 60
         }
+        */
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

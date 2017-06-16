@@ -79,4 +79,8 @@ class SellerClosedStrategy: HistoryStateStrategy {
         return false
     }
     
+    func heightForRowAt(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> CGFloat {
+        return 80
+    }
+    
 }

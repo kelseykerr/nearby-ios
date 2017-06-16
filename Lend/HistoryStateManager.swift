@@ -211,4 +211,38 @@ class HistoryStateManager {
             return sellerClosedStrategy.canEditRowAt(historyVC: historyVC, indexPath: indexPath, history: history)
         }
     }
+    
+    func heightForRowAt(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> CGFloat {
+        switch history.status {
+        case .buyer_buyerConfirm:
+            return buyerBuyerConfirmStrategy.heightForRowAt(historyVC: historyVC, indexPath: indexPath, history: history)
+        case .buyer_sellerConfirm:
+            return buyerSellerConfirmStrategy.heightForRowAt(historyVC: historyVC, indexPath: indexPath, history: history)
+        case .buyer_exchange, .buyer_overrideExchange:
+            return buyerExchangeStrategy.heightForRowAt(historyVC: historyVC, indexPath: indexPath, history: history)
+        case .buyer_returns, .buyer_overrideReturn:
+            return buyerReturnStrategy.heightForRowAt(historyVC: historyVC, indexPath: indexPath, history: history)
+        case .buyer_priceConfirm:
+            return buyerPriceConfirmStrategy.heightForRowAt(historyVC: historyVC, indexPath: indexPath, history: history)
+        case .buyer_finish:
+            return buyerFinishStrategy.heightForRowAt(historyVC: historyVC, indexPath: indexPath, history: history)
+        case .buyer_closed:
+            return buyerClosedStrategy.heightForRowAt(historyVC: historyVC, indexPath: indexPath, history: history)
+        case .seller_buyerConfirm:
+            return sellerBuyerConfirmStrategy.heightForRowAt(historyVC: historyVC, indexPath: indexPath, history: history)
+        case .seller_sellerConfirm:
+            return sellerSellerConfirmStrategy.heightForRowAt(historyVC: historyVC, indexPath: indexPath, history: history)
+        case .seller_exchange, .seller_overrideExchange:
+            return sellerExchangeStrategy.heightForRowAt(historyVC: historyVC, indexPath: indexPath, history: history)
+        case .seller_returns, .seller_overrideReturn:
+            return sellerReturnStrategy.heightForRowAt(historyVC: historyVC, indexPath: indexPath, history: history)
+        case .seller_priceConfirm:
+            return sellerPriceConfirmStrategy.heightForRowAt(historyVC: historyVC, indexPath: indexPath, history: history)
+        case .seller_finish:
+            return sellerFinishStrategy.heightForRowAt(historyVC: historyVC, indexPath: indexPath, history: history)
+        case .seller_closed:
+            return sellerClosedStrategy.heightForRowAt(historyVC: historyVC, indexPath: indexPath, history: history)
+        }
+    }
+    
 }

@@ -21,4 +21,6 @@ protocol HistoryStateStrategy: class {
     
     func canEditRowAt(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> Bool
     
+    func heightForRowAt(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> CGFloat
+    
 }

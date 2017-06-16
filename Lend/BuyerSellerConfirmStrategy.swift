@@ -12,7 +12,7 @@ import Foundation
 class BuyerSellerConfirmStrategy: HistoryStateStrategy {
     
     func cell(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UITableViewCell {
-        if (indexPath as NSIndexPath).row == 0 {
+        if indexPath.row == 0 {
             let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath) as! HistoryRequestTableViewCell
             let inventoryRequest = history.request?.type == RequestType.selling.rawValue || history.request?.type == RequestType.loaning.rawValue
             if inventoryRequest {
@@ -149,6 +149,15 @@ class BuyerSellerConfirmStrategy: HistoryStateStrategy {
 
     func canEditRowAt(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> Bool {
         return true
+    }
+    
+    func heightForRowAt(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> CGFloat {
+        if indexPath.row == 0 {
+            return 80
+        }
+        else {
+            return 60
+        }
     }
     
 }

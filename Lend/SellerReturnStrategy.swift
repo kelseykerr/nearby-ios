@@ -202,4 +202,8 @@ class SellerReturnStrategy: HistoryStateStrategy {
         return true
     }
     
+    func heightForRowAt(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> CGFloat {
+        return 100
+    }
+    
 }

@@ -15,7 +15,7 @@ class SellerSellerConfirmStrategy: HistoryStateStrategy {
         let inventoryRequest = history.request?.type == RequestType.selling.rawValue || history.request?.type == RequestType.loaning.rawValue
         let request = history.request
         let item = history.request?.itemName ?? "ITEM"
-        if (indexPath as NSIndexPath).row == 0 {
+        if indexPath.row == 0 {
             let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath) as! HistoryRequestTableViewCell
             if inventoryRequest {
                 let action = (request?.type == RequestType.selling.rawValue) ? "Selling" : "Offering to loan out"
@@ -133,6 +133,15 @@ class SellerSellerConfirmStrategy: HistoryStateStrategy {
 
     func canEditRowAt(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> Bool {
         return false
+    }
+    
+    func heightForRowAt(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> CGFloat {
+        if indexPath.row == 0 {
+            return 80
+        }
+        else {
+            return 60
+        }
     }
     
 }

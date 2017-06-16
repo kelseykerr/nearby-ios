@@ -12,7 +12,7 @@ import SwiftyJSON
 class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
     
     func cell(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UITableViewCell {
-        if (indexPath as NSIndexPath).row == 0 {
+        if indexPath.row == 0 {
             let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath) as! HistoryRequestTableViewCell
             
             if let request = history.request {
@@ -267,6 +267,15 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
             }
         }
         return true
+    }
+    
+    func heightForRowAt(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> CGFloat {
+        if indexPath.row == 0 {
+            return 80
+        }
+        else {
+            return 60
+        }
     }
     
 }
