@@ -3597,7 +3597,7 @@
                         <color key="backgroundColor" red="0.97647058823529409" green="0.97647058823529409" blue="0.97647058823529409" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="separatorColor" red="0.8862745098" green="0.88235294119999996" blue="0.87450980389999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <view key="tableFooterView" contentMode="scaleToFill" id="Bel-zo-XTl">
-                            <rect key="frame" x="0.0" y="249.5" width="375" height="178"/>
+                            <rect key="frame" x="0.0" y="249.5" width="375" height="118"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <button contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YOJ-06-HZ3" customClass="NBButton" customModule="Nearby" customModuleProvider="target">
@@ -3622,20 +3622,6 @@
                                     </state>
                                     <connections>
                                         <action selector="closeButtonPressed:" destination="SN9-hu-hvK" eventType="touchUpInside" id="5J8-Pb-5yK"/>
-                                    </connections>
-                                </button>
-                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="of4-99-g8L" userLabel="Message User">
-                                    <rect key="frame" x="15" y="118" width="345" height="44"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
-                                    <state key="normal" title="Message User">
-                                        <color key="titleColor" red="0.0" green="0.8901960784313725" blue="0.92941176470588238" alpha="1" colorSpace="calibratedRGB"/>
-                                        <color key="titleShadowColor" red="0.19761664970000001" green="0.74760397990000005" blue="0.82718408109999997" alpha="1" colorSpace="calibratedRGB"/>
-                                    </state>
-                                    <connections>
-                                        <action selector="closeButtonPressed:" destination="SN9-hu-hvK" eventType="touchUpInside" id="chf-pm-oS9"/>
-                                        <action selector="messageUserButtonPressed:" destination="SN9-hu-hvK" eventType="touchUpInside" id="snG-si-oVt"/>
                                     </connections>
                                 </button>
                             </subviews>
@@ -3788,13 +3774,19 @@
                             <outlet property="delegate" destination="SN9-hu-hvK" id="MYb-ee-iPn"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Transaction Detail" id="7gd-Jp-5WA"/>
+                    <navigationItem key="navigationItem" title="Transaction Detail" id="7gd-Jp-5WA">
+                        <barButtonItem key="rightBarButtonItem" image="More" id="WqX-Je-HL3">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <action selector="moreButtonPressed:" destination="SN9-hu-hvK" id="mtm-Ad-6MF"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="acceptedLabel" destination="mwV-vp-lGY" id="Gqc-K5-xZN"/>
                         <outlet property="closeButton" destination="Foc-og-Bg6" id="qF1-bJ-WBl"/>
                         <outlet property="exchangeButton" destination="YOJ-06-HZ3" id="YxX-4g-IVD"/>
                         <outlet property="exchangedLabel" destination="nYA-4m-3N7" id="wFN-yY-qXG"/>
-                        <outlet property="messageUserButton" destination="of4-99-g8L" id="DuD-T1-s71"/>
                         <outlet property="priceLabel" destination="288-rJ-fdS" id="Hyy-yc-JsZ"/>
                         <outlet property="returnedLabel" destination="Sxd-63-sIe" id="edh-oh-IHH"/>
                     </connections>

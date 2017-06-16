@@ -34,7 +34,6 @@ class TransactionDetailTableViewController: UITableViewController, MFMessageComp
 
     @IBOutlet var exchangeButton: UIButton!
     @IBOutlet var closeButton: UIButton!
-    @IBOutlet var messageUserButton: UIButton!
     
     @IBOutlet var exchangedLabel: UILabel!
     @IBOutlet var returnedLabel: UILabel!
@@ -84,11 +83,6 @@ class TransactionDetailTableViewController: UITableViewController, MFMessageComp
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        messageUserButton.layer.cornerRadius = messageUserButton.frame.size.height / 16
-        messageUserButton.layer.borderWidth = 1
-        messageUserButton.layer.borderColor = UIColor.nbBlue.cgColor
-        messageUserButton.clipsToBounds = true
-        
         if let transaction = history?.transaction {
             loadFields(transaction: transaction)
             
@@ -103,9 +97,12 @@ class TransactionDetailTableViewController: UITableViewController, MFMessageComp
                 self.closeButton.isHidden = true
                 self.exchangeButton.isHidden = true
             }
-            if (history?.request?.status == Status.closed || (transaction.canceled != nil && transaction.canceled!)) {
-                self.messageUserButton.isHidden = true
-            }
+            
+            //this logic needed below to hide message user action?
+            //should we also check if allowed to send message?
+//            if (history?.request?.status == Status.closed || (transaction.canceled != nil && transaction.canceled!)) {
+//                self.messageUserButton.isHidden = true
+//            }
         }
         
     }
@@ -161,26 +158,45 @@ class TransactionDetailTableViewController: UITableViewController, MFMessageComp
 //        delegate?.closed()
     }
     
-    @IBAction func messageUserButtonPressed(_ sender: UIButton) {
-        let isBuyer = UserManager.sharedInstance.user?.id == history?.request?.user?.id
-        let response = history?.getResponseById(id: (history?.transaction?.responseId)!)
-        let phone = isBuyer ? response?.responder?.phone : history?.request?.user?.phone
-        if (MFMessageComposeViewController.canSendText()) {
-            let controller = MFMessageComposeViewController()
-            controller.recipients = [phone!]
-            controller.messageComposeDelegate = self
-            self.present(controller, animated: true, completion: nil)
-        }
+    @IBAction func moreButtonPressed(_ sender: UIBarButtonItem) {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alertController.addAction(cancelAction)
+        
+        let messageAction = UIAlertAction(title: "Message User", style: .default) { action in
+            let isBuyer = UserManager.sharedInstance.user?.id == self.history?.request?.user?.id
+            
+            guard let responseId = self.history?.transaction?.responseId else {
+                print("ResponseId not available")
+                return
+            }
+            
+            guard let response = self.history?.getResponseById(id: responseId) else {
+                print("Response not available")
+                return
+            }
+            
+            guard let phone = isBuyer ? response.responder?.phone : self.history?.request?.user?.phone else {
+                print("Phone number not available")
+                return
+            }
+            
+            if MFMessageComposeViewController.canSendText() {
+                let messageVC = MFMessageComposeViewController()
+                messageVC.recipients = [phone]
+                messageVC.messageComposeDelegate = self
+                self.present(messageVC, animated: true, completion: nil)
+            }
+        }
+        alertController.addAction(messageAction)
+        
+        self.present(alertController, animated: true, completion: nil)
     }
     
     func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
         //... handle sms screen actions
         self.dismiss(animated: true, completion: nil)
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        self.navigationController?.isNavigationBarHidden = false
     }
     
 }
