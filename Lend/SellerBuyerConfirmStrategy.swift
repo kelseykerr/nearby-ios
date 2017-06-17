@@ -108,7 +108,7 @@ class SellerBuyerConfirmStrategy: HistoryStateStrategy {
                     assert(false, "Misnamed view controller")
                     return UIViewController()
             }
-            responseDetailVC.mode = .seller
+            responseDetailVC.mode = .responder
             responseDetailVC.delegate = historyVC
             responseDetailVC.response = response
             return responseDetailVC   
@@ -133,7 +133,7 @@ class SellerBuyerConfirmStrategy: HistoryStateStrategy {
                         assert(false, "Misnamed view controller")
                         return UIViewController()
                 }
-                responseDetailVC.mode = .seller
+                responseDetailVC.mode = .responder
                 responseDetailVC.delegate = historyVC
                 responseDetailVC.response = response
                 return responseDetailVC   

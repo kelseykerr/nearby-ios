@@ -115,7 +115,7 @@ class SellerSellerConfirmStrategy: HistoryStateStrategy {
                 return UIViewController()
         }
         let response = history.responses[0]
-        responseDetailVC.mode = .seller
+        responseDetailVC.mode = .responder
         responseDetailVC.delegate = historyVC
         responseDetailVC.response = response
         return responseDetailVC

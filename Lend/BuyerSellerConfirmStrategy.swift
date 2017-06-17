@@ -135,6 +135,8 @@ class BuyerSellerConfirmStrategy: HistoryStateStrategy {
                 return UIViewController()
         }
         responseDetailVC.response = history.responses[0]
+        responseDetailVC.mode = history.isMyRequest() ? .requester : .responder
+        responseDetailVC.delegate = historyVC
         return responseDetailVC
     }
     

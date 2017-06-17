@@ -340,9 +340,13 @@ extension HistoryTableViewController: RequestDetailTableViewDelegate, ResponseDe
         print("HistoryTableViewController->offered")
     }
     
-    func withdrawn(_ response: NBResponse?) {
+    func withdrawn(_ response: NBResponse?,_ isSeller: Bool) {
         print("HistoryTableViewController->withdrawn")
-        response?.sellerStatus = .withdrawn
+        if isSeller {
+            response?.sellerStatus = .withdrawn
+        } else {
+            response?.buyerStatus = .declined
+        }
         responseEdited(response)
     }
     

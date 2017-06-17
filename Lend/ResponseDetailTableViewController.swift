@@ -17,7 +17,7 @@ protocol ResponseDetailTableViewDelegate: class {
     
     func edited(_ response: NBResponse?)
     
-    func withdrawn(_ response: NBResponse?)
+    func withdrawn(_ response: NBResponse?, _ isSeller: Bool)
     
     func accepted(_ response: NBResponse?)
     
@@ -26,8 +26,8 @@ protocol ResponseDetailTableViewDelegate: class {
 }
 
 enum ResponseDetailTableViewMode {
-    case buyer
-    case seller
+    case responder
+    case requester
     case none
 }
 
@@ -48,6 +48,7 @@ class ResponseDetailTableViewController: UITableViewController, MFMessageCompose
     weak var delegate: ResponseDetailTableViewDelegate?
     
     var response: NBResponse?
+    var request: NBRequest?
     var mode: ResponseDetailTableViewMode = .none
     var photos: [NBPhoto] = []
     
@@ -174,7 +175,7 @@ class ResponseDetailTableViewController: UITableViewController, MFMessageCompose
         dateFormatter.timeStyle = .short
         
         switch mode {
-        case .buyer:
+        case .requester:
             descriptionTextView.isEditable = false
             if response?.responseStatus?.rawValue == "CLOSED" {
                 priceText.isUserInteractionEnabled = false
@@ -188,7 +189,7 @@ class ResponseDetailTableViewController: UITableViewController, MFMessageCompose
             } else {
                 acceptButton.setTitle("Accept/Update", for: UIControlState.normal)
             }
-        case .seller:
+        case .responder:
             if response?.sellerStatus?.rawValue != "ACCEPTED" {
                 acceptButton.setTitle("Accept/Update", for: UIControlState.normal)
             } else {
@@ -320,7 +321,7 @@ class ResponseDetailTableViewController: UITableViewController, MFMessageCompose
         response?.exchangeTime = pickupTime
         response?.returnLocation = returnLocation
         response?.returnTime = returnTime
-        if mode == .buyer {
+        if mode == .requester {
             print("accept button pressed")
             delegate?.accepted(response)
             self.navigationController?.popViewController(animated: true)
@@ -334,9 +335,10 @@ class ResponseDetailTableViewController: UITableViewController, MFMessageCompose
     }
     
     @IBAction func declineButtonPressed(_ sender: UIButton) {
-        if mode == .seller {
+        if mode == .responder {
+            let isSeller = request?.type == RequestType.renting.rawValue || request?.type == RequestType.selling.rawValue
             print("withdraw button pressed")
-            delegate?.withdrawn(response)
+            delegate?.withdrawn(response, isSeller)
             self.navigationController?.popViewController(animated: true)
         } else {
             print("accept button pressed")
