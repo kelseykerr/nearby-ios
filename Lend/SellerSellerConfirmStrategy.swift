@@ -107,18 +107,48 @@ class SellerSellerConfirmStrategy: HistoryStateStrategy {
     }
     
     func detailViewController(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UIViewController {
-        
-        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-        guard let responseDetailVC = storyboard.instantiateViewController(
-            withIdentifier: "ResponseDetailTableViewController") as? ResponseDetailTableViewController else {
-                assert(false, "Misnamed view controller")
-                return UIViewController()
+         let inventoryRequest = history.request?.type == RequestType.selling.rawValue || history.request?.type == RequestType.loaning.rawValue
+        if history.responses.count > 0 && !inventoryRequest {
+            let response = history.responses[0]
+            
+            let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+            guard let responseDetailVC = storyboard.instantiateViewController(
+                withIdentifier: "ResponseDetailTableViewController") as? ResponseDetailTableViewController else {
+                    assert(false, "Misnamed view controller")
+                    return UIViewController()
+            }
+            responseDetailVC.mode = .responder
+            responseDetailVC.delegate = historyVC
+            responseDetailVC.response = response
+            return responseDetailVC
+        } else  {
+            if indexPath.row == 0 {
+                let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+                
+                guard let requestDetailVC = storyboard.instantiateViewController(
+                    withIdentifier: "EditRequestTableViewController") as? EditRequestTableViewController else {
+                        assert(false, "Misnamed view controller")
+                        return UIViewController()
+                }
+                requestDetailVC.request = history.request
+                requestDetailVC.delegate = historyVC
+                return requestDetailVC
+                
+            } else {
+                let response = history.responses[indexPath.row - 1]
+                let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+                guard let responseDetailVC = storyboard.instantiateViewController(
+                    withIdentifier: "ResponseDetailTableViewController") as? ResponseDetailTableViewController else {
+                        assert(false, "Misnamed view controller")
+                        return UIViewController()
+                }
+                responseDetailVC.mode = .responder
+                responseDetailVC.delegate = historyVC
+                responseDetailVC.response = response
+                return responseDetailVC
+            }
         }
-        let response = history.responses[0]
-        responseDetailVC.mode = .responder
-        responseDetailVC.delegate = historyVC
-        responseDetailVC.response = response
-        return responseDetailVC
+
     }
     
     func rowAction(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> [UITableViewRowAction]? {

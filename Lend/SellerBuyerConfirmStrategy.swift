@@ -99,7 +99,7 @@ class SellerBuyerConfirmStrategy: HistoryStateStrategy {
     
     func detailViewController(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UIViewController {
            let inventoryRequest = history.request?.type == RequestType.selling.rawValue || history.request?.type == RequestType.loaning.rawValue
-        if history.responses.count > 0 && !inventoryRequest{
+        if history.responses.count > 0 && !inventoryRequest {
             let response = history.responses[0]
             
             let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
