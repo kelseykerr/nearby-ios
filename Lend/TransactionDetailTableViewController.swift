@@ -82,6 +82,8 @@ class TransactionDetailTableViewController: UITableViewController, MFMessageComp
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //TODO: unhide this when the close btn is fixed
+        self.closeButton.isHidden = true
 
         if let transaction = history?.transaction {
             loadFields(transaction: transaction)
