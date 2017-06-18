@@ -55,8 +55,8 @@ class SellerBuyerConfirmStrategy: HistoryStateStrategy {
             if inventoryRequest {
                 let response = history.responses[indexPath.row - 1]
                 let name: String = response.responder?.firstName ?? "NAME"
-                let price = response.offerPrice ?? -9.99
-                cell.messageLabel?.text = "\(name) made an offer for $\(price)"
+                let price = response.priceInDollarFormat
+                cell.messageLabel?.text = "\(name) made an offer for \(price)"
                 cell.userImage = UIImage(named: "User-64")
                 if let pictureURL = response.responder?.imageUrl {
                     NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
@@ -69,7 +69,10 @@ class SellerBuyerConfirmStrategy: HistoryStateStrategy {
                         }
                     })
                 }
-                if response.buyerStatus == BuyerStatus.accepted {
+                if response.responseStatus == ResponseStatus.closed {
+                    cell.stateColor = UIColor.nbRed
+                    cell.state = "CLOSED"
+                } else if response.buyerStatus == BuyerStatus.accepted {
                     cell.stateColor = UIColor.nbYellow
                     cell.state = "PENDING YOUR APPROVAL"
                 } else if response.sellerStatus == SellerStatus.accepted {
@@ -80,8 +83,8 @@ class SellerBuyerConfirmStrategy: HistoryStateStrategy {
 
             } else {
                 let name: String = history.request?.user?.firstName ?? "NAME"
-                let price = history.responses[indexPath.row - 1].offerPrice ?? -9.99
-                cell.messageLabel?.text = "Offered a \(item) to \(name) for $\(price)"
+                let price = history.responses[indexPath.row - 1].priceInDollarFormat
+                cell.messageLabel?.text = "Offered a \(item) to \(name) for \(price)"
             }
             
             return cell
@@ -108,10 +111,11 @@ class SellerBuyerConfirmStrategy: HistoryStateStrategy {
                     assert(false, "Misnamed view controller")
                     return UIViewController()
             }
-            responseDetailVC.mode = .responder
+            responseDetailVC.mode = history.request?.isMyRequest() ?? false ? .requester : .responder
             responseDetailVC.delegate = historyVC
             responseDetailVC.response = response
-            return responseDetailVC   
+            responseDetailVC.request = history.request
+            return responseDetailVC
         } else  {
             if indexPath.row == 0 {
                 let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
@@ -133,10 +137,11 @@ class SellerBuyerConfirmStrategy: HistoryStateStrategy {
                         assert(false, "Misnamed view controller")
                         return UIViewController()
                 }
-                responseDetailVC.mode = .responder
+                responseDetailVC.mode = history.request?.isMyRequest() ?? false ? .requester : .responder
                 responseDetailVC.delegate = historyVC
                 responseDetailVC.response = response
-                return responseDetailVC   
+                responseDetailVC.request = history.request
+                return responseDetailVC
             }
         }
 

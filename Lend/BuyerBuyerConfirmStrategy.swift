@@ -197,8 +197,13 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
             }
             print(history.responses[0])
             responseDetailVC.response = inventoryRequest ? history.responses[0] :history.responses[indexPath.row - 1]
-            responseDetailVC.mode = .requester
+            if history.request?.isMyRequest() ?? false {
+                responseDetailVC.mode = .requester
+            } else {
+                responseDetailVC.mode = .responder
+            }
             responseDetailVC.delegate = historyVC
+            responseDetailVC.request = history.request
             return responseDetailVC
         }
     }

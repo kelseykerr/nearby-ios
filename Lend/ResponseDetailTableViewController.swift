@@ -188,6 +188,7 @@ class ResponseDetailTableViewController: UITableViewController, MFMessageCompose
                 navigationItem.rightBarButtonItem = nil
             } else {
                 acceptButton.setTitle("Accept/Update", for: UIControlState.normal)
+                declineButton.setTitle("Decline", for: UIControlState.normal)
             }
         case .responder:
             if response?.sellerStatus?.rawValue != "ACCEPTED" {
@@ -335,16 +336,13 @@ class ResponseDetailTableViewController: UITableViewController, MFMessageCompose
     }
     
     @IBAction func declineButtonPressed(_ sender: UIButton) {
-        if mode == .responder {
-            let isSeller = request?.type == RequestType.renting.rawValue || request?.type == RequestType.selling.rawValue
+        let isMyRequest = request?.isMyRequest() ?? false
+            let isSellerRequest = isMyRequest && (request?.type == RequestType.loaning.rawValue || request?.type == RequestType.selling.rawValue)
+            let isSellerResponse = !isMyRequest && (request?.type == RequestType.renting.rawValue || request?.type == RequestType.buying.rawValue)
             print("withdraw button pressed")
-            delegate?.withdrawn(response, isSeller)
+            print(isSellerRequest || isSellerResponse)
+            delegate?.withdrawn(response, isSellerRequest || isSellerResponse)
             self.navigationController?.popViewController(animated: true)
-        } else {
-            print("accept button pressed")
-            delegate?.declined(response)
-            self.navigationController?.popViewController(animated: true)
-        }
     }
     
     func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {

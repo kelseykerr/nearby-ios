@@ -51,8 +51,8 @@ class SellerSellerConfirmStrategy: HistoryStateStrategy {
             let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "ResponseCell", for: indexPath) as! HistoryResponseTableViewCell
             let response = history.responses[indexPath.row - 1]
             let name: String = response.responder?.firstName ?? "NAME"
-            let price = response.offerPrice ?? -9.99
-            cell.messageLabel?.text = "\(name) made an offer for $\(price)"
+            let price = response.priceInDollarFormat
+            cell.messageLabel?.text = "\(name) made an offer for \(price)"
             cell.userImage = UIImage(named: "User-64")
             if let pictureURL = response.responder?.imageUrl {
                 NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
@@ -65,7 +65,10 @@ class SellerSellerConfirmStrategy: HistoryStateStrategy {
                     }
                 })
             }
-            if response.buyerStatus == BuyerStatus.accepted {
+            if response.responseStatus == ResponseStatus.closed {
+                cell.stateColor = UIColor.nbRed
+                cell.state = "CLOSED"
+            } else if response.buyerStatus == BuyerStatus.accepted {
                 cell.stateColor = UIColor.nbYellow
                 cell.state = "PENDING YOUR APPROVAL"
             } else if response.sellerStatus == SellerStatus.accepted {
@@ -117,8 +120,9 @@ class SellerSellerConfirmStrategy: HistoryStateStrategy {
                     assert(false, "Misnamed view controller")
                     return UIViewController()
             }
-            responseDetailVC.mode = .responder
+            responseDetailVC.mode = history.request?.isMyRequest() ?? false ? .requester : .responder
             responseDetailVC.delegate = historyVC
+            responseDetailVC.request = history.request
             responseDetailVC.response = response
             return responseDetailVC
         } else  {
@@ -142,8 +146,9 @@ class SellerSellerConfirmStrategy: HistoryStateStrategy {
                         assert(false, "Misnamed view controller")
                         return UIViewController()
                 }
-                responseDetailVC.mode = .responder
+                responseDetailVC.mode = history.request?.isMyRequest() ?? false ? .requester : .responder
                 responseDetailVC.delegate = historyVC
+                responseDetailVC.request = history.request
                 responseDetailVC.response = response
                 return responseDetailVC
             }
