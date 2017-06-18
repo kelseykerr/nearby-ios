@@ -96,25 +96,16 @@ class BuyerExchangeStrategy: HistoryStateStrategy {
             
             cell.userImage = UIImage(named: "User-64")
             
-            let response2 = history.getResponseById(id: (history.transaction?.responseId)!)
-
-            if let imageUrl = response2?.responder?.imageUrl {
+            
+            let isInventoryRequest = history.request?.type == RequestType.selling.rawValue || history.request?.type == RequestType.loaning.rawValue
+            if isInventoryRequest {
+                let imageUrl = history.request?.user?.imageUrl
+                setUserImage(historyVC: historyVC, indexPath: indexPath, history: history, imageUrl: imageUrl)
+            } else {
+                let imageUrl = history.responses[0].responder?.imageUrl
                 setUserImage(historyVC: historyVC, indexPath: indexPath, history: history, imageUrl: imageUrl)
             }
-            else {
-                if let responderId = response2?.responderId {
-                    NBUser.fetchUser(responderId, completionHandler: { (result, error) in
-                        if let error = error {
-                            print("error")
-                            return
-                        }
-                        
-                        if let imageUrl = result.value?.imageUrl {
-                        self.setUserImage(historyVC: historyVC, indexPath: indexPath, history: history, imageUrl: imageUrl)
-                        }
-                    })
-                }
-            }
+            
         }
         
         return cell
