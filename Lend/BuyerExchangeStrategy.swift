@@ -92,28 +92,46 @@ class BuyerExchangeStrategy: HistoryStateStrategy {
                 }
             }
             
-            
-            
             cell.time = history.request?.getElapsedTimeAsString()
             
             cell.userImage = UIImage(named: "User-64")
             
-            let responder = history.getResponseById(id: (history.transaction?.responseId)!)?.responder
-            if let pictureURL = responder?.imageUrl {
-                NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
-                    guard error == nil else {
-                        print(error!)
-                        return
-                    }
-                    if let cellToUpdate = historyVC.tableView?.cellForRow(at: indexPath) as! HistoryTransactionTableViewCell? {
-                        cellToUpdate.userImage = image
-                    }
-                })
+            let response2 = history.getResponseById(id: (history.transaction?.responseId)!)
+
+            if let imageUrl = response2?.responder?.imageUrl {
+                setUserImage(historyVC: historyVC, indexPath: indexPath, history: history, imageUrl: imageUrl)
             }
-            
+            else {
+                if let responderId = response2?.responderId {
+                    NBUser.fetchUser(responderId, completionHandler: { (result, error) in
+                        if let error = error {
+                            print("error")
+                            return
+                        }
+                        
+                        if let imageUrl = result.value?.imageUrl {
+                        self.setUserImage(historyVC: historyVC, indexPath: indexPath, history: history, imageUrl: imageUrl)
+                        }
+                    })
+                }
+            }
         }
         
         return cell
+    }
+    
+    func setUserImage(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory, imageUrl: String?) {
+        if let pictureURL = imageUrl {
+            NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
+                guard error == nil else {
+                    print(error!)
+                    return
+                }
+                if let cellToUpdate = historyVC.tableView?.cellForRow(at: indexPath) as! HistoryTransactionTableViewCell? {
+                    cellToUpdate.userImage = image
+                }
+            })
+        }
     }
     
     func respondToOverride(t: NBTransaction, historyVC: HistoryTableViewController) {

@@ -22,12 +22,12 @@ class HistoryTableViewController: UITableViewController {
     
     var historyFilter = HistoryFilter()
 
-    deinit {
-        if tableView != nil {
-            self.tableView.emptyDataSetSource = nil
-            self.tableView.emptyDataSetDelegate = nil
-        }
-    }
+//    deinit {
+//        if tableView != nil {
+//            self.tableView.emptyDataSetSource = nil
+//            self.tableView.emptyDataSetDelegate = nil
+//        }
+//    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,8 +36,8 @@ class HistoryTableViewController: UITableViewController {
         
         self.tableView.contentInset = UIEdgeInsetsMake(-26, 0, 0, 0)
         
-        self.tableView.emptyDataSetSource = self
-        self.tableView.emptyDataSetDelegate = self
+//        self.tableView.emptyDataSetSource = self
+//        self.tableView.emptyDataSetDelegate = self
         
         self.tableView.tableFooterView = UIView()
         
@@ -273,30 +273,30 @@ class HistoryTableViewController: UITableViewController {
     
 }
 
-extension HistoryTableViewController: DZNEmptyDataSetSource, DZNEmptyDataSetDelegate {
-    
-    func image(forEmptyDataSet scrollView: UIScrollView!) -> UIImage! {
-        let hasAlpha = true
-        let scale: CGFloat = 0.0 // Use scale factor of main screen
-        let sizeChange = CGSize(width: 100, height: 100)
-        let image = UIImage(named: "pin_grey_150")
-
-        UIGraphicsBeginImageContextWithOptions(sizeChange, !hasAlpha, scale)
-        image?.draw(in: CGRect(origin: CGPoint.zero, size: sizeChange))
-        
-        let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
-        return scaledImage
-    }
-    
-    func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
-        return NSAttributedString(string: "no history to show")
-    }
-    
-    func verticalOffset(forEmptyDataSet scrollView: UIScrollView!) -> CGFloat {
-        return CGFloat(-25)
-    }
-    
-}
+//extension HistoryTableViewController: DZNEmptyDataSetSource, DZNEmptyDataSetDelegate {
+//    
+//    func image(forEmptyDataSet scrollView: UIScrollView!) -> UIImage! {
+//        let hasAlpha = true
+//        let scale: CGFloat = 0.0 // Use scale factor of main screen
+//        let sizeChange = CGSize(width: 100, height: 100)
+//        let image = UIImage(named: "pin_grey_150")
+//
+//        UIGraphicsBeginImageContextWithOptions(sizeChange, !hasAlpha, scale)
+//        image?.draw(in: CGRect(origin: CGPoint.zero, size: sizeChange))
+//        
+//        let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
+//        return scaledImage
+//    }
+//    
+//    func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
+//        return NSAttributedString(string: "no history to show")
+//    }
+//    
+//    func verticalOffset(forEmptyDataSet scrollView: UIScrollView!) -> CGFloat {
+//        return CGFloat(-25)
+//    }
+//    
+//}
 
 
 extension HistoryTableViewController: RequestDetailTableViewDelegate, ResponseDetailTableViewDelegate, TransactionDetailTableViewDelegate, EditRequestTableViewDelegate, ConfirmPriceTableViewDelegate {
