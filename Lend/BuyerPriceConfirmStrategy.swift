@@ -25,25 +25,14 @@ class BuyerPriceConfirmStrategy: HistoryStateStrategy {
         cell.userImage = UIImage(named: "User-64")
         
         let response = history.getResponseById(id: (history.transaction?.responseId)!)
-        
-        if let imageUrl = response?.responder?.imageUrl {
+        let isInventoryRequest = history.request?.type == RequestType.selling.rawValue || history.request?.type == RequestType.loaning.rawValue
+        if isInventoryRequest {
+            let imageUrl = history.request?.user?.imageUrl
+            setUserImage(historyVC: historyVC, indexPath: indexPath, history: history, imageUrl: imageUrl)
+        } else {
+            let imageUrl = response?.responder?.imageUrl
             setUserImage(historyVC: historyVC, indexPath: indexPath, history: history, imageUrl: imageUrl)
         }
-        else {
-            if let responderId = response?.responderId {
-                NBUser.fetchUser(responderId, completionHandler: { (result, error) in
-                    if let error = error {
-                        print("error")
-                        return
-                    }
-                    
-                    if let imageUrl = result.value?.imageUrl {
-                        self.setUserImage(historyVC: historyVC, indexPath: indexPath, history: history, imageUrl: imageUrl)
-                    }
-                })
-            }
-        }
-    
         return cell
     }
     

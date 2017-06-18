@@ -134,7 +134,7 @@ class BuyerSellerConfirmStrategy: HistoryStateStrategy {
                 assert(false, "Misnamed view controller")
                 return UIViewController()
         }
-        responseDetailVC.response = history.responses[0]
+        responseDetailVC.response = history.getResponseById(id: (history.transaction?.responseId)!)
         responseDetailVC.mode = history.request?.isMyRequest() ?? false ? .requester : .responder
         responseDetailVC.delegate = historyVC
         responseDetailVC.request = history.request

@@ -14,11 +14,11 @@ class SellerExchangeStrategy: HistoryStateStrategy {
         let cell = historyVC.tableView.dequeueReusableCell(withIdentifier: "TransactionCell", for: indexPath) as! HistoryTransactionTableViewCell
         let isInventoryRequest = history.request?.type == RequestType.selling.rawValue || history.request?.type == RequestType.loaning.rawValue
         var name = ""
-        let response = history.responses[0]
+        let response = history.getResponseById(id: (history.transaction?.responseId)!)
         cell.userImage = UIImage(named: "User-64")
         if isInventoryRequest {
-            name = response.responder?.firstName ?? "NAME"
-            if let pictureURL = response.responder?.imageUrl {
+            name = response?.responder?.firstName ?? "NAME"
+            if let pictureURL = response?.responder?.imageUrl {
                 NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
                     guard error == nil else {
                         print(error!)
@@ -60,20 +60,20 @@ class SellerExchangeStrategy: HistoryStateStrategy {
         } else {
             cell.stateColor = UIColor.nbGreen
             cell.state = "AWAITING EXCHANGE"
-            if (response.exchangeTime != nil && response.exchangeTime != 0) {
+            if (response?.exchangeTime != nil && response?.exchangeTime != 0) {
                 cell.exchangeTimeLabel.isHidden = false
                 cell.timeTitleLabel.isHidden = false
-                let dateString = Utils.dateIntToFormattedString(time: response.exchangeTime!)
+                let dateString = Utils.dateIntToFormattedString(time: response?.exchangeTime! ?? 0)
                 cell.exchangeTime = dateString
             } else {
                 cell.exchangeTimeLabel.isHidden = true
                 cell.timeTitleLabel.isHidden = true
             }
             
-            if (response.exchangeLocation != nil && response.exchangeLocation != "") {
+            if (response?.exchangeLocation != nil && response?.exchangeLocation != "") {
                 cell.exchangeLocationLabel.isHidden = false
                 cell.locationTitleLabel.isHidden = false
-                cell.exchangeLocation = response.exchangeLocation!
+                cell.exchangeLocation = response?.exchangeLocation!
             } else {
                 cell.exchangeLocationLabel.isHidden = true
                 cell.locationTitleLabel.isHidden = true
