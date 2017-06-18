@@ -83,7 +83,7 @@ class TransactionDetailTableViewController: UITableViewController, MFMessageComp
     override func viewDidLoad() {
         super.viewDidLoad()
         //TODO: unhide this when the close btn is fixed
-        self.closeButton.isHidden = true
+//        self.closeButton.isHidden = true
 
         if let transaction = history?.transaction {
             loadFields(transaction: transaction)
@@ -156,8 +156,14 @@ class TransactionDetailTableViewController: UITableViewController, MFMessageComp
     }
     
     @IBAction func closeButtonPressed(_ sender: UIButton) {
-        // should I send transaction or request
-//        delegate?.closed()
+        guard let request = history?.request else {
+            // should not happen but notify user when this happens
+            return
+        }
+        
+        delegate?.closed(request)
+        
+        self.navigationController?.popViewController(animated: true)
     }
     
     @IBAction func moreButtonPressed(_ sender: UIBarButtonItem) {

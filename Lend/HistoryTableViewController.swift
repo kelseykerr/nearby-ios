@@ -300,7 +300,6 @@ extension HistoryTableViewController: DZNEmptyDataSetSource, DZNEmptyDataSetDele
 
 
 extension HistoryTableViewController: RequestDetailTableViewDelegate, ResponseDetailTableViewDelegate, TransactionDetailTableViewDelegate, EditRequestTableViewDelegate, ConfirmPriceTableViewDelegate {
-    
     //request
     
     func edited(_ request: NBRequest?) {

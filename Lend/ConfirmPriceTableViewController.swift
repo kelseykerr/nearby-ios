@@ -21,6 +21,7 @@ class ConfirmPriceTableViewController:  UITableViewController {
     weak var delegate: ConfirmPriceTableViewDelegate?
 
     let minimumPrice: Float = 0.5
+    let zeroPrice: Float = 0.0
     
     var history: NBHistory?
 
@@ -70,7 +71,7 @@ class ConfirmPriceTableViewController:  UITableViewController {
             if price > offerPrice {
                 showError()
             }
-            else if price < minimumPrice {
+            else if price < minimumPrice && price != zeroPrice {
                 showMinimumError()
             }
             else {
