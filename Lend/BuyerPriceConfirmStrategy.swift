@@ -17,23 +17,6 @@ class BuyerPriceConfirmStrategy: HistoryStateStrategy {
         
         cell.message = "Waiting for seller to confirm price for \(item)."
         
-        /*
-         let attrText = NSMutableAttributedString(string: "")
-         let boldFont = UIFont.boldSystemFont(ofSize: 15)
-         
-         let boldYou = NSMutableAttributedString(string: "You", attributes: [NSFontAttributeName: boldFont])
-         attrText.append(boldYou)
-         
-         attrText.append(NSMutableAttributedString(string: " have successfully completed transaction for "))
-         
-         let boldItemName = NSMutableAttributedString(string: item, attributes: [NSFontAttributeName: boldFont])
-         attrText.append(boldItemName)
-         
-         attrText.append(NSMutableAttributedString(string: "."))
-         
-         cell.messageLabel.attributedText = attrText
-         */
-        
         cell.stateColor = UIColor.purple
         cell.state = "PROCESSING PAYMENT"
         
@@ -41,9 +24,31 @@ class BuyerPriceConfirmStrategy: HistoryStateStrategy {
         
         cell.userImage = UIImage(named: "User-64")
         
-        let responder = history.getResponseById(id: (history.transaction?.responseId)!)?.responder
+        let response = history.getResponseById(id: (history.transaction?.responseId)!)
         
-        if let pictureURL = responder?.imageUrl {
+        if let imageUrl = response?.responder?.imageUrl {
+            setUserImage(historyVC: historyVC, indexPath: indexPath, history: history, imageUrl: imageUrl)
+        }
+        else {
+            if let responderId = response?.responderId {
+                NBUser.fetchUser(responderId, completionHandler: { (result, error) in
+                    if let error = error {
+                        print("error")
+                        return
+                    }
+                    
+                    if let imageUrl = result.value?.imageUrl {
+                        self.setUserImage(historyVC: historyVC, indexPath: indexPath, history: history, imageUrl: imageUrl)
+                    }
+                })
+            }
+        }
+    
+        return cell
+    }
+    
+    private func setUserImage(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory, imageUrl: String?) {
+        if let pictureURL = imageUrl {
             NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
                 guard error == nil else {
                     print(error!)
@@ -54,8 +59,6 @@ class BuyerPriceConfirmStrategy: HistoryStateStrategy {
                 }
             })
         }
-        
-        return cell
     }
     
     func alertController(historyVC: HistoryTableViewController, indexPath: IndexPath, history: NBHistory) -> UIAlertController {
