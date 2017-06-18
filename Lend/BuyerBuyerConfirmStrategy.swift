@@ -195,7 +195,6 @@ class BuyerBuyerConfirmStrategy: HistoryStateStrategy {
                     assert(false, "Misnamed view controller")
                     return UIViewController()
             }
-            print(history.responses[0])
             responseDetailVC.response = inventoryRequest ? history.responses[0] :history.responses[indexPath.row - 1]
             if history.request?.isMyRequest() ?? false {
                 responseDetailVC.mode = .requester

@@ -102,7 +102,7 @@ class BuyerExchangeStrategy: HistoryStateStrategy {
                 let imageUrl = history.request?.user?.imageUrl
                 setUserImage(historyVC: historyVC, indexPath: indexPath, history: history, imageUrl: imageUrl)
             } else {
-                let imageUrl = history.responses[0].responder?.imageUrl
+                let imageUrl = history.getResponseById(id: (history.transaction?.responseId)!)?.responder?.imageUrl
                 setUserImage(historyVC: historyVC, indexPath: indexPath, history: history, imageUrl: imageUrl)
             }
             
