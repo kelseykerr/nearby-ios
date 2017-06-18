@@ -29,8 +29,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         GGLContext.sharedInstance().configureWithError(&configureError)
         assert(configureError == nil, "Error configuring Google services: \(configureError)")
         
-        //STPPaymentConfiguration.shared().publishableKey = "pk_test_XXhtxu1S44u1en0gH6ozoB7t"
-        STPPaymentConfiguration.shared().publishableKey = "pk_live_qgUYywOaOSnKHZvAUSrbaDch"
+        STPPaymentConfiguration.shared().publishableKey = "pk_test_XXhtxu1S44u1en0gH6ozoB7t"
+        //STPPaymentConfiguration.shared().publishableKey = "pk_live_qgUYywOaOSnKHZvAUSrbaDch"
         //"pk_test_6pRNASCoBOKtIshFeQd4XMUh"
         
         // maybe I need to do this in Home View, seems like it doesn't like it when user isn't logged in
