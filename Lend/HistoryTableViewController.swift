@@ -22,13 +22,6 @@ class HistoryTableViewController: UITableViewController {
     
     var historyFilter = HistoryFilter()
 
-//    deinit {
-//        if tableView != nil {
-//            self.tableView.emptyDataSetSource = nil
-//            self.tableView.emptyDataSetDelegate = nil
-//        }
-//    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -36,12 +29,10 @@ class HistoryTableViewController: UITableViewController {
         
         self.tableView.contentInset = UIEdgeInsetsMake(-26, 0, 0, 0)
         
-//        self.tableView.emptyDataSetSource = self
-//        self.tableView.emptyDataSetDelegate = self
-        
         self.tableView.tableFooterView = UIView()
         
-        //may not need this?
+        self.tableView.backgroundView = self.getBackgroundView()
+        
         if cleared {
             loadHistories()
             cleared = false
@@ -122,27 +113,6 @@ class HistoryTableViewController: UITableViewController {
         let height = HistoryStateManager.sharedInstance.heightForRowAt(historyVC: self, indexPath: indexPath, history: history)
         
         return height
-
-        /*
-        let history = histories[indexPath.section]
-        if indexPath.row == 0 {
-            if (history.transaction != nil && history.transaction?.id != nil && history.request?.status?.rawValue == "TRANSACTION_PENDING" && !(history.transaction?.canceled)!) {
-                var shouldBeBig = false
-                let response = history.getResponseById(id: (history.transaction?.responseId)!)
-                if (history.transaction?.exchanged)! {
-                    shouldBeBig = response?.returnTime != nil && response?.returnLocation != nil
-                } else {
-                    shouldBeBig = response?.exchangeLocation != nil && response?.exchangeTime != nil
-                }
-                return shouldBeBig ? 100 : 80
-            } else {
-                return 80
-            }
-        }
-        else {
-            return 60
-        }
-        */
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -189,6 +159,27 @@ class HistoryTableViewController: UITableViewController {
         }
     }
     
+    func getBackgroundView() -> UIView {
+        if self.histories.count <= 0 {
+            let backgroundView = UIView()
+//            backgroundView.backgroundColor = UIColor.red
+            
+            let dataNotAvailableLabel = UILabel()
+//            dataNotAvailableLabel.backgroundColor = UIColor.green
+            dataNotAvailableLabel.frame = CGRect(x: 0, y: self.tableView.bounds.height / 2, width: self.tableView.bounds.width, height: 40)
+            dataNotAvailableLabel.text = "History data is not available."
+            dataNotAvailableLabel.textAlignment = .center
+            dataNotAvailableLabel.textColor = UIColor.darkGray
+            
+            backgroundView.addSubview(dataNotAvailableLabel)
+            
+            return backgroundView
+        }
+        else {
+            return UIView()
+        }
+    }
+    
     func loadHistories() {
         let filter = self.historyFilter
         let loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
@@ -214,19 +205,7 @@ class HistoryTableViewController: UITableViewController {
             
             self.histories = fetchedHistories
 
-            /*
-            if fetchedHistories.count == 0 {
-                let noDataLabel: UILabel = UILabel(frame: CGRect(x: 0, y: 0, width: self.tableView.bounds.size.width, height: self.tableView.bounds.size.height))
-                noDataLabel.text = "no history to show"
-                noDataLabel.textColor = UIColor.black
-                noDataLabel.textAlignment = .center
-                self.tableView.backgroundView = noDataLabel
-                self.tableView.separatorStyle = .none
-            } else {
-                self.tableView.backgroundView = nil;
-
-            }
-             */
+            self.tableView.backgroundView = self.getBackgroundView()
             
             //this may not be the best way, but will prevent from crashing
             if !UserManager.sharedInstance.userAvailable() {

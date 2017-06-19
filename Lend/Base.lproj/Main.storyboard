@@ -872,7 +872,7 @@
                             <rect key="frame" x="0.0" y="493" width="375" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <sections>
@@ -4389,23 +4389,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MAk-mT-kVM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2664.8000000000002" y="-2577.6611694152925"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="cuY-DF-ZV0">
-            <objects>
-                <viewController id="mwv-f9-IVB" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="RNS-DX-Tj1"/>
-                        <viewControllerLayoutGuide type="bottom" id="LwL-T8-EfB"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="yee-2E-MbJ">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="zd3-BN-tLy" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
         </scene>
     </scenes>
     <resources>
