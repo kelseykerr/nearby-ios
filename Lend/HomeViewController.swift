@@ -13,6 +13,7 @@ import SwiftyJSON
 import Ipify
 import MBProgressHUD
 import DZNEmptyDataSet
+import Firebase
 
 
 class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelegate {
@@ -252,6 +253,12 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
             UserManager.sharedInstance.getUser(completionHandler: { user in
                 UserManager.sharedInstance.validateProfile(vc: self)
             })
+            
+            if let token = FIRInstanceID.instanceID().token() {
+                NBUser.editFcmToken(token) { error in
+                }
+            }
+
         }
     }
     

@@ -75,10 +75,10 @@ class AccountTableViewController: UITableViewController, LoginViewDelegate {
         }
         
         //likely not where this should be
-        if let token = FIRInstanceID.instanceID().token() {
-            NBUser.editFcmToken(token) { error in
-            }
-        }
+//        if let token = FIRInstanceID.instanceID().token() {
+//            NBUser.editFcmToken(token) { error in
+//            }
+//        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -120,6 +120,11 @@ class AccountTableViewController: UITableViewController, LoginViewDelegate {
     
     func didTapLoginButton() {
         self.dismiss(animated: false) {
+            if let token = FIRInstanceID.instanceID().token() {
+                NBUser.editFcmToken(token) { error in
+                }
+            }
+            
             self.loadUser()
         }
     }
