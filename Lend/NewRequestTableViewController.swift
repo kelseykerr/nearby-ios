@@ -105,18 +105,19 @@ class NewRequestTableViewController: UITableViewController {
         
         rentalDropDown.bottomOffset = CGPoint(x: 0, y: rentalButton.bounds.height)
         rentalDropDown.dataSource = [
-            "rent",
+//            "rent",
+            "borrow",
             "buy",
             "sell",
             "loan"
         ]
         
-        self.rentalButton.setTitle("rent", for: .normal)
+        self.rentalButton.setTitle("borrow", for: .normal)
         // Action triggered on selection
         rentalDropDown.selectionAction = { [unowned self] (index, item) in
             self.rentalButton.setTitle(item, for: .normal)
             switch item {
-            case "rent":
+            case "borrow":
                 self.rental = RequestType.renting
             case "buy":
                 self.rental = RequestType.buying

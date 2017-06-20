@@ -59,7 +59,7 @@ class EditRequestTableViewController: UITableViewController {
             //this can be better, simply make an initializer for enum to do this.... later
             if let rental = rentLabel.text {
                 switch rental {
-                case "rent":
+                case "borrow":
                     return RequestType.renting
                 case "buy":
                     return RequestType.buying
@@ -74,7 +74,12 @@ class EditRequestTableViewController: UITableViewController {
             return RequestType.none
         }
         set {
-            rentLabel.text = newValue.rawValue.replacingOccurrences(of: "ing", with: "")
+            if newValue == RequestType.renting {
+                rentLabel.text = "borrow"
+            }
+            else {
+                rentLabel.text = newValue.rawValue.replacingOccurrences(of: "ing", with: "")
+            }
         }
     }
     

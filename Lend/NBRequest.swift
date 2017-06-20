@@ -35,7 +35,7 @@ enum RequestType: String {
         case .buying:
             return "Bought"
         case .renting:
-            return "Rented"
+            return "Borrowed"
         case .selling:
             return "Sold"
         case .loaning:
