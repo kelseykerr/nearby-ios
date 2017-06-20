@@ -120,7 +120,8 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
         if self.refreshControl == nil {
             self.refreshControl = UIRefreshControl()
             
-            let bounds =  CGRect(x: (refreshControl?.bounds.origin.x)!, y: -26.0, width: (refreshControl?.bounds.size.width)!, height: (refreshControl?.bounds.size.height)!)
+//            let bounds = CGRect(x: (refreshControl?.bounds.origin.x)!, y: -26.0, width: (refreshControl?.bounds.size.width)!, height: (refreshControl?.bounds.size.height)!)
+            let bounds = CGRect(x: 0, y: 100, width: 1, height: 1) // hides the indicator
             self.refreshControl?.bounds = bounds
             
             self.refreshControl?.addTarget(self, action: #selector(refresh(_:)), for: UIControlEvents.valueChanged)
