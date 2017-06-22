@@ -757,8 +757,10 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
                     if (!fetchedUser.hasAllRequiredFields()) {
                         self.showAlertMsg(message: "You must finish filling out your profile before you can make offers")
                         
-                    } else if (!fetchedUser.canRespond!) {
+                    } else if ((request.type == RequestType.renting.rawValue || request.type == RequestType.buying.rawValue) && !fetchedUser.canRespond!) {
                         self.showAlertMsg(message: "You must add bank account information before you can make offers")
+                    } else if (request.type == RequestType.loaning.rawValue || request.type == RequestType.selling.rawValue) && !fetchedUser.canRequest! {
+                        self.showAlertMsg(message: "You must add credit card information before you can reply")
                     } else {
                         let responseVC = (navVC.childViewControllers[0] as! NewResponseTableViewController)
                         responseVC.delegate = self
