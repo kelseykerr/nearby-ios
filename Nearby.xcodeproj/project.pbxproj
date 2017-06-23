@@ -44,14 +44,14 @@
 		AA3F641E1D7B8DB80021964B /* NBMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3F641D1D7B8DB80021964B /* NBMessage.swift */; };
 		AA3F64201D80B55C0021964B /* NewResponseTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3F641F1D80B55C0021964B /* NewResponseTableViewController.swift */; };
 		AA4310B81D616DAB00E00F45 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4310B71D616DAB00E00F45 /* LoginViewController.swift */; };
-		AA4310BC1D62392E00E00F45 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA4310B91D62392E00E00F45 /* FBSDKCoreKit.framework */; };
-		AA4310BD1D62392E00E00F45 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA4310BA1D62392E00E00F45 /* FBSDKLoginKit.framework */; };
-		AA4310BE1D62392E00E00F45 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA4310BB1D62392E00E00F45 /* FBSDKShareKit.framework */; };
-		AA4310C31D62426C00E00F45 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA4310C21D62426C00E00F45 /* Bolts.framework */; };
 		AA4D91AE1E76433000D106FE /* ResponseDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4D91AD1E76433000D106FE /* ResponseDetailTableViewController.swift */; };
 		AA52E6CE1EB287DC00934C72 /* NewAccountManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA52E6CD1EB287DC00934C72 /* NewAccountManager.swift */; };
 		AA546A841DCA5CD3007E1E8F /* NBBraintree.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA546A831DCA5CD3007E1E8F /* NBBraintree.swift */; };
 		AA546A861DCA5F89007E1E8F /* BraintreeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA546A851DCA5F89007E1E8F /* BraintreeRouter.swift */; };
+		AA5818FF1EFBBA6A00C6788B /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA5818FB1EFBBA6A00C6788B /* Bolts.framework */; };
+		AA5819001EFBBA6A00C6788B /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA5818FC1EFBBA6A00C6788B /* FBSDKCoreKit.framework */; };
+		AA5819011EFBBA6A00C6788B /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA5818FD1EFBBA6A00C6788B /* FBSDKLoginKit.framework */; };
+		AA5819021EFBBA6A00C6788B /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA5818FE1EFBBA6A00C6788B /* FBSDKShareKit.framework */; };
 		AA5EA4AD1ED42A67007278C2 /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5EA4AC1ED42A67007278C2 /* UserViewController.swift */; };
 		AA83930E1ED95310006950DC /* NotificationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA83930D1ED95310006950DC /* NotificationTableViewController.swift */; };
 		AA8B21E71D98EECD0026ED7D /* NBHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8B21E61D98EECD0026ED7D /* NBHistory.swift */; };
@@ -162,15 +162,15 @@
 		AA3F641D1D7B8DB80021964B /* NBMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NBMessage.swift; sourceTree = "<group>"; };
 		AA3F641F1D80B55C0021964B /* NewResponseTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewResponseTableViewController.swift; sourceTree = "<group>"; };
 		AA4310B71D616DAB00E00F45 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
-		AA4310B91D62392E00E00F45 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
-		AA4310BA1D62392E00E00F45 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
-		AA4310BB1D62392E00E00F45 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
 		AA4310BF1D623E1100E00F45 /* Lend-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Lend-Bridging-Header.h"; sourceTree = "<group>"; };
-		AA4310C21D62426C00E00F45 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		AA4D91AD1E76433000D106FE /* ResponseDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseDetailTableViewController.swift; sourceTree = "<group>"; };
 		AA52E6CD1EB287DC00934C72 /* NewAccountManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewAccountManager.swift; sourceTree = "<group>"; };
 		AA546A831DCA5CD3007E1E8F /* NBBraintree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NBBraintree.swift; sourceTree = "<group>"; };
 		AA546A851DCA5F89007E1E8F /* BraintreeRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BraintreeRouter.swift; sourceTree = "<group>"; };
+		AA5818FB1EFBBA6A00C6788B /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
+		AA5818FC1EFBBA6A00C6788B /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
+		AA5818FD1EFBBA6A00C6788B /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
+		AA5818FE1EFBBA6A00C6788B /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
 		AA5EA4AC1ED42A67007278C2 /* UserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
 		AA6928381E6FCED3009C022F /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		AA83930D1ED95310006950DC /* NotificationTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationTableViewController.swift; sourceTree = "<group>"; };
@@ -246,11 +246,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AA4310C31D62426C00E00F45 /* Bolts.framework in Frameworks */,
-				AA4310BE1D62392E00E00F45 /* FBSDKShareKit.framework in Frameworks */,
-				AA4310BC1D62392E00E00F45 /* FBSDKCoreKit.framework in Frameworks */,
-				AA4310BD1D62392E00E00F45 /* FBSDKLoginKit.framework in Frameworks */,
 				4279B300DB3AA0DD5522684E /* Pods_Nearby.framework in Frameworks */,
+				AA5819001EFBBA6A00C6788B /* FBSDKCoreKit.framework in Frameworks */,
+				AA5819021EFBBA6A00C6788B /* FBSDKShareKit.framework in Frameworks */,
+				AA5819011EFBBA6A00C6788B /* FBSDKLoginKit.framework in Frameworks */,
+				AA5818FF1EFBBA6A00C6788B /* Bolts.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -260,11 +260,11 @@
 		03C81C8D17E004617BD623E6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AA5818FB1EFBBA6A00C6788B /* Bolts.framework */,
+				AA5818FC1EFBBA6A00C6788B /* FBSDKCoreKit.framework */,
+				AA5818FD1EFBBA6A00C6788B /* FBSDKLoginKit.framework */,
+				AA5818FE1EFBBA6A00C6788B /* FBSDKShareKit.framework */,
 				AA6928381E6FCED3009C022F /* XCTest.framework */,
-				AA4310C21D62426C00E00F45 /* Bolts.framework */,
-				AA4310B91D62392E00E00F45 /* FBSDKCoreKit.framework */,
-				AA4310BA1D62392E00E00F45 /* FBSDKLoginKit.framework */,
-				AA4310BB1D62392E00E00F45 /* FBSDKShareKit.framework */,
 				C4BE07AAD7E7749E48DF11BF /* Pods_Nearby.framework */,
 				D418FAC02A6167DA6BE47114 /* libPods-NearbyTests.a */,
 			);
@@ -1054,6 +1054,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Frameworks",
 				);
 				INFOPLIST_FILE = Lend/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -1078,6 +1079,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Frameworks",
 				);
 				INFOPLIST_FILE = Lend/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;

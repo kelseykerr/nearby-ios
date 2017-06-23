@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MBProgressHUD
 
 protocol LoginViewDelegate: class {
     func didTapLoginButton()
@@ -67,7 +68,15 @@ class LoginViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDeleg
                 print(error)
                 return
             }
-            self.delegate?.didTapLoginButton()
+            
+            let loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
+            loadingNotification.mode = MBProgressHUDMode.indeterminate
+            loadingNotification.label.text = "Loading"
+            
+            UserManager.sharedInstance.fetchUser(completionHandler: { user in
+                loadingNotification.hide(animated: true)
+                self.delegate?.didTapLoginButton()
+            })
         }
     }
     
