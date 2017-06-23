@@ -166,9 +166,16 @@ class RequestDetailTableViewController: UITableViewController {
                     return
                 }
                 
-                guard let canRespond = user.canRespond, canRespond else {
-                    self.showAlertMessage(message: "You must add bank account information before you can make offers")
-                    return
+                if self.request?.type == RequestType.renting.rawValue || self.request?.type == RequestType.buying.rawValue {
+                    guard let canRespond = user.canRespond, canRespond else {
+                        self.showAlertMessage(message: "You must add bank account information before you can make offers")
+                        return
+                    }
+                } else if self.request?.type == RequestType.loaning.rawValue || self.request?.type == RequestType.selling.rawValue {
+                    guard let canRequest = user.canRequest, canRequest else {
+                        self.showAlertMessage(message: "You must add credit card information before you can reply")
+                        return
+                    }
                 }
                 
                 guard let navVC = UIStoryboard.getViewController(identifier: "NewResponseNavigationController") as? UINavigationController else {
