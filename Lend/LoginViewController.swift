@@ -69,14 +69,7 @@ class LoginViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDeleg
                 return
             }
             
-            let loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
-            loadingNotification.mode = MBProgressHUDMode.indeterminate
-            loadingNotification.label.text = "Loading"
-            
-            UserManager.sharedInstance.fetchUser(completionHandler: { user in
-                loadingNotification.hide(animated: true)
-                self.delegate?.didTapLoginButton()
-            })
+            self.fetchUserAndClose()
         }
     }
     
@@ -85,7 +78,8 @@ class LoginViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDeleg
             print(error)
             return
         }
-        self.delegate?.didTapLoginButton()
+        
+        fetchUserAndClose()
     }
     
     func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
@@ -95,6 +89,17 @@ class LoginViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDeleg
     @available(iOS 10.0, *)
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
         return true
+    }
+    
+    func fetchUserAndClose() {
+        let loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
+        loadingNotification.mode = MBProgressHUDMode.indeterminate
+        loadingNotification.label.text = "Loading"
+        
+        UserManager.sharedInstance.fetchUser(completionHandler: { user in
+            loadingNotification.hide(animated: true)
+            self.delegate?.didTapLoginButton()
+        })
     }
 
 }
