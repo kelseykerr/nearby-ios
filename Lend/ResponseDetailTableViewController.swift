@@ -60,8 +60,10 @@ class ResponseDetailTableViewController: UITableViewController, MFMessageCompose
     
     var price: Float? {
         get {
-            let priceString = priceText.text
-            return Float(priceString!)
+            if let priceString = priceText.text {
+                return Float(priceString)
+            }
+            return nil
         }
         set {
             let price = newValue ?? 0
@@ -90,20 +92,24 @@ class ResponseDetailTableViewController: UITableViewController, MFMessageCompose
     var pickupTime: Int64? {
         get {
             //move to Utils
-            let dateString = pickupTimeDateTextField.text
-            if (dateString == nil || dateString == "") {
+            guard let dateString = pickupTimeDateTextField.text else {
                 return nil
             }
-            let date = dateFormatter.date(from: dateString!)
-            return Int64((date?.timeIntervalSince1970)!) * 1000
+            
+            guard let date = dateFormatter.date(from: dateString) else {
+                return nil
+            }
+            
+            return Int64(date.timeIntervalSince1970) * 1000
         }
         set {
             //move to Utils
-            if (newValue == nil) {
+            guard let newValue = newValue else {
                 pickupTimeDateTextField.text = ""
                 return
             }
-            let epoch = (newValue)! / 1000
+            
+            let epoch = newValue / 1000
             let date = Date(timeIntervalSince1970: TimeInterval(epoch))
             let dateString = dateFormatter.string(from: date)
             pickupTimeDateTextField.text = dateString
@@ -121,19 +127,23 @@ class ResponseDetailTableViewController: UITableViewController, MFMessageCompose
     
     var returnTime: Int64? {
         get {
-            let dateString = returnTimeDateTextField.text
-            if (dateString == nil || dateString == "") {
+            guard let dateString = returnTimeDateTextField.text else {
                 return nil
             }
-            let date = dateFormatter.date(from: dateString!)
-            return Int64((date?.timeIntervalSince1970)!) * 1000
+            
+            guard let date = dateFormatter.date(from: dateString) else {
+                return nil
+            }
+            
+            return Int64(date.timeIntervalSince1970) * 1000
         }
         set {
-            if (newValue == nil) {
+            guard let newValue = newValue else {
                 returnTimeDateTextField.text = ""
                 return
             }
-            let epoch = (newValue ?? 0) / 1000
+            
+            let epoch = newValue / 1000
             let date = Date(timeIntervalSince1970: TimeInterval(epoch))
             let dateString = dateFormatter.string(from: date)
             returnTimeDateTextField.text = dateString
