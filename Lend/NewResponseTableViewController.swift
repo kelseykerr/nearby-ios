@@ -78,6 +78,21 @@ class NewResponseTableViewController: UITableViewController {
         }
     }
     
+    var pickupTimeDate: Int64? {
+        get {
+            if let text = pickupTimeDateTextField.text {
+                guard text.isEmpty else {
+                    return nil
+                }
+                return Int64(pickupDatePicker.date.timeIntervalSince1970) * 1000
+            }
+            return nil
+        }
+//        set {
+//            
+//        }
+    }
+    
     var returnLocation: String? {
         get {
             return returnLocationTextField.text
@@ -85,6 +100,21 @@ class NewResponseTableViewController: UITableViewController {
         set {
             returnLocationTextField.text = newValue
         }
+    }
+    
+    var returnTimeDate: Int64? {
+        get {
+            if let text = returnTimeDateTextField.text {
+                guard text.isEmpty else {
+                    return nil
+                }
+                return Int64(returnDatePicker.date.timeIntervalSince1970) * 1000
+            }
+            return nil
+        }
+//        set {
+//
+//        }
     }
     
     var priceType: PriceType {
@@ -219,9 +249,51 @@ class NewResponseTableViewController: UITableViewController {
     @IBAction func saveButtonPressed(_ sender: UIButton) {
         print("response saved")
 
+        if let price = price, Double(price) > NBConstants.maximumOfferPrice {
+            showAlertMessage(message: "Offer price must be less than $100")
+            return
+        }
+        
+        if response == nil {
+            response = NBResponse(test: true)
+        }
+        
+        if let response = response {
+            saveFields(response: response)
+            
+            //this should all be in saveFields?
+            response.offerPrice = price
+            response.description = responseDescription
+            response.requestId = request?.id
+            response.responderId = UserManager.sharedInstance.user?.userId
+            response.exchangeLocation = pickupLocation
+            if let exchangeTime = pickupTimeDate {
+                response.exchangeTime = exchangeTime
+            }
+            response.returnLocation = returnLocation
+            if let returnTime = returnTimeDate {
+                response.returnTime = returnTime
+            }
+            response.messagesEnabled = messagesEnabledSwitch.isOn
+//        response.priceType = priceType
+            response.priceType = .flat
+            
+            let photoStringArray = AWSManager.sharedInstance.photoActions(photos: photos)
+            response.photos = photoStringArray
+            
+            delegate?.saved(response)
+        }
+        self.dismiss(animated: true, completion: nil)
+        
+        /*
         if response == nil {
             let resp = NBResponse(test: true)
             response = resp
+        }
+        
+        if let price = price, Double(price) > NBConstants.maximumOfferPrice {
+            self.showAlertMessage(message: "Offer price must be less than $100")
+            return
         }
         
         saveFields(response: response!)
@@ -249,6 +321,7 @@ class NewResponseTableViewController: UITableViewController {
         
         delegate?.saved(response)
         self.dismiss(animated: true, completion: nil)
+        */
     }
     
     @IBAction func perHourButtonPressed(_ sender: UIButton) {
@@ -261,6 +334,11 @@ class NewResponseTableViewController: UITableViewController {
     
     @IBAction func flatButtonPressed(_ sender: UIButton) {
         priceType = .flat
+    }
+    
+    func showAlertMessage(message: String) {
+        let alert = Utils.createErrorAlert(errorMessage: message)
+        self.present(alert, animated: true, completion: nil)
     }
     
 }

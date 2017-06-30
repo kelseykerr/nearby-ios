@@ -249,31 +249,36 @@ class NewRequestTableViewController: UITableViewController {
         self.mapView.addAnnotation(annotation)
     }
     
-    func showAlertMsg(message: String) {
-        guard (self.alertController == nil) else {
-            print("Alert already displayed")
-            return
-        }
-        
-        self.alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-        
-        let cancelAction = UIAlertAction(title: "close", style: .cancel) { (action) in
-            print("Alert was cancelled")
-            self.alertController=nil;
-        }
-        
-        self.alertController!.addAction(cancelAction)
-        
-        self.present(self.alertController!, animated: true, completion: nil)
+    func showAlertMessage(message: String) {
+        let alert = Utils.createErrorAlert(errorMessage: message)
+        self.present(alert, animated: true, completion: nil)
     }
+    
+//    func showAlertMsg(message: String) {
+//        guard (self.alertController == nil) else {
+//            print("Alert already displayed")
+//            return
+//        }
+//        
+//        self.alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+//        
+//        let cancelAction = UIAlertAction(title: "close", style: .cancel) { (action) in
+//            print("Alert was cancelled")
+//            self.alertController=nil;
+//        }
+//        
+//        self.alertController!.addAction(cancelAction)
+//        
+//        self.present(self.alertController!, animated: true, completion: nil)
+//    }
 
     
     @IBAction func saveButtonPressed(_ sender: UIButton) {
         if (rental == RequestType.renting || rental == RequestType.buying) && !(UserManager.sharedInstance.user?.canRequest ?? false) {
-            self.showAlertMsg(message: "You must add credit card information before you can request to rent or buy an item")
+            self.showAlertMessage(message: "You must add credit card information before you can request to rent or buy an item")
             return
         } else if (rental == RequestType.loaning || rental == RequestType.selling) && !(UserManager.sharedInstance.user?.canRespond! ?? false) {
-            self.showAlertMsg(message: "You must add bank account information before you can sell or loan out an item")
+            self.showAlertMessage(message: "You must add bank account information before you can sell or loan out an item")
             return
         }
         
@@ -441,8 +446,7 @@ extension NewRequestTableViewController: ImageCollectionViewDelegate, UICollecti
 extension NewRequestTableViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func imagePickerController(_ picker: UIImagePickerController,
-                               didFinishPickingMediaWithInfo info: [String : AnyObject])
-    {
+                               didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         let chosenImage = info[UIImagePickerControllerOriginalImage] as! UIImage
         let photo = NBPhoto(image: chosenImage)
         photos.append(photo)

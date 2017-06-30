@@ -317,22 +317,28 @@ class ResponseDetailTableViewController: UITableViewController, MFMessageCompose
     }
 
     @IBAction func acceptButtonPressed(_ sender: UIButton) {
-        response?.offerPrice = price
-        response?.exchangeLocation = pickupLocation
-        response?.exchangeTime = pickupTime
-        response?.returnLocation = returnLocation
-        response?.returnTime = returnTime
-        if mode == .requester {
-            print("accept button pressed")
-            delegate?.accepted(response)
-            self.navigationController?.popViewController(animated: true)
-        } else {
-            print("update button pressed")
-            response?.description = responseDescription
-            response?.sellerStatus = SellerStatus.accepted
-            delegate?.edited(response)
-            self.navigationController?.popViewController(animated: true)
+        if let price = price, Double(price) > NBConstants.maximumOfferPrice {
+            showAlertMessage(message: "Offer price must be less than $100")
+            return
         }
+        
+        if let response = response {
+            response.offerPrice = price
+            response.exchangeLocation = pickupLocation
+            response.exchangeTime = pickupTime
+            response.returnLocation = returnLocation
+            response.returnTime = returnTime
+            if mode == .requester {
+                print("accept button pressed")
+                delegate?.accepted(response)
+            } else {
+                print("update button pressed")
+                response.description = responseDescription
+                response.sellerStatus = SellerStatus.accepted
+                delegate?.edited(response)
+            }
+        }
+        self.navigationController?.popViewController(animated: true)
     }
     
     @IBAction func declineButtonPressed(_ sender: UIButton) {
@@ -385,8 +391,7 @@ class ResponseDetailTableViewController: UITableViewController, MFMessageCompose
             alertController.addAction(messageAction)
         }
         
-        self.present(alertController, animated: true) {
-        }
+        self.present(alertController, animated: true, completion: nil)
     }
     
     // is this necessary?
@@ -394,6 +399,10 @@ class ResponseDetailTableViewController: UITableViewController, MFMessageCompose
         self.navigationController?.isNavigationBarHidden = false
     }
     
+    func showAlertMessage(message: String) {
+        let alert = Utils.createErrorAlert(errorMessage: message)
+        self.present(alert, animated: true, completion: nil)
+    }
 }
 
 extension ResponseDetailTableViewController: UICollectionViewDelegate, UICollectionViewDataSource {

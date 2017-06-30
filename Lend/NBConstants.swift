@@ -14,4 +14,6 @@ struct NBConstants {
     static let baseURLString = "https://alpha-server.thenearbyapp.com/api/"
 //    static let baseURLString = "https://server.thenearbyapp.com/api/"
     
+    static let maximumOfferPrice = 100.0
+    
 }
