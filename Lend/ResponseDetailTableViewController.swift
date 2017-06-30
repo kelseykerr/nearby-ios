@@ -52,6 +52,8 @@ class ResponseDetailTableViewController: UITableViewController, MFMessageCompose
     var mode: ResponseDetailTableViewMode = .none
     var photos: [NBPhoto] = []
     
+    let returnSection = 4
+    
     let dateFormatter = DateFormatter()
     let pickupDatePicker = UIDatePicker()
     let returnDatePicker = UIDatePicker()
@@ -221,10 +223,10 @@ class ResponseDetailTableViewController: UITableViewController, MFMessageCompose
         
         pickupTimeDateTextField.inputAccessoryView = pickupToolbar
         pickupTimeDateTextField.inputView = pickupDatePicker
-        if (response?.exchangeTime != nil && response?.exchangeTime != 0) {
-            let epoch = (response?.exchangeTime ?? 0) / 1000
+        if let exchangeTime = response?.exchangeTime, exchangeTime != 0 {
+            let epoch = exchangeTime / 1000
             let date = Date(timeIntervalSince1970: TimeInterval(epoch))
-            pickupDatePicker.setDate(date, animated: true)
+            pickupDatePicker.setDate(date, animated: false)
         }
         
         let returnToolbar = UIToolbar()
@@ -235,11 +237,16 @@ class ResponseDetailTableViewController: UITableViewController, MFMessageCompose
         
         returnTimeDateTextField.inputAccessoryView = returnToolbar
         returnTimeDateTextField.inputView = returnDatePicker
-        if (response?.returnTime != nil && response?.returnTime != 0) {
-            let epoch = (response?.returnTime ?? 0) / 1000
+        if let returnTime = response?.returnTime, returnTime != 0 {
+            let epoch = returnTime / 1000
             let date = Date(timeIntervalSince1970: TimeInterval(epoch))
             returnDatePicker.setDate(date, animated: false)
         }
+//        if (response?.returnTime != nil && response?.returnTime != 0) {
+//            let epoch = (response?.returnTime ?? 0) / 1000
+//            let date = Date(timeIntervalSince1970: TimeInterval(epoch))
+//            returnDatePicker.setDate(date, animated: false)
+//        }
     }
     
     func pickupDoneButtonPressed() {
@@ -281,7 +288,7 @@ class ResponseDetailTableViewController: UITableViewController, MFMessageCompose
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if section == 4 && (response?.returnLocation == nil || response?.returnLocation == "") {
+        if noReturnLocation(section: section, returnLocation: response?.returnLocation) {
             return nil
         }
         else {
@@ -290,7 +297,7 @@ class ResponseDetailTableViewController: UITableViewController, MFMessageCompose
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if section == 4 && (response?.returnLocation == nil || response?.returnLocation == "") {
+        if noReturnLocation(section: section, returnLocation: response?.returnLocation) {
             return 0.1
         }
         else {
@@ -299,7 +306,7 @@ class ResponseDetailTableViewController: UITableViewController, MFMessageCompose
     }
     
     override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        if section == 4 && (response?.returnLocation == nil || response?.returnLocation == "") {
+        if noReturnLocation(section: section, returnLocation: response?.returnLocation) {
             return 0.1
         }
         else {
@@ -308,12 +315,24 @@ class ResponseDetailTableViewController: UITableViewController, MFMessageCompose
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 4 && (response?.returnLocation == nil || response?.returnLocation == "") {
+        if noReturnLocation(section: section, returnLocation: response?.returnLocation) {
             return 0
         }
         else {
             return super.tableView(tableView, numberOfRowsInSection: section)
         }
+    }
+    
+    func noReturnLocation(section: Int, returnLocation: String?) -> Bool {
+        guard section == returnSection else {
+            return false
+        }
+        
+        guard let returnLocation = returnLocation else {
+            return true
+        }
+        
+        return returnLocation.isEmpty
     }
 
     @IBAction func acceptButtonPressed(_ sender: UIButton) {
@@ -358,8 +377,7 @@ class ResponseDetailTableViewController: UITableViewController, MFMessageCompose
     @IBAction func moreButtonPressed(_ sender: UIBarButtonItem) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { action in
-        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         alertController.addAction(cancelAction)
         
         let flagAction = UIAlertAction(title: "Flag Response", style: .destructive) { action in
