@@ -136,6 +136,8 @@ class NotificationTableViewController: UITableViewController {
             
             UserManager.sharedInstance.user = editedUser
             self.user = editedUser
+            
+            self.navigationController?.popViewController(animated: true)
         }
         
     }

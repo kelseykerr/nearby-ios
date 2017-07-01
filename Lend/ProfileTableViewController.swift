@@ -247,6 +247,7 @@ class ProfileTableViewController: UITableViewController, UITextFieldDelegate {
                 UserManager.sharedInstance.user = editedUser
                 self.user = editedUser
                 
+                self.navigationController?.popViewController(animated: true)
             }
         }
     }

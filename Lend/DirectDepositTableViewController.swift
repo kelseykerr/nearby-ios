@@ -109,6 +109,8 @@ class DirectDepositTableViewController: UITableViewController {
                 print("updated user")
                 self.delegate?.refreshStripeInfo()
             }
+            
+            self.navigationController?.popViewController(animated: true)
         }
     }
     
