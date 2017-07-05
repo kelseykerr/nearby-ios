@@ -62,8 +62,8 @@ class AccountTableViewController: UITableViewController, LoginViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        userImageView.layer.cornerRadius = userImageView.frame.size.width / 2
-        userImageView.clipsToBounds = true
+//        userImageView.layer.cornerRadius = userImageView.frame.size.width / 2
+//        userImageView.clipsToBounds = true
         
         let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
         let build = Bundle.main.infoDictionary?[kCFBundleVersionKey as String] as! String
@@ -74,11 +74,6 @@ class AccountTableViewController: UITableViewController, LoginViewDelegate {
             cleared = false
         }
         
-        //likely not where this should be
-//        if let token = FIRInstanceID.instanceID().token() {
-//            NBUser.editFcmToken(token) { error in
-//            }
-//        }
     }
     
     override func viewDidAppear(_ animated: Bool) {

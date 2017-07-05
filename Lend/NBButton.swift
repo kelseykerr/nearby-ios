@@ -19,4 +19,5 @@ class NBButton: UIButton {
         self.layer.borderWidth = 1.0
         self.clipsToBounds = true
     }
+    
 }

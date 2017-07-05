@@ -8,6 +8,9 @@
 
 import Foundation
 
+
+//turn this into struct and force to pass by value not by ref
+//may require some change in view controllers
 class SearchFilter {
     
     var searchTerm: String

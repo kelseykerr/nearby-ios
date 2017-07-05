@@ -83,8 +83,8 @@ class HistoryResponseTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        userImageView.layer.cornerRadius = userImageView.frame.size.width / 2
-        userImageView.clipsToBounds = true
+//        userImageView.layer.cornerRadius = userImageView.frame.size.width / 2
+//        userImageView.clipsToBounds = true
         
         responseStateLabel.layer.cornerRadius = responseStateLabel.frame.size.height / 8
         responseStateLabel.clipsToBounds = true

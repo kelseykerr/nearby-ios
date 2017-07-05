@@ -19,7 +19,6 @@
 		AA0F72A51D77E7FD0023DAA6 /* CategoriesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0F72A41D77E7FD0023DAA6 /* CategoriesManager.swift */; };
 		AA0F72A81D77F9360023DAA6 /* AccountManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0F72A71D77F9360023DAA6 /* AccountManager.swift */; };
 		AA18DAAA1DCA724F00E2B973 /* FilterTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA18DAA91DCA724F00E2B973 /* FilterTableViewController.swift */; };
-		AA2BA97D1EE6A6BF001E1C5A /* UISwitchGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2BA97C1EE6A6BF001E1C5A /* UISwitchGroup.swift */; };
 		AA2C47461D679BA50013F350 /* NewRequestTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2C47451D679BA50013F350 /* NewRequestTableViewController.swift */; };
 		AA2C47481D6824F00013F350 /* AllRequestsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2C47471D6824F00013F350 /* AllRequestsTableViewController.swift */; };
 		AA2C474A1D6AA8720013F350 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2C47491D6AA8720013F350 /* HomeViewController.swift */; };
@@ -53,6 +52,7 @@
 		AA5819011EFBBA6A00C6788B /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA5818FD1EFBBA6A00C6788B /* FBSDKLoginKit.framework */; };
 		AA5819021EFBBA6A00C6788B /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA5818FE1EFBBA6A00C6788B /* FBSDKShareKit.framework */; };
 		AA5EA4AD1ED42A67007278C2 /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5EA4AC1ED42A67007278C2 /* UserViewController.swift */; };
+		AA7665031F0D7620006CC74E /* NBImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7665021F0D7620006CC74E /* NBImageView.swift */; };
 		AA83930E1ED95310006950DC /* NotificationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA83930D1ED95310006950DC /* NotificationTableViewController.swift */; };
 		AA8B21E71D98EECD0026ED7D /* NBHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8B21E61D98EECD0026ED7D /* NBHistory.swift */; };
 		AA8B21E91D9A363C0026ED7D /* NBTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8B21E81D9A363C0026ED7D /* NBTransaction.swift */; };
@@ -135,7 +135,6 @@
 		AA0F72A41D77E7FD0023DAA6 /* CategoriesManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoriesManager.swift; sourceTree = "<group>"; };
 		AA0F72A71D77F9360023DAA6 /* AccountManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountManager.swift; sourceTree = "<group>"; };
 		AA18DAA91DCA724F00E2B973 /* FilterTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterTableViewController.swift; sourceTree = "<group>"; };
-		AA2BA97C1EE6A6BF001E1C5A /* UISwitchGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UISwitchGroup.swift; sourceTree = "<group>"; };
 		AA2C47451D679BA50013F350 /* NewRequestTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewRequestTableViewController.swift; sourceTree = "<group>"; };
 		AA2C47471D6824F00013F350 /* AllRequestsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AllRequestsTableViewController.swift; sourceTree = "<group>"; };
 		AA2C47491D6AA8720013F350 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -173,6 +172,7 @@
 		AA5818FE1EFBBA6A00C6788B /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
 		AA5EA4AC1ED42A67007278C2 /* UserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
 		AA6928381E6FCED3009C022F /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		AA7665021F0D7620006CC74E /* NBImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NBImageView.swift; sourceTree = "<group>"; };
 		AA83930D1ED95310006950DC /* NotificationTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationTableViewController.swift; sourceTree = "<group>"; };
 		AA8B21E61D98EECD0026ED7D /* NBHistory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NBHistory.swift; sourceTree = "<group>"; };
 		AA8B21E81D9A363C0026ED7D /* NBTransaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NBTransaction.swift; sourceTree = "<group>"; };
@@ -334,7 +334,6 @@
 				AA2C47501D6B759D0013F350 /* Converter.swift */,
 				AA97466B1E54540C00C1FA17 /* Utils.swift */,
 				AAA7F8291EC98CE7006CEBB6 /* NBConstants.swift */,
-				AAC82B6A1EF3CDCC000674AF /* NBButton.swift */,
 			);
 			name = Other;
 			sourceTree = "<group>";
@@ -388,6 +387,15 @@
 			path = Lend;
 			sourceTree = "<group>";
 		};
+		AA7665011F0D75E3006CC74E /* UIComponents */ = {
+			isa = PBXGroup;
+			children = (
+				AAC82B6A1EF3CDCC000674AF /* NBButton.swift */,
+				AA7665021F0D7620006CC74E /* NBImageView.swift */,
+			);
+			name = UIComponents;
+			sourceTree = "<group>";
+		};
 		AA8F27941E5AB370003CDC22 /* Strategies */ = {
 			isa = PBXGroup;
 			children = (
@@ -434,7 +442,6 @@
 				AABAD2C61DFCB2C600F87CA2 /* HomeTableViewCell.swift */,
 				AA18DAA91DCA724F00E2B973 /* FilterTableViewController.swift */,
 				AAD278E61E150501003DCEE0 /* SearchFilter.swift */,
-				AA2BA97C1EE6A6BF001E1C5A /* UISwitchGroup.swift */,
 			);
 			name = Home;
 			sourceTree = "<group>";
@@ -504,6 +511,7 @@
 		AAC3C8B21D5A78B600B8F2A9 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				AA7665011F0D75E3006CC74E /* UIComponents */,
 				AA3830821D5A75F600C125F6 /* Main.storyboard */,
 				AA3830851D5A75F600C125F6 /* Assets.xcassets */,
 				AA3830871D5A75F600C125F6 /* LaunchScreen.storyboard */,
@@ -834,7 +842,7 @@
 				AA546A841DCA5CD3007E1E8F /* NBBraintree.swift in Sources */,
 				AA2D885F1E852AC30005D969 /* BuyerClosedStrategy.swift in Sources */,
 				AAEACB7E1EEA907600AD82A7 /* ImageCollectionViewCell.swift in Sources */,
-				AA2BA97D1EE6A6BF001E1C5A /* UISwitchGroup.swift in Sources */,
+				AA7665031F0D7620006CC74E /* NBImageView.swift in Sources */,
 				AAC82B6B1EF3CDCC000674AF /* NBButton.swift in Sources */,
 				AA97466C1E54540C00C1FA17 /* Utils.swift in Sources */,
 				AA2EB2E01E767E3700646AF3 /* UIColorExtensions.swift in Sources */,

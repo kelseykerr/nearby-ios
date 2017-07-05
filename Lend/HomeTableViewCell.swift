@@ -37,11 +37,11 @@ class HomeTableViewCell: UITableViewCell {
         super.awakeFromNib()
         
         // Initialization code
-        userImageView.layer.cornerRadius = userImageView.frame.size.width / 2
-        userImageView.clipsToBounds = true
+//        userImageView.layer.cornerRadius = userImageView.frame.size.width / 2
+//        userImageView.clipsToBounds = true
         
-        distanceLabel.layer.cornerRadius = distanceLabel.frame.size.height / 2
-        distanceLabel.clipsToBounds = true
+//        distanceLabel.layer.cornerRadius = distanceLabel.frame.size.height / 2
+//        distanceLabel.clipsToBounds = true
     }
 
 }
