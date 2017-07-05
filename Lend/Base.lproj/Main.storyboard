@@ -82,7 +82,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     </view>
                     <navigationItem key="navigationItem" title="Scan" id="X4K-vE-A4a">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="L4F-xR-XEO">
+                        <barButtonItem key="leftBarButtonItem" image="Cancel" id="L4F-xR-XEO">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="cancelButtonPressed:" destination="bOk-Ed-NbV" id="WoA-SK-HDv"/>
@@ -302,7 +302,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="History" id="vnE-3X-lDH">
-                        <barButtonItem key="leftBarButtonItem" title="Filter" id="yse-mG-cIQ">
+                        <barButtonItem key="leftBarButtonItem" image="Filter" id="yse-mG-cIQ">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="filterButtonPressed:" destination="1Cy-QD-7gJ" id="b4c-B4-z2v"/>
@@ -535,7 +535,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="New Post" id="rub-gL-6JF">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="yzU-O0-W1q">
+                        <barButtonItem key="leftBarButtonItem" image="Cancel" id="yzU-O0-W1q">
                             <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
                                 <action selector="cancelButtonPressed:" destination="K3m-Yp-29m" id="Joy-bK-aYb"/>
@@ -614,7 +614,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Kr8-EV-Ab2" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="History" image="Clock" id="hM8-Wc-Nkp"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="ikx-G3-ce5">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="ikx-G3-ce5">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1854,7 +1854,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="OQk-8h-hcJ">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="dTT-cc-vqQ">
+                        <barButtonItem key="leftBarButtonItem" image="Cancel" id="dTT-cc-vqQ">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="cancelButtonPressed:" destination="FZG-kq-Ekb" id="FgZ-dn-nYd"/>
@@ -1881,7 +1881,7 @@
         <scene sceneID="sAt-Di-Sz5">
             <objects>
                 <navigationController storyboardIdentifier="ForgotToScanNavigationController" id="VrO-No-Jis" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="vOq-RT-cfD">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="vOq-RT-cfD">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.0" green="0.8901960784313725" blue="0.92941176470588238" alpha="1" colorSpace="calibratedRGB"/>
@@ -2177,13 +2177,13 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Lte-Z2-2vf">
-                        <barButtonItem key="leftBarButtonItem" title="Filter" id="tiZ-42-BP7">
+                        <barButtonItem key="leftBarButtonItem" image="Filter" id="tiZ-42-BP7">
                             <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
                                 <action selector="filterButtonPressed:" destination="lIm-qp-KO4" id="FRV-YP-BMy"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="List" id="tUj-8V-j7I">
+                        <barButtonItem key="rightBarButtonItem" image="List" id="tUj-8V-j7I">
                             <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
                                 <action selector="listMapButtonPressed:" destination="lIm-qp-KO4" id="Axr-Du-N4C"/>
@@ -2360,7 +2360,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Home Filter" id="yN6-tZ-IQS">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="q0c-3X-Obb">
+                        <barButtonItem key="leftBarButtonItem" image="Cancel" id="q0c-3X-Obb">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="cancelButtonPressed:" destination="cPJ-6L-XlM" id="xke-bp-n3P"/>
@@ -2533,7 +2533,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="History Filter" id="saI-uZ-vvf">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="etr-Xg-Gdg">
+                        <barButtonItem key="leftBarButtonItem" image="Cancel" id="etr-Xg-Gdg">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="cancelButtonPressed:" destination="JAO-dx-Eyd" id="T8u-4x-uLn"/>
@@ -2559,7 +2559,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Mmd-Tw-G6I" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Account" image="Contacts" id="Ats-LT-JLy"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="tcM-Wl-cj5">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="tcM-Wl-cj5">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -2582,7 +2582,7 @@
             <objects>
                 <navigationController storyboardIdentifier="NewRequestNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="6yH-SD-dgk" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Ssl-cm-2xk">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Ssl-cm-2xk">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.0" green="0.8901960784313725" blue="0.92941176470588238" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -2605,7 +2605,7 @@
                 <navigationController storyboardIdentifier="HomeViewNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="SX8-Nj-MTb" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Home" image="Home" id="aWU-Dg-xAg"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="cj4-NM-s02">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="cj4-NM-s02">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -2874,7 +2874,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Flag" id="XgL-kn-qcb">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="bXb-LD-Qdt">
+                        <barButtonItem key="leftBarButtonItem" image="Cancel" id="bXb-LD-Qdt">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="cancelButtonPressed:" destination="OYr-xJ-DA8" id="Iyz-H2-qU5"/>
@@ -3088,7 +3088,7 @@
         <scene sceneID="Oca-Jf-GGh">
             <objects>
                 <navigationController id="XwA-cq-k0W" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="qyE-nR-3uo">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="qyE-nR-3uo">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -3430,7 +3430,7 @@
                     </tableView>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="New Offer" id="Cr5-mh-wJM">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="cST-0w-qBk">
+                        <barButtonItem key="leftBarButtonItem" image="Cancel" id="cST-0w-qBk">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="cancelButtonPressed:" destination="gT3-80-CmQ" id="DEy-K9-qVp"/>
@@ -3459,7 +3459,7 @@
             <objects>
                 <navigationController storyboardIdentifier="FilterNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="x4d-AK-Xbe" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="pKG-Yb-vAC">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="pKG-Yb-vAC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.0" green="0.8901960784313725" blue="0.92941176470588238" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -3481,7 +3481,7 @@
             <objects>
                 <navigationController storyboardIdentifier="NewResponseNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="zxl-Iv-KER" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Md7-6A-SBa">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Md7-6A-SBa">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.0" green="0.8901960784313725" blue="0.92941176470588238" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -3575,7 +3575,7 @@
         <scene sceneID="Y2w-pL-yBm">
             <objects>
                 <navigationController storyboardIdentifier="ConfirmPriceNavigationController" id="hjQ-wf-5Qz" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="MyX-Rg-WXe">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="MyX-Rg-WXe">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -3800,7 +3800,7 @@
             <objects>
                 <navigationController storyboardIdentifier="QRGeneratorNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="OQA-i6-n9k" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="7oq-Fo-ItS">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="7oq-Fo-ItS">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.0" green="0.8901960784313725" blue="0.92941176470588238" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -4095,7 +4095,7 @@
             <objects>
                 <navigationController storyboardIdentifier="QRScannerNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="dX7-ab-A4j" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="ee6-sl-c55">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="ee6-sl-c55">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.0" green="0.8901960784313725" blue="0.92941176470588238" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -4117,7 +4117,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="rJI-lK-4qC" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="trg-cH-HGj">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="trg-cH-HGj">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -4135,7 +4135,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="I8E-cR-GZs" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="z2i-t3-dFC">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="z2i-t3-dFC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -4153,7 +4153,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ijc-TM-gdW" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="c0p-Kb-k3S">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="c0p-Kb-k3S">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -4171,7 +4171,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Za5-F5-QfX" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="rI2-nL-k4U">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="rI2-nL-k4U">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -4329,7 +4329,7 @@
             <objects>
                 <navigationController storyboardIdentifier="HistoryFilterNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="71i-d6-VZM" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="uPH-es-vbk">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="uPH-es-vbk">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.0" green="0.89019607840000003" blue="0.92941176469999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -4351,7 +4351,7 @@
             <objects>
                 <navigationController storyboardIdentifier="FlagNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="AAZ-45-X6j" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="NAU-4a-jY1">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="NAU-4a-jY1">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.0" green="0.8901960784313725" blue="0.92941176470588238" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -4373,7 +4373,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="8ma-sv-kFs" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="qYM-XQ-zIK">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="qYM-XQ-zIK">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.0" green="0.89019607840000003" blue="0.92941176469999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -4393,10 +4393,13 @@
     </scenes>
     <resources>
         <image name="Camera" width="29" height="29"/>
+        <image name="Cancel" width="25" height="25"/>
         <image name="Card" width="29" height="29"/>
         <image name="Clock" width="32" height="32"/>
         <image name="Contacts" width="32" height="32"/>
+        <image name="Filter" width="25" height="25"/>
         <image name="Home" width="32" height="32"/>
+        <image name="List" width="25" height="25"/>
         <image name="More" width="25" height="25"/>
         <image name="No Image Picture" width="84" height="84"/>
         <image name="Notification" width="29" height="29"/>

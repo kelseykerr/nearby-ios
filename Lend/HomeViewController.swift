@@ -30,6 +30,9 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
     var nextPageURLString: String?
     var isLoading = false
     var dateFormatter = DateFormatter()
+    
+    //this works for now, but gotta change when we do redesign of views
+    var frontView: UIView!
 
     var searchFilter = SearchFilter()
     let progressHUD = ProgressHUD(text: "Saving")
@@ -110,6 +113,7 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
         self.noResultsText.center = self.view.center
         self.notAvailableText.center = self.view.center
 
+        self.frontView = mapView
         if cleared {
             loadInitialData()
             cleared = false
@@ -395,12 +399,19 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
     
     @IBAction func listMapButtonPressed(_ sender: UIBarButtonItem) {
         searchBar.endEditing(true)
-        if sender.title == "List" {
-            sender.title = "Map"
+        
+//this works for now, but gotta change when we do redesign of views
+//        if sender.title == "List" {
+        if frontView == mapView {
+//            sender.title = "Map"
+            sender.image = UIImage(named: "Map")
+            frontView = tableView
             self.view.bringSubview(toFront: tableView)
         }
         else {
-            sender.title = "List"
+            sender.image = UIImage(named: "List")
+//            sender.title = "List"
+            frontView = mapView
             self.view.bringSubview(toFront: mapView)
         }
         self.view.bringSubview(toFront: requestButton)
@@ -733,83 +744,83 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         self.navigationController?.pushViewController(detailRequestVC, animated: true)
     }
     
-    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        let request = requests[(indexPath as NSIndexPath).section]
-        
-        if request.isMyRequest() {
-            let close = UITableViewRowAction(style: .normal, title: "Close") { action, index in
-                self.requestClosed(request)
-                self.tableView.isEditing = false
-            }
-            close.backgroundColor = UIColor.nbRed
-            
-            return [close]
-        }
-        else {
-            let respond = UITableViewRowAction(style: .normal, title: "Respond") { action, index in
-                let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-                guard let navVC = storyboard.instantiateViewController(
-                    withIdentifier: "NewResponseNavigationController") as? UINavigationController else {
-                        assert(false, "Misnamed view controller")
-                        return
-                }
-                UserManager.sharedInstance.getUser { fetchedUser in
-                    if (!fetchedUser.hasAllRequiredFields()) {
-                        self.showAlertMsg(message: "You must finish filling out your profile before you can make offers")
-                        
-                    } else if ((request.type == RequestType.renting.rawValue || request.type == RequestType.buying.rawValue) && !fetchedUser.canRespond!) {
-                        self.showAlertMsg(message: "You must add bank account information before you can make offers")
-                    } else if (request.type == RequestType.loaning.rawValue || request.type == RequestType.selling.rawValue) && !fetchedUser.canRequest! {
-                        self.showAlertMsg(message: "You must add credit card information before you can reply")
-                    } else {
-                        let responseVC = (navVC.childViewControllers[0] as! NewResponseTableViewController)
-                        responseVC.delegate = self
-                        responseVC.request = request
-                        self.present(navVC, animated: true, completion: nil)
-                        
-                        self.tableView.isEditing = false
-                    }
-                }
-            }
-            respond.backgroundColor = UIColor.nbBlue
-            
-            let flagRequest = UITableViewRowAction(style: .normal, title: "Flag") { action, index in
-                let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-                guard let navVC = storyboard.instantiateViewController(
-                    withIdentifier: "FlagNavigationController") as? UINavigationController else {
-                        assert(false, "Misnamed view controller")
-                        return
-                }
-                let flagVC = (navVC.childViewControllers[0] as! FlagTableViewController)
-//                flagVC.delegate = self
-//                flagVC.request = request
-                let requestId = request.id
-                flagVC.mode = .request(requestId!)
-                self.present(navVC, animated: true, completion: nil)
-                
-                self.tableView.isEditing = false
-            }
-            flagRequest.backgroundColor = UIColor.nbRed
-            
-            let blockUser = UITableViewRowAction(style: .normal, title: "Block") { action, index in
-                let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-                guard let navVC = storyboard.instantiateViewController(
-                    withIdentifier: "FlagNavigationController") as? UINavigationController else {
-                        assert(false, "Misnamed view controller")
-                        return
-                }
-                let flagVC = (navVC.childViewControllers[0] as! FlagTableViewController)
-                let userId = request.user?.id
-                flagVC.mode = .user(userId!)
-                self.present(navVC, animated: true, completion: nil)
-                
-                self.tableView.isEditing = false
-            }
-            blockUser.backgroundColor = UIColor.orange
-            
-            return [blockUser, flagRequest, respond]
-        }
-    }
+//    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+//        let request = requests[(indexPath as NSIndexPath).section]
+//        
+//        if request.isMyRequest() {
+//            let close = UITableViewRowAction(style: .normal, title: "Close") { action, index in
+//                self.requestClosed(request)
+//                self.tableView.isEditing = false
+//            }
+//            close.backgroundColor = UIColor.nbRed
+//            
+//            return [close]
+//        }
+//        else {
+//            let respond = UITableViewRowAction(style: .normal, title: "Respond") { action, index in
+//                let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+//                guard let navVC = storyboard.instantiateViewController(
+//                    withIdentifier: "NewResponseNavigationController") as? UINavigationController else {
+//                        assert(false, "Misnamed view controller")
+//                        return
+//                }
+//                UserManager.sharedInstance.getUser { fetchedUser in
+//                    if (!fetchedUser.hasAllRequiredFields()) {
+//                        self.showAlertMsg(message: "You must finish filling out your profile before you can make offers")
+//                        
+//                    } else if ((request.type == RequestType.renting.rawValue || request.type == RequestType.buying.rawValue) && !fetchedUser.canRespond!) {
+//                        self.showAlertMsg(message: "You must add bank account information before you can make offers")
+//                    } else if (request.type == RequestType.loaning.rawValue || request.type == RequestType.selling.rawValue) && !fetchedUser.canRequest! {
+//                        self.showAlertMsg(message: "You must add credit card information before you can reply")
+//                    } else {
+//                        let responseVC = (navVC.childViewControllers[0] as! NewResponseTableViewController)
+//                        responseVC.delegate = self
+//                        responseVC.request = request
+//                        self.present(navVC, animated: true, completion: nil)
+//                        
+//                        self.tableView.isEditing = false
+//                    }
+//                }
+//            }
+//            respond.backgroundColor = UIColor.nbBlue
+//            
+//            let flagRequest = UITableViewRowAction(style: .normal, title: "Flag") { action, index in
+//                let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+//                guard let navVC = storyboard.instantiateViewController(
+//                    withIdentifier: "FlagNavigationController") as? UINavigationController else {
+//                        assert(false, "Misnamed view controller")
+//                        return
+//                }
+//                let flagVC = (navVC.childViewControllers[0] as! FlagTableViewController)
+////                flagVC.delegate = self
+////                flagVC.request = request
+//                let requestId = request.id
+//                flagVC.mode = .request(requestId!)
+//                self.present(navVC, animated: true, completion: nil)
+//                
+//                self.tableView.isEditing = false
+//            }
+//            flagRequest.backgroundColor = UIColor.nbRed
+//            
+//            let blockUser = UITableViewRowAction(style: .normal, title: "Block") { action, index in
+//                let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+//                guard let navVC = storyboard.instantiateViewController(
+//                    withIdentifier: "FlagNavigationController") as? UINavigationController else {
+//                        assert(false, "Misnamed view controller")
+//                        return
+//                }
+//                let flagVC = (navVC.childViewControllers[0] as! FlagTableViewController)
+//                let userId = request.user?.id
+//                flagVC.mode = .user(userId!)
+//                self.present(navVC, animated: true, completion: nil)
+//                
+//                self.tableView.isEditing = false
+//            }
+//            blockUser.backgroundColor = UIColor.orange
+//            
+//            return [blockUser, flagRequest, respond]
+//        }
+//    }
     
     func refresh(_ sender: AnyObject) {
 //        nextPageURLString = nil // so it doesn't try to append the results

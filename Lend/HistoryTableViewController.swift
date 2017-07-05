@@ -125,11 +125,13 @@ class HistoryTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        let history = histories[indexPath.section]
+//        let history = histories[indexPath.section]
+//        
+//        let rowActions = HistoryStateManager.sharedInstance.rowAction(historyVC: self, indexPath: indexPath, history: history)
+//
+//        return rowActions
         
-        let rowActions = HistoryStateManager.sharedInstance.rowAction(historyVC: self, indexPath: indexPath, history: history)
-
-        return rowActions
+        return []
     }
     
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
