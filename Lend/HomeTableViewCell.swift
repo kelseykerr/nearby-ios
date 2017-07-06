@@ -15,33 +15,50 @@ class HomeTableViewCell: UITableViewCell {
     @IBOutlet var timeLabel: UILabel!
     @IBOutlet var distanceLabel: UILabel!
     
-    var time: String {
+    var userImage: UIImage? {
         get {
-            return timeLabel.text!
+            return userImageView.image
+        }
+        set {
+            userImageView.image = newValue
+            setNeedsLayout()
+        }
+    }
+    
+    var message: String? {
+        get {
+            return messageLabel.text
+        }
+        set {
+            messageLabel.text = newValue
+        }
+    }
+    
+    var attributedMessage: NSAttributedString? {
+        get {
+            return messageLabel.attributedText
+        }
+        set {
+            messageLabel.attributedText = newValue
+        }
+    }
+    
+    var time: String? {
+        get {
+            return timeLabel.text
         }
         set {
             timeLabel.text = newValue
         }
     }
     
-    var distance: String {
+    var distance: String? {
         get {
-            return distanceLabel.text!
+            return distanceLabel.text
         }
         set {
             distanceLabel.text = newValue
         }
     }
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        
-        // Initialization code
-//        userImageView.layer.cornerRadius = userImageView.frame.size.width / 2
-//        userImageView.clipsToBounds = true
-        
-//        distanceLabel.layer.cornerRadius = distanceLabel.frame.size.height / 2
-//        distanceLabel.clipsToBounds = true
-    }
-
 }

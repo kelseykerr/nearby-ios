@@ -675,7 +675,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             attrText.append(NSMutableAttributedString(string: " wants to \(rent) a \(item)"))
             break
         }        
-        cell.messageLabel.attributedText = attrText
+        cell.attributedMessage = attrText
         
         /*
         let request = requests[(indexPath as NSIndexPath).section]
@@ -704,8 +704,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         
         cell.time = request.getElapsedTimeAsString()
 
-        cell.userImageView.image = UIImage(named: "User-64")
-        cell.setNeedsLayout()
+        cell.userImage = UIImage(named: "User-64")
         
         if let pictureURL = request.user?.imageUrl {
             NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
@@ -714,8 +713,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
                     return
                 }
                 if let cellToUpdate = self.tableView?.cellForRow(at: indexPath) as! HomeTableViewCell? {
-                    cellToUpdate.userImageView?.image = image
-                    cellToUpdate.setNeedsLayout()
+                    cellToUpdate.userImage = image
                 }
             })
         }
