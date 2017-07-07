@@ -33,6 +33,8 @@ class HistoryTableViewController: UITableViewController {
         
         self.tableView.backgroundView = self.getBackgroundView()
         
+        NotificationCenter.default.addObserver(self, selector: #selector(self.loadHistories), name: NSNotification.Name(rawValue: "ReloadHistories"), object: nil)
+        
         if cleared {
             loadHistories()
             cleared = false
@@ -58,9 +60,13 @@ class HistoryTableViewController: UITableViewController {
         super.viewWillAppear(animated)
     }
     
-//    override func viewDidUnload() {
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "ReloadHistories"), object: nil)
+
 //        UserDataManager.sharedInstace.removeClearable(self)
-//    }
+    }
     
     override func clear() {
         print("History View Cleared")

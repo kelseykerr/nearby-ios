@@ -8,6 +8,7 @@
 
 import Foundation
 import MBProgressHUD
+import BRYXBanner
 
 
 class Utils {
@@ -62,6 +63,12 @@ class Utils {
         progressHUD.contentColor = UIColor.white
         progressHUD.bezelView.color = UIColor.darkGray
         return progressHUD
+    }
+    
+    static func createBanner(title: String?, message: String?, image: UIImage?) -> Banner {
+        let banner = Banner(title: title, subtitle: message, image: nil, backgroundColor: UIColor.nbGreen)
+        banner.dismissesOnTap = true
+        return banner
     }
     
     static func dateIntToFormattedString(time: Int64) -> String {

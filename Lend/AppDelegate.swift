@@ -18,7 +18,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     let gcmMessageIDKey = "gcm.message_id"
-    var banner: Banner?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -152,13 +151,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Print full message.
         print(userInfo)
         
-        let title = userInfo["title"] as! String
-        let message = userInfo["message"] as! String
+        let title = userInfo["title"] as? String
+        if let message = userInfo["message"] as? String {
+            let banner = Utils.createBanner(title: title, message: message, image: nil)
+            banner.show(duration: 3.0)
+            
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ReloadHistories"), object: nil)
+        }
         
-//        print("title: \(title) message: \(message)")
-        banner = Banner(title: title, subtitle: message, image: nil, backgroundColor: UIColor.nbGreen)
-        banner?.dismissesOnTap = true
-        banner?.show(duration: 3.0)
+//        let title = userInfo["title"] as! String
+//        let message = userInfo["message"] as! String
+//        
+//        let banner = Utils.createBanner(title: title, message: message, image: nil)
+//        banner.show(duration: 3.0)
+//        
+//        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ReloadHistories"), object: nil)
         
         completionHandler(UIBackgroundFetchResult.newData)
     }
@@ -289,9 +296,10 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         
         let title = userInfo["title"] as? String
         if let message = userInfo["message"] as? String {
-            banner = Banner(title: title, subtitle: message, image: nil, backgroundColor:         UIColor.nbGreen)
-            banner?.dismissesOnTap = true
-            banner?.show(duration: 3.0)
+            let banner = Utils.createBanner(title: title, message: message, image: nil)
+            banner.show(duration: 3.0)
+            
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ReloadHistories"), object: nil)
         }
         
         // Change this to your preferred presentation option
@@ -314,9 +322,10 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
             title = userInfo["title"] as! String
         }
         if let message = userInfo["message"] as? String {
-            banner = Banner(title: title, subtitle: message, image: nil, backgroundColor:         UIColor.nbGreen)
-            banner?.dismissesOnTap = true
-            banner?.show(duration: 3.0)
+            let banner = Utils.createBanner(title: title, message: message, image: nil)
+            banner.show(duration: 3.0)
+            
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ReloadHistories"), object: nil)
         }
 
         completionHandler()
@@ -330,9 +339,10 @@ extension AppDelegate : FIRMessagingDelegate {
         
         let title = remoteMessage.appData["title"] as? String
         if let message = remoteMessage.appData["message"] as? String {
-            banner = Banner(title: title, subtitle: message, image: nil, backgroundColor:         UIColor.nbGreen)
-            banner?.dismissesOnTap = true
-            banner?.show(duration: 3.0)
+            let banner = Utils.createBanner(title: title, message: message, image: nil)
+            banner.show(duration: 3.0)
+            
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ReloadHistories"), object: nil)
         }
     }
 }
