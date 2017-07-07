@@ -22,14 +22,11 @@ class PaymentTableViewController: UITableViewController, UITextFieldDelegate {
     @IBOutlet var ccNumberTextField: UITextField!
     @IBOutlet var ccExpDateTextField: UITextField!
     @IBOutlet var cvcTextField: UITextField!
-    
     @IBOutlet var saveButton: UIButton!
     
-    var alertController: UIAlertController?
+    var delegate: UpdatePaymentInfoDelegate?
     
     var user: NBUser?
-    
-    var delegate: UpdatePaymentInfoDelegate?
     
     var name: String? {
         get {
@@ -101,9 +98,7 @@ class PaymentTableViewController: UITableViewController, UITextFieldDelegate {
         
         self.view.endEditing(true)
         
-        let loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
-        loadingNotification.mode = MBProgressHUDMode.indeterminate
-        loadingNotification.label.text = "Saving"
+        let loadingNotification = Utils.createProgressHUD(view: self.view, text: "Saving")
         
         // generate creditcard token
         // set that value to user object
@@ -145,11 +140,6 @@ class PaymentTableViewController: UITableViewController, UITextFieldDelegate {
                 }
             }
         }
-    }
-    
-    func showAlertMessage(message: String) {
-        let alert = Utils.createErrorAlert(errorMessage: message)
-        self.present(alert, animated: true, completion: nil)
     }
     
     ////////////////////////////////////
@@ -195,7 +185,7 @@ class PaymentTableViewController: UITableViewController, UITextFieldDelegate {
         let digits = NSCharacterSet.decimalDigits
         if (replacementString == "") { //BackSpace
             return true
-        } else if (str!.characters.count > 3) {
+        } else if (str!.characters.count > 4) {
             return false
         }
         

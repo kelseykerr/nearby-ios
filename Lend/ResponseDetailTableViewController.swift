@@ -427,10 +427,10 @@ class ResponseDetailTableViewController: UITableViewController, MFMessageCompose
         self.navigationController?.isNavigationBarHidden = false
     }
     
-    func showAlertMessage(message: String) {
-        let alert = Utils.createErrorAlert(errorMessage: message)
-        self.present(alert, animated: true, completion: nil)
-    }
+//    func showAlertMessage(message: String) {
+//        let alert = Utils.createErrorAlert(errorMessage: message)
+//        self.present(alert, animated: true, completion: nil)
+//    }
 }
 
 extension ResponseDetailTableViewController: UICollectionViewDelegate, UICollectionViewDataSource {

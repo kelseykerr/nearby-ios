@@ -465,9 +465,9 @@
 			children = (
 				AA9721271D66B54E0036E007 /* AccountTableViewController.swift */,
 				AA9027221DD7D53400B5CA2B /* ProfileTableViewController.swift */,
+				E62E7F6D1E9AC7CA00AF16DB /* BanksAndCardsTableViewController.swift */,
 				AAB7690F1E2B41A80021F657 /* PaymentTableViewController.swift */,
 				AAB769111E2B43380021F657 /* DirectDepositTableViewController.swift */,
-				E62E7F6D1E9AC7CA00AF16DB /* BanksAndCardsTableViewController.swift */,
 				AA83930D1ED95310006950DC /* NotificationTableViewController.swift */,
 			);
 			name = Account;

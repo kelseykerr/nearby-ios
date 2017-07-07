@@ -92,9 +92,7 @@ class LoginViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDeleg
     }
     
     func fetchUserAndClose() {
-        let loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
-        loadingNotification.mode = MBProgressHUDMode.indeterminate
-        loadingNotification.label.text = "Loading"
+        let loadingNotification = Utils.createProgressHUD(view: self.view, text: "Loading")
         
         UserManager.sharedInstance.fetchUser(completionHandler: { user in
             loadingNotification.hide(animated: true)

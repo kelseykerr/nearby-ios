@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import MBProgressHUD
+
 
 class Utils {
     
@@ -51,6 +53,15 @@ class Utils {
         let errorCode = error?.code ?? -999
         let alert = createServerErrorAlert(errorCode: errorCode, errorMessage: errorMessage)
         return alert
+    }
+    
+    static func createProgressHUD(view: UIView, text: String?) -> MBProgressHUD {
+        let progressHUD = MBProgressHUD.showAdded(to: view, animated: true)
+        progressHUD.mode = MBProgressHUDMode.indeterminate
+        progressHUD.label.text = text
+        progressHUD.contentColor = UIColor.white
+        progressHUD.bezelView.color = UIColor.darkGray
+        return progressHUD
     }
     
     static func dateIntToFormattedString(time: Int64) -> String {

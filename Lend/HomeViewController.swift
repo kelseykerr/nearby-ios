@@ -274,10 +274,7 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(myLocation.coordinate, regionRadius * 2.0, regionRadius * 2.0)
         mapView.setRegion(coordinateRegion, animated: true)
         
-        //show progress spinner
-        let loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
-        loadingNotification.mode = MBProgressHUDMode.indeterminate
-        loadingNotification.label.text = "fetching"
+        let loadingNotification = Utils.createProgressHUD(view: self.view, text: "Fetching")
         
         let searchTerm = searchFilter.searchTerm
         let includeWanted = searchFilter.includeWanted
@@ -332,10 +329,7 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
         noResultsText.isHidden = true;
         notAvailableText.isHidden = true;
         
-        //show progress spinner
-        let loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
-        loadingNotification.mode = MBProgressHUDMode.indeterminate
-        loadingNotification.label.text = "fetching"
+        let loadingNotification = Utils.createProgressHUD(view: self.view, text: "Fetching")
 
         let myLocation = CLLocation(latitude: latitude, longitude: longitude)
         let regionRadius: CLLocationDistance = radius
@@ -897,9 +891,8 @@ extension HomeViewController: NewRequestTableViewDelegate, NewResponseTableViewD
     
     func requestSaved(_ request: NBRequest?) {
         print("HomeViewController->requestSaved")
-        let loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
-        loadingNotification.mode = MBProgressHUDMode.indeterminate
-        loadingNotification.label.text = "Saving"
+        let loadingNotification = Utils.createProgressHUD(view: self.view, text: "Saving")
+        
         if let request = request {
             NBRequest.addRequest(request) { error in
                 print("Request added")
@@ -957,9 +950,8 @@ extension HomeViewController: NewRequestTableViewDelegate, NewResponseTableViewD
     
     func responseOffered(_ response: NBResponse?) {
         print("HomeViewController->responseOffered")
-        let loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
-        loadingNotification.mode = MBProgressHUDMode.indeterminate
-        loadingNotification.label.text = "Saving"
+        let loadingNotification = Utils.createProgressHUD(view: self.view, text: "Saving")
+        
         if let response = response {
             NBResponse.addResponse(response) { error in
                 print("Response added")

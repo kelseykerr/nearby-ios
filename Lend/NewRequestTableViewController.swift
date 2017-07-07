@@ -249,29 +249,10 @@ class NewRequestTableViewController: UITableViewController {
         self.mapView.addAnnotation(annotation)
     }
     
-    func showAlertMessage(message: String) {
-        let alert = Utils.createErrorAlert(errorMessage: message)
-        self.present(alert, animated: true, completion: nil)
-    }
-    
-//    func showAlertMsg(message: String) {
-//        guard (self.alertController == nil) else {
-//            print("Alert already displayed")
-//            return
-//        }
-//        
-//        self.alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-//        
-//        let cancelAction = UIAlertAction(title: "close", style: .cancel) { (action) in
-//            print("Alert was cancelled")
-//            self.alertController=nil;
-//        }
-//        
-//        self.alertController!.addAction(cancelAction)
-//        
-//        self.present(self.alertController!, animated: true, completion: nil)
+//    func showAlertMessage(message: String) {
+//        let alert = Utils.createErrorAlert(errorMessage: message)
+//        self.present(alert, animated: true, completion: nil)
 //    }
-
     
     @IBAction func saveButtonPressed(_ sender: UIButton) {
         if (rental == RequestType.renting || rental == RequestType.buying) && !(UserManager.sharedInstance.user?.canRequest ?? false) {

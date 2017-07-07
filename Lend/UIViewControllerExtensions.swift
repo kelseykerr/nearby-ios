@@ -19,7 +19,12 @@ extension UIViewController: Clearable {
     func dismissKeyboard() {
         view.endEditing(true)
     }
-
+    
+    func showAlertMessage(message: String) {
+        let alert = Utils.createErrorAlert(errorMessage: message)
+        self.present(alert, animated: true, completion: nil)
+    }
+    
     func clear() {
         // do nothing, override if necessary
     }

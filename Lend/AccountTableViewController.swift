@@ -62,9 +62,6 @@ class AccountTableViewController: UITableViewController, LoginViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        userImageView.layer.cornerRadius = userImageView.frame.size.width / 2
-//        userImageView.clipsToBounds = true
-        
         let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
         let build = Bundle.main.infoDictionary?[kCFBundleVersionKey as String] as! String
         versionBuild = "©2016-17 Iuxta, Inc. v\(version) (\(build))"
@@ -163,12 +160,16 @@ class AccountTableViewController: UITableViewController, LoginViewDelegate {
     }
 
     func loadUser() {
+        let loadingNotification = Utils.createProgressHUD(view: self.view, text: "Saving")
+        
         UserManager.sharedInstance.getUser { fetchedUser in
             UserManager.sharedInstance.validateProfile(vc: self)
             if self.refreshControl != nil && self.refreshControl!.isRefreshing {
                 self.refreshControl?.endRefreshing()
             }
 
+            loadingNotification.hide(animated: true)
+            
             self.user = fetchedUser
             self.loadCells()
         }
@@ -216,7 +217,6 @@ extension AccountTableViewController: MFMailComposeViewControllerDelegate {
         mailVC.setToRecipients([])
         mailVC.setSubject("Try Nearby")
         mailVC.setMessageBody("Nearby is a mobile app that just launched in Washington, DC. Are you looking to borrow or buy something? Do you want to make money from stuff you have sitting around? Learn more at http://thenearbyapp.com!\n\nGoogle Play Store: https://play.google.com/store/apps/details?id=iuxta.nearby\n\nApp Store: https://itunes.apple.com/us/app/nearby-share-sell-borrow/id1223745552", isHTML: false)
-        
         present(mailVC, animated: true, completion: nil)
     }
     

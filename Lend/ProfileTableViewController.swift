@@ -8,7 +8,13 @@
 
 import UIKit
 import MBProgressHUD
-import DropDown
+
+
+protocol AccountDelegate {
+    
+    func updated(user: NBUser?)
+    
+}
 
 class ProfileTableViewController: UITableViewController, UITextFieldDelegate {
 
@@ -24,6 +30,8 @@ class ProfileTableViewController: UITableViewController, UITextFieldDelegate {
     @IBOutlet var zipCodeTextField: UITextField!
     
     @IBOutlet var saveButton: UIButton!
+    
+    var delegate: AccountDelegate?
     
     var user: NBUser?
     
@@ -114,11 +122,11 @@ class ProfileTableViewController: UITableViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        phoneNumberTextField.delegate = self
-        
         self.hideKeyboardWhenTappedAround()
         
-        createDatePickers()
+        phoneNumberTextField.delegate = self
+        
+        createBirthdatePicker()
         
         loadCells()
     }
@@ -140,9 +148,8 @@ class ProfileTableViewController: UITableViewController, UITextFieldDelegate {
         }
     }
     
-    func createDatePickers() {
+    func createBirthdatePicker() {
         birthdatePicker.datePickerMode = UIDatePickerMode.date
-//        birthdatePicker.maximumDate = Date()
         
         let birthdateToolbar = UIToolbar()
         birthdateToolbar.sizeToFit()
@@ -174,7 +181,6 @@ class ProfileTableViewController: UITableViewController, UITextFieldDelegate {
         if textField == phoneNumberTextField {
             let str = (textField.text! as NSString).replacingCharacters(in: range, with: string)
             return formattedPhoneNumber(replacementString: string, str: str)
-
         }
         return true
     }
@@ -210,9 +216,7 @@ class ProfileTableViewController: UITableViewController, UITextFieldDelegate {
         if let user = user {
             self.view.endEditing(true)
             
-            let loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
-            loadingNotification.mode = MBProgressHUDMode.indeterminate
-            loadingNotification.label.text = "Saving"
+            let loadingNotification = Utils.createProgressHUD(view: self.view, text: "Saving")
             
             user.firstName = self.firstName
             user.lastName = self.lastName
@@ -233,7 +237,6 @@ class ProfileTableViewController: UITableViewController, UITextFieldDelegate {
             
             NBUser.editSelf(user) { (result, error) in
                 loadingNotification.hide(animated: true)
-//                MBProgressHUD.hideAllHUDs(for: self.view, animated: true)
                 if let error = error {
                     let alert = Utils.createServerErrorAlert(error: error)
                     self.present(alert, animated: true, completion: nil)
@@ -244,8 +247,11 @@ class ProfileTableViewController: UITableViewController, UITextFieldDelegate {
                     print("no value was returned")
                     return
                 }
+                
                 UserManager.sharedInstance.user = editedUser
-                self.user = editedUser
+//                self.user = editedUser
+                
+                self.delegate?.updated(user: editedUser)
                 
                 self.navigationController?.popViewController(animated: true)
             }

@@ -185,9 +185,7 @@ class HistoryTableViewController: UITableViewController {
     
     func loadHistories() {
         let filter = self.historyFilter
-        let loadingNotification = MBProgressHUD.showAdded(to: (self.navigationController?.view)!, animated: true)
-        loadingNotification.mode = MBProgressHUDMode.indeterminate
-        loadingNotification.label.text = "fetching"
+        let loadingNotification = Utils.createProgressHUD(view: self.view, text: "Fetching")
         
         NBHistory.fetchHistories(includeTransaction: filter.includeTransaction, includeRequest: filter.includeRequest, includeOffer: filter.includeOffer, includeOpen: filter.includeOpen, includeClosed: filter.includeClosed) { (result, error) in
 

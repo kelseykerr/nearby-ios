@@ -336,10 +336,10 @@ class NewResponseTableViewController: UITableViewController {
         priceType = .flat
     }
     
-    func showAlertMessage(message: String) {
-        let alert = Utils.createErrorAlert(errorMessage: message)
-        self.present(alert, animated: true, completion: nil)
-    }
+//    func showAlertMessage(message: String) {
+//        let alert = Utils.createErrorAlert(errorMessage: message)
+//        self.present(alert, animated: true, completion: nil)
+//    }
     
 }
 

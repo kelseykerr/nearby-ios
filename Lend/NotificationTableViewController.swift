@@ -105,15 +105,13 @@ class NotificationTableViewController: UITableViewController {
     
     func saveCells() {
         guard let user = user else {
-            print("not a valid user")
+            print("invalid user")
             return
         }
         
         self.view.endEditing(true)
         
-        let loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
-        loadingNotification.mode = MBProgressHUDMode.indeterminate
-        loadingNotification.label.text = "Saving"
+        let loadingNotification = Utils.createProgressHUD(view: self.view, text: "Saving")
         
         user.newRequestNotificationsEnabled = requestNotificationEnabled
         user.homeLocationNotifications = homeLocation
@@ -135,6 +133,7 @@ class NotificationTableViewController: UITableViewController {
             }
             
             UserManager.sharedInstance.user = editedUser
+            
             self.user = editedUser
             
             self.navigationController?.popViewController(animated: true)

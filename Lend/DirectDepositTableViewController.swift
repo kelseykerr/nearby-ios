@@ -21,10 +21,7 @@ class DirectDepositTableViewController: UITableViewController {
     @IBOutlet var nameTextField: UITextField!
     @IBOutlet var accountNumberTextField: UITextField!
     @IBOutlet var routingNumberTextField: UITextField!
-    
     @IBOutlet var saveButton: UIButton!
-    
-    var alertController: UIAlertController?
     
     var delegate: UpdateBankInfoDelegate?
     
@@ -88,9 +85,7 @@ class DirectDepositTableViewController: UITableViewController {
 
         self.view.endEditing(true)
         
-        let loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
-        loadingNotification.mode = MBProgressHUDMode.indeterminate
-        loadingNotification.label.text = "Saving"
+        let loadingNotification = Utils.createProgressHUD(view: self.view, text: "Saving")
         
         user.bankAccountNumber = accountNumber
         user.bankRoutingNumber = routingNumber
@@ -112,11 +107,6 @@ class DirectDepositTableViewController: UITableViewController {
             
             self.navigationController?.popViewController(animated: true)
         }
-    }
-    
-    func showAlertMessage(message: String) {
-        let alert = Utils.createErrorAlert(errorMessage: message)
-        self.present(alert, animated: true, completion: nil)
     }
     
 }

@@ -11,11 +11,10 @@ import MBProgressHUD
 
 class BanksAndCardsTableViewController: UITableViewController {
     
-    @IBOutlet weak var accountNumber: UILabel!
-    @IBOutlet weak var routingNumber: UILabel!
-
-    @IBOutlet weak var creditCardNumber: UILabel!
-    @IBOutlet weak var ccExp: UILabel!
+    @IBOutlet var accountNumber: UILabel!
+    @IBOutlet var routingNumber: UILabel!
+    @IBOutlet var creditCardNumber: UILabel!
+    @IBOutlet var ccExp: UILabel!
     
     var user: NBUser?
     var paymentInfo: NBPayment?
@@ -38,9 +37,7 @@ class BanksAndCardsTableViewController: UITableViewController {
     }
 
     func loadPaymentInfo() {
-        let loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
-        loadingNotification.mode = MBProgressHUDMode.indeterminate
-        loadingNotification.label.text = "Fetching..."
+        let loadingNotification = Utils.createProgressHUD(view: self.view, text: "Fetching")
         
         NBPayment.fetchPaymentInfo { (result, error) in
             MBProgressHUD.hideAllHUDs(for: self.view, animated: true)
