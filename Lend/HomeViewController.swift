@@ -277,7 +277,7 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
             }
             
             print(result)
-            MBProgressHUD.hideAllHUDs(for: self.view, animated: true)
+            loadingNotification.hide(animated: true)
             guard error == nil else {
                 //if error == 403, display the not available message on the screen
                 print(error)
@@ -336,7 +336,7 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
                 self.refreshControl?.endRefreshing()
             }
             //hide progress spinner
-            MBProgressHUD.hideAllHUDs(for: self.view, animated: true)
+            loadingNotification.hide(animated: true)
 
             //TODO: This doesn't work...we areen't ever getting server errors here, the method that uses the responseArray needs to be updated
 //            guard error == nil else {
@@ -891,7 +891,7 @@ extension HomeViewController: NewRequestTableViewDelegate, NewResponseTableViewD
                     self.present(alert, animated: true, completion: nil)
                 }
                 self.loadRequests()
-                MBProgressHUD.hideAllHUDs(for: self.view, animated: true)
+                loadingNotification.hide(animated: true)
                 self.showHistoryView()
             }
         }
@@ -950,7 +950,7 @@ extension HomeViewController: NewRequestTableViewDelegate, NewResponseTableViewD
                     self.present(alert, animated: true, completion: nil)
                 }
                 self.loadRequests()
-                MBProgressHUD.hideAllHUDs(for: self.view, animated: true)
+                loadingNotification.hide(animated: true)
                 self.showHistoryView()
             }
         }

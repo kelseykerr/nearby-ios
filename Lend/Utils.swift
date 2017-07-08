@@ -57,7 +57,10 @@ class Utils {
     }
     
     static func createProgressHUD(view: UIView, text: String?) -> MBProgressHUD {
-        let progressHUD = MBProgressHUD.showAdded(to: view, animated: true)
+        let appDelegate  = UIApplication.shared.delegate as! AppDelegate
+        let rootView = appDelegate.window!.rootViewController?.view ?? view
+        
+        let progressHUD = MBProgressHUD.showAdded(to: rootView, animated: true)
         progressHUD.mode = MBProgressHUDMode.indeterminate
         progressHUD.label.text = text
         progressHUD.contentColor = UIColor.white

@@ -92,7 +92,7 @@ class DirectDepositTableViewController: UITableViewController {
         user.fundDestination = "bank"
         
         NBStripe.addBank(user) { error in
-            MBProgressHUD.hideAllHUDs(for: self.view, animated: true)
+            loadingNotification.hide(animated: true)
             
             if let error = error {
                 let alert = Utils.createServerErrorAlert(error: error)

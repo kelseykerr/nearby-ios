@@ -114,7 +114,7 @@ class PaymentTableViewController: UITableViewController, UITextFieldDelegate {
         cardParams.cvc = cvc
         
         STPAPIClient.shared().createToken(withCard: cardParams) { (token, error) in
-            MBProgressHUD.hideAllHUDs(for: self.view, animated: true)
+            loadingNotification.hide(animated: true)
             
             if let error = error {
                 let alert = Utils.createErrorAlert(errorMessage: error.localizedDescription)

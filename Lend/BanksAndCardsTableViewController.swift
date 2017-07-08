@@ -40,7 +40,7 @@ class BanksAndCardsTableViewController: UITableViewController {
         let loadingNotification = Utils.createProgressHUD(view: self.view, text: "Fetching")
         
         NBPayment.fetchPaymentInfo { (result, error) in
-            MBProgressHUD.hideAllHUDs(for: self.view, animated: true)
+            loadingNotification.hide(animated: true)
             
             if let error = error {
                 print(error)

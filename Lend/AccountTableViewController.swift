@@ -152,6 +152,7 @@ class AccountTableViewController: UITableViewController, LoginViewDelegate {
     }
 
     func loadUser() {
+//        let loadingNotification = Utils.createProgressHUD(view: self.view, text: "Saving")
         let loadingNotification = Utils.createProgressHUD(view: self.view, text: "Saving")
         
         UserManager.sharedInstance.getUser { fetchedUser in
