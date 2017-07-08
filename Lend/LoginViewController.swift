@@ -9,8 +9,11 @@
 import UIKit
 import MBProgressHUD
 
+
 protocol LoginViewDelegate: class {
+    
     func didTapLoginButton()
+    
 }
 
 class LoginViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDelegate, UITextViewDelegate {

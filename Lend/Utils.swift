@@ -61,7 +61,7 @@ class Utils {
         progressHUD.mode = MBProgressHUDMode.indeterminate
         progressHUD.label.text = text
         progressHUD.contentColor = UIColor.white
-        progressHUD.bezelView.color = UIColor.darkGray
+        progressHUD.bezelView.color = UIColor.black
         return progressHUD
     }
     

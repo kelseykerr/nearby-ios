@@ -43,8 +43,6 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
     
     lazy var searchBar = UISearchBar(frame: CGRect.zero)
     
-    var cleared = true
-    
     var refreshControl: UIRefreshControl? {
         get {
             if #available(iOS 10.0, *) {
@@ -72,7 +70,8 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        UserDataManager.sharedInstace.addClearable(self)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.clear), name: NSNotification.Name(rawValue: "ClearUser"), object: nil)
+        
         /*
         UserManager.sharedInstance.getUser(completionHandler: { user in
             print("VALIDATE PROFILE***")
@@ -114,26 +113,18 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
         self.notAvailableText.center = self.view.center
 
         self.frontView = mapView
-        if cleared {
-            loadInitialData()
-            cleared = false
-        }
+
+        loadInitialData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         if self.refreshControl == nil {
             self.refreshControl = UIRefreshControl()
             
-//            let bounds = CGRect(x: (refreshControl?.bounds.origin.x)!, y: -26.0, width: (refreshControl?.bounds.size.width)!, height: (refreshControl?.bounds.size.height)!)
             let bounds = CGRect(x: 0, y: 100, width: 1, height: 1) // hides the indicator
             self.refreshControl?.bounds = bounds
             
             self.refreshControl?.addTarget(self, action: #selector(refresh(_:)), for: UIControlEvents.valueChanged)
-        }
-        
-        if cleared {
-            loadInitialData()
-            cleared = false
         }
         
         super.viewWillAppear(animated)
@@ -143,11 +134,10 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
 //        UserDataManager.sharedInstace.removeClearable(self)
 //    }
     
-    override func clear() {
+    func clear() {
         print("Home View Cleared")
         requests = []
         self.tableView.reloadData()
-        cleared = true
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {

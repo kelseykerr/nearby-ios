@@ -21,8 +21,6 @@ class AccountTableViewController: UITableViewController, LoginViewDelegate {
     
     var user: NBUser?
     
-    var cleared = true
-    
     var name: String? {
         get {
             return nameLabel.text
@@ -66,28 +64,31 @@ class AccountTableViewController: UITableViewController, LoginViewDelegate {
         let build = Bundle.main.infoDictionary?[kCFBundleVersionKey as String] as! String
         versionBuild = "©2016-17 Iuxta, Inc. v\(version) (\(build))"
         
-        if cleared {
-            loadInitialData()
-            cleared = false
-        }
+        NotificationCenter.default.addObserver(self, selector: #selector(self.clear), name: NSNotification.Name(rawValue: "ClearUser"), object: nil)
         
+        loadInitialData()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        if cleared {
-            loadInitialData()
-            cleared = false
+    override func viewWillAppear(_ animated: Bool) {
+        if self.refreshControl == nil {
+            self.refreshControl = UIRefreshControl()
+            
+            let bounds = CGRect(x: 0, y: 100, width: 1, height: 1) // hides the indicator
+            self.refreshControl?.bounds = bounds
+            
+            self.refreshControl?.addTarget(self, action: #selector(refresh(_:)), for: UIControlEvents.valueChanged)
         }
+        
+        super.viewWillAppear(animated)
     }
     
-    override func clear() {
+    func clear() {
+        //need a better default like facebook
         print("Account View Cleared")
         user = nil
+        userImage = nil
         name = "Full Name"
         info = "Location"
-        cleared = true
     }
     
     func loadInitialData() {
@@ -120,16 +121,7 @@ class AccountTableViewController: UITableViewController, LoginViewDelegate {
             self.loadUser()
         }
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        if self.refreshControl == nil {
-            self.refreshControl = UIRefreshControl()
-            self.refreshControl?.addTarget(self, action: #selector(refresh(_:)), for: UIControlEvents.valueChanged)
-        }
         
-        super.viewWillAppear(animated)
-    }
-    
     // MARK - Table View
     func loadCells() {
         if let user = user {
@@ -205,7 +197,7 @@ class AccountTableViewController: UITableViewController, LoginViewDelegate {
         
         showOAuthLoginView()
         
-        UserDataManager.sharedInstace.clear()
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ClearUser"), object: nil)
     }
 }
 

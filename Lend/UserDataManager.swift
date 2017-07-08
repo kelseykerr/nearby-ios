@@ -8,30 +8,30 @@
 
 import Foundation
 
-protocol Clearable {
-
-    func clear()
-    
-}
+//protocol Clearable {
+//
+//    func clear()
+//    
+//}
 
 class UserDataManager {
     
     static let sharedInstace = UserDataManager()
     
-    var clearables: [Clearable] = []
-    
-    func addClearable(_ clearable: Clearable) {
-        clearables.append(clearable)
-    }
-    
-    func removeClearable(_ clearable: Clearable) {
-        // implement this later, don't need it right now
-    }
-    
-    func clear() {
-        for clearable in clearables {
-            clearable.clear()
-        }
-    }
+//    var clearables: [Clearable] = []
+//    
+//    func addClearable(_ clearable: Clearable) {
+//        clearables.append(clearable)
+//    }
+//    
+//    func removeClearable(_ clearable: Clearable) {
+//        // implement this later, don't need it right now
+//    }
+//    
+//    func clear() {
+//        for clearable in clearables {
+//            clearable.clear()
+//        }
+//    }
     
 }
