@@ -11,10 +11,16 @@ import Foundation
 
 extension UIStoryboard {
     
+    //eventually send enum instead of each view having it's own method
+    
     static func getViewController(identifier: String) -> UIViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
         let viewController = storyboard.instantiateViewController(withIdentifier: identifier)
         return viewController
+    }
+        
+    static func getLoginVC() -> LoginViewController {
+        return getViewController(identifier: "LoginViewController") as! LoginViewController
     }
     
     static func getEditRequestNavVC() -> UINavigationController {

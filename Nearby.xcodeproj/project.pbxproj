@@ -12,7 +12,6 @@
 		73F7CF868071072F78D6D1CB /* libPods-NearbyTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D418FAC02A6167DA6BE47114 /* libPods-NearbyTests.a */; };
 		AA007EE61EC2FD3A0097CB05 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AA007EE51EC2FD3A0097CB05 /* GoogleService-Info.plist */; };
 		AA0382891E985A0F006D9DD0 /* NearbyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0382881E985A0F006D9DD0 /* NearbyTests.swift */; };
-		AA072DBD1EBCDA5B0039495C /* UserDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA072DBC1EBCDA5B0039495C /* UserDataManager.swift */; };
 		AA072DC01EBE50DC0039495C /* HistoryFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA072DBF1EBE50DC0039495C /* HistoryFilter.swift */; };
 		AA072DC41EBE51300039495C /* HistoryFilterTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA072DC31EBE51300039495C /* HistoryFilterTableViewController.swift */; };
 		AA0F72A31D7791C20023DAA6 /* CategorySelectionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0F72A21D7791C20023DAA6 /* CategorySelectionTableViewController.swift */; };
@@ -128,7 +127,6 @@
 		AA0382861E985A0F006D9DD0 /* NearbyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NearbyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA0382881E985A0F006D9DD0 /* NearbyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearbyTests.swift; sourceTree = "<group>"; };
 		AA03828A1E985A0F006D9DD0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		AA072DBC1EBCDA5B0039495C /* UserDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDataManager.swift; sourceTree = "<group>"; };
 		AA072DBF1EBE50DC0039495C /* HistoryFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryFilter.swift; sourceTree = "<group>"; };
 		AA072DC31EBE51300039495C /* HistoryFilterTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryFilterTableViewController.swift; sourceTree = "<group>"; };
 		AA0F72A21D7791C20023DAA6 /* CategorySelectionTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategorySelectionTableViewController.swift; sourceTree = "<group>"; };
@@ -322,7 +320,6 @@
 				AA0F72A41D77E7FD0023DAA6 /* CategoriesManager.swift */,
 				AA52E6CD1EB287DC00934C72 /* NewAccountManager.swift */,
 				AAB7690B1E2B35EF0021F657 /* UserManager.swift */,
-				AA072DBC1EBCDA5B0039495C /* UserDataManager.swift */,
 				AA9E15CE1EF14E6700639EB3 /* AWSManager.swift */,
 			);
 			name = Managers;
@@ -837,7 +834,6 @@
 				AA98F7391D9C69910083BB4B /* RequestTableViewCell.swift in Sources */,
 				AA2C474A1D6AA8720013F350 /* HomeViewController.swift in Sources */,
 				AA546A861DCA5F89007E1E8F /* BraintreeRouter.swift in Sources */,
-				AA072DBD1EBCDA5B0039495C /* UserDataManager.swift in Sources */,
 				AA9E15CF1EF14E6700639EB3 /* AWSManager.swift in Sources */,
 				AA546A841DCA5CD3007E1E8F /* NBBraintree.swift in Sources */,
 				AA2D885F1E852AC30005D969 /* BuyerClosedStrategy.swift in Sources */,

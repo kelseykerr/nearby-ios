@@ -35,11 +35,6 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
     var frontView: UIView!
 
     var searchFilter = SearchFilter()
-    let progressHUD = ProgressHUD(text: "Saving")
-    
-    var alertController: UIAlertController?
-    var alertTimer: Timer?
-    var remainingTime = 0
     
     lazy var searchBar = UISearchBar(frame: CGRect.zero)
     
@@ -60,28 +55,21 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
         }
     }
     
-    deinit {
-        if tableView != nil {
-        self.tableView.emptyDataSetSource = nil
-        self.tableView.emptyDataSetDelegate = nil
-        }
-    }
+//    deinit {
+//        if tableView != nil {
+//        self.tableView.emptyDataSetSource = nil
+//        self.tableView.emptyDataSetDelegate = nil
+//        }
+//    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.clear), name: NSNotification.Name(rawValue: "ClearUser"), object: nil)
         
-        /*
-        UserManager.sharedInstance.getUser(completionHandler: { user in
-            print("VALIDATE PROFILE***")
-            print(user.tosAccepted)
-            UserManager.sharedInstance.validateProfile(vc: self)
-        })
-         */
-        if LocationManager.sharedInstance.locationAvailable() {
-            print(LocationManager.sharedInstance.location)
-        }
+//        if LocationManager.sharedInstance.locationAvailable() {
+//            print(LocationManager.sharedInstance.location)
+//        }
         
         searchBar.placeholder = "Search"
         searchBar.delegate = self
@@ -130,10 +118,6 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
         super.viewWillAppear(animated)
     }
     
-//    override func viewDidUnload() {
-//        UserDataManager.sharedInstace.removeClearable(self)
-//    }
-    
     func clear() {
         print("Home View Cleared")
         requests = []
@@ -180,10 +164,11 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
     }
     
     func acceptTOS(user:NBUser) -> () {
-        self.progressHUD.show()
+        let loadingNotification = Utils.createProgressHUD(view: self.view, text: "Saving")
         
         NBUser.editSelf(user) { (result, error) in
-            self.progressHUD.hide()
+            loadingNotification.hide(animated: true)
+            
             guard error == nil else {
                 let alert = Utils.createServerErrorAlert(error: error! as NSError)
                 self.present(alert, animated: true, completion: nil)
@@ -464,41 +449,6 @@ class HomeViewController: UIViewController, LoginViewDelegate, UISearchBarDelega
         }
     }
     
-    func showAlertMsg(message: String) {
-        guard (self.alertController == nil) else {
-            print("Alert already displayed")
-            return
-        }
-        
-        self.alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-        
-        let cancelAction = UIAlertAction(title: "close", style: .cancel) { (action) in
-            print("Alert was cancelled")
-            self.alertController=nil;
-        }
-        
-        self.alertController!.addAction(cancelAction)
-        /*if (time > 0) {
-            self.alertTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.countDown), userInfo: nil, repeats: true)
-        }*/
-        
-        self.present(self.alertController!, animated: true, completion: nil)
-    }
-    
-    func countDown() {
-        
-        self.remainingTime -= 1
-        if (self.remainingTime < 0) {
-            self.alertTimer?.invalidate()
-            self.alertTimer = nil
-            self.alertController!.dismiss(animated: true, completion: {
-                self.alertController = nil
-            })
-        } else {
-        }
-    }
-
- 
 }
 
 extension HomeViewController: MKMapViewDelegate {
@@ -625,6 +575,11 @@ extension HomeViewController: DZNEmptyDataSetSource, DZNEmptyDataSetDelegate {
 
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     
+    //this will go somewhere else
+    func getRequest(_ section: Int) -> NBRequest {
+        return requests[section]
+    }
+    
     // MARK - Table View
     func numberOfSections(in tableView: UITableView) -> Int {
         return requests.count
@@ -637,10 +592,12 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath) as! HomeTableViewCell
 
-        let request = requests[(indexPath as NSIndexPath).section]
-        let name = request.isMyRequest() ? "You" : (request.user?.shortName ?? "NAME")
-        let rent = request.requestType.rawValue.replacingOccurrences(of: "ing", with: "")
-        let item = request.itemName ?? "ITEM"
+//        let request = requests[(indexPath as NSIndexPath).section]
+        let request = getRequest(indexPath.section)
+//        let name = request.isMyRequest() ? "You" : (request.user?.shortName ?? "NAME")
+        let name = request.user?.shortName ?? "No Name"
+        let action = request.requestType.rawValue.replacingOccurrences(of: "ing", with: "")
+        let item = request.itemName ?? "No Item"
         
         let attrText = NSMutableAttributedString(string: "")
         let boldFont = UIFont.boldSystemFont(ofSize: 16)
@@ -656,7 +613,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             attrText.append(NSMutableAttributedString(string: " is selling a \(item)"))
             break
         default:
-            attrText.append(NSMutableAttributedString(string: " wants to \(rent) a \(item)"))
+            attrText.append(NSMutableAttributedString(string: " wants to \(action) a \(item)"))
             break
         }        
         cell.attributedMessage = attrText
@@ -692,8 +649,8 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         
         if let pictureURL = request.user?.imageUrl {
             NearbyAPIManager.sharedInstance.imageFrom(urlString: pictureURL, completionHandler: { (image, error) in
-                guard error == nil else {
-                    print(error!)
+                if let error = error {
+                    print(error)
                     return
                 }
                 if let cellToUpdate = self.tableView?.cellForRow(at: indexPath) as! HomeTableViewCell? {
@@ -725,84 +682,6 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         detailRequestVC.mode = request.isMyRequest() ? .buyer : .seller
         self.navigationController?.pushViewController(detailRequestVC, animated: true)
     }
-    
-//    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-//        let request = requests[(indexPath as NSIndexPath).section]
-//        
-//        if request.isMyRequest() {
-//            let close = UITableViewRowAction(style: .normal, title: "Close") { action, index in
-//                self.requestClosed(request)
-//                self.tableView.isEditing = false
-//            }
-//            close.backgroundColor = UIColor.nbRed
-//            
-//            return [close]
-//        }
-//        else {
-//            let respond = UITableViewRowAction(style: .normal, title: "Respond") { action, index in
-//                let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-//                guard let navVC = storyboard.instantiateViewController(
-//                    withIdentifier: "NewResponseNavigationController") as? UINavigationController else {
-//                        assert(false, "Misnamed view controller")
-//                        return
-//                }
-//                UserManager.sharedInstance.getUser { fetchedUser in
-//                    if (!fetchedUser.hasAllRequiredFields()) {
-//                        self.showAlertMsg(message: "You must finish filling out your profile before you can make offers")
-//                        
-//                    } else if ((request.type == RequestType.renting.rawValue || request.type == RequestType.buying.rawValue) && !fetchedUser.canRespond!) {
-//                        self.showAlertMsg(message: "You must add bank account information before you can make offers")
-//                    } else if (request.type == RequestType.loaning.rawValue || request.type == RequestType.selling.rawValue) && !fetchedUser.canRequest! {
-//                        self.showAlertMsg(message: "You must add credit card information before you can reply")
-//                    } else {
-//                        let responseVC = (navVC.childViewControllers[0] as! NewResponseTableViewController)
-//                        responseVC.delegate = self
-//                        responseVC.request = request
-//                        self.present(navVC, animated: true, completion: nil)
-//                        
-//                        self.tableView.isEditing = false
-//                    }
-//                }
-//            }
-//            respond.backgroundColor = UIColor.nbBlue
-//            
-//            let flagRequest = UITableViewRowAction(style: .normal, title: "Flag") { action, index in
-//                let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-//                guard let navVC = storyboard.instantiateViewController(
-//                    withIdentifier: "FlagNavigationController") as? UINavigationController else {
-//                        assert(false, "Misnamed view controller")
-//                        return
-//                }
-//                let flagVC = (navVC.childViewControllers[0] as! FlagTableViewController)
-////                flagVC.delegate = self
-////                flagVC.request = request
-//                let requestId = request.id
-//                flagVC.mode = .request(requestId!)
-//                self.present(navVC, animated: true, completion: nil)
-//                
-//                self.tableView.isEditing = false
-//            }
-//            flagRequest.backgroundColor = UIColor.nbRed
-//            
-//            let blockUser = UITableViewRowAction(style: .normal, title: "Block") { action, index in
-//                let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-//                guard let navVC = storyboard.instantiateViewController(
-//                    withIdentifier: "FlagNavigationController") as? UINavigationController else {
-//                        assert(false, "Misnamed view controller")
-//                        return
-//                }
-//                let flagVC = (navVC.childViewControllers[0] as! FlagTableViewController)
-//                let userId = request.user?.id
-//                flagVC.mode = .user(userId!)
-//                self.present(navVC, animated: true, completion: nil)
-//                
-//                self.tableView.isEditing = false
-//            }
-//            blockUser.backgroundColor = UIColor.orange
-//            
-//            return [blockUser, flagRequest, respond]
-//        }
-//    }
     
     func refresh(_ sender: AnyObject) {
 //        nextPageURLString = nil // so it doesn't try to append the results
@@ -845,10 +724,9 @@ extension HomeViewController: NewRequestTableViewDelegate, NewResponseTableViewD
     @IBAction func requestButtonPressed(_ sender: UIButton) {
         UserManager.sharedInstance.getUser { fetchedUser in
             if (!fetchedUser.hasAllRequiredFields()) {
-                self.showAlertMsg(message: "You must finish filling out your profile before you can make requests")
-
+                self.showAlertMessage(message: "You must finish filling out your profile before you can make requests")
             } else if (!fetchedUser.canRequest!) {
-                self.showAlertMsg(message: "You must add payment info before you can make requests")
+                self.showAlertMessage(message: "You must add payment info before you can make requests")
             } else {
                 let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
                 guard let navVC = storyboard.instantiateViewController(

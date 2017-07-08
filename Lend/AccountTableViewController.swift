@@ -19,6 +19,9 @@ class AccountTableViewController: UITableViewController, LoginViewDelegate {
     @IBOutlet var userImageView: UIImageView!
     @IBOutlet var versionLabel: UILabel!
     
+    let emailIndexPath = IndexPath(row: 0, section: 1)
+    let rateIndexPath = IndexPath(row: 1, section: 1)
+
     var user: NBUser?
     
     var name: String? {
@@ -60,11 +63,11 @@ class AccountTableViewController: UITableViewController, LoginViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        NotificationCenter.default.addObserver(self, selector: #selector(self.clear), name: NSNotification.Name(rawValue: "ClearUser"), object: nil)
+        
         let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
         let build = Bundle.main.infoDictionary?[kCFBundleVersionKey as String] as! String
         versionBuild = "©2016-17 Iuxta, Inc. v\(version) (\(build))"
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(self.clear), name: NSNotification.Name(rawValue: "ClearUser"), object: nil)
         
         loadInitialData()
     }
@@ -101,12 +104,7 @@ class AccountTableViewController: UITableViewController, LoginViewDelegate {
     }
     
     func showOAuthLoginView() {
-        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-        guard let loginVC = storyboard.instantiateViewController(
-            withIdentifier: "LoginViewController") as? LoginViewController else {
-                assert(false, "Misnamed view controller")
-                return
-        }
+        let loginVC = UIStoryboard.getLoginVC()
         loginVC.delegate = self
         self.present(loginVC, animated: true, completion: nil)
     }
@@ -152,18 +150,20 @@ class AccountTableViewController: UITableViewController, LoginViewDelegate {
     }
 
     func loadUser() {
-//        let loadingNotification = Utils.createProgressHUD(view: self.view, text: "Saving")
-        let loadingNotification = Utils.createProgressHUD(view: self.view, text: "Saving")
+        let loadingNotification = Utils.createProgressHUD(view: self.view, text: "Loading")
         
-        UserManager.sharedInstance.getUser { fetchedUser in
-            UserManager.sharedInstance.validateProfile(vc: self)
+        UserManager.sharedInstance.fetchUser { fetchedUser in
+            
+            loadingNotification.hide(animated: true)
+            
             if self.refreshControl != nil && self.refreshControl!.isRefreshing {
                 self.refreshControl?.endRefreshing()
             }
-
-            loadingNotification.hide(animated: true)
+            
+            UserManager.sharedInstance.validateProfile(vc: self)
             
             self.user = fetchedUser
+            
             self.loadCells()
         }
     }
@@ -176,19 +176,18 @@ class AccountTableViewController: UITableViewController, LoginViewDelegate {
     }
     
     func refresh(_ sender: AnyObject) {
-//        nextPageURLString = nil // so it doesn't try to append the results
         NearbyAPIManager.sharedInstance.clearCache()
         loadUser()
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.section == 1 && indexPath.row == 0 {
+        if indexPath == emailIndexPath {
             sendEmail()
         }
-        else if indexPath.section == 1 && indexPath.row == 1 {
+        else if indexPath == rateIndexPath {
             rate()
-            tableView.deselectRow(at: indexPath, animated: true)
         }
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     @IBAction func logoutButtonPressed(_ sender: UIButton) {
